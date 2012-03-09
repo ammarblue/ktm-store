@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+
+<tiles-definitions>
+
+  <definition name="mainLayout" template="/WEB-INF/content/templates/mainlayout.jsp">
+      <put-attribute name="key" value=""/>
+      <put-attribute name="header" value="/WEB-INF/content/common/header.jsp"/>
+      <put-attribute name="nav" value="/WEB-INF/content/common/nav.jsp"/>
+      <put-attribute name="main"   value=""/>
+      <put-attribute name="footer"   value="/WEB-INF/content/common/footer.jsp"/>
+  </definition>
+  
+  <!-- Login -->
+  <definition name="user-login" template="/WEB-INF/content/templates/loginlayout.jsp">
+      <put-attribute name="key" value="login"/>
+      <put-attribute name="header" value="/WEB-INF/content/common/header.jsp"/>
+      <put-attribute name="main"   value="/WEB-INF/content/pages/user-login.jsp"/>
+      <put-attribute name="footer"   value="/WEB-INF/content/common/footer.jsp"/>
+  </definition>
+  
+  <!-- File -->
+  <definition name="file" extends="mainLayout">
+      <put-attribute name="key" value="file"/>
+      <put-attribute name="main"   value="/WEB-INF/content/pages/home.jsp"/>
+  </definition>
+  
+  <definition name="ktmfile" extends="mainLayout">
+      <put-attribute name="key" value="file"/>
+      <put-attribute name="main"   value="/WEB-INF/content/pages/home.jsp"/>      
+  </definition>
+  
+  <!-- Edit -->
+  <definition name="edit" extends="mainLayout">
+      <put-attribute name="key" value="edit"/>
+      <put-attribute name="main"   value="/WEB-INF/content/pages/home.jsp"/>      
+  </definition>
+  
+  <!-- Database -->
+  <definition name="database" extends="mainLayout">
+      <put-attribute name="key" value="database"/>
+      <put-attribute name="main"   value="/WEB-INF/content/pages/home.jsp"/>
+  </definition>
+  
+  <definition name="database-user" extends="database">
+      <put-attribute name="main" value="/WEB-INF/content/pages/userData.jsp"/>      
+  </definition>
+  
+  <definition name="database-product" extends="database">
+      <put-attribute name="main" value="/WEB-INF/content/pages/product.jsp"/>      
+  </definition>
+  
+  <!-- Transaction -->
+  <definition name="transaction" extends="mainLayout">
+      <put-attribute name="key" value="transaction"/>
+      <put-attribute name="main"   value="/WEB-INF/content/pages/home.jsp"/>      
+  </definition>
+  
+  <definition name="transaction-receive-from-supplier" extends="transaction">
+      <put-attribute name="main"   value="/WEB-INF/content/pages/receiveProduct.jsp"/>      
+  </definition>
+  
+  <!-- Other -->
+  <definition name="other" extends="mainLayout">
+      <put-attribute name="key" value="other"/>
+      <put-attribute name="main"   value="/WEB-INF/content/pages/home.jsp"/>      
+  </definition>
+  
+  <definition name="other-user-authen" extends="other">
+      <put-attribute name="main"   value="/WEB-INF/content/pages/userAuthen.jsp"/>      
+  </definition>
+  
+  <!-- Report -->
+  <definition name="report" extends="mainLayout">
+      <put-attribute name="key" value="report"/>
+      <put-attribute name="main"   value="/WEB-INF/content/pages/home.jsp"/>      
+  </definition>
+  
+</tiles-definitions>
