@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE taglib PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN"
+                        "http://java.sun.com/dtd/web-jsptaglibrary_1_2.dtd">
+<taglib>
+ <tlib-version>1.3</tlib-version>
+ <jsp-version>1.2</jsp-version>
+ <short-name>auth</short-name>
+ <uri>http://sarachai.com/tags-auth</uri>
+ <description>
+        
+        ITSCI Authentication Library
+        
+    </description>
+ <tag>
+  <name>isUserInRole</name>
+  <tag-class>org.ktm.tag.auth.IsUserInRoleTag</tag-class>
+  <body-content>JSP</body-content>
+  <description>
+            
+            Checks the user role as defined by the model element securityRole
+            
+        </description>
+  <attribute>
+   <name>role</name>
+   <required>true</required>
+   <rtexprvalue>true</rtexprvalue>
+  </attribute>
+ </tag>
+ <tag>
+  <name>isUserNotInRole</name>
+  <tag-class>org.ktm.tag.auth.IsUserNotInRoleTag</tag-class>
+  <body-content>JSP</body-content>
+  <description>
+            
+            Checks the user role as defined by the model element securityRole
+            
+        </description>
+  <attribute>
+   <name>role</name>
+   <required>true</required>
+   <rtexprvalue>true</rtexprvalue>
+  </attribute>
+ </tag>
+ <tag>
+  <name>isUserInRoles</name>
+  <tag-class>org.ktm.tag.auth.IsUserInRolesTag</tag-class>
+  <body-content>JSP</body-content>
+  <description>
+            
+            Checks the user role as defined by the model element securityRole
+            
+        </description>
+  <attribute>
+   <name>roles</name>
+   <required>true</required>
+   <rtexprvalue>true</rtexprvalue>
+  </attribute>
+ </tag>
+ <tag>
+  <name>isUserNotInRoles</name>
+  <tag-class>org.ktm.tag.auth.IsUserNotInRolesTag</tag-class>
+  <body-content>JSP</body-content>
+  <description>
+            
+            Checks the user role as defined by the model element securityRole&lt;
+            
+        </description>
+  <attribute>
+   <name>roles</name>
+   <required>true</required>
+   <rtexprvalue>true</rtexprvalue>
+  </attribute>
+ </tag>
+ <tag>
+  <name>isUserInAllRoles</name>
+  <tag-class>org.ktm.tag.auth.IsUserInAllRolesTag</tag-class>
+  <body-content>JSP</body-content>
+  <description>
+            
+            Checks the user role as defined by the model element securityRole
+            
+        </description>
+  <attribute>
+   <name>roles</name>
+   <required>true</required>
+   <rtexprvalue>true</rtexprvalue>
+  </attribute>
+ </tag>
+ <tag>
+  <name>isUserNotInAllRoles</name>
+  <tag-class>org.ktm.tag.auth.IsUserNotInAllRolesTag</tag-class>
+  <body-content>JSP</body-content>
+  <description>
+            
+            Checks the user role as defined by the model element securityRole
+            
+        </description>
+  <attribute>
+   <name>roles</name>
+   <required>true</required>
+   <rtexprvalue>true</rtexprvalue>
+  </attribute>
+ </tag>
+ <tag>
+  <name>enforceAuthentication</name>
+  <tag-class>org.ktm.tag.auth.EnforceLoginTag</tag-class>
+  <body-content>empty</body-content>
+  <description>
+            
+            Enforce user authentication
+            
+        </description>
+  <attribute>
+   <name>loginPage</name>
+   <required>true</required>
+   <rtexprvalue>false</rtexprvalue>
+  </attribute>
+ </tag>
+ <tag>
+  <name>isUserLoggedIn</name>
+  <tag-class>org.ktm.tag.auth.IsUserLoggedInTag</tag-class>
+  <body-content>JSP</body-content>
+  <description>
+            
+            Check for user logined
+            
+        </description>
+ </tag>
+ <tag>
+  <name>isUserNotLoggedIn</name>
+  <tag-class>org.ktm.tag.auth.IsUserNotLoggedInTag</tag-class>
+  <body-content>JSP</body-content>
+  <description>
+            
+            Check for user not logined
+            
+        </description>
+ </tag>
+ <tag>
+  <name>tracUri</name>
+  <tag-class>org.ktm.tag.auth.TracUriTag</tag-class>
+  <body-content>empty</body-content>
+  <description>
+            
+            Trace uri page
+            
+        </description>
+ </tag>
+ <tag>
+  <name>redirectPage</name>
+  <tag-class>org.ktm.tag.auth.RedirectTag</tag-class>
+  <body-content>empty</body-content>
+  <description>
+            
+            Redirect to specific page
+            
+        </description>
+  <attribute>
+   <name>page</name>
+   <required>true</required>
+   <rtexprvalue>false</rtexprvalue>
+  </attribute>
+ </tag>
+ <tag>
+  <name>ktmInfo</name>
+  <tag-class>org.ktm.tag.KTMInfoTag</tag-class>
+  <body-content>empty</body-content>
+  <description>
+            
+            Display info by method
+            
+        </description>
+  <attribute>
+   <name>method</name>
+   <required>true</required>
+   <rtexprvalue>false</rtexprvalue>
+  </attribute>
+ </tag>
+</taglib>
