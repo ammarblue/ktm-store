@@ -16,6 +16,10 @@ import javax.persistence.Version;
 
 import org.ktm.domain.KTMEntity;
 
+/*
+ * The CatalogEntry represents information about a specific type of
+ * product held in a ProductCatalog
+ */
 @Entity
 @Table(name = "catalog_entry")
 public class CatalogEntry extends KTMEntity {
@@ -26,6 +30,7 @@ public class CatalogEntry extends KTMEntity {
 	private Integer version;
 	private String catalogIdentifier;
 	private String descripton;
+	private String category; // or a supplier
 	private Set<ProductType> productType = new HashSet<ProductType>();
 
     @Id
@@ -49,6 +54,15 @@ public class CatalogEntry extends KTMEntity {
 		this.version = version;
 	}
 
+    @Column(name="catalogIdentifier")
+    public String getCatalogIdentifier() {
+        return catalogIdentifier;
+    }
+
+    public void setCatalogIdentifier(String catalogIdentifier) {
+        this.catalogIdentifier = catalogIdentifier;
+    }
+
 	@Column(name="description")
 	public String getDescripton() {
 		return descripton;
@@ -57,6 +71,16 @@ public class CatalogEntry extends KTMEntity {
 	public void setDescripton(String descripton) {
 		this.descripton = descripton;
 	}
+
+    @Column(name="category")
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+	
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "catalogentry_producttype", joinColumns = { @JoinColumn(name = "catalogEntry_fk") }, inverseJoinColumns = { @JoinColumn(name = "productType_kf") })
 	public Set<ProductType> getProductType() {
@@ -65,14 +89,5 @@ public class CatalogEntry extends KTMEntity {
 
 	public void setProductType(Set<ProductType> productType) {
 		this.productType = productType;
-	}
-
-	@Column(name="catalogIdentifier")
-	public String getCatalogIdentifier() {
-		return catalogIdentifier;
-	}
-
-	public void setCatalogIdentifier(String catalogIdentifier) {
-		this.catalogIdentifier = catalogIdentifier;
 	}
 }

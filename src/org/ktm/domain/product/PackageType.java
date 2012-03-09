@@ -4,14 +4,16 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Entity;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+/*
+ * The PackageType specifies a set of component ProductTypes and roles
+ * about how these may be combined to create PackageInstances. A PackgeType is
+ * a kind of ProductType
+ */
 @Entity
 @Table(name = "package_type")
-@Inheritance(strategy=InheritanceType.JOINED)
 public class PackageType extends ProductType {
 
 	private static final long serialVersionUID = 1051794584014937364L;

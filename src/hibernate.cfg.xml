@@ -43,11 +43,12 @@
   <mapping class="org.ktm.domain.party.PartySignature"/>
   <mapping class="org.ktm.domain.product.ProductCatalog"/>
   <mapping class="org.ktm.domain.product.CatalogEntry"/>
-  <!-- 
-  <mapping class="org.ktm.domain.product.Batch"/>
+  <mapping class="org.ktm.domain.money.Price"/>
   <mapping class="org.ktm.domain.product.ProductInstance"/>
   <mapping class="org.ktm.domain.product.SerialNumber"/>
   <mapping class="org.ktm.domain.product.PackageType"/>
-  <mapping class="org.ktm.domain.product.PackageInstance"/> -->
+  <mapping class="org.ktm.domain.product.PackageInstance"/>
+  <!-- 
+  <mapping class="org.ktm.domain.product.Batch"/> -->
  </session-factory>
 </hibernate-configuration>
