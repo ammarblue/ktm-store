@@ -1,0 +1,78 @@
+.ktm-wbox {
+    padding: 10px 0px 10px 10px;
+}
+ul#navinfo {
+    color: #EAF5F7;
+    font-size: 0.9em; 
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+ul#navinfo li {
+    float: left;
+    margin: 0;
+    cursor: pointer;
+    padding: 3px 10px 0 15px;
+}  
+ul#navinfo li:hover {
+    color: #444;
+}
+ul#topnav {
+    color: #EAF5F7;
+    font-size: 1.2em; 
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    float: left;
+    width: 100%;
+    background: #2191C0 url(../themes/ktm/images/ui-bg_gloss-wave_75_2191c0_500x100.png) 50% 50% repeat-x;
+}
+ul#topnav li {
+    float: left;
+    margin: 0;
+    cursor: pointer;
+    padding: 3px 10px 0 15px;
+    position: relative; /*--Declare X and Y axis base for sub navigation--*/
+}  
+ul#topnav li:hover {
+    color: #444;
+}
+ul#topnav li ul.subnav {
+    font-size: 0.9em; 
+    list-style: none;  
+    position: absolute; /*--Important - Keeps subnav from affecting main navigation flow--*/  
+    left: 0; 
+    top: 22px;
+    margin: 0; 
+    padding: 0;  
+    display: none;  
+    float: left;  
+    width: 180px;
+    text-align: left;
+    z-index: 500;
+}  
+ul#topnav li ul.subnav li {  
+    margin: 0; 
+    padding: 0;  
+    border-top: 1px solid #fff; /*--Create bevel effect--*/  
+    border-bottom: 1px solid #fff; /*--Create bevel effect--*/  
+    clear: both;  
+    width: 175px;  
+    height: 25px;
+    z-index: 500;
+    line-height: 1.5em;
+    font-size: 1.35em;
+}  
+html ul#topnav li ul.subnav li a {  
+    float: left;  
+    width: 155px;  
+    background: #2191c0;
+    padding-top: 3px;
+    padding-left: 20px; 
+    font-size: 0.7em; 
+    z-index: 500; 
+}  
+html ul#topnav li ul.subnav li a:hover { /*--Hover effect for subnav links--*/  
+    background: #a6c9e2;  
+}
+
