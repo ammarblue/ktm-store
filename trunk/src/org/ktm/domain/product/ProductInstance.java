@@ -13,6 +13,7 @@ import javax.persistence.Table;
 import javax.persistence.Version;
 
 import org.ktm.domain.KTMEntity;
+import org.ktm.domain.money.Price;
 
 @Entity
 @Table(name = "product_instance")
@@ -25,6 +26,7 @@ public class ProductInstance extends KTMEntity {
 	private Integer version;
 	private ProductType type;
 	private SerialNumber serialNumber;
+	private Price price;
 
     @Id
     @GeneratedValue
@@ -64,4 +66,13 @@ public class ProductInstance extends KTMEntity {
 	public void setSerialNumber(SerialNumber serialNumber) {
 		this.serialNumber = serialNumber;
 	}
+
+    @OneToOne(cascade = CascadeType.ALL)
+    public Price getPrice() {
+        return price;
+    }
+
+    public void setPrice(Price price) {
+        this.price = price;
+    }
 }
