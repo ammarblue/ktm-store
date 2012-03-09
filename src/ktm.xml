@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+    "http://struts.apache.org/dtds/struts-2.3.dtd  ">
+
+<struts>
+  <package name="ktm-default"
+    extends="struts-default,json-default,tiles-default,hibernate-default"
+    namespace="/">
+    <interceptors>
+      <interceptor name="ktmlogging"
+        class="org.ktm.interceptor.KTMLoggingInterceptor">
+      </interceptor>
+      <interceptor name="ktmauthen"
+        class="org.ktm.interceptor.AuthorizationInterceptor">
+      </interceptor>
+      <interceptor-stack name="loggingStack">
+        <interceptor-ref name="ktmlogging" />
+        <interceptor-ref name="defaultStack" />
+      </interceptor-stack>
+    </interceptors>
+    
+    <global-results>
+      <result name="logon">/pages/logon.jsp</result>
+    </global-results>
+  </package>
+</struts>
