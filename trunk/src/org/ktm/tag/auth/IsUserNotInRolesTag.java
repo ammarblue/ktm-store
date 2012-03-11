@@ -8,10 +8,14 @@ public class IsUserNotInRolesTag extends IsUserInRolesTag {
 
     @Override
     public int doStartTag() throws JspException {
-        if (IsUserTagsImpl.isUserNotInRoles(this.pageContext, roles)) {
-            return EVAL_BODY_INCLUDE;
-        } else {
-            return SKIP_BODY;
+        try {
+            if (IsUserTagsImpl.isUserNotInRoles(this.pageContext, roles)) {
+                return EVAL_BODY_INCLUDE;
+            } else {
+                return SKIP_BODY;
+            }
+        } catch (AuthException e) {
+            throw new JspException("No session object");
         }
     }
 }

@@ -21,13 +21,12 @@ var is_webkit = navigator.userAgent.toLowerCase().indexOf('webkit') > -1;
 
 if(is_webkit) 
 {
-	var i;
-	var skiplinks = []
+	var skiplinks = [];
 	
 	if ( document.getElementsByClassName !== undefined) {
 		skiplinks = document.getElementsByClassName('skip');
 
-		for (i=0; i<skiplinks.length; i++) {
+		for (var i=0; i<skiplinks.length; i++) {
 			var target = skiplinks[i].href.substr(skiplinks[i].href.indexOf('#')+1);
 			var targetElement = document.getElementById(target);
 	

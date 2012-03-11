@@ -8,9 +8,9 @@ public class EnforceLoginTag extends TagSupport {
 
     private static final long serialVersionUID = 1L;
 
-    private String loginPage;
+    private String            loginPage;
 
-    public EnforceLoginTag()   {
+    public EnforceLoginTag() {
     }
 
     public void setLoginPage(String loginPage) {
@@ -19,17 +19,21 @@ public class EnforceLoginTag extends TagSupport {
 
     @Override
     public int doEndTag() throws JspException {
-        HttpServletRequest request = (HttpServletRequest)pageContext.getRequest();
-        
-        if(AuthenticatorFactory.isUserLoggedIn(request)) {
-            return EVAL_PAGE;
-        }
+        HttpServletRequest request = (HttpServletRequest) pageContext.getRequest();
 
-        AuthenticatorFactory.saveRequestContext((HttpServletRequest)pageContext.getRequest());
+        try {
+            if (AuthenticatorFactory.isUserLoggedIn()) {
+                return EVAL_PAGE;
+            }
+
+            AuthenticatorFactory.saveRequestContext(request);
+        } catch (AuthException e) {
+            throw new JspException("Authentication error, no session object");
+        }
 
         try {
             pageContext.forward(loginPage);
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             throw new JspException(ex.getMessage());
         }
 
@@ -38,5 +42,6 @@ public class EnforceLoginTag extends TagSupport {
 
     @Override
     public void release() {
+
     }
 }

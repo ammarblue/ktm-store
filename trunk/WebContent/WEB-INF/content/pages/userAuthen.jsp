@@ -55,7 +55,7 @@ $.subscribe('showcolumns', function(event,data) {
               viewrecords="true"
               autowidth="true"
           >
-              <sjg:gridColumn name="uniqueId" index="id" title="ID" width="30" formatter="integer" editable="false" sortable="false" search="false" hidden="true" />
+              <sjg:gridColumn name="id" index="id" title="ID" width="30" formatter="integer" editable="false" sortable="false" search="false" hidden="true" />
               <sjg:gridColumn name="preName" index="preName" title="คำนำหน้า" width="70" editable="false" edittype="select" sortable="false" search="false"/>
               <sjg:gridColumn name="firstName" index="firstName" title="ชื่อ" width="150" editable="false" edittype="text" sortable="true" search="false" />
               <sjg:gridColumn name="lastName" index="lastName" title="นามสกุล" width="150" editable="false" sortable="false" search="false" />

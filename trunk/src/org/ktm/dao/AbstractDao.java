@@ -1,14 +1,12 @@
 package org.ktm.dao;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import org.ktm.store.HibernateStorage;
 import org.ktm.store.MemoryStorage;
 import org.ktm.store.Storage;
-import org.ktm.web.KTMAction;
+import org.ktm.actions.KTMAction;
 import org.ktm.domain.KTMEntity;
 import org.ktm.exception.CreateException;
 import org.ktm.exception.DeleteException;
@@ -68,43 +66,6 @@ public abstract class AbstractDao implements Serializable, Dao {
 
 	public Collection<?> findAll() {
 		return getStorage().findAll(getFeaturedClass());
-	}
-
-	public List<?> getSubList(List<?> cols, int form, int to) {
-		return cols.subList(form, to);
-	}
-
-	public List<?> findNotById(List<?> cols, int id, int from, int to) {
-		List<KTMEntity> sResult = new ArrayList<KTMEntity>();
-
-		for (Object obj : cols) {
-			if (obj instanceof KTMEntity && ((KTMEntity)obj).getUniqueId() != id)
-				sResult.add((KTMEntity)obj);
-		}
-
-		return sResult.subList(from, to);
-	}
-
-	public List<?> findGreaterAsId(List<?> list, int id, int from, int to) {
-		List<KTMEntity> sResult = new ArrayList<KTMEntity>();
-
-		for (Object obj : list) {
-			if (obj instanceof KTMEntity && ((KTMEntity)obj).getUniqueId() > id)
-				sResult.add((KTMEntity)obj);
-		}
-
-		return sResult.subList(from, to);
-	}
-
-	public List<?> findLesserAsId(List<?> list, int id, int from, int to) {
-		List<KTMEntity> sResult = new ArrayList<KTMEntity>();
-
-		for (Object obj : list) {
-			if (obj instanceof KTMEntity && ((KTMEntity)obj).getUniqueId() < id)
-				sResult.add((KTMEntity)obj);
-		}
-
-		return sResult.subList(from, to);
 	}
 
 	public int getFirstResult() {

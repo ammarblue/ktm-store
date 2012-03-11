@@ -2,10 +2,12 @@ package org.ktm.tag;
 
 import java.text.ParseException;
 
+import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
 
 import org.ktm.domain.party.Party;
+import org.ktm.tag.auth.AuthException;
 import org.ktm.tag.auth.IsUserTagsImpl;
 import org.ktm.web.utils.DateUtils;
 
@@ -33,12 +35,17 @@ public class KTMInfoTag extends TagSupport {
         return SKIP_BODY;
     }
     
-    private String infoByMethod() throws ParseException {
+    private String infoByMethod() throws ParseException, JspException {
         String result = "";
         if (method.equals("date")) {
             result =  DateUtils.formatNowDate();
         } else if (method.equals("user")) {
-            Party party = IsUserTagsImpl.getParty(pageContext);
+            Party party;
+            try {
+                party = IsUserTagsImpl.getParty(pageContext);
+            } catch (AuthException e) {
+                throw new JspException("No session object");
+            }
             if (party != null) {
                 return party.getLabel();
             }

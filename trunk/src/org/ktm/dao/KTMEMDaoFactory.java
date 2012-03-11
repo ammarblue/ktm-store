@@ -1,7 +1,7 @@
 package org.ktm.dao;
 
+import org.ktm.actions.KTMAction;
 import org.ktm.dao.party.*;
-import org.ktm.web.KTMAction;
 
 public abstract class KTMEMDaoFactory {
 

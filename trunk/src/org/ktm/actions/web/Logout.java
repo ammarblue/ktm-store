@@ -1,4 +1,4 @@
-package org.ktm.actions;
+package org.ktm.actions.web;
 
 import javax.servlet.ServletContext;
 
@@ -8,10 +8,10 @@ import org.apache.struts2.convention.annotation.Actions;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.util.ServletContextAware;
-import org.ktm.dao.Dao;
+import org.ktm.actions.KTMAction;
 import org.ktm.tag.auth.Authenticator;
 import org.ktm.tag.auth.AuthenticatorFactory;
-import org.ktm.web.KTMAction;
+import org.ktm.web.manager.FormManager;
 
 @ParentPackage(value = "ktm-default")
 public class Logout extends KTMAction implements ServletContextAware {
@@ -33,19 +33,19 @@ public class Logout extends KTMAction implements ServletContextAware {
         
         if (auth != null) {
             auth.doLogout();
-            AuthenticatorFactory.setUserLoggingOut(request);
+            AuthenticatorFactory.setUserLoggingOut();
         }
         return INPUT;
-    }
-    
-    @Override
-    protected Dao getDao() {
-        return null;
     }
 
     @Override
     public void setServletContext(ServletContext context) {
         servletContext = context;
+    }
+
+    @Override
+    protected FormManager getManager() {
+        return null;
     }
 
 }

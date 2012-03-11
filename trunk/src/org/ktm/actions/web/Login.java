@@ -1,4 +1,4 @@
-package org.ktm.actions;
+package org.ktm.actions.web;
 
 import java.security.NoSuchAlgorithmException;
 
@@ -11,14 +11,12 @@ import org.apache.struts2.convention.annotation.Actions;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.util.ServletContextAware;
-import org.ktm.dao.Dao;
-import org.ktm.dao.KTMEMDaoFactory;
-import org.ktm.dao.party.AuthenDao;
+import org.ktm.actions.KTMAction;
 import org.ktm.encode.KTMCrypt;
 import org.ktm.tag.auth.AuthException;
 import org.ktm.tag.auth.Authenticator;
 import org.ktm.tag.auth.AuthenticatorFactory;
-import org.ktm.web.KTMAction;
+import org.ktm.web.manager.FormManager;
 
 //import com.opensymphony.xwork2.validator.annotations.ExpressionValidator;
 //import com.opensymphony.xwork2.validator.annotations.Validations;
@@ -46,7 +44,6 @@ public class Login extends KTMAction implements ServletContextAware {
     private String nextAction;
 
     private ServletContext servletContext;
-    private AuthenDao authenDao;
 
     @Actions({ @Action(value = "/login", results = { @Result(name = SUCCESS, location = "${nextAction}", type = "tiles"), @Result(name = INPUT, location = "user-login", type = "tiles") }) })
     public String execute() throws Exception {
@@ -110,10 +107,7 @@ public class Login extends KTMAction implements ServletContextAware {
     }
 
     @Override
-    protected Dao getDao() {
-        if (authenDao == null) {
-            authenDao = KTMEMDaoFactory.getInstance().getAuthenDao(this);
-        }
-        return authenDao;
+    protected FormManager getManager() {
+        return null;
     }
 }

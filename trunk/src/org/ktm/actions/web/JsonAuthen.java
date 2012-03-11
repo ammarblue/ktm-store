@@ -1,7 +1,5 @@
-package org.ktm.actions;
+package org.ktm.actions.web;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -11,42 +9,41 @@ import org.apache.struts2.convention.annotation.Actions;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.ktm.actions.json.JsonAbstractAction;
-import org.ktm.dao.Dao;
-import org.ktm.dao.KTMEMDaoFactory;
-import org.ktm.dao.party.PersonDao;
-import org.ktm.domain.party.Person;
-import org.ktm.web.form.FrmPerson;
+import org.ktm.web.form.FrmAuthen;
+import org.ktm.web.manager.FormManager;
+import org.ktm.web.manager.ServiceLocator;
 
 @ParentPackage(value = "ktm-default")
-public class JsonPerson extends JsonAbstractAction {
+public class JsonAuthen extends JsonAbstractAction {
 
     private static final long serialVersionUID = 8072293334749008043L;
-    private Logger log = Logger.getLogger(JsonPerson.class);
+    private Logger log = Logger.getLogger(JsonAuthen.class);
 
-    private List<FrmPerson> gridModel;
-
-    private PersonDao personDao;
-
-    @Actions({ @Action(value = "/jsonperson", results = { @Result(name = "success", type = "json"), @Result(name = INPUT, location = "user-login", type = "tiles") }) })
+    @Actions({ @Action(value = "/jsonauthen", results = { @Result(name = "success", type = "json") }) })
     @SuppressWarnings("unchecked")
     public String execute() {
         log.debug("Page " + getPage() + " Rows " + getRows() + " Sorting Order " + getSord() + " Index Row :" + getSidx());
         log.debug("Search :" + searchField + " " + searchOper + " " + searchString);
 
-        log.debug("Get person List");
-        List<FrmPerson> myPersons = new ArrayList<FrmPerson>();
-        syncFormPersonCollection((Collection<Person>) getDao().findAll(), myPersons);
+        log.debug("Get authen List");
+        try {
+            list(this);
+        } catch (Exception e) {
+
+        }
+        
+        List<FrmAuthen> myAuthens = (List<FrmAuthen>) getAvailableItems();
 
         if (sord != null && sord.equalsIgnoreCase("asc")) {
-            Collections.sort(myPersons);
+            Collections.sort(myAuthens);
         }
         if (sord != null && sord.equalsIgnoreCase("desc")) {
-            Collections.sort(myPersons);
-            Collections.reverse(myPersons);
+            Collections.sort(myAuthens);
+            Collections.reverse(myAuthens);
         }
 
         // Count all record (select count(*) from your_custumers)
-        records = myPersons.size();
+        records = myAuthens.size();
 
         if (totalrows != null) {
             records = totalrows;
@@ -65,40 +62,31 @@ public class JsonPerson extends JsonAbstractAction {
 
         if (loadonce) {
             if (totalrows != null && totalrows > 0) {
-                setGridModel(myPersons.subList(0, totalrows));
+                setGridModel(myAuthens.subList(0, totalrows));
             } else {
-                // All Custumer
-                setGridModel(myPersons);
+                setGridModel(myAuthens);
             }
         } else {
-            // Search Custumers
             if (searchString != null && searchOper != null) {
                 int id = Integer.parseInt(searchString);
                 if (searchOper.equalsIgnoreCase("eq")) {
                     log.debug("search id equals " + id);
-                    List<FrmPerson> cList = new ArrayList<FrmPerson>();
-                    Person person = (Person) getDao().get(id);
-                    FrmPerson fperson = new FrmPerson();
-
-                    syncFormPerson(person, fperson);
-
-                    if (person != null) {
-                        cList.add(fperson);
-                    }
-
-                    setGridModel(cList);
+                    //List<FrmAuthen> cList = new ArrayList<FrmAuthen>();
+                    // TODO: Search by id
                 } else if (searchOper.equalsIgnoreCase("ne")) {
                     log.debug("search id not " + id);
-                    setGridModel((List<FrmPerson>) ((PersonDao) getDao()).findNotById(myPersons, id, from, to));
+                    setGridModel((List<FrmAuthen>) getManager().findNotById(myAuthens, id, from, to));
                 } else if (searchOper.equalsIgnoreCase("lt")) {
                     log.debug("search id lesser then " + id);
-                    setGridModel((List<FrmPerson>) ((PersonDao) getDao()).findLesserAsId(myPersons, id, from, to));
+                    setGridModel((List<FrmAuthen>) getManager().findLesserAsId(myAuthens, id, from, to));
                 } else if (searchOper.equalsIgnoreCase("gt")) {
                     log.debug("search id greater then " + id);
-                    setGridModel((List<FrmPerson>) ((PersonDao) getDao()).findGreaterAsId(myPersons, id, from, to));
+                    setGridModel((List<FrmAuthen>) getManager().findGreaterAsId(myAuthens, id, from, to));
                 }
             } else {
-                setGridModel((List<FrmPerson>) ((PersonDao) getDao()).getSubList(myPersons, from, to));
+                // setGridModel((List<FrmAuthen>) ((PersonDao)
+                // getDao()).getSubList(myAuthens, from, to));
+                setGridModel(myAuthens);
             }
         }
 
@@ -112,20 +100,18 @@ public class JsonPerson extends JsonAbstractAction {
         return execute();
     }
 
-    public List<FrmPerson> getGridModel() {
-        return gridModel;
+    @SuppressWarnings("unchecked")
+    public List<FrmAuthen> getGridModel() {
+        return (List<FrmAuthen>) getAvailableItems();
     }
 
-    public void setGridModel(List<FrmPerson> gridModel) {
-        this.gridModel = gridModel;
+    public void setGridModel(List<FrmAuthen> gridModel) {
+        setAvailableItems(gridModel);
     }
 
     @Override
-    protected Dao getDao() {
-        if (personDao == null) {
-            personDao = KTMEMDaoFactory.getInstance().getPersonDao(this);
-        }
-        return personDao;
+    protected FormManager getManager() {
+        return ServiceLocator.getAuthenManager();
     }
 
 }

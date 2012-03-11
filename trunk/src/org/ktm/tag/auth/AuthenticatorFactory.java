@@ -3,28 +3,29 @@ package org.ktm.tag.auth;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Map;
-
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
-
+import org.ktm.actions.KTMAction;
 import org.ktm.domain.party.Party;
-import org.ktm.web.KTMAction;
 import org.ktm.web.utils.Globals;
-
 import com.opensymphony.xwork2.ActionContext;
 
 public class AuthenticatorFactory implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long   serialVersionUID   = 1L;
 
-    private final static String REQUEST_STORE_KEY = "org.ktm.tag.auth.AuthenticatorFactory.REQUEST_STORE_KEY";
+    private final static String REQUEST_STORE_KEY  = "org.ktm.tag.auth.AuthenticatorFactory.REQUEST_STORE_KEY";
     private final static String DESTROYSESSION_KEY = "org.ktm.tag.auth.AuthenticatorFactory.DESTROYSESSION_KEY";
 
     public AuthenticatorFactory() {
     }
-    
-    private static Map<String,Object> getSession() {
-        return ActionContext.getContext().getSession();
+
+    private static Map<String, Object> getSession() throws AuthException {
+        Map<String, Object> session = ActionContext.getContext().getSession();
+        if (session == null) {
+            throw new AuthException("No session object");
+        }
+        return session;
     }
 
     public static String getParameter(String queryString, String paramName) {
@@ -45,7 +46,7 @@ public class AuthenticatorFactory implements Serializable {
         return result;
     }
 
-    public static void saveRequestContext(HttpServletRequest request) {
+    public static void saveRequestContext(HttpServletRequest request) throws AuthException {
 
         RequestState requestState = new RequestState();
         String queryString = (String) request.getAttribute(Globals.FORWARD_QUERY_STRING);
@@ -106,7 +107,7 @@ public class AuthenticatorFactory implements Serializable {
      * //log.info(requestState.getModule()); } return returnURL; }
      */
 
-    public static boolean isUserInRoles(HttpServletRequest request, Collection<String> roles) {
+    public static boolean isUserInRoles(Collection<String> roles) throws AuthException {
         Authenticator auth = (Authenticator) getSession().get(Authenticator.SESSION_CONTEXT_KEY);
         if (auth == null) {
             return false;
@@ -114,7 +115,7 @@ public class AuthenticatorFactory implements Serializable {
         return auth.isInRoles(roles);
     }
 
-    public static boolean isUserInAllRoles(HttpServletRequest request, Collection<String> roles) {
+    public static boolean isUserInAllRoles(Collection<String> roles) throws AuthException {
         Authenticator auth = (Authenticator) getSession().get(Authenticator.SESSION_CONTEXT_KEY);
         if (auth == null) {
             return false;
@@ -123,7 +124,7 @@ public class AuthenticatorFactory implements Serializable {
         return auth.isInAllRoles(roles);
     }
 
-    public static boolean isUserLoggedIn(HttpServletRequest request) {
+    public static boolean isUserLoggedIn() throws AuthException {
         Authenticator auth = (Authenticator) getSession().get(Authenticator.SESSION_CONTEXT_KEY);
         if (auth == null) {
             return false;
@@ -132,7 +133,7 @@ public class AuthenticatorFactory implements Serializable {
         return auth.isUserLoggedIn();
     }
 
-    public static Party getParty() {
+    public static Party getParty() throws AuthException {
         Authenticator auth = (Authenticator) getSession().get(Authenticator.SESSION_CONTEXT_KEY);
         if (auth == null) {
             return null;
@@ -140,16 +141,24 @@ public class AuthenticatorFactory implements Serializable {
         return auth.getParty();
     }
 
-    public static boolean isUserLoggingOut(HttpServletRequest request) {
-        Object object = request.getAttribute(DESTROYSESSION_KEY);
+    public static boolean isUserLoggingOut() throws AuthException {
+        Object object = getSession().get(DESTROYSESSION_KEY);
         if (object == null) {
             return false;
         }
         return true;
     }
 
-    public static void setUserLoggingOut(HttpServletRequest request) {
-        request.setAttribute(DESTROYSESSION_KEY, new Boolean(true));
+    public static void setUserLoggingOut() throws AuthException {
+        Authenticator auth = (Authenticator) getSession().get(Authenticator.SESSION_CONTEXT_KEY);
+        if (auth != null) {
+            try {
+                auth.doLogout();
+            } catch (AuthException e) {
+                e.printStackTrace();
+            }
+        }
+        getSession().put(DESTROYSESSION_KEY, new Boolean(true));
     }
 
     public static Authenticator getAuthComponent(KTMAction action, ServletContext servletContext, String authenticatorClassName) throws AuthException {
@@ -204,8 +213,8 @@ public class AuthenticatorFactory implements Serializable {
     }
 
     public static class RequestState {
-        private String module;
-        private String queryString;
+        private String              module;
+        private String              queryString;
         // private String requestURI;
         private Map<Object, Object> attributes;
 

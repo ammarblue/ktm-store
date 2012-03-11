@@ -1,4 +1,4 @@
-package org.ktm.actions;
+package org.ktm.actions.web;
 
 import java.util.StringTokenizer;
 
@@ -7,11 +7,10 @@ import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Actions;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
-import org.ktm.dao.Dao;
-import org.ktm.dao.KTMEMDaoFactory;
-import org.ktm.dao.party.*;
-import org.ktm.domain.party.*;
-import org.ktm.web.KTMAction;
+import org.ktm.actions.KTMAction;
+import org.ktm.web.form.FrmAuthen;
+import org.ktm.web.manager.FormManager;
+import org.ktm.web.manager.ServiceLocator;
 
 @ParentPackage(value = "ktm-default")
 public class GridEditAuthenEntry extends KTMAction {
@@ -26,62 +25,45 @@ public class GridEditAuthenEntry extends KTMAction {
     private String lastName;
     private String username;
     private String password;
-    private String confirm;
-    private AuthenDao authenDao;
-    private PersonDao personDao;
 
     @Actions({ @Action(value = "/grid-edit-authen-entry", results = { @Result(location = "simpleecho.jsp", name = "success"), @Result(location = "simpleecho.jsp", name = "input") }) })
     public String execute() throws Exception {
-        log.debug("id :" + id);
-        log.debug("preName :" + preName);
-        log.debug("firstName :" + firstName);
-        log.debug("lastName :" + lastName);
-        log.debug("username :" + username);
-        log.debug("password:" + password);
-        log.debug("confirm:" + confirm);
-
-        Authen authen = null;
+        FrmAuthen frmAuthen = new FrmAuthen();
+        frmAuthen.setId(id);
+        frmAuthen.setPreName(preName);
+        frmAuthen.setFirstName(firstName);
+        frmAuthen.setLastName(lastName);
+        frmAuthen.setUsername(username);
+        frmAuthen.setPassword(password);
+        
+        
+        log.debug("id :" + frmAuthen.getId());
+        log.debug("preName :" + frmAuthen.getPreName());
+        log.debug("firstName :" + frmAuthen.getFirstName());
+        log.debug("lastName :" + frmAuthen.getLastName());
+        log.debug("username :" + frmAuthen.getUsername());
+        log.debug("password:" + frmAuthen.getPassword());
+        log.debug("confirm:" + frmAuthen.getConfirm());
 
         if (oper.equalsIgnoreCase("del")) {
-            StringTokenizer ids = new StringTokenizer(id, ",");
+            StringTokenizer ids = new StringTokenizer(frmAuthen.getId(), ",");
             while (ids.hasMoreTokens()) {
                 int removeId = Integer.parseInt(ids.nextToken());
                 log.debug("Delete Authen " + removeId);
-                getDao().delete(removeId);
+                getManager().delete(this, removeId);
             }
         } else {
             if (oper.equalsIgnoreCase("add")) {
                 log.debug("Add Authen");
-                authen = new Authen();
-
-                authen.setUsername(username);
-                authen.setPassword(password);
+                frmAuthen.setNew(true);
             } else if (oper.equalsIgnoreCase("edit")) {
                 log.debug("Edit Authen");
-                authen = (Authen) getDao().get(Integer.parseInt(id));
-                if (authen == null) {
-                    authen = new Authen();
-                }
-                if (!password.equals("****")) {
-                    authen.setPassword(password);
-                }
+                frmAuthen.setNew(false);
             }
-
-            Person person = (Person) personDao.get(Integer.parseInt(id));
-            authen.setParty(person);
-
-            getDao().create(authen);
+            
+            getManager().addOrUpdate(this, frmAuthen);
         }
         return SUCCESS;
-    }
-
-    @Override
-    protected Dao getDao() {
-        if (authenDao == null) {
-            authenDao = KTMEMDaoFactory.getInstance().getAuthenDao(this);
-            personDao = KTMEMDaoFactory.getInstance().getPersonDao(this);
-        }
-        return authenDao;
     }
 
     public void setOper(String oper) {
@@ -136,12 +118,9 @@ public class GridEditAuthenEntry extends KTMAction {
         this.password = password;
     }
 
-    public String getConfirm() {
-        return confirm;
-    }
-
-    public void setConfirm(String confirm) {
-        this.confirm = confirm;
+    @Override
+    protected FormManager getManager() {
+        return ServiceLocator.getAuthenManager();
     }
 
 }

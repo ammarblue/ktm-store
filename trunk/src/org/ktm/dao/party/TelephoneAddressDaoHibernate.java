@@ -1,9 +1,9 @@
 package org.ktm.dao.party;
 
+import org.ktm.actions.KTMAction;
 import org.ktm.dao.AbstractDao;
 import org.ktm.dao.PersistanceType;
 import org.ktm.domain.party.TelephoneAddress;
-import org.ktm.web.KTMAction;
 
 public abstract class TelephoneAddressDaoHibernate extends AbstractDao implements TelephoneAddressDao {
 

@@ -1,6 +1,6 @@
 package org.ktm.actions.json;
 
-import org.ktm.web.KTMAction;
+import org.ktm.actions.KTMAction;
 
 public abstract class JsonAbstractAction extends KTMAction {
 

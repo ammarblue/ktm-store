@@ -3,22 +3,20 @@ package org.ktm.tag.auth;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Vector;
-
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.PageContext;
-
 import org.ktm.domain.party.Party;
 
 public class IsUserTagsImpl {
 
-    public static boolean isUserInRoles(PageContext pageContext, Collection<String> roles) {
+    public static boolean isUserInRoles(PageContext pageContext, Collection<String> roles) throws AuthException {
         ServletRequest sr = pageContext.getRequest();
         HttpServletRequest hr = (HttpServletRequest) sr;
 
         // the session context is not destroyed untill the request
         // is compleatly serviced so we need to check!
-        if (AuthenticatorFactory.isUserLoggingOut(hr)) {
+        if (AuthenticatorFactory.isUserLoggingOut()) {
             return false;
         }
 
@@ -32,10 +30,10 @@ public class IsUserTagsImpl {
             }
         }
 
-        return AuthenticatorFactory.isUserInRoles(hr, roles);
+        return AuthenticatorFactory.isUserInRoles(roles);
     }
 
-    public static boolean isUserInAllRoles(PageContext pageContext, Collection<String> roles) {
+    public static boolean isUserInAllRoles(PageContext pageContext, Collection<String> roles) throws AuthException {
         Collection<String> rolesCopy = (Collection<String>) new Vector<String>(roles);
         Iterator<String> it = rolesCopy.iterator();
         while (it.hasNext()) {
@@ -53,7 +51,7 @@ public class IsUserTagsImpl {
         return false;
     }
 
-    public static boolean isUserNotInRoles(PageContext pageContext, Collection<String> roles) {
+    public static boolean isUserNotInRoles(PageContext pageContext, Collection<String> roles) throws AuthException {
         if (isUserInRoles(pageContext, roles)) {
             return false;
         }
@@ -61,7 +59,7 @@ public class IsUserTagsImpl {
         return true;
     }
 
-    public static boolean isUserNotInAllRoles(PageContext pageContext, Collection<String> roles) {
+    public static boolean isUserNotInAllRoles(PageContext pageContext, Collection<String> roles) throws AuthException {
         if (isUserInAllRoles(pageContext, roles)) {
             return false;
         }
@@ -69,7 +67,7 @@ public class IsUserTagsImpl {
         return true;
     }
 
-    public static boolean isUserNotInRole(PageContext pageContext, String theRole) {
+    public static boolean isUserNotInRole(PageContext pageContext, String theRole) throws AuthException {
         if (isUserInRole(pageContext, theRole)) {
             return false;
         }
@@ -77,22 +75,18 @@ public class IsUserTagsImpl {
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    public static boolean isUserInRole(PageContext pageContext, String theRole) {
+    public static boolean isUserInRole(PageContext pageContext, String theRole) throws AuthException {
         Vector tmpVector = new Vector(1);
         tmpVector.add(theRole);
         return isUserInRoles(pageContext, tmpVector);
     }
 
-    public static boolean isUserLogedIn(PageContext pageContext) {
-        HttpServletRequest hr = (HttpServletRequest) pageContext.getRequest();;
-        return AuthenticatorFactory.isUserLoggedIn(hr);
+    public static boolean isUserLogedIn(PageContext pageContext) throws AuthException {
+        return AuthenticatorFactory.isUserLoggedIn();
     }
-    
-    public static Party getParty(PageContext pageContext) {
-        ServletRequest sr = pageContext.getRequest();
-        HttpServletRequest hr = (HttpServletRequest) sr;
-        
-        if (AuthenticatorFactory.isUserLoggedIn(hr)) {
+
+    public static Party getParty(PageContext pageContext) throws AuthException {
+        if (AuthenticatorFactory.isUserLoggedIn()) {
             return AuthenticatorFactory.getParty();
         }
         return null;
