@@ -7,7 +7,7 @@ import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.ktm.web.KTMAction;
+import org.ktm.actions.KTMAction;
 import org.ktm.domain.KTMEntity;
 import org.ktm.exception.CreateException;
 import org.ktm.exception.DeleteException;

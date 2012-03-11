@@ -16,10 +16,14 @@ public class IsUserInRoleTag extends TagSupport {
     @Override
     public int doStartTag() throws JspException {
 
-        if(IsUserTagsImpl.isUserInRole(this.pageContext, role)) {
-            return EVAL_BODY_INCLUDE;
-        } else {
-            return SKIP_BODY;
+        try {
+            if(IsUserTagsImpl.isUserInRole(this.pageContext, role)) {
+                return EVAL_BODY_INCLUDE;
+            } else {
+                return SKIP_BODY;
+            }
+        } catch (AuthException e) {
+            throw new JspException("No session object");
         }
     }
 }

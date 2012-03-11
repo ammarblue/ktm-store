@@ -616,7 +616,7 @@
 
 		this.designMode = function() {
 			var attempts = 3;
-			var runner;
+			var runner=null;
 			var self = this;
 			var doc	= this.editorDoc;
 			runner = function() {
@@ -1288,7 +1288,7 @@
 				/*
 				 * :TODO:
 				 * this code do nothing, remove it? 
-				 */
+				 *
 				if (false) {
 					if (arguments.length > 0 && arguments[0].constructor == String) {
 						var action = arguments[0].toString();

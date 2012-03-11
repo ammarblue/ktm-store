@@ -1,16 +1,18 @@
 package org.ktm.web.form;
 
+import java.util.List;
 import org.ktm.domain.KTMEntity;
 
 public class FrmProduct extends KTMEntity {
 
-    private static final long serialVersionUID = -2665114871084587113L;
-    
-    private Integer uniqueId;
-    private Integer version;
-    private String catalogIdentifier;
-    private String descripton;
-    
+    private static final long    serialVersionUID = -2665114871084587113L;
+
+    private Integer              uniqueId;
+    private Integer              version;
+    private String               catalogIdentifier;
+    private String               descripton;
+    private List<FrmPackageType> packageTypes;
+
     @Override
     public Integer getUniqueId() {
         return uniqueId;
@@ -45,6 +47,14 @@ public class FrmProduct extends KTMEntity {
 
     public void setDescripton(String descripton) {
         this.descripton = descripton;
+    }
+
+    public List<FrmPackageType> getPackageTypes() {
+        return packageTypes;
+    }
+
+    public void setPackageTypes(List<FrmPackageType> packageTypes) {
+        this.packageTypes = packageTypes;
     }
 
 }

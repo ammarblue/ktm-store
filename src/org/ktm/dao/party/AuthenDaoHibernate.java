@@ -1,16 +1,15 @@
 package org.ktm.dao.party;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
+import org.ktm.actions.KTMAction;
 import org.ktm.dao.AbstractDao;
 import org.ktm.dao.PersistanceType;
 import org.ktm.domain.party.*;
-import org.ktm.web.KTMAction;
 
 public class AuthenDaoHibernate extends AbstractDao implements AuthenDao {
 
@@ -62,8 +61,8 @@ public class AuthenDaoHibernate extends AbstractDao implements AuthenDao {
 	}
 	
 	@SuppressWarnings("rawtypes")
-	public List<Authen> findByPartyId(Integer id) {
-		List<Authen> result = null;
+	public Authen findByPartyId(Integer id) {
+		Authen result = null;
 		try {
 			String queryString = "select new list(authen) " +
 					"FROM Authen AS authen " +
@@ -78,26 +77,51 @@ public class AuthenDaoHibernate extends AbstractDao implements AuthenDao {
 				query.setMaxResults(getMaxResults());
 			}
 			
-			List<Authen> pojos = new ArrayList<Authen>();
 			for (Iterator objectIt = query.list().iterator(); objectIt.hasNext(); ) {
 				Object object = (Object) objectIt.next();
 
 				if (object instanceof Authen) {
-					pojos.add((Authen) object);
+				    result = (Authen) object;
+				    break;
 				} else if (object instanceof Collection) {
 					Collection subList = (Collection) object;
 					for (Object listObject : subList) {
 						if (listObject instanceof Authen) {
-							pojos.add((Authen) listObject);
+		                    result = (Authen) listObject;
+		                    break;
 						}
 					}
+					break;
 				}
 			}
-			result = pojos;
 		} catch (HibernateException he) {
 			he.printStackTrace();
 		}
 		return result;
 	}
+
+    @Override
+    public List<?> getSubList(List<?> cols, int form, int to) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public List<?> findNotById(List<?> cols, int id, int from, int to) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public List<?> findGreaterAsId(List<?> list, int id, int from, int to) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public List<?> findLesserAsId(List<?> list, int id, int from, int to) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
 }

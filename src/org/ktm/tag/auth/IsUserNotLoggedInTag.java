@@ -9,11 +9,14 @@ public class IsUserNotLoggedInTag extends TagSupport {
 
     @Override
     public int doStartTag() throws JspException {
-
-        if(IsUserTagsImpl.isUserLogedIn(this.pageContext)) {
-            return SKIP_BODY;
-        } else {
-            return EVAL_BODY_INCLUDE;
+        try {
+            if (IsUserTagsImpl.isUserLogedIn(this.pageContext)) {
+                return SKIP_BODY;
+            } else {
+                return EVAL_BODY_INCLUDE;
+            }
+        } catch (AuthException e) {
+            throw new JspException("No session object");
         }
     }
 }

@@ -55,8 +55,8 @@ $.subscribe('showcolumns', function(event,data) {
               viewrecords="true"
               autowidth="true"
           >
-              <sjg:gridColumn name="uniqueId" index="id" title="ID" width="30" formatter="integer" editable="false" sortable="false" search="false" hidden="true" />
-              <sjg:gridColumn name="identifier" index="identifier" title="รหัส" width="50" editable="true" edittype="text" sortable="true" search="true" searchoptions="{sopt:['eq','ne','lt','gt']}"/>
+              <sjg:gridColumn name="id" index="frmPerson.id" title="ID" width="30" formatter="integer" editable="false" sortable="false" search="false" hidden="true" />
+              <sjg:gridColumn name="identifier" index="frmPerson.identifier" title="รหัส" width="50" editable="true" edittype="text" sortable="true" search="true" searchoptions="{sopt:['eq','ne','lt','gt']}"/>
               <sjg:gridColumn name="registeredIdentifier" index="registeredIdentifier" title="หมายเลขบัตรประชาชน" width="130" formatter="integer" editable="true" edittype="text" sortable="false" search="false" />
               <sjg:gridColumn name="preName" index="preName" title="คำนำหน้า" width="70" editable="true" edittype="select" editoptions="{value:'%{getText('prename.mr')}:%{getText('prename.mr')};%{getText('prename.miss')}:%{getText('prename.miss')};%{getText('prename.mis')}:%{getText('prename.mis')}'}" sortable="false" search="false"/>
               <sjg:gridColumn name="firstName" index="firstName" title="ชื่อ" width="150" editable="true" edittype="text" sortable="true" search="false" />

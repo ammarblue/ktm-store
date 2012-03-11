@@ -1,4 +1,4 @@
-package org.ktm.web;
+package org.ktm.actions;
 
 import java.util.Map;
 
@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.SessionAware;
+import org.ktm.tag.auth.AuthException;
 import org.ktm.tag.auth.AuthenticatorFactory;
 
 import com.opensymphony.xwork2.ActionSupport;
@@ -38,11 +39,11 @@ public abstract class KTMActionSupport extends ActionSupport implements ServletR
         super.addActionMessage(message);
     }
 
-    protected boolean isAuthorized() {
-        if (AuthenticatorFactory.isUserLoggedIn(request)) {
+    protected boolean isAuthorized() throws AuthException {
+        if (AuthenticatorFactory.isUserLoggedIn()) {
             return true;
         }
-        log.debug("Get person List");
+        log.debug("This action is not authorized.");
         return false;
     }
 }
