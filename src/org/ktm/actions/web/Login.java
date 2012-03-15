@@ -1,13 +1,11 @@
 package org.ktm.actions.web;
 
 import java.security.NoSuchAlgorithmException;
-
 import javax.servlet.ServletContext;
-
 import org.apache.log4j.Logger;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Actions;
-//import org.apache.struts2.convention.annotation.InterceptorRef;
+// import org.apache.struts2.convention.annotation.InterceptorRef;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.util.ServletContextAware;
@@ -18,10 +16,10 @@ import org.ktm.tag.auth.Authenticator;
 import org.ktm.tag.auth.AuthenticatorFactory;
 import org.ktm.web.manager.FormManager;
 
-//import com.opensymphony.xwork2.validator.annotations.ExpressionValidator;
-//import com.opensymphony.xwork2.validator.annotations.Validations;
-//import com.opensymphony.xwork2.validator.annotations.ValidatorType;
-//import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
+// import com.opensymphony.xwork2.validator.annotations.ExpressionValidator;
+// import com.opensymphony.xwork2.validator.annotations.Validations;
+// import com.opensymphony.xwork2.validator.annotations.ValidatorType;
+// import com.opensymphony.xwork2.validator.annotations.RequiredStringValidator;
 
 @ParentPackage(value = "ktm-default")
 // @InterceptorRef("jsonValidationWorkflowStack")
@@ -37,13 +35,13 @@ import org.ktm.web.manager.FormManager;
 public class Login extends KTMAction implements ServletContextAware {
 
     private static final long serialVersionUID = 7968544374444173511L;
-    private Logger log = Logger.getLogger(Login.class);
+    private Logger            log              = Logger.getLogger(Login.class);
 
-    private String loginuser;
-    private String loginpassword;
-    private String nextAction;
+    private String            loginuser;
+    private String            loginpassword;
+    private String            nextAction;
 
-    private ServletContext servletContext;
+    private ServletContext    servletContext;
 
     @Actions({ @Action(value = "/login", results = { @Result(name = SUCCESS, location = "${nextAction}", type = "tiles"), @Result(name = INPUT, location = "user-login", type = "tiles") }) })
     public String execute() throws Exception {

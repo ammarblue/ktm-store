@@ -29,8 +29,8 @@ $.subscribe('showcolumns', function(event,data) {
     <h2><s:text name="page.user_authen.title"/></h2>
     <p class="text"><s:text name="page.user_authen.desc"/></p>
       <div id="tone">
-          <s:url id="remoteurl" action="jsonauthen"/>
-          <s:url id="editurl" action="grid-edit-authen-entry"/>
+          <s:url id="json_authen_url" action="json-grid-authen"/>
+          <s:url id="crud_authen_url" action="curd-grid-authen"/>
           <sjg:grid
               id="gridedittable"
               caption="%{getText('page.user_authen')}"
@@ -49,16 +49,15 @@ $.subscribe('showcolumns', function(event,data) {
               gridModel="gridModel"
               rowList="5,10,15,20"
               rowNum="5"
-              rownumbers="true"
               editurl="%{editurl}"
               editinline="false"
               viewrecords="true"
               autowidth="true"
           >
               <sjg:gridColumn name="id" index="id" title="ID" width="30" formatter="integer" editable="false" sortable="false" search="false" hidden="true" />
-              <sjg:gridColumn name="preName" index="preName" title="คำนำหน้า" width="70" editable="false" edittype="select" sortable="false" search="false"/>
-              <sjg:gridColumn name="firstName" index="firstName" title="ชื่อ" width="150" editable="false" edittype="text" sortable="true" search="false" />
-              <sjg:gridColumn name="lastName" index="lastName" title="นามสกุล" width="150" editable="false" sortable="false" search="false" />
+              <sjg:gridColumn name="prename" index="prename" title="คำนำหน้า" width="70" editable="false" edittype="select" sortable="false" search="false"/>
+              <sjg:gridColumn name="firstname" index="firstname" title="ชื่อ" width="150" editable="false" edittype="text" sortable="true" search="false" />
+              <sjg:gridColumn name="lastname" index="lastname" title="นามสกุล" width="150" editable="false" sortable="false" search="false" />
               <sjg:gridColumn name="username" index="username" title="ชื่อผู้ใช้" width="150" editable="true" sortable="false" search="false" />
               <sjg:gridColumn name="password" index="password" title="รหัสผ่าน" width="70" editable="true" sortable="false" search="false" />
               <sjg:gridColumn name="confirm" index="confirm" title="ยื่นยันรหัสผ่าน" width="70" editable="true" sortable="false" search="false" />

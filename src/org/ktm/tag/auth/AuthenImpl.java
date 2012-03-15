@@ -50,7 +50,7 @@ public class AuthenImpl implements Authenticator {
             username = username.trim();
             password = password.trim();
 
-            AuthenDao authenDao = KTMEMDaoFactory.getInstance().getAuthenDao(action);
+            AuthenDao authenDao = KTMEMDaoFactory.getInstance().getAuthenDao();
 
             log.info("auth.findByPrimaryKey(key)...");
             authen = authenDao.findByUsername(username);
@@ -75,7 +75,17 @@ public class AuthenImpl implements Authenticator {
                 this.setProperty(Authenticator.PROP_USERNAME, username);
                 this.currentUser = usr;
 
-                Party party = authen.getParty();
+                Party party = null;
+                if (authen == null) {
+                    party = new Party();
+                    Set<PartyRole> roles = new HashSet<PartyRole>();
+                    PartyRole role = new PartyRole();
+                    role.setName("Root");
+                    roles.add(role);
+                    party.setRoles(roles);
+                } else {
+                    party = authen.getParty();
+                }
                 usr.setParty(party);
 
                 Vector<String> v = new Vector<String>();
@@ -92,11 +102,11 @@ public class AuthenImpl implements Authenticator {
                             }
                         }
                     }
-                    this.setUserLoggedIn(true);
-                    return;
                 } else {
                     log.info("No role for this user");
                 }
+                this.setUserLoggedIn(true);
+                return;
             }
         } catch (Exception are) {
             throw new AuthException("Cant' retrieve all party");

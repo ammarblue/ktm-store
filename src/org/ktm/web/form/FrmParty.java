@@ -9,12 +9,8 @@ public class FrmParty extends FrmDomain {
     // address
     private String            emailAddress;
     private String            tel;
-    // authen
-    private String            username;
-    private String            password;
 
     public FrmParty() {
-        setId("");
         setIdentifier("");
     }
 
@@ -56,22 +52,6 @@ public class FrmParty extends FrmDomain {
 
     public void setTel(String tel) {
         this.tel = tel;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     @Override

@@ -10,7 +10,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
-
 import org.ktm.domain.KTMEntity;
 
 /*
@@ -18,73 +17,75 @@ import org.ktm.domain.KTMEntity;
  * particular PartyRelationship
  */
 @Entity
-@Table(name="party_role", uniqueConstraints = {@UniqueConstraint(columnNames={"uniqueId", "name"})})
+@Table(name = "party_role", uniqueConstraints = { @UniqueConstraint(columnNames = { "uniqueId", "name" }) })
 public class PartyRole extends KTMEntity {
 
-	private static final long serialVersionUID = 1L;
-	
-	private Integer uniqueId;
-	private Integer version;
-	private String name;
-	private Party party;
-	private PartyRoleType type;
-	private PartyRoleIdentifier identifier;
-	//private Set<Preperence> preperences = new HashSet<Preperence>(0);
-	
-	public PartyRole() {
-	    super();
-	}
-	
-	public PartyRole(String role) {
-	    this.name = role;
-	}
+    private static final long   serialVersionUID = 1L;
+
+    private Integer             uniqueId;
+    private Integer             version;
+    private String              name;
+    private Party               party;
+    private PartyRoleType       type;
+    private PartyRoleIdentifier identifier;
+
+    // private Set<Preperence> preperences = new HashSet<Preperence>(0);
+
+    public PartyRole() {
+        super();
+    }
+
+    public PartyRole(String role) {
+        this.name = role;
+    }
 
     @Id
     @GeneratedValue
     @Column(name = "uniqueId", nullable = false)
-	public Integer getUniqueId() {
-		return uniqueId;
-	}
+    public Integer getUniqueId() {
+        return uniqueId;
+    }
 
-	public void setUniqueId(Integer uniqueId) {
-		this.uniqueId = uniqueId;
-	}
+    public void setUniqueId(Integer uniqueId) {
+        this.uniqueId = uniqueId;
+    }
 
-	@Version
-	@Column(name="version")
-	public Integer getVersion() {
-		return version;
-	}
+    @Version
+    @Column(name = "version")
+    public Integer getVersion() {
+        return version;
+    }
 
-	public void setVersion(Integer version) {
-		this.version = version;
-	}
+    public void setVersion(Integer version) {
+        this.version = version;
+    }
 
-	@Column(name="name")
-	public String getName() {
-		return name;
-	}
+    @Column(name = "name")
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	@ManyToOne
-	public Party getParty() {
-		return party;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setParty(Party party) {
-		this.party = party;
-	}
+    @ManyToOne
+    public Party getParty() {
+        return party;
+    }
 
-	@ManyToOne
-	public PartyRoleType getType() {
-		return type;
-	}
-	public void setType(PartyRoleType type) {
-		this.type = type;
-	}
+    public void setParty(Party party) {
+        this.party = party;
+    }
+
+    @ManyToOne
+    public PartyRoleType getType() {
+        return type;
+    }
+
+    public void setType(PartyRoleType type) {
+        this.type = type;
+    }
 
     @OneToOne(cascade = CascadeType.ALL)
     public PartyRoleIdentifier getIdentifier() {
@@ -95,12 +96,12 @@ public class PartyRole extends KTMEntity {
         this.identifier = identifier;
     }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (obj!=null && obj instanceof PartyRole) {
-			PartyRole other = (PartyRole) obj;
-			return this.getName().equals(other.getName());
-		}
-		return false;
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (obj != null && obj instanceof PartyRole) {
+            PartyRole other = (PartyRole) obj;
+            return this.getName().equals(other.getName());
+        }
+        return false;
+    }
 }

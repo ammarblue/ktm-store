@@ -125,12 +125,17 @@ public class AuthenticatorFactory implements Serializable {
     }
 
     public static boolean isUserLoggedIn() throws AuthException {
+        boolean result = false;
         Authenticator auth = (Authenticator) getSession().get(Authenticator.SESSION_CONTEXT_KEY);
         if (auth == null) {
             return false;
         }
 
-        return auth.isUserLoggedIn();
+        if (auth.isUserLoggedIn())  {
+            getSession().put(DESTROYSESSION_KEY, null);
+            result = true;
+        }
+        return result;
     }
 
     public static Party getParty() throws AuthException {

@@ -71,12 +71,12 @@ $.subscribe('showcolumns', function(event,data) {
               onEditInlineSuccessTopics="oneditsuccess"
               viewrecords="true"
           >
-              <sjg:gridColumn name="uniqueId" index="id" title="ID" width="30" formatter="integer" editable="false" sortable="false" search="true" searchoptions="{sopt:['eq','ne','lt','gt']}"/>
+              <sjg:gridColumn name="id" index="id" title="ID" width="30" formatter="integer" editable="false" sortable="false" search="true" searchoptions="{sopt:['eq','ne','lt','gt']}"/>
               <sjg:gridColumn name="identifier" index="identifier" title="Identifier" width="130" editable="true" edittype="text" sortable="false" search="false"/>
               <sjg:gridColumn name="registeredIdentifier" index="registeredIdentifier" title="Citizen Id" width="130" editable="true" edittype="text" sortable="false" search="false"/>
-              <sjg:gridColumn name="preName" index="preName" title="Pre Name" width="70" editable="true" edittype="select" editoptions="{value:'%{getText('prename.mr')}:%{getText('prename.mr')};%{getText('prename.miss')}:%{getText('prename.miss')};%{getText('prename.mis')}:%{getText('prename.mis')}'}" sortable="false" search="false"/>
-              <sjg:gridColumn name="firstName" index="firstName" title="First Name" width="150" editable="true" edittype="text" sortable="true" search="false"/>
-              <sjg:gridColumn name="lastName" index="lastName" title="Last Name" width="150" editable="true" sortable="false" />
+              <sjg:gridColumn name="prename" index="prename" title="Pre Name" width="70" editable="true" edittype="select" editoptions="{value:'%{getText('prename.mr')}:%{getText('prename.mr')};%{getText('prename.miss')}:%{getText('prename.miss')};%{getText('prename.mis')}:%{getText('prename.mis')}'}" sortable="false" search="false"/>
+              <sjg:gridColumn name="firstname" index="firstname" title="First Name" width="150" editable="true" edittype="text" sortable="true" search="false"/>
+              <sjg:gridColumn name="lastname" index="lastname" title="Last Name" width="150" editable="true" sortable="false" />
               <sjg:gridColumn name="birthDay" index="birthDay" title="Birth Day" editable="true" sortable="false" formatter="date" hidden="true" />
               <sjg:gridColumn name="emailAddress" index="emailAddress" title="Email" width="150" editable="true" sortable="false" hidden="true" />
               <sjg:gridColumn name="tel" index="tel" title="Tel" width="150" editable="true" sortable="false" hidden="true" />

@@ -4,35 +4,35 @@ public class FrmAuthen extends FrmDomain {
 
     private static final long serialVersionUID = 2593374568947232479L;
 
-    private String            preName;
-    private String            firstName;
-    private String            lastName;
+    private String            prename;
+    private String            firstname;
+    private String            lastname;
     private String            username;
     private String            password;
     private String            confirm;
 
-    public String getPreName() {
-        return preName;
+    public String getPrename() {
+        return prename;
     }
 
-    public void setPreName(String preName) {
-        this.preName = preName;
+    public void setPrename(String prename) {
+        this.prename = prename;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getFirstname() {
+        return firstname;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getLastname() {
+        return lastname;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
     }
 
     public String getUsername() {
@@ -62,7 +62,7 @@ public class FrmAuthen extends FrmDomain {
     @Override
     public int compareTo(FrmDomain o) {
         FrmAuthen authen = (FrmAuthen) o;
-        return firstName.compareTo(authen.firstName);
+        return firstname.compareTo(authen.firstname);
     }
 
 }

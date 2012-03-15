@@ -14,7 +14,7 @@ public abstract class FrmManagerAbstractImpl implements FormManager {
         List<FrmDomain> sResult = new ArrayList<FrmDomain>();
 
         for (Object obj : cols) {
-            Integer frmId = Integer.parseInt(((FrmDomain) obj).getId());
+            Integer frmId = ((FrmDomain) obj).getId();
             if (obj instanceof FrmDomain && frmId != id) {
                 sResult.add((FrmDomain) obj);
             }
@@ -27,7 +27,7 @@ public abstract class FrmManagerAbstractImpl implements FormManager {
         List<FrmDomain> sResult = new ArrayList<FrmDomain>();
 
         for (Object obj : list) {
-            Integer frmId = Integer.parseInt(((FrmDomain) obj).getId());
+            Integer frmId = ((FrmDomain) obj).getId();
             if (obj instanceof FrmDomain && frmId > id) {
                 sResult.add((FrmDomain) obj);
             }
@@ -40,7 +40,7 @@ public abstract class FrmManagerAbstractImpl implements FormManager {
         List<FrmDomain> sResult = new ArrayList<FrmDomain>();
 
         for (Object obj : list) {
-            Integer frmId = Integer.parseInt(((FrmDomain) obj).getId());
+            Integer frmId = ((FrmDomain) obj).getId();
             if (obj instanceof FrmDomain && frmId < id) {
                 sResult.add((FrmDomain) obj);
             }

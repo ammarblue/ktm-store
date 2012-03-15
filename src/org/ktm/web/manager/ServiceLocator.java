@@ -2,15 +2,19 @@ package org.ktm.web.manager;
 
 public class ServiceLocator {
 
-    public static ProductManager getProductManager() {
-        return ProductManager.getInstance();
+    public static InventoryManager getInventoryManager() {
+        return InventoryManagerImpl.getInstance();
     }
     
     public static PersonManager getPersonManager() {
-        return PersonManager.getInstance();
+        return PersonManagerImpl.getInstance();
     }
     
     public static AuthenManager getAuthenManager() {
-        return AuthenManager.getInstance();
+        return AuthenManagerImpl.getInstance();
+    }
+
+    public static ProductCatalogManager getProductCatalogManager() {
+        return ProductCatalogManagerImpl.getInstance();
     }
 }

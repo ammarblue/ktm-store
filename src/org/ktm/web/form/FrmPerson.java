@@ -5,43 +5,43 @@ public class FrmPerson extends FrmParty {
     private static final long serialVersionUID = 1L;
 
     // person info
-    private String preName;
-    private String firstName;
-    private String lastName;
-    private String birthDay;
-    private String emailAddress;
-    private String tel;
+    private String            prename;
+    private String            firstname;
+    private String            lastname;
+    private String            birthDay;
+    private String            emailAddress;
+    private String            tel;
 
     public FrmPerson() {
         super();
-        setPreName("");
-        setFirstName("");
-        setLastName("");
+        setPrename("");
+        setFirstname("");
+        setLastname("");
         setBirthDay(null);
     }
 
-    public String getPreName() {
-        return preName;
+    public String getPrename() {
+        return prename;
     }
 
-    public void setPreName(String preName) {
-        this.preName = preName;
+    public void setPrename(String prename) {
+        this.prename = prename;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getFirstname() {
+        return firstname;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getLastname() {
+        return lastname;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
     }
 
     public String getBirthDay() {
@@ -71,7 +71,7 @@ public class FrmPerson extends FrmParty {
     @Override
     public int compareTo(FrmDomain other) {
         FrmPerson person = (FrmPerson) other;
-        return firstName.compareTo(person.firstName);
+        return firstname.compareTo(person.firstname);
     }
 
 }

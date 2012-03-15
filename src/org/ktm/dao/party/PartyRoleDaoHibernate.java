@@ -5,18 +5,12 @@ import java.util.Iterator;
 import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
-import org.ktm.actions.KTMAction;
 import org.ktm.dao.AbstractDao;
-import org.ktm.dao.PersistanceType;
 import org.ktm.domain.party.*;
 
 public class PartyRoleDaoHibernate extends AbstractDao implements PartyRoleDao {
 
     private static final long serialVersionUID = -4224224421030924258L;
-
-    public PartyRoleDaoHibernate(KTMAction curdAction) {
-        super(curdAction, PersistanceType.HIBERNATE);
-    }
 
     @Override
     public Class<?> getFeaturedClass() {

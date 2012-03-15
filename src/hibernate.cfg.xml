@@ -38,16 +38,20 @@
   <mapping class="org.ktm.domain.party.PartyRelationship"/>
   <mapping class="org.ktm.domain.party.PartyRelationshipType"/>
   <mapping class="org.ktm.domain.party.PartyRelationshipConstraint"/>
-  <mapping class="org.ktm.domain.product.ProductType"/>
-  <mapping class="org.ktm.domain.product.ProductIdentifier"/>
   <mapping class="org.ktm.domain.party.PartySignature"/>
-  <mapping class="org.ktm.domain.product.ProductCatalog"/>
+  <mapping class="org.ktm.domain.product.BeveragePackage"/>
   <mapping class="org.ktm.domain.product.CatalogEntry"/>
-  <mapping class="org.ktm.domain.money.Price"/>
-  <mapping class="org.ktm.domain.product.ProductInstance"/>
-  <mapping class="org.ktm.domain.product.SerialNumber"/>
-  <mapping class="org.ktm.domain.product.PackageType"/>
+  <mapping class="org.ktm.domain.product.Inventory"/>
+  <mapping class="org.ktm.domain.product.InventoryEntry"/>
   <mapping class="org.ktm.domain.product.PackageInstance"/>
+  <mapping class="org.ktm.domain.product.PackageType"/>
+  <mapping class="org.ktm.domain.product.ProductCatalog"/>
+  <mapping class="org.ktm.domain.product.ProductIdentifier"/>
+  <mapping class="org.ktm.domain.product.ProductInstance"/>
+  <mapping class="org.ktm.domain.product.ProductInventoryEntry"/>
+  <mapping class="org.ktm.domain.product.ProductType"/>
+  <mapping class="org.ktm.domain.product.SerialNumber"/>
+  <mapping class="org.ktm.domain.money.Price"/>
   <!-- 
   <mapping class="org.ktm.domain.product.Batch"/> -->
  </session-factory>
