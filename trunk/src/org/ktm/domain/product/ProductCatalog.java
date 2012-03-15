@@ -1,8 +1,7 @@
 package org.ktm.domain.product;
 
-import java.util.HashSet;
-import java.util.Set;
-
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,46 +9,55 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Version;
-
 import org.ktm.domain.KTMEntity;
 
 /*
- * The ProductCatalog represents a persistent store of product information
- * used in the selling process
+ * The Inventory represents a collection of InventoryEntries held in stock by a
+ * business
  */
 @Entity
 @Table(name = "product_catalog")
 public class ProductCatalog extends KTMEntity {
 
-	private static final long serialVersionUID = -5079941812147428733L;
-	
-	private Integer uniqueId;
-	private Integer version;
-	private String name;
-	private Set<CatalogEntry> catalogEntry = new HashSet<CatalogEntry>();
+    private static final long  serialVersionUID = -5079941812147428733L;
+
+    private Integer            uniqueId;
+    private Integer            version;
+    private String             identifier;
+    private String             name;
+    private List<CatalogEntry> catalogEntry;
 
     @Id
     @GeneratedValue
     @Column(name = "uniqueId", nullable = false)
-	public Integer getUniqueId() {
-		return uniqueId;
-	}
+    public Integer getUniqueId() {
+        return uniqueId;
+    }
 
-	public void setUniqueId(Integer uniqueId) {
-		this.uniqueId = uniqueId;
-	}
+    public void setUniqueId(Integer uniqueId) {
+        this.uniqueId = uniqueId;
+    }
 
-	@Version
-	@Column(name="version")
-	public Integer getVersion() {
-		return version;
-	}
+    @Version
+    @Column(name = "version")
+    public Integer getVersion() {
+        return version;
+    }
 
-	public void setVersion(Integer version) {
-		this.version = version;
-	}
+    public void setVersion(Integer version) {
+        this.version = version;
+    }
 
-    @Column(name="name")
+    @Column(name = "identifier")
+    public String getIdentifier() {
+        return identifier;
+    }
+
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
+    }
+
+    @Column(name = "name")
     public String getName() {
         return name;
     }
@@ -58,12 +66,12 @@ public class ProductCatalog extends KTMEntity {
         this.name = name;
     }
 
-	@OneToMany
-	public Set<CatalogEntry> getCatalogEntry() {
-		return catalogEntry;
-	}
+    @OneToMany(mappedBy = "productCatalog", cascade = CascadeType.ALL)
+    public List<CatalogEntry> getCatalogEntry() {
+        return catalogEntry;
+    }
 
-	public void setCatalogEntry(Set<CatalogEntry> catalogEntry) {
-		this.catalogEntry = catalogEntry;
-	}
+    public void setCatalogEntry(List<CatalogEntry> catalogEntry) {
+        this.catalogEntry = catalogEntry;
+    }
 }

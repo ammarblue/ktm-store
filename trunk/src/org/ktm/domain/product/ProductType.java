@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -25,10 +26,7 @@ public class ProductType extends KTMEntity {
     private String            descripton;
     private ProductIdentifier identifier;
     private Set<Price>        prices;
-
-    // option properties
-    private String            unitType;
-    private Integer           unitCount;
+    private InventoryEntry    catalogEntry;
 
     @Id
     @GeneratedValue
@@ -87,22 +85,13 @@ public class ProductType extends KTMEntity {
         this.prices = prices;
     }
 
-    @Column(name = "unit_type")
-    public String getUnitType() {
-        return unitType;
+    @ManyToOne
+    public InventoryEntry getCatalogEntry() {
+        return catalogEntry;
     }
 
-    public void setUnitType(String unitType) {
-        this.unitType = unitType;
-    }
-
-    @Column(name = "unit_count")
-    public Integer getUnitCount() {
-        return unitCount;
-    }
-
-    public void setUnitCount(Integer unitCount) {
-        this.unitCount = unitCount;
+    public void setCatalogEntry(InventoryEntry catalogEntry) {
+        this.catalogEntry = catalogEntry;
     }
 
 }

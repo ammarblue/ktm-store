@@ -35,8 +35,8 @@ public abstract class AbstractCRUDAction extends KTMActionSupport {
         return toAdd;
     }
 
-    public void list(KTMAction action) throws Exception {
-        this.availableItems = (Collection<FrmDomain>) getManager().findAll(action);
+    public void list() throws Exception {
+        this.availableItems = (Collection<FrmDomain>) getManager().findAll();
         if (log.isDebugEnabled()) {
             log.debug("AbstractCRUDAction - [list]: " + (availableItems != null ? "" + availableItems.size() : "no") + " items found");
         }
@@ -46,7 +46,7 @@ public abstract class AbstractCRUDAction extends KTMActionSupport {
         if (toAdd != null) {
             int count = 0;
             for (FrmDomain obj : getToAdd()) {
-                count = count + getManager().addOrUpdate(action, obj);
+                count = count + getManager().addOrUpdate(obj);
             }
             if (log.isDebugEnabled()) {
                 log.debug("AbstractCRUDAction - [delete]: " + count + " items deleted.");
@@ -58,7 +58,7 @@ public abstract class AbstractCRUDAction extends KTMActionSupport {
         if (toDelete != null) {
             int count = 0;
             for (FrmDomain obj : getToDelete()) {
-                count = count + getManager().delete(action, obj);
+                count = count + getManager().delete(obj);
             }
             if (log.isDebugEnabled()) {
                 log.debug("AbstractCRUDAction - [delete]: " + count + " items deleted.");
@@ -80,9 +80,9 @@ public abstract class AbstractCRUDAction extends KTMActionSupport {
     protected FrmDomain fetch(KTMAction action, Serializable tryId, FrmDomain tryObject) {
         FrmDomain result = null;
         if (tryId != null) {
-            result = getManager().get(action, tryId);
+            result = getManager().get(tryId);
         } else if (tryObject != null) {
-            result = getManager().get(action, tryObject.getId());
+            result = getManager().get(tryObject.getId());
         }
         return result;
     }

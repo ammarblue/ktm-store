@@ -11,25 +11,11 @@ public abstract class KTMAction extends AbstractCRUDAction {
 
     public static final String SUCCESS          = "success";
 
-    private boolean            isOwnerRead      = false;
-
     @SessionTarget
-    protected Session          hbmSession;
+    public Session             hbmSession;
 
     @TransactionTarget
-    protected Transaction      transaction;
-
-    public void lock() {
-        isOwnerRead = true;
-    }
-
-    public void unlock() {
-        isOwnerRead = false;
-    }
-
-    public boolean isOwner() {
-        return isOwnerRead;
-    }
+    public Transaction         transaction;
 
     protected boolean isEmpty(String str) {
         if (str != null) {
@@ -38,17 +24,4 @@ public abstract class KTMAction extends AbstractCRUDAction {
         return true;
     }
 
-    public Session getKTMSession() {
-        if (isOwner()) {
-            return hbmSession;
-        }
-        return null;
-    }
-
-    public Transaction getKTMTransatcion() {
-        if (isOwner()) {
-            return transaction;
-        }
-        return null;
-    }
 }

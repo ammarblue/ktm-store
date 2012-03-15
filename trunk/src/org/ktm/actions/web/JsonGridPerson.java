@@ -3,7 +3,6 @@ package org.ktm.actions.web;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 import org.apache.log4j.Logger;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Actions;
@@ -15,12 +14,12 @@ import org.ktm.web.manager.FormManager;
 import org.ktm.web.manager.ServiceLocator;
 
 @ParentPackage(value = "ktm-default")
-public class JsonPerson extends JsonAbstractAction {
+public class JsonGridPerson extends JsonAbstractAction {
 
     private static final long serialVersionUID = 8072293334749008043L;
-    private Logger log = Logger.getLogger(JsonPerson.class);
+    private Logger            log              = Logger.getLogger(JsonGridPerson.class);
 
-    @Actions({ @Action(value = "/jsonperson", results = { @Result(name = "success", type = "json"), @Result(name = INPUT, location = "user-login", type = "tiles") }) })
+    @Actions({ @Action(value = "/json-grid-person", results = { @Result(name = "success", type = "json"), @Result(name = INPUT, location = "user-login", type = "tiles") }) })
     @SuppressWarnings("unchecked")
     public String execute() {
         log.debug("Page " + getPage() + " Rows " + getRows() + " Sorting Order " + getSord() + " Index Row :" + getSidx());
@@ -28,12 +27,12 @@ public class JsonPerson extends JsonAbstractAction {
 
         log.debug("Get person List");
         try {
-            list(this);
+            list();
         } catch (Exception e) {
-            
+
         }
         List<FrmPerson> myPersons = (List<FrmPerson>) getAvailableItems();
-        
+
         if (sord != null && sord.equalsIgnoreCase("asc")) {
             Collections.sort(myPersons);
         }
@@ -74,7 +73,7 @@ public class JsonPerson extends JsonAbstractAction {
                 if (searchOper.equalsIgnoreCase("eq")) {
                     log.debug("search id equals " + id);
                     List<FrmPerson> cList = new ArrayList<FrmPerson>();
-                    FrmPerson fperson = (FrmPerson) getManager().get(this, id);
+                    FrmPerson fperson = (FrmPerson) getManager().get(id);
 
                     if (fperson != null) {
                         cList.add(fperson);

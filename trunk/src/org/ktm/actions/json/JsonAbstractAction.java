@@ -6,40 +6,41 @@ public abstract class JsonAbstractAction extends KTMAction {
 
     private static final long serialVersionUID = 1L;
 
+    protected Integer         id;
+
     // get how many rows we want to have into the grid - rowNum attribute in the
     // grid
-    protected Integer rows = 0;
+    protected Integer         rows             = 0;
 
     // Get the requested page. By default grid sets this to 1.
-    protected Integer page = 0;
+    protected Integer         page             = 0;
 
     // sorting order - asc or desc
-    protected String sord;
+    protected String          sord;
 
     // get index row - i.e. user click to sort.
-    protected String sidx;
+    protected String          sidx;
 
     // Search Field
-    protected String searchField;
+    protected String          searchField;
 
     // The Search String
-    protected String searchString;
+    protected String          searchString;
 
     // Limit the result when using local data, value form attribute rowTotal
-    protected Integer totalrows;
+    protected Integer         totalrows;
 
     // he Search Operation
     // ['eq','ne','lt','le','gt','ge','bw','bn','in','ni','ew','en','cn','nc']
-    protected String searchOper;
+    protected String          searchOper;
 
     // Your Total Pages
-    protected Integer total = 0;
+    protected Integer         total            = 0;
 
     // All Records
-    protected Integer records = 0;
+    protected Integer         records          = 0;
 
-    protected boolean loadonce = false;
-
+    protected boolean         loadonce         = false;
 
     public Integer getRows() {
         return rows;
@@ -134,5 +135,13 @@ public abstract class JsonAbstractAction extends KTMAction {
     public void setLoadonce(boolean loadonce) {
         this.loadonce = loadonce;
     }
-    
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
 }

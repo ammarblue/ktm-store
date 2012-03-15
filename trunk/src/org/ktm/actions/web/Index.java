@@ -1,7 +1,6 @@
 package org.ktm.actions.web;
 
 import com.opensymphony.xwork2.Action;
-
 import org.apache.log4j.Logger;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
@@ -13,9 +12,9 @@ import org.ktm.actions.KTMActionSupport;
 public class Index extends KTMActionSupport {
 
     private static final long serialVersionUID = 7430650672422777500L;
-    private Logger log = Logger.getLogger(Index.class);
+    private Logger            log              = Logger.getLogger(Index.class);
 
-    private String redirectName;
+    private String            redirectName;
 
     public String execute() {
         String result = Action.SUCCESS;
