@@ -17,4 +17,8 @@ public class ServiceLocator {
     public static ProductCatalogManager getProductCatalogManager() {
         return ProductCatalogManagerImpl.getInstance();
     }
+    
+    public static BeveragePackageManager getBeveragePackageManager() {
+        return BeveragePackageManagerImpl.getInstance();
+    }
 }

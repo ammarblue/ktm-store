@@ -76,4 +76,25 @@ public class CatalogEntry extends KTMEntity {
     public void setProductCatalog(ProductCatalog productCatalog) {
         this.productCatalog = productCatalog;
     }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((uniqueId == null) ? 0 : uniqueId.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!super.equals(obj)) return false;
+        if (getClass() != obj.getClass()) return false;
+        CatalogEntry other = (CatalogEntry) obj;
+        if (uniqueId == null) {
+            if (other.uniqueId != null) return false;
+        } else if (!uniqueId.equals(other.uniqueId)) return false;
+        return true;
+    }
+
 }

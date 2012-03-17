@@ -3,8 +3,11 @@ package org.ktm.web.manager;
 import java.util.List;
 import org.ktm.domain.product.ProductIdentifier;
 import org.ktm.domain.product.ProductType;
+import org.ktm.web.form.FrmCatalog;
 
 public interface ProductCatalogManager extends FormManager {
+    
+    public FrmCatalog findByName(String name);
 
     public void addProductType(ProductType productType);
     

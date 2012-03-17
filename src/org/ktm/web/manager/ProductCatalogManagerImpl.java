@@ -132,4 +132,18 @@ public class ProductCatalogManagerImpl extends FrmManagerAbstractImpl implements
         return null;
     }
 
+    @Override
+    public FrmCatalog findByName(String name) {
+        ProductCatalogDao dao = KTMEMDaoFactory.getInstance().getProductCatalogDao();
+        ProductCatalog catalog = dao.findByName(name);
+        if (catalog != null) {
+            FrmCatalog form = new FrmCatalog();
+            form.setId(catalog.getUniqueId());
+            form.setIdentifier(catalog.getIdentifier());
+            form.setName(catalog.getName());
+            return form;
+        }
+        return null;
+    }
+
 }

@@ -26,7 +26,7 @@ public class ProductType extends KTMEntity {
     private String            descripton;
     private ProductIdentifier identifier;
     private Set<Price>        prices;
-    private InventoryEntry    catalogEntry;
+    private CatalogEntry      catalogEntry;
 
     @Id
     @GeneratedValue
@@ -86,12 +86,40 @@ public class ProductType extends KTMEntity {
     }
 
     @ManyToOne
-    public InventoryEntry getCatalogEntry() {
+    public CatalogEntry getCatalogEntry() {
         return catalogEntry;
     }
 
-    public void setCatalogEntry(InventoryEntry catalogEntry) {
+    public void setCatalogEntry(CatalogEntry catalogEntry) {
         this.catalogEntry = catalogEntry;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((identifier == null) ? 0 : identifier.hashCode());
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        result = prime * result + ((uniqueId == null) ? 0 : uniqueId.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!super.equals(obj)) return false;
+        if (getClass() != obj.getClass()) return false;
+        ProductType other = (ProductType) obj;
+        if (identifier == null) {
+            if (other.identifier != null) return false;
+        } else if (!identifier.equals(other.identifier)) return false;
+        if (name == null) {
+            if (other.name != null) return false;
+        } else if (!name.equals(other.name)) return false;
+        if (uniqueId == null) {
+            if (other.uniqueId != null) return false;
+        } else if (!uniqueId.equals(other.uniqueId)) return false;
+        return true;
     }
 
 }
