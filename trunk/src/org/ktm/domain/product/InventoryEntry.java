@@ -10,7 +10,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
@@ -72,7 +71,7 @@ public class InventoryEntry extends KTMEntity {
         this.inventory = inventory;
     }
 
-    @OneToOne
+    @ManyToOne
 	public ProductType getProductType() {
 		return productType;
 	}
@@ -81,7 +80,7 @@ public class InventoryEntry extends KTMEntity {
 		this.productType = productType;
 	}
 
-    @OneToMany (mappedBy="inventoryEntry", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="inventoryEntry", cascade = CascadeType.ALL)
     public Set<ProductInstance> getProductInstances() {
         return productInstances;
     }

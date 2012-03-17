@@ -8,7 +8,7 @@ public interface FormManager {
 
     public FrmDomain get(Serializable tryId);
 
-    public List<FrmDomain> findAll();
+    public List<?> findAll();
 
     public Integer delete(Serializable tryId);
 

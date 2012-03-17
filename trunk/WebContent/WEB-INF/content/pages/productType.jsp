@@ -4,32 +4,15 @@
 <%@ taglib prefix="sjg" uri="/struts-jquery-grid-tags"%>
 <script type="text/javascript">
 <!--
-	$.subscribe('rowadd', function(event, data) {
-		$("#catalog_entry_table").jqGrid('editGridRow', "new", {
-			height : 280,
-			reloadAfterSubmit : false
-		});
-	});
-	$.subscribe('rowedit', function(event, data) {
-		var gsr = jQuery("#catalog_entry_table").jqGrid('getGridParam',
-				'selrow');
+	$.subscribe('rowselect', function(event, data) {
+		var gsr = $("#catalog_entry_table").jqGrid('getGridParam', 'selrow');
 		if (gsr) {
-			jQuery("#gridedittable").jqGrid('editGridRow', gsr, {
-				height : 280,
-				reloadAfterSubmit : true
-			});
+			jQuery("#catalog_entry_table").jqGrid('GridToForm', gsr,
+					"#ptype_edit");
+			$("#oper").val("edit");
 		} else {
-			var txt = $("#select_row").html();
-			alert(txt);
+			alert("Please select Row");
 		}
-	});
-	$.subscribe('searchgrid', function(event, data) {
-		$("#catalog_entry_table").jqGrid('searchGrid', {
-			sopt : [ 'cn', 'bw', 'eq', 'ne', 'lt', 'gt', 'ew' ]
-		});
-	});
-	$.subscribe('showcolumns', function(event, data) {
-		$("#catalog_entry_table").jqGrid('setColumns', {});
 	});
 //-->
 </script>
@@ -43,68 +26,117 @@
     <s:text name="page.product.desc" />
 </p>
 <div id="tone">
-    <s:url id="json_catalog_url" action="json-grid-catalog" />
-    <s:url id="crud_catalog_url" action="crud-grid-catalog" />
-    <s:url id="json_product_type_url" action="json-grid-product-type" />
+    <s:url id="product_type_url" action="json-grid-product-type" />
+    <s:url id="crud_product_type" action="crud-grid-product-type" />
     <sjg:grid id="catalog_entry_table"
-        caption="%{getText('page.product')}" dataType="json"
-        href="%{json_catalog_url}" pager="true" navigator="true"
-        navigatorAdd="true" navigatorEdit="true" navigatorView="false"
+        caption="%{getText('page.productType')} (%{getText('page.productType.grouping')})"
+        loadonce="false"
+        href="%{product_type_url}"
+        gridModel="gridModel"
+        groupField="['catalogName']"
+        groupColumnShow="[false]"
+        groupCollapse="true"
+        groupText="['<b>{0} - {1} %{getText('page.productType.group')}</b>']"
+        navigator="true"
+        navigatorAdd="false"
+        navigatorEdit="false"
         navigatorDelete="true"
-        navigatorAddOptions="{height:280,reloadAfterSubmit:true}"
-        navigatorEditOptions="{height:280,reloadAfterSubmit:true}"
-        navigatorDeleteOptions="{height:280,reloadAfterSubmit:true}"
-        navigatorSearchOptions="{sopt:['eq','ne','lt','gt']}"
-        gridModel="gridModel" rowList="5,10,15,20" rowNum="5"
-        editurl="%{crud_catalog_url}" editinline="true"
-        viewrecords="true" autowidth="true"
+        navigatorView="true"
+        rowTotal="70"
+        rowNum="-1"
+        altRows="true"
+        viewrecords="true"
+        pager="true"
+        pagerButtons="false"
+        pagerInput="false"
+        onSelectRowTopics="rowselect"
+        editurl="%{crud_product_type}"
     >
-        <sjg:grid id="product_type_table"
-            subGridUrl="%{json_product_type_url}" gridModel="gridModel"
-            footerrow="true" userDataOnFooter="true" viewrecords="true"
-            autowidth="true"
-        >
-            <sjg:gridColumn name="identifier" title="รหัส" width="50" />
-            <sjg:gridColumn name="name" title="รายละเอียดสินค้า"
-                width="100"
-            />
-            <sjg:gridColumn name="unitType" title="หน่วยนับ"
-                align="center"
-            />
-            <sjg:gridColumn name="unitCount"
-                title="หน่วยบรรจุ(ขวด ชิ้น อัน)" formatter="integer"
-                align="center"
-            />
-            <sjg:gridColumn name="price1" title="ราคาทุน"
-                formatter="currency" align="right"
-            />
-            <sjg:gridColumn name="price2" title="ราคาขาย"
-                formatter="currency" align="right"
-            />
-        </sjg:grid>
-        <sjg:gridColumn name="id" index="id" title="รหัส" width="30"
-            formatter="integer" editable="true" sortable="false"
-            search="true" searchoptions="{sopt:['eq','ne','lt','gt']}"
+        <sjg:gridColumn name="id" index="id" title="No" width="30"
+            formatter="integer" sortable="false"
         />
         <sjg:gridColumn name="identifier" index="identifier"
-            title="รหัส" width="150" editable="true" edittype="text"
-            sortable="true" search="true"
-            searchoptions="{sopt:['eq','ne','lt','gt']}"
+            title="%{getText('page.productType.identifier')}"
+            sortable="true"
         />
-        <sjg:gridColumn name="name" index="name" title="ชื่อ"
-            width="150" editable="true" edittype="text" sortable="true"
-            search="true" searchoptions="{sopt:['eq','ne','lt','gt']}"
+        <sjg:gridColumn name="name" index="name"
+            title="%{getText('page.productType.name')}" sortable="true"
+        />
+        <sjg:gridColumn name="unitType" index="unitType"
+            title="%{getText('page.productType.unitType')}"
+            sortable="true"
+        />
+        <sjg:gridColumn name="unitCount" index="unitCount"
+            title="%{getText('page.productType.unitCount')}"
+            sortable="true"
+        />
+        <sjg:gridColumn name="catalogName" index="catalogName"
+            title="grouping" sortable="false"
+        />
+        <sjg:gridColumn name="price1" index="price1"
+            title="%{getText('page.productType.price1')}" align="right"
+            formatter="currency" sortable="false"
+        />
+        <sjg:gridColumn name="price2" index="price2"
+            title="%{getText('page.productType.price2')}" align="right"
+            formatter="currency" sortable="false"
         />
     </sjg:grid>
-    <br /> <br />
-    <sj:submit id="grid_edit_addbutton" key="page.btn.add"
-        onClickTopics="rowadd" button="true"
-    />
-    <sj:submit id="grid_edit_savebutton" key="page.btn.edit"
-        onClickTopics="rowedit" button="true"
-    />
-    <sj:submit id="grid_edit_searchbutton" key="page.btn.search"
-        onClickTopics="searchgrid" button="true"
+    <br />
+    <s:form id="ptype_edit" action="%{crud_product_type}" theme="simple"
+        cssClass="yform"
+    >
+        <fieldset>
+            <legend>
+                <s:text name="page.productType.editProduct" />
+            </legend>
+            <div class="type-text">
+                <s:hidden id="oper" name="oper" value="add" />
+                <label for="id">No: </label>
+                <s:hidden id="id" name="id" />
+                <label for="identifier"><s:text
+                        name="page.productType.identifier"
+                    />: </label>
+                <s:textfield id="identifier" name="identifier"
+                    width="50"
+                />
+                <label for="name"><s:text
+                        name="page.productType.name"
+                    />: </label>
+                <s:textfield id="name" name="name" />
+                <label for="unitType"><s:text
+                        name="page.productType.unitType"
+                    />: </label>
+                <s:textfield id="unitType" name="unitType" />
+                <label for="unitCount"><s:text
+                        name="page.productType.unitCount"
+                    />: </label>
+                <s:textfield id="unitCount" name="unitCount"
+                    key="page.productType.unitCount"
+                />
+                <label for="catalogName"><s:text
+                        name="page.productType.catalog"
+                    />: </label>
+                <s:url id="catalog_url" action="json-select-catalog" />
+                <sj:select href="%{catalog_url}" id="catalogName"
+                    name="catalogName" list="catalogList"
+                    emptyOption="true" headerKey="-1"
+                    headerValue="%{getText('page.productType.selectCatalog')}"
+                />
+                <label for="price1"><s:text
+                        name="page.productType.price1"
+                    />: </label>
+                <s:textfield id="price1" name="price1" />
+                <label for="price2"><s:text
+                        name="page.productType.price2"
+                    />: </label>
+                <s:textfield id="price2" name="price2" />
+            </div>
+        </fieldset>
+    </s:form>
+    <br />
+    <sj:submit formIds="ptype_edit" targets="result" effect="pulsate"
+        button="true" key="page.btn.edit"
     />
     <br /> <br />
 </div>

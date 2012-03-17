@@ -54,7 +54,7 @@
   </definition>
   
   <definition name="database-group-product" extends="database">
-      <put-attribute name="main" value="/WEB-INF/content/pages/productType.jsp"/>      
+      <put-attribute name="main" value="/WEB-INF/content/pages/ProductCatalog.jsp"/>      
   </definition>
   
   <!-- Transaction -->

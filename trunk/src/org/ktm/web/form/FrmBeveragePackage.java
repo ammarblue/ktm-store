@@ -7,6 +7,9 @@ public class FrmBeveragePackage extends FrmPackageType {
     private String            unitType;
     private Integer           unitCount;
     
+    // for groupping
+    private String            catalogName;
+    
     public String getUnitType() {
         return unitType;
     }
@@ -18,6 +21,12 @@ public class FrmBeveragePackage extends FrmPackageType {
     }
     public void setUnitCount(Integer unitCount) {
         this.unitCount = unitCount;
+    }
+    public String getCatalogName() {
+        return catalogName;
+    }
+    public void setCatalogName(String catalogName) {
+        this.catalogName = catalogName;
     }
 
 }

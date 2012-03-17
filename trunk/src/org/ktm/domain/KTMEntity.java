@@ -7,21 +7,5 @@ public abstract class KTMEntity implements KTMEntityID {
 	public KTMEntity() {
 		
 	}
-
-	@Override
-	public boolean equals(Object other) {
-		boolean result = false;
-		if (other instanceof KTMEntity) {
-			KTMEntity party = (KTMEntity) other;
-			if (party!=null && 
-				party.getUniqueId() != null &&
-				this.getUniqueId() != null)
-			{
-				if (this.getUniqueId()==party.getUniqueId()) {
-					result = true;
-				}
-			}
-		}
-		return result;
-	}
+	
 }

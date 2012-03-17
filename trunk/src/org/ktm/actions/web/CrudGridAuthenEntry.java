@@ -27,7 +27,7 @@ public class CrudGridAuthenEntry extends KTMAction {
     private String            username;
     private String            password;
 
-    @Actions({ @Action(value = "/crud-grid-authen", results = { @Result(location = "simpleecho.jsp", name = "success"), @Result(location = "simpleecho.jsp", name = "input") }) })
+    @Actions({ @Action(value = "/curd-grid-authen", results = { @Result(location = "simpleecho.jsp", name = "success"), @Result(location = "simpleecho.jsp", name = "input") }) })
     public String execute() throws Exception {
         log.debug("id :" + id);
         log.debug("prename :" + prename);
