@@ -3,7 +3,6 @@ package org.ktm.actions;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
-import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.SessionAware;
 import org.ktm.tag.auth.AuthException;
@@ -27,7 +26,6 @@ public abstract class KTMActionSupport extends ActionSupport implements ServletR
     @Override
     public void setServletRequest(HttpServletRequest request) {
         this.request = request;
-        ServletActionContext.getServletContext().setAttribute(CURRENT_ACTION, this);
     }
 
     @Override

@@ -1,39 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app id="struts_blank" version="2.4"
-  xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:javaee="http://java.sun.com/xml/ns/javaee" xmlns:jsp="http://java.sun.com/xml/ns/javaee/jsp" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd" id="struts_blank" version="2.4">
   <display-name>KTM Store System</display-name>
-
   <context-param>
     <param-name>authenticator_class</param-name>
     <param-value>org.ktm.tag.auth.AuthenImpl</param-value>
   </context-param>
-
   <listener>
     <listener-class>org.ktm.InitListener</listener-class>
   </listener>
-
   <listener>
     <listener-class>org.apache.struts2.tiles.StrutsTilesListener</listener-class>
   </listener>
-
+  <listener>
+    <listener-class>org.ktm.web.utils.HibernateListener</listener-class>
+  </listener>
   <filter>
     <filter-name>struts2</filter-name>
     <filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter</filter-class>
   </filter>
-
   <filter-mapping>
     <filter-name>struts2</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
-
   <jsp-config>
     <taglib>
       <taglib-uri>/ktm-auth</taglib-uri>
       <taglib-location>/WEB-INF/ktm-auth.tld</taglib-location>
     </taglib>
   </jsp-config>
-
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>

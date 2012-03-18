@@ -60,11 +60,6 @@ public class JsonSelectCatalog extends KTMAction {
         return SUCCESS;
     }
 
-    @Override
-    protected ProductCatalogManager getManager() {
-        return ServiceLocator.getProductCatalogManager();
-    }
-
     public String getJSON() {
         return execute();
     }
@@ -99,6 +94,11 @@ public class JsonSelectCatalog extends KTMAction {
 
     public void setReloadList(List<String> reloadList) {
         this.reloadList = reloadList;
+    }
+
+    @Override
+    protected ProductCatalogManager getManager() {
+        return ServiceLocator.getProductCatalogManager();
     }
 
 }
