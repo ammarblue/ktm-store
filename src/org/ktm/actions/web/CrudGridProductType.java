@@ -70,11 +70,6 @@ public class CrudGridProductType extends KTMAction {
         return SUCCESS;
     }
 
-    @Override
-    protected BeveragePackageManager getManager() {
-        return ServiceLocator.getBeveragePackageManager();
-    }
-
     public String getOper() {
         return oper;
     }
@@ -145,6 +140,11 @@ public class CrudGridProductType extends KTMAction {
 
     public void setPrice2(double price2) {
         this.price2 = price2;
+    }
+
+    @Override
+    protected BeveragePackageManager getManager() {
+        return ServiceLocator.getBeveragePackageManager();
     }
 
 }

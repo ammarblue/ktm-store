@@ -49,11 +49,6 @@ public class CrudGridCatalog extends KTMAction {
         return SUCCESS;
     }
 
-    @Override
-    protected ProductCatalogManager getManager() {
-        return ServiceLocator.getProductCatalogManager();
-    }
-
     public String getOper() {
         return oper;
     }
@@ -84,6 +79,11 @@ public class CrudGridCatalog extends KTMAction {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    protected ProductCatalogManager getManager() {
+        return ServiceLocator.getProductCatalogManager();
     }
 
 }

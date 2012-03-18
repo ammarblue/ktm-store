@@ -136,7 +136,7 @@
     </s:form>
     <br />
     <sj:submit formIds="ptype_edit" targets="result" effect="pulsate"
-        button="true" key="page.btn.edit"
+        button="true" key="page.btn.save"
     />
     <br /> <br />
 </div>

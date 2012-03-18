@@ -35,6 +35,7 @@ public abstract class AbstractCRUDAction extends KTMActionSupport {
         return toAdd;
     }
 
+    @SuppressWarnings("unchecked")
     public void list() throws Exception {
         this.availableItems = (Collection<FrmDomain>) getManager().findAll();
         if (log.isDebugEnabled()) {

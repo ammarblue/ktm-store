@@ -57,6 +57,18 @@
       <put-attribute name="main" value="/WEB-INF/content/pages/ProductCatalog.jsp"/>      
   </definition>
   
+  <definition name="database-supplier" extends="database">
+      <put-attribute name="main" value="/WEB-INF/content/pages/Supplier.jsp"/>      
+  </definition>
+  
+  <definition name="database-customer" extends="database">
+      <put-attribute name="main" value="/WEB-INF/content/pages/Customer.jsp"/>      
+  </definition>
+  
+  <definition name="database-vehicle-sale" extends="database">
+      <put-attribute name="main" value="/WEB-INF/content/pages/VehicleSale.jsp"/>      
+  </definition>
+  
   <!-- Transaction -->
   <definition name="transaction" extends="mainLayout">
       <put-attribute name="key" value="transaction"/>

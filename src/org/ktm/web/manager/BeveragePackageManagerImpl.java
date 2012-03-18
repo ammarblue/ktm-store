@@ -29,8 +29,22 @@ public class BeveragePackageManagerImpl extends FrmManagerAbstractImpl implement
     
     @Override
     public FrmDomain get(Serializable tryId) {
-        // TODO Auto-generated method stub
-        return null;
+        BeveragePackageDao dao = KTMEMDaoFactory.getInstance().getBeveragePackageDao();
+        BeveragePackage bp = (BeveragePackage) dao.get(tryId);
+        FrmBeveragePackage form = null;
+        if (bp != null) {
+            form = new FrmBeveragePackage();
+            form.setId(bp.getUniqueId());
+            form.setCatalogName(bp.getCatalogEntry().getProductCatalog().getName());
+            form.setIdentifier(bp.getIdentifier().getIdentifier());
+            form.setName(bp.getName());
+            form.setUnitType(bp.getUnitType());
+            form.setUnitCount(bp.getUnitCount());
+            // TODO: get price1 and price2
+            form.setPrice1(0);
+            form.setPrice2(0);
+        }
+        return form;
     }
 
     @Override
@@ -77,8 +91,7 @@ public class BeveragePackageManagerImpl extends FrmManagerAbstractImpl implement
 
     @Override
     public Integer delete(FrmDomain toDelete) {
-        // TODO Auto-generated method stub
-        return null;
+        return delete(toDelete.getId());
     }
 
     @Override
