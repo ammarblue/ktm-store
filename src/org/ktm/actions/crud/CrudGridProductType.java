@@ -1,4 +1,4 @@
-package org.ktm.actions.web;
+package org.ktm.actions.crud;
 
 import java.util.StringTokenizer;
 import org.apache.log4j.Logger;
@@ -38,6 +38,8 @@ public class CrudGridProductType extends KTMAction {
         log.debug("price 1: " + price1);
         log.debug("price 2: " + price2);
 
+        initContext();
+        
         if (oper.equalsIgnoreCase("del")) {
             StringTokenizer ids = new StringTokenizer(id, ",");
             while (ids.hasMoreTokens()) {

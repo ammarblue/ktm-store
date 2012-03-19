@@ -3,25 +3,30 @@ package org.ktm.store;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
-import org.apache.struts2.ServletActionContext;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.ktm.actions.KTMAction;
+import org.ktm.core.KTMCurdContext;
 import org.ktm.domain.KTMEntity;
 import org.ktm.exception.CreateException;
 import org.ktm.exception.DeleteException;
 import org.ktm.exception.StorageException;
 import org.ktm.exception.UpdateException;
-import org.ktm.web.utils.HibernateListener;
+import com.opensymphony.xwork2.ActionContext;
 
 public class HibernateStorage implements Storage {
 
     private static final long serialVersionUID = 2632519509739198476L;
 
     private synchronized Session getSession() {
-        // get hibernate session from the servlet context
-        SessionFactory sessionFactory = (SessionFactory) ServletActionContext.getServletContext().getAttribute(HibernateListener.KEY_NAME);
-        return sessionFactory.openSession();
+        KTMCurdContext context = (KTMCurdContext) ActionContext.getContext().get(KTMAction.CURRENT_CONTEXT);
+        return context.getSession();
+    }
+
+    private Transaction getTransaction() {
+        KTMCurdContext context = (KTMCurdContext) ActionContext.getContext().get(KTMAction.CURRENT_CONTEXT);
+        return context.getTransaction();
     }
 
     public KTMEntity get(Class<?> entityClass, Serializable id) {
@@ -49,11 +54,9 @@ public class HibernateStorage implements Storage {
         // }
 
         try {
-            getSession().beginTransaction();
             getSession().saveOrUpdate(object);
-            getSession().getTransaction().commit();
         } catch (Exception e) {
-            getSession().getTransaction().rollback();
+            getTransaction().rollback();
             throw new CreateException(e);
         }
 
@@ -69,11 +72,9 @@ public class HibernateStorage implements Storage {
         }
 
         try {
-            getSession().beginTransaction();
             getSession().saveOrUpdate(object);
-            getSession().getTransaction().commit();
         } catch (Exception e) {
-            getSession().getTransaction().rollback();
+            getTransaction().rollback();
             throw new UpdateException(e);
         }
         return object;
@@ -87,11 +88,9 @@ public class HibernateStorage implements Storage {
             return create(object);
         } else {
             try {
-                getSession().beginTransaction();
                 getSession().merge(object);
-                getSession().getTransaction().commit();
             } catch (Exception e) {
-                getSession().getTransaction().rollback();
+                getTransaction().rollback();
                 throw new StorageException(e);
             }
         }
@@ -103,16 +102,13 @@ public class HibernateStorage implements Storage {
         try {
             if (get(entityClass, id) != null) {
                 KTMEntity object = (KTMEntity) getSession().get(entityClass, id);
-
-                getSession().beginTransaction();
                 getSession().delete(object);
-                getSession().getTransaction().commit();
                 result = 1;
             } else {
                 return 0;
             }
         } catch (Exception e) {
-            getSession().getTransaction().rollback();
+            getTransaction().rollback();
             throw new DeleteException(e);
         }
         return result;
@@ -122,17 +118,13 @@ public class HibernateStorage implements Storage {
         int result = 0;
         try {
             if (get(object.getClass(), object.getUniqueId()) != null) {
-
-                getSession().beginTransaction();
                 getSession().delete(object);
-                getSession().getTransaction().commit();
-                
                 result = 1;
             } else {
                 return 0;
             }
         } catch (Exception e) {
-            getSession().getTransaction().rollback();
+            getTransaction().rollback();
             throw new DeleteException(e);
         }
         return result;

@@ -1,4 +1,4 @@
-package org.ktm.actions.web;
+package org.ktm.actions.json;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,6 +32,8 @@ public class JsonSelectCatalog extends KTMAction {
     public String execute() {
         log.debug("Get Json Catalog");
 
+        initContext();
+        
         catalogList = new ArrayList<String>();
         catalogObjList = new ArrayList<FrmCatalog>();
         catalogMap = new HashMap<Integer, String>();

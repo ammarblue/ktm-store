@@ -1,4 +1,4 @@
-package org.ktm.actions.web;
+package org.ktm.actions.json;
 
 import org.apache.log4j.Logger;
 import org.apache.struts2.convention.annotation.Action;
@@ -19,6 +19,8 @@ public class JsonGridSupplier extends KTMAction {
     public String execute() {
         log.debug("Get Json Supplier");
 
+        initContext();
+        
         return SUCCESS;
     }
     

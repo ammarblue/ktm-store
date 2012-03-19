@@ -1,4 +1,4 @@
-package org.ktm.actions.web;
+package org.ktm.actions.json;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -9,7 +9,6 @@ import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Actions;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
-import org.ktm.actions.json.JsonAbstractAction;
 import org.ktm.web.form.FrmBeveragePackage;
 import org.ktm.web.form.FrmCatalog;
 import org.ktm.web.manager.BeveragePackageManager;
@@ -39,6 +38,8 @@ public class JsonGridProductType extends JsonAbstractAction {
         log.debug("Page " + getPage() + " Rows " + getRows() + " Sorting Order " + getSord() + " Index Row :" + getSidx());
         log.debug("Search :" + searchField + " " + searchOper + " " + searchString);
 
+        initContext();
+        
         log.debug("Build new List");
         myProductTypes = (List<FrmBeveragePackage>) getManager().findAll();
 

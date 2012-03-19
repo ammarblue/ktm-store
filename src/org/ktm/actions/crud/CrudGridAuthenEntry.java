@@ -1,4 +1,4 @@
-package org.ktm.actions.web;
+package org.ktm.actions.crud;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.StringTokenizer;
@@ -34,6 +34,8 @@ public class CrudGridAuthenEntry extends KTMAction {
         log.debug("firstname :" + firstname);
         log.debug("lastname :" + lastname);
         log.debug("username :" + username);
+        
+        initContext();
 
         try {
             password = KTMCrypt.SHA1(username + password);

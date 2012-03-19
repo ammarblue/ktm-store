@@ -5,9 +5,7 @@
     "http://struts.apache.org/dtds/struts-2.3.dtd  ">
 
 <struts>
-  <package name="ktm-default"
-    extends="struts-default,json-default,tiles-default,hibernate-default"
-    namespace="/">
+  <package name="ktm-default" extends="struts-default,json-default,tiles-default,hibernate-default">
     <interceptors>
       <interceptor name="ktmlogging"
         class="org.ktm.interceptor.KTMLoggingInterceptor">
