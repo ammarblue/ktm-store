@@ -5,6 +5,7 @@
 <struts>
 
     <constant name="struts.devMode" value="true"/>
+    <constant name="struts.convention.result.path" value="/WEB-INF/content/pages"/>
     <constant name="struts.custom.i18n.resources" value="messages" />
     
     <!-- Settings for CKEditor Image Upload -->
