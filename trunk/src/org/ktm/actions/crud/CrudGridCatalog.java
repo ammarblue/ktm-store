@@ -1,4 +1,4 @@
-package org.ktm.actions.web;
+package org.ktm.actions.crud;
 
 import org.apache.log4j.Logger;
 import org.apache.struts2.convention.annotation.Action;
@@ -27,6 +27,8 @@ public class CrudGridCatalog extends KTMAction {
         log.debug("identifier :" + identifier);
         log.debug("name :" + name);
 
+        initContext();
+        
         if (oper.equalsIgnoreCase("del")) {
 
         } else {

@@ -1,11 +1,10 @@
-package org.ktm.actions.web;
+package org.ktm.actions;
 
 import com.opensymphony.xwork2.Action;
 import org.apache.log4j.Logger;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
-import org.ktm.actions.KTMActionSupport;
 
 @ParentPackage("ktm-default")
 @Results({ @Result(name = "tiles", location = "${redirectName}", type = "tiles"), @Result(name = Action.SUCCESS, location = "${redirectName}", type = "redirectAction") })

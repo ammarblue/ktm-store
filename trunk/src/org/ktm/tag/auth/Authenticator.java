@@ -2,7 +2,6 @@ package org.ktm.tag.auth;
 
 import java.util.Collection;
 import javax.servlet.ServletContext;
-import org.ktm.actions.KTMAction;
 import org.ktm.domain.party.Party;
 
 public interface Authenticator {
@@ -15,9 +14,9 @@ public interface Authenticator {
 
     public void initialize(ServletContext context) throws AuthException;
 
-    public void doLogin(KTMAction action, String userName, String password) throws AuthException;
+    public void doLogin(String userName, String password) throws AuthException;
 
-    public void doLogin(KTMAction action) throws AuthException;
+    public void doLogin() throws AuthException;
 
     public void doLogout() throws AuthException;
 

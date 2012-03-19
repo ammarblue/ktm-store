@@ -4,10 +4,7 @@
           "http://struts.apache.org/dtds/struts-2.0.dtd">
 <struts>
 
-    <constant name="struts.enable.DynamicMethodInvocation" value="false"/>
     <constant name="struts.devMode" value="true"/>
-    <constant name="struts.convention.result.path" value="/WEB-INF/content/pages"/>
-    <constant name="struts.convention.action.packages" value="org.ktm.actions.web"/>
     <constant name="struts.custom.i18n.resources" value="messages" />
     
     <!-- Settings for CKEditor Image Upload -->

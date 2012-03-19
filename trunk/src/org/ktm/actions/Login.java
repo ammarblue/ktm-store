@@ -1,4 +1,4 @@
-package org.ktm.actions.web;
+package org.ktm.actions;
 
 import java.security.NoSuchAlgorithmException;
 import javax.servlet.ServletContext;
@@ -9,7 +9,6 @@ import org.apache.struts2.convention.annotation.Actions;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.util.ServletContextAware;
-import org.ktm.actions.KTMAction;
 import org.ktm.encode.KTMCrypt;
 import org.ktm.tag.auth.AuthException;
 import org.ktm.tag.auth.Authenticator;
@@ -48,6 +47,8 @@ public class Login extends KTMAction implements ServletContextAware {
         String result = INPUT;
         log.info("Username: " + loginuser);
 
+        initContext();
+        
         try {
             loginpassword = KTMCrypt.SHA1(loginuser + loginpassword);
         } catch (NoSuchAlgorithmException e) {
@@ -58,7 +59,7 @@ public class Login extends KTMAction implements ServletContextAware {
             String authenticatorClassName = servletContext.getInitParameter("authenticator_class");
             Authenticator auth = (Authenticator) AuthenticatorFactory.getAuthComponent(this, servletContext, authenticatorClassName);
             if (auth != null) {
-                auth.doLogin(this, loginuser, loginpassword);
+                auth.doLogin(loginuser, loginpassword);
                 if (auth.isUserLoggedIn()) {
                     log.info("Login success.");
 
@@ -77,6 +78,18 @@ public class Login extends KTMAction implements ServletContextAware {
         }
 
         return result;
+    }
+    
+    @Actions({ @Action(value = "/logout", results = { @Result(name = INPUT, location = "user-login", type = "tiles") }) })
+    public String logout() throws Exception {
+        log.info("Processing logout...");
+        String authenticatorClassName = servletContext.getInitParameter("authenticator_class");
+        Authenticator auth = AuthenticatorFactory.getAuthComponentNoCreate(servletContext, authenticatorClassName);
+
+        if (auth != null) {
+            auth.doLogout();
+        }
+        return INPUT;
     }
 
     @Override

@@ -1,4 +1,4 @@
-package org.ktm.actions.web;
+package org.ktm.actions.crud;
 
 import java.util.StringTokenizer;
 import org.apache.log4j.Logger;
@@ -40,6 +40,8 @@ public class CrudGridPersonEntry extends KTMAction {
         log.debug("emailAddress:" + emailAddress);
         log.debug("tel:" + tel);
 
+        initContext();
+        
         if (oper.equalsIgnoreCase("del")) {
             StringTokenizer ids = new StringTokenizer(id, ",");
             while (ids.hasMoreTokens()) {

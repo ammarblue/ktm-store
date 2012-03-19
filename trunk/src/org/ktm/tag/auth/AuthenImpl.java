@@ -3,7 +3,6 @@ package org.ktm.tag.auth;
 import java.util.*;
 import javax.servlet.ServletContext;
 import org.apache.log4j.Logger;
-import org.ktm.actions.KTMAction;
 import org.ktm.dao.KTMEMDaoFactory;
 import org.ktm.dao.party.AuthenDao;
 import org.ktm.domain.party.Authen;
@@ -29,11 +28,11 @@ public class AuthenImpl implements Authenticator {
         servletContext = context;
     }
 
-    public void doLogin(KTMAction action) throws AuthException {
-        this.doLogin(action, (String) this.getProperty(Authenticator.PROP_USERNAME), (String) this.getProperty(Authenticator.PROP_PASSWORD));
+    public void doLogin() throws AuthException {
+        this.doLogin((String) this.getProperty(Authenticator.PROP_USERNAME), (String) this.getProperty(Authenticator.PROP_PASSWORD));
     }
 
-    public void doLogin(KTMAction action, String username, String password) throws AuthException {
+    public void doLogin(String username, String password) throws AuthException {
         Authen authen = null;
 
         log.info("Enter AuthenImpl");

@@ -1,5 +1,6 @@
-package org.ktm.actions.web;
+package org.ktm.actions.json;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.apache.log4j.Logger;
@@ -7,42 +8,42 @@ import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Actions;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
-import org.ktm.actions.json.JsonAbstractAction;
-import org.ktm.web.form.FrmCatalog;
-import org.ktm.web.manager.ProductCatalogManager;
+import org.ktm.web.form.FrmPerson;
+import org.ktm.web.manager.FormManager;
 import org.ktm.web.manager.ServiceLocator;
 
 @ParentPackage(value = "ktm-default")
-public class JsonGridCatalog extends JsonAbstractAction {
+public class JsonGridPerson extends JsonAbstractAction {
 
-    private static final long serialVersionUID = 1145674274087102711L;
-    private Logger            log              = Logger.getLogger(JsonGridCatalog.class);
+    private static final long serialVersionUID = 8072293334749008043L;
+    private Logger            log              = Logger.getLogger(JsonGridPerson.class);
 
+    @Actions({ @Action(value = "/json-grid-person", results = { @Result(name = "success", type = "json"), @Result(name = INPUT, location = "user-login", type = "tiles") }) })
     @SuppressWarnings("unchecked")
-    @Actions({ @Action(value = "/json-grid-catalog", results = { @Result(name = "success", type = "json"), @Result(name = INPUT, location = "database-product", type = "tiles") }) })
     public String execute() {
         log.debug("Page " + getPage() + " Rows " + getRows() + " Sorting Order " + getSord() + " Index Row :" + getSidx());
         log.debug("Search :" + searchField + " " + searchOper + " " + searchString);
 
-        log.debug("Get Catalog List");
+        initContext();
+        
+        log.debug("Get person List");
         try {
             list();
         } catch (Exception e) {
-            e.printStackTrace();
-        }
 
-        List<FrmCatalog> myCatalogs = (List<FrmCatalog>) getAvailableItems();
+        }
+        List<FrmPerson> myPersons = (List<FrmPerson>) getAvailableItems();
 
         if (sord != null && sord.equalsIgnoreCase("asc")) {
-            Collections.sort(myCatalogs);
+            Collections.sort(myPersons);
         }
         if (sord != null && sord.equalsIgnoreCase("desc")) {
-            Collections.sort(myCatalogs);
-            Collections.reverse(myCatalogs);
+            Collections.sort(myPersons);
+            Collections.reverse(myPersons);
         }
 
         // Count all record (select count(*) from your_custumers)
-        records = myCatalogs.size();
+        records = myPersons.size();
 
         if (totalrows != null) {
             records = totalrows;
@@ -61,34 +62,43 @@ public class JsonGridCatalog extends JsonAbstractAction {
 
         if (loadonce) {
             if (totalrows != null && totalrows > 0) {
-                setGridModel(myCatalogs.subList(0, totalrows));
+                setGridModel(myPersons.subList(0, totalrows));
             } else {
-                setGridModel(myCatalogs);
+                // All Custumer
+                setGridModel(myPersons);
             }
         } else {
+            // Search Custumers
             if (searchString != null && searchOper != null) {
                 int id = Integer.parseInt(searchString);
                 if (searchOper.equalsIgnoreCase("eq")) {
                     log.debug("search id equals " + id);
-                    //List<FrmAuthen> cList = new ArrayList<FrmAuthen>();
-                    // TODO: Search by id
-                }else if (searchOper.equalsIgnoreCase("ne")) {
+                    List<FrmPerson> cList = new ArrayList<FrmPerson>();
+                    FrmPerson fperson = (FrmPerson) getManager().get(id);
+
+                    if (fperson != null) {
+                        cList.add(fperson);
+                    }
+
+                    setGridModel(cList);
+                } else if (searchOper.equalsIgnoreCase("ne")) {
                     log.debug("search id not " + id);
-                    setGridModel((List<FrmCatalog>) getManager().findNotById(myCatalogs, id, from, to));
+                    setGridModel((List<FrmPerson>) getManager().findNotById(myPersons, id, from, to));
                 } else if (searchOper.equalsIgnoreCase("lt")) {
                     log.debug("search id lesser then " + id);
-                    setGridModel((List<FrmCatalog>) getManager().findLesserAsId(myCatalogs, id, from, to));
+                    setGridModel((List<FrmPerson>) getManager().findLesserAsId(myPersons, id, from, to));
                 } else if (searchOper.equalsIgnoreCase("gt")) {
                     log.debug("search id greater then " + id);
-                    setGridModel((List<FrmCatalog>) getManager().findGreaterAsId(myCatalogs, id, from, to));
+                    setGridModel((List<FrmPerson>) getManager().findGreaterAsId(myPersons, id, from, to));
                 }
             } else {
-                setGridModel(myCatalogs);
+                setGridModel((List<FrmPerson>) getManager().getSubList(myPersons, from, to));
             }
         }
+
         // Calculate total Pages
         total = (int) Math.ceil((double) records / (double) rows);
-        
+
         return SUCCESS;
     }
 
@@ -96,18 +106,17 @@ public class JsonGridCatalog extends JsonAbstractAction {
         return execute();
     }
 
-    public void setGridModel(List<FrmCatalog> gridModel) {
-        setAvailableItems(gridModel);
+    @SuppressWarnings("unchecked")
+    public List<FrmPerson> getGridModel() {
+        return (List<FrmPerson>) getAvailableItems();
     }
 
-    @SuppressWarnings("unchecked")
-    public List<FrmCatalog> getGridModel() {
-        return (List<FrmCatalog>) getAvailableItems();
+    private void setGridModel(List<FrmPerson> subList) {
+        setAvailableItems(subList);
     }
 
     @Override
-    protected ProductCatalogManager getManager() {
-        return ServiceLocator.getProductCatalogManager();
+    protected FormManager getManager() {
+        return ServiceLocator.getPersonManager();
     }
-
 }
