@@ -80,7 +80,7 @@ public class Login extends KTMAction implements ServletContextAware {
         return result;
     }
     
-    @Actions({ @Action(value = "/logout", results = { @Result(name = INPUT, location = "user-login", type = "tiles") }) })
+    @Actions({ @Action(value = "/logout", results = { @Result(name = SUCCESS, location = "pages/logon.jsp", type = "redirect") }) })
     public String logout() throws Exception {
         log.info("Processing logout...");
         String authenticatorClassName = servletContext.getInitParameter("authenticator_class");
@@ -89,7 +89,7 @@ public class Login extends KTMAction implements ServletContextAware {
         if (auth != null) {
             auth.doLogout();
         }
-        return INPUT;
+        return SUCCESS;
     }
 
     @Override
