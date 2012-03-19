@@ -28,14 +28,21 @@
       <put-attribute name="main"   value="/WEB-INF/content/pages/home.jsp"/>
   </definition>
   
-  <definition name="ktmfile" extends="mainLayout">
-      <put-attribute name="key" value="file"/>
-      <put-attribute name="main"   value="/WEB-INF/content/pages/home.jsp"/>      
+  <definition name="file-setting" extends="file">
+      <put-attribute name="main"   value="/WEB-INF/content/pages/home.jsp"/>
   </definition>
   
   <!-- Edit -->
   <definition name="edit" extends="mainLayout">
       <put-attribute name="key" value="edit"/>
+      <put-attribute name="main"   value="/WEB-INF/content/pages/home.jsp"/>      
+  </definition>
+  
+  <definition name="edit-cancel-bill" extends="edit">
+      <put-attribute name="main"   value="/WEB-INF/content/pages/home.jsp"/>      
+  </definition>
+  
+  <definition name="edit-cancel-sold" extends="edit">
       <put-attribute name="main"   value="/WEB-INF/content/pages/home.jsp"/>      
   </definition>
   
@@ -79,9 +86,49 @@
       <put-attribute name="main"   value="/WEB-INF/content/pages/receiveProduct.jsp"/>      
   </definition>
   
+  <definition name="transaction-return-to-supplier" extends="transaction">
+      <put-attribute name="main"   value="/WEB-INF/content/pages/home.jsp"/>      
+  </definition>
+  
+  <definition name="transaction-transfer" extends="transaction">
+      <put-attribute name="main"   value="/WEB-INF/content/pages/home.jsp"/>      
+  </definition>
+  
+  <definition name="transaction-sale" extends="transaction">
+      <put-attribute name="main"   value="/WEB-INF/content/pages/home.jsp"/>      
+  </definition>
+  
+  <definition name="transaction-supplier-close-sale" extends="transaction">
+      <put-attribute name="main"   value="/WEB-INF/content/pages/home.jsp"/>      
+  </definition>
+  
+  <definition name="transaction-supplier-close-return" extends="transaction">
+      <put-attribute name="main"   value="/WEB-INF/content/pages/home.jsp"/>      
+  </definition>
+  
+  <definition name="transaction-substore-close" extends="transaction">
+      <put-attribute name="main"   value="/WEB-INF/content/pages/home.jsp"/>      
+  </definition>
+  
+  <definition name="transaction-substore-return-close" extends="transaction">
+      <put-attribute name="main"   value="/WEB-INF/content/pages/home.jsp"/>      
+  </definition>
+  
+  <definition name="transaction-close-sale" extends="transaction">
+      <put-attribute name="main"   value="/WEB-INF/content/pages/home.jsp"/>      
+  </definition>
+
   <!-- Other -->
   <definition name="other" extends="mainLayout">
       <put-attribute name="key" value="other"/>
+      <put-attribute name="main"   value="/WEB-INF/content/pages/home.jsp"/>      
+  </definition>
+  
+  <definition name="other-user-authrized" extends="other">
+      <put-attribute name="main"   value="/WEB-INF/content/pages/home.jsp"/>      
+  </definition>
+  
+  <definition name="other-change-password" extends="other">
       <put-attribute name="main"   value="/WEB-INF/content/pages/home.jsp"/>      
   </definition>
   
@@ -95,4 +142,44 @@
       <put-attribute name="main"   value="/WEB-INF/content/pages/home.jsp"/>      
   </definition>
   
+  <definition name="report-before-close" extends="report">
+      <put-attribute name="main"   value="/WEB-INF/content/pages/home.jsp"/>      
+  </definition>
+  
+  <definition name="report-store-balance" extends="report">
+      <put-attribute name="main"   value="/WEB-INF/content/pages/home.jsp"/>      
+  </definition>
+  
+  <definition name="report-all" extends="report">
+      <put-attribute name="main"   value="/WEB-INF/content/pages/home.jsp"/>      
+  </definition>
+  
+  <definition name="report-after-close01" extends="report">
+      <put-attribute name="main"   value="/WEB-INF/content/pages/home.jsp"/>      
+  </definition>
+  
+  <definition name="report-after-close02" extends="report">
+      <put-attribute name="main"   value="/WEB-INF/content/pages/home.jsp"/>      
+  </definition>
+  
+  <definition name="report-after-close03" extends="report">
+      <put-attribute name="main"   value="/WEB-INF/content/pages/home.jsp"/>      
+  </definition>
+  
+  <definition name="report-after-close04" extends="report">
+      <put-attribute name="main"   value="/WEB-INF/content/pages/home.jsp"/>      
+  </definition>
+  
+  <definition name="report-after-close05" extends="report">
+      <put-attribute name="main"   value="/WEB-INF/content/pages/home.jsp"/>      
+  </definition>
+  
+  <definition name="report-after-close06" extends="report">
+      <put-attribute name="main"   value="/WEB-INF/content/pages/home.jsp"/>      
+  </definition>
+  
+  <definition name="report-after-close07" extends="report">
+      <put-attribute name="main"   value="/WEB-INF/content/pages/home.jsp"/>      
+  </definition>
+        
 </tiles-definitions>

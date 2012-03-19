@@ -92,7 +92,6 @@
             </legend>
             <div class="type-text">
                 <s:hidden id="oper" name="oper" value="add" />
-                <label for="id">No: </label>
                 <s:hidden id="id" name="id" />
                 <label for="identifier"><s:text
                         name="page.productType.identifier"
