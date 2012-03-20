@@ -13,7 +13,7 @@ import org.ktm.web.form.FrmCatalog;
 import org.ktm.web.manager.BeveragePackageManager;
 import org.ktm.web.manager.ServiceLocator;
 
-public class JsonGridProductType extends JsonAbstractAction {
+public class JsonGridProductType extends JsonGridFieldsAction {
 
     private static final long        serialVersionUID = 1145674274087102711L;
     private Logger                   log              = Logger.getLogger(JsonGridProductType.class);

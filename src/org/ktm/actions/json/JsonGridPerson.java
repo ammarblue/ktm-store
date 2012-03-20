@@ -11,7 +11,7 @@ import org.ktm.web.form.FrmPerson;
 import org.ktm.web.manager.FormManager;
 import org.ktm.web.manager.ServiceLocator;
 
-public class JsonGridPerson extends JsonAbstractAction {
+public class JsonGridPerson extends JsonGridFieldsAction {
 
     private static final long serialVersionUID = 8072293334749008043L;
     private Logger            log              = Logger.getLogger(JsonGridPerson.class);

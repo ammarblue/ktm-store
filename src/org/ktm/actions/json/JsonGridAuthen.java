@@ -10,7 +10,7 @@ import org.ktm.web.form.FrmAuthen;
 import org.ktm.web.manager.FormManager;
 import org.ktm.web.manager.ServiceLocator;
 
-public class JsonGridAuthen extends JsonAbstractAction {
+public class JsonGridAuthen extends JsonGridFieldsAction {
 
     private static final long serialVersionUID = 8072293334749008043L;
     private Logger            log              = Logger.getLogger(JsonGridAuthen.class);

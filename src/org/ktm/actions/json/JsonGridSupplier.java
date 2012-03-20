@@ -6,7 +6,7 @@ import org.apache.struts2.convention.annotation.Actions;
 import org.apache.struts2.convention.annotation.Result;
 import org.ktm.web.manager.FormManager;
 
-public class JsonGridSupplier extends JsonAbstractAction {
+public class JsonGridSupplier extends JsonGridFieldsAction {
 
     private static final long   serialVersionUID = 97711804233910039L;
     private static final Logger log              = Logger.getLogger(JsonGridSupplier.class);
