@@ -67,7 +67,7 @@ public class AuthenticatorFactory implements Serializable {
         }
     }
 
-    public static RequestState restoreRequestContext(HttpServletRequest request) {
+    public static RequestState restoreRequestContext(Map<String,Object> request) {
 
         RequestState requestState = null;
 
@@ -180,7 +180,7 @@ public class AuthenticatorFactory implements Serializable {
         return auth;
     }
 
-    public static Authenticator getAuthComponentNoCreate(ServletContext servletContext, String authenticatorClassName) throws AuthException {
+    public static Authenticator getAuthComponentNoCreate() throws AuthException {
         Authenticator auth = (Authenticator) getSession().get(Authenticator.SESSION_CONTEXT_KEY);
         return auth;
     }

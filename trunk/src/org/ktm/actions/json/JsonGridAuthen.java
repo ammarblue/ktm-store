@@ -5,13 +5,11 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Actions;
-import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.ktm.web.form.FrmAuthen;
 import org.ktm.web.manager.FormManager;
 import org.ktm.web.manager.ServiceLocator;
 
-@ParentPackage(value = "ktm-default")
 public class JsonGridAuthen extends JsonAbstractAction {
 
     private static final long serialVersionUID = 8072293334749008043L;

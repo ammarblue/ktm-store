@@ -4,15 +4,13 @@ import java.util.StringTokenizer;
 import org.apache.log4j.Logger;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Actions;
-import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
-import org.ktm.actions.KTMAction;
+import org.ktm.actions.AbstractCRUDAction;
 import org.ktm.web.form.FrmBeveragePackage;
 import org.ktm.web.manager.BeveragePackageManager;
 import org.ktm.web.manager.ServiceLocator;
 
-@ParentPackage(value = "ktm-default")
-public class CrudGridProductType extends KTMAction {
+public class CrudGridProductType extends AbstractCRUDAction {
 
     private static final long serialVersionUID = -7492977888229483777L;
     private Logger            log              = Logger.getLogger(CrudGridProductType.class);

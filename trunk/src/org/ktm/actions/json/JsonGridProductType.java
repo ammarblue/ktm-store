@@ -7,14 +7,12 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Actions;
-import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.ktm.web.form.FrmBeveragePackage;
 import org.ktm.web.form.FrmCatalog;
 import org.ktm.web.manager.BeveragePackageManager;
 import org.ktm.web.manager.ServiceLocator;
 
-@ParentPackage(value = "ktm-default")
 public class JsonGridProductType extends JsonAbstractAction {
 
     private static final long        serialVersionUID = 1145674274087102711L;

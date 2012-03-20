@@ -5,13 +5,11 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Actions;
-import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.ktm.web.form.FrmCatalog;
 import org.ktm.web.manager.ProductCatalogManager;
 import org.ktm.web.manager.ServiceLocator;
 
-@ParentPackage(value = "ktm-default")
 public class JsonGridCatalog extends JsonAbstractAction {
 
     private static final long serialVersionUID = 1145674274087102711L;

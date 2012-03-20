@@ -7,15 +7,12 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Actions;
-import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
-import org.ktm.actions.KTMAction;
 import org.ktm.web.form.FrmCatalog;
 import org.ktm.web.manager.ProductCatalogManager;
 import org.ktm.web.manager.ServiceLocator;
 
-@ParentPackage(value = "ktm-default")
-public class JsonSelectCatalog extends KTMAction {
+public class JsonSelectCatalog extends JsonAbstractAction {
 
     private static final long    serialVersionUID = 1L;
     private static final Logger  log              = Logger.getLogger(JsonSelectCatalog.class);

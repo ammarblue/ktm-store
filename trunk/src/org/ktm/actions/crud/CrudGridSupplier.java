@@ -2,13 +2,11 @@ package org.ktm.actions.crud;
 
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Actions;
-import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
-import org.ktm.actions.KTMAction;
+import org.ktm.actions.AbstractCRUDAction;
 import org.ktm.web.manager.FormManager;
 
-@ParentPackage(value = "ktm-default")
-public class CrudGridSupplier extends KTMAction {
+public class CrudGridSupplier extends AbstractCRUDAction {
 
     private static final long serialVersionUID = -346563543980200104L;
 

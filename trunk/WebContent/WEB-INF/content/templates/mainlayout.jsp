@@ -5,7 +5,7 @@
 <%@ taglib uri="http://sarachai.com/tags-auth" prefix="auth" %>
 
 <auth:tracUri/>
-<auth:enforceAuthentication loginPage="/pages/logon.jsp"/>
+<auth:enforceAuthentication loginPage="/index.jsp"/>
 <auth:isUserNotInRoles roles="Root,Admin,Staff,Auther,Employee">
     <auth:redirectPage page="/pages/unauthorized.jsp"/>
 </auth:isUserNotInRoles>

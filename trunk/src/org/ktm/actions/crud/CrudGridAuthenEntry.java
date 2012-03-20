@@ -5,16 +5,14 @@ import java.util.StringTokenizer;
 import org.apache.log4j.Logger;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Actions;
-import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
-import org.ktm.actions.KTMAction;
+import org.ktm.actions.AbstractCRUDAction;
 import org.ktm.encode.KTMCrypt;
 import org.ktm.web.form.FrmAuthen;
 import org.ktm.web.manager.FormManager;
 import org.ktm.web.manager.ServiceLocator;
 
-@ParentPackage(value = "ktm-default")
-public class CrudGridAuthenEntry extends KTMAction {
+public class CrudGridAuthenEntry extends AbstractCRUDAction {
 
     private static final long serialVersionUID = 4044617485054462060L;
     private Logger            log              = Logger.getLogger(CrudGridAuthenEntry.class);
