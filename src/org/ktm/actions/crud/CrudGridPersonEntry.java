@@ -5,12 +5,12 @@ import org.apache.log4j.Logger;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Actions;
 import org.apache.struts2.convention.annotation.Result;
-import org.ktm.actions.AbstractCRUDAction;
+import org.ktm.actions.CrudAction;
 import org.ktm.web.form.FrmPerson;
 import org.ktm.web.manager.FormManager;
 import org.ktm.web.manager.ServiceLocator;
 
-public class CrudGridPersonEntry extends AbstractCRUDAction {
+public class CrudGridPersonEntry extends CrudAction {
 
     private static final long serialVersionUID = -3454448309088641394L;
     private Logger            log              = Logger.getLogger(CrudGridPersonEntry.class);

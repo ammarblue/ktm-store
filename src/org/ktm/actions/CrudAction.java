@@ -16,10 +16,10 @@ import com.googlecode.s2hibernate.struts2.plugin.annotations.TransactionTarget;
 import com.opensymphony.xwork2.ActionContext;
 
 @ParentPackage(value = "ktm-test")
-public abstract class AbstractCRUDAction extends KTMAction {
+public abstract class CrudAction extends KTMAction {
 
     private static final long     serialVersionUID = -3092632134847280150L;
-    private Logger                log              = Logger.getLogger(AbstractCRUDAction.class);
+    private Logger                log              = Logger.getLogger(CrudAction.class);
 
     private Collection<?> availableItems;
     private Set<FrmDomain>        toDelete         = new HashSet<FrmDomain>();

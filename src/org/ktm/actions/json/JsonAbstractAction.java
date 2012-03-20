@@ -1,8 +1,8 @@
 package org.ktm.actions.json;
 
-import org.ktm.actions.AbstractCRUDAction;
+import org.ktm.actions.CrudAction;
 
-public abstract class JsonAbstractAction extends AbstractCRUDAction {
+public abstract class JsonAbstractAction extends CrudAction {
 
     private static final long serialVersionUID = 1L;
 

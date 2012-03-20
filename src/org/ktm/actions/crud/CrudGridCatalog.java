@@ -4,12 +4,12 @@ import org.apache.log4j.Logger;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Actions;
 import org.apache.struts2.convention.annotation.Result;
-import org.ktm.actions.AbstractCRUDAction;
+import org.ktm.actions.CrudAction;
 import org.ktm.web.form.FrmCatalog;
 import org.ktm.web.manager.ProductCatalogManager;
 import org.ktm.web.manager.ServiceLocator;
 
-public class CrudGridCatalog extends AbstractCRUDAction {
+public class CrudGridCatalog extends CrudAction {
 
     private static final long serialVersionUID = -7492977888229483777L;
     private Logger            log              = Logger.getLogger(CrudGridCatalog.class);
