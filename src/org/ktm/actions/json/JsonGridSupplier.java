@@ -3,13 +3,10 @@ package org.ktm.actions.json;
 import org.apache.log4j.Logger;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Actions;
-import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
-import org.ktm.actions.KTMAction;
 import org.ktm.web.manager.FormManager;
 
-@ParentPackage(value = "ktm-default")
-public class JsonGridSupplier extends KTMAction {
+public class JsonGridSupplier extends JsonAbstractAction {
 
     private static final long   serialVersionUID = 97711804233910039L;
     private static final Logger log              = Logger.getLogger(JsonGridSupplier.class);

@@ -5,7 +5,7 @@
     "http://struts.apache.org/dtds/struts-2.3.dtd  ">
 
 <struts>
-  <package name="ktm-default" extends="struts-default,json-default,tiles-default,hibernate-default">
+  <package name="ktm-default" extends="struts-default" namespace="/">
     <interceptors>
       <interceptor name="ktmlogging"
         class="org.ktm.interceptor.KTMLoggingInterceptor">
@@ -18,9 +18,18 @@
         <interceptor-ref name="defaultStack" />
       </interceptor-stack>
     </interceptors>
-    
     <global-results>
-      <result name="logon">/pages/logon.jsp</result>
+      <result name="logon">/WEB-INF/content/pages/logon.jsp</result>
+      <result name="unauthorized">/WEB-INF/content/pages/unauthorized.jsp</result>
     </global-results>
+  </package>
+  <package name="ktm-flow" extends="ktm-default,tiles-default">
+  </package>
+  <package name="ktm-process" extends="ktm-flow,hibernate-default">
+  </package>
+  <package name="ktm-json" extends="ktm-flow,json-default">
+  </package>
+  
+  <package name="ktm-test" extends="struts-default,tiles-default,json-default,hibernate-default">
   </package>
 </struts>

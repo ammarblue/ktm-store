@@ -5,10 +5,18 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import org.apache.log4j.Logger;
+import org.apache.struts2.convention.annotation.ParentPackage;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.ktm.core.KTMCurdContext;
 import org.ktm.web.form.FrmDomain;
 import org.ktm.web.manager.FormManager;
+import com.googlecode.s2hibernate.struts2.plugin.annotations.SessionTarget;
+import com.googlecode.s2hibernate.struts2.plugin.annotations.TransactionTarget;
+import com.opensymphony.xwork2.ActionContext;
 
-public abstract class AbstractCRUDAction extends KTMActionSupport {
+@ParentPackage(value = "ktm-test")
+public abstract class AbstractCRUDAction extends KTMAction {
 
     private static final long     serialVersionUID = -3092632134847280150L;
     private Logger                log              = Logger.getLogger(AbstractCRUDAction.class);
@@ -17,8 +25,19 @@ public abstract class AbstractCRUDAction extends KTMActionSupport {
     private Set<FrmDomain>        toDelete         = new HashSet<FrmDomain>();
     private Set<FrmDomain>        toAdd            = new HashSet<FrmDomain>();
 
-    protected abstract FormManager getManager();
+    @SessionTarget
+    public Session             hbmSession;
 
+    @TransactionTarget
+    public Transaction         transaction;
+
+    protected abstract FormManager getManager();
+    
+    protected void initContext() {
+        KTMCurdContext context = new KTMCurdContext(this, hbmSession, transaction);
+        ActionContext.getContext().put(CURRENT_CONTEXT, context);
+    }
+    
     public Collection<?> getAvailableItems() {
         return availableItems;
     }

@@ -28,7 +28,4 @@
       <taglib-location>/WEB-INF/ktm-auth.tld</taglib-location>
     </taglib>
   </jsp-config>
-  <welcome-file-list>
-    <welcome-file>pages/logon.jsp</welcome-file>
-  </welcome-file-list>
 </web-app>

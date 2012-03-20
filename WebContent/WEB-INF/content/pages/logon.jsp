@@ -46,8 +46,9 @@
               <div style="padding: 10px 10px 0 15px;">
                 <div align="center">
                 <div align="left" style="width: 400px; margin: 50px 0px 100px 0px">
-                    <ul id="formerrors" class="errorMessage"></ul>
-                    <s:form id="frmLogin" action="/login.action" theme="simple" cssClass="yform ui-corner-all" method="post">
+                    <s:actionerror />
+                    <s:fielderror />
+                    <s:form id="frmLogin" action="/login.action" theme="simple" cssClass="yform ui-corner-all" method="post" validate="true">
                         <fieldset>
                             <legend><s:text name="page.login"/></legend>
                             <br/>
