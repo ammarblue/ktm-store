@@ -3,10 +3,10 @@ package org.ktm.actions.crud;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Actions;
 import org.apache.struts2.convention.annotation.Result;
-import org.ktm.actions.AbstractCRUDAction;
+import org.ktm.actions.CrudAction;
 import org.ktm.web.manager.FormManager;
 
-public class CrudGridSupplier extends AbstractCRUDAction {
+public class CrudGridSupplier extends CrudAction {
 
     private static final long serialVersionUID = -346563543980200104L;
 
