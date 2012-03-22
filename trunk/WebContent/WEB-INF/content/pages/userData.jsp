@@ -22,6 +22,20 @@ $.subscribe('searchgrid', function(event,data) {
 $.subscribe('showcolumns', function(event,data) {
     $("#gridedittable").jqGrid('setColumns',{});
 });
+var jsonString = $.ajax({url: 'json-select-prename', async: false, success: function(data, result) {if (!result) alert('Failure to retrieve the Countries.');}}).responseText;
+function getPrenames() {
+    var str = "";
+    prenames = JSON.parse(jsonString);
+    var objs = prenames.prenameMap;
+    for(key in objs) {
+    	if (!objs.hasOwnProperty(key)) {
+            continue;
+        }
+        str += key + ":" + objs[key] + ";";
+    }
+    str = str.substr(0,str.length-1);
+    return str;
+}
 //-->
 </script>
 <p id="select_row" style="display: none;">
@@ -47,6 +61,7 @@ $.subscribe('showcolumns', function(event,data) {
         navigatorView="false" gridModel="gridModel" rowList="5,10,15,20"
         rowNum="5" editurl="%{crud_person_url}" editinline="false"
         viewrecords="true" autowidth="true"
+        onBeforeTopics="before"
     >
         <sjg:gridColumn name="id" index="id" title="ID" width="30"
             formatter="integer" editable="false" sortable="false"
@@ -64,7 +79,7 @@ $.subscribe('showcolumns', function(event,data) {
         />
         <sjg:gridColumn name="prename" index="prename" title="คำนำหน้า"
             width="70" editable="true" edittype="select"
-            editoptions="{value:'%{getText('prename.mr')}:%{getText('prename.mr')};%{getText('prename.miss')}:%{getText('prename.miss')};%{getText('prename.mis')}:%{getText('prename.mis')}'}"
+            editoptions="{ value: getPrenames()}"
             sortable="false" search="false"
         />
         <sjg:gridColumn name="firstname" index="firstname" title="ชื่อ"

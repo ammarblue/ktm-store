@@ -15,7 +15,7 @@ import org.ktm.web.manager.ServiceLocator;
 
 public class JsonSelectCatalog extends JsonGridFieldsAction {
 
-    private static final long    serialVersionUID = 1L;
+    private static final long serialVersionUID = -8222296940094941679L;
     private static final Logger  log              = Logger.getLogger(JsonSelectCatalog.class);
 
     private List<String>         catalogList;
@@ -35,7 +35,6 @@ public class JsonSelectCatalog extends JsonGridFieldsAction {
         catalogList = new ArrayList<String>();
         catalogObjList = new ArrayList<FrmCatalog>();
         catalogMap = new HashMap<Integer, String>();
-        reloadList = new ArrayList<String>();
 
         List<FrmCatalog> frmCatalogs = (List<FrmCatalog>) getManager().findAll();
         for (FrmCatalog form : frmCatalogs) {
