@@ -1,4 +1,4 @@
-package org.ktm.actions.crud;
+package org.ktm.actions.product;
 
 import org.apache.log4j.Logger;
 import org.apache.struts2.convention.annotation.Action;

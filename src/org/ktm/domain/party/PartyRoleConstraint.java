@@ -6,7 +6,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.Version;
 
@@ -15,7 +14,6 @@ import javax.persistence.Version;
  * PartyRole of a specific PartyRoleType
  */
 @Entity
-@Table(name = "party_role_constraint")
 public class PartyRoleConstraint implements Serializable {
 
     private static final long serialVersionUID = 1L;

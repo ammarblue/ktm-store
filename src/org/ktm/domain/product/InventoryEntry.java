@@ -10,7 +10,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
 import javax.persistence.Version;
 
 import org.ktm.domain.KTMEntity;
@@ -20,7 +19,6 @@ import org.ktm.domain.KTMEntity;
  * of instance of that good or service that are available.
  */
 @Entity
-@Table(name = "inventory_entry")
 public class InventoryEntry extends KTMEntity {
 
 	private static final long serialVersionUID = -8647167825792048264L;

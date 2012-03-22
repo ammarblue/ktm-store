@@ -1,4 +1,4 @@
-package org.ktm.actions.crud;
+package org.ktm.actions.party;
 
 import java.util.StringTokenizer;
 import org.apache.log4j.Logger;

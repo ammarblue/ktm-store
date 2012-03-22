@@ -1,4 +1,4 @@
-package org.ktm.actions.json;
+package org.ktm.actions.product;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Actions;
 import org.apache.struts2.convention.annotation.Result;
+import org.ktm.actions.JsonGridFieldsAction;
 import org.ktm.web.form.FrmBeveragePackage;
 import org.ktm.web.form.FrmCatalog;
 import org.ktm.web.manager.BeveragePackageManager;
@@ -17,6 +18,8 @@ public class JsonGridProductType extends JsonGridFieldsAction {
 
     private static final long        serialVersionUID = 1145674274087102711L;
     private Logger                   log              = Logger.getLogger(JsonGridProductType.class);
+
+    private Integer                  id;
 
     // Your result List
     private List<FrmBeveragePackage> gridModel;
@@ -35,11 +38,17 @@ public class JsonGridProductType extends JsonGridFieldsAction {
     public String execute() {
         log.debug("Page " + getPage() + " Rows " + getRows() + " Sorting Order " + getSord() + " Index Row :" + getSidx());
         log.debug("Search :" + searchField + " " + searchOper + " " + searchString);
+        log.debug("From subgrid by id=" + id);
 
         initContext();
-        
-        log.debug("Build new List");
-        myProductTypes = (List<FrmBeveragePackage>) getManager().findAll();
+
+        if (id == null) {
+            log.debug("Build new List");
+            myProductTypes = (List<FrmBeveragePackage>) getManager().findAll();
+        } else {
+            log.debug("Build List by Group");
+            myProductTypes = (List<FrmBeveragePackage>) getManager().findByCatalogId(id);
+        }
 
         if (sord != null && sord.equalsIgnoreCase("asc")) {
             Collections.sort(myProductTypes);
@@ -110,6 +119,14 @@ public class JsonGridProductType extends JsonGridFieldsAction {
 
     public String getJSON() {
         return execute();
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     /**

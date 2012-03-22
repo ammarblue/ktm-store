@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
-import javax.persistence.Table;
 
 /*
  * The PackageInstance represents a collection of one or more ProductInstances
@@ -12,7 +11,6 @@ import javax.persistence.Table;
  * PackageInstnce is a kind of ProductInstance.
  */
 @Entity
-@Table(name = "package_instance")
 public class PackageInstance extends ProductInstance {
 
     private static final long    serialVersionUID = -2488958859213643252L;

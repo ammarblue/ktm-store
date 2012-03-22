@@ -17,7 +17,7 @@ import org.ktm.domain.KTMEntity;
  * particular PartyRelationship
  */
 @Entity
-@Table(name = "party_role", uniqueConstraints = { @UniqueConstraint(columnNames = { "uniqueId", "name" }) })
+@Table(uniqueConstraints = { @UniqueConstraint(columnNames = { "uniqueId", "name" }) })
 public class PartyRole extends KTMEntity {
 
     private static final long   serialVersionUID = 1L;

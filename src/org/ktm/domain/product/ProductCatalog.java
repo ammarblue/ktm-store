@@ -17,7 +17,7 @@ import org.ktm.domain.KTMEntity;
  * business
  */
 @Entity
-@Table(name = "product_catalog", uniqueConstraints = { @UniqueConstraint(columnNames = { "uniqueId", "identifier", "name" }) })
+@Table(uniqueConstraints = { @UniqueConstraint(columnNames = { "uniqueId", "identifier", "name" }) })
 public class ProductCatalog extends KTMEntity {
 
     private static final long  serialVersionUID = -5079941812147428733L;

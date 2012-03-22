@@ -6,7 +6,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 import javax.persistence.Version;
 
 /*
@@ -14,7 +13,6 @@ import javax.persistence.Version;
  * between two parties in which each Party plays a specific role.
  */
 @Entity
-@Table(name = "party_relationship")
 public class PartyRelationship implements Serializable {
 
     private static final long     serialVersionUID = 1L;

@@ -55,7 +55,7 @@
         navigatorEditOptions="{height:280,reloadAfterSubmit:true}"
         navigatorDeleteOptions="{height:280,reloadAfterSubmit:true}"
         navigatorSearchOptions="{sopt:['eq','ne','lt','gt']}"
-        gridModel="gridModel" rowList="5,10,15,20" rowNum="5"
+        gridModel="gridModel" rowList="5,10,15,20" rowNum="15"
         editurl="%{crud_catalog_url}" editinline="true"
         viewrecords="true" autowidth="true"
     >
@@ -64,7 +64,7 @@
             footerrow="true" userDataOnFooter="true" viewrecords="true"
             autowidth="true"
         >
-            <sjg:gridColumn name="identifier" title="รหัส" width="50" />
+            <sjg:gridColumn name="identifier" title="%{getText('page.common.id')}" width="50" />
             <sjg:gridColumn name="name" title="รายละเอียดสินค้า"
                 width="100"
             />
@@ -82,16 +82,15 @@
                 formatter="currency" align="right"
             />
         </sjg:grid>
-        <sjg:gridColumn name="id" index="id" title="รหัส" width="30"
-            formatter="integer" editable="true" sortable="false"
-            search="true" searchoptions="{sopt:['eq','ne','lt','gt']}"
+        <sjg:gridColumn name="id" index="id" title="ID" width="30"
+            formatter="integer" editable="false" sortable="false" hidden="true"
         />
         <sjg:gridColumn name="identifier" index="identifier"
-            title="รหัส" width="150" editable="true" edittype="text"
+            title="%{getText('page.common.id')}" width="50" editable="true" edittype="text"
             sortable="true" search="true"
             searchoptions="{sopt:['eq','ne','lt','gt']}"
         />
-        <sjg:gridColumn name="name" index="name" title="ชื่อ"
+        <sjg:gridColumn name="name" index="name" title="%{getText('page.common.name')}"
             width="150" editable="true" edittype="text" sortable="true"
             search="true" searchoptions="{sopt:['eq','ne','lt','gt']}"
         />

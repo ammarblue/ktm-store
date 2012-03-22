@@ -9,6 +9,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.ktm.dao.AbstractDao;
 import org.ktm.domain.money.Price;
+import org.ktm.domain.product.BeveragePackage;
 import org.ktm.domain.product.PackageType;
 
 public class PackageTypeDaoHibernate extends AbstractDao implements PackageTypeDao {
@@ -66,10 +67,10 @@ public class PackageTypeDaoHibernate extends AbstractDao implements PackageTypeD
     public List<PackageType> findByCatalog(Integer id) {
         List<PackageType> result = null;
         try {
-            String queryString = "select new list(pck) " + "FROM PackageType AS pck " + "WHERE pck.catalogEntry.catalog.uniqueId = :catalogId";
+            String queryString = "select new list(pck) " + "FROM PackageType AS pck " + "WHERE pck.catalogEntry.productCatalog.uniqueId = :catalogId";
 
             Query query = getStorage().getQuery(queryString);
-            query.setParameter("partyId", id);
+            query.setInteger("catalogId", id);
 
             query.setFirstResult(getFirstResult());
 
@@ -81,12 +82,12 @@ public class PackageTypeDaoHibernate extends AbstractDao implements PackageTypeD
             for (Iterator<?> objectIt = query.list().iterator(); objectIt.hasNext();) {
                 Object object = (Object) objectIt.next();
 
-                if (object instanceof PackageType) {
+                if (object instanceof PackageType || object instanceof BeveragePackage) {
                     objs.add((PackageType) object);
                 } else if (object instanceof Collection) {
                     Collection<?> subList = (Collection<?>) object;
                     for (Object listObject : subList) {
-                        if (listObject instanceof PackageType) {
+                        if (listObject instanceof PackageType || object instanceof BeveragePackage) {
                             objs.add((PackageType) listObject);
                         }
                     }

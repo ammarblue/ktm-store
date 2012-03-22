@@ -1,4 +1,4 @@
-package org.ktm.actions.json;
+package org.ktm.actions.party;
 
 import java.util.Collections;
 import java.util.List;
@@ -6,42 +6,43 @@ import org.apache.log4j.Logger;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Actions;
 import org.apache.struts2.convention.annotation.Result;
-import org.ktm.web.form.FrmCatalog;
-import org.ktm.web.manager.ProductCatalogManager;
+import org.ktm.actions.JsonGridFieldsAction;
+import org.ktm.web.form.FrmAuthen;
+import org.ktm.web.manager.FormManager;
 import org.ktm.web.manager.ServiceLocator;
 
-public class JsonGridCatalog extends JsonGridFieldsAction {
+public class JsonGridAuthen extends JsonGridFieldsAction {
 
-    private static final long serialVersionUID = 1145674274087102711L;
-    private Logger            log              = Logger.getLogger(JsonGridCatalog.class);
+    private static final long serialVersionUID = 8072293334749008043L;
+    private Logger            log              = Logger.getLogger(JsonGridAuthen.class);
 
+    @Actions({ @Action(value = "/json-grid-authen", results = { @Result(name = "success", type = "json") }) })
     @SuppressWarnings("unchecked")
-    @Actions({ @Action(value = "/json-grid-catalog", results = { @Result(name = "success", type = "json"), @Result(name = INPUT, location = "database-product", type = "tiles") }) })
     public String execute() {
         log.debug("Page " + getPage() + " Rows " + getRows() + " Sorting Order " + getSord() + " Index Row :" + getSidx());
         log.debug("Search :" + searchField + " " + searchOper + " " + searchString);
 
         initContext();
         
-        log.debug("Get Catalog List");
+        log.debug("Get authen List");
         try {
             list();
         } catch (Exception e) {
-            e.printStackTrace();
+
         }
 
-        List<FrmCatalog> myCatalogs = (List<FrmCatalog>) getAvailableItems();
+        List<FrmAuthen> myAuthens = (List<FrmAuthen>) getAvailableItems();
 
         if (sord != null && sord.equalsIgnoreCase("asc")) {
-            Collections.sort(myCatalogs);
+            Collections.sort(myAuthens);
         }
         if (sord != null && sord.equalsIgnoreCase("desc")) {
-            Collections.sort(myCatalogs);
-            Collections.reverse(myCatalogs);
+            Collections.sort(myAuthens);
+            Collections.reverse(myAuthens);
         }
 
         // Count all record (select count(*) from your_custumers)
-        records = myCatalogs.size();
+        records = myAuthens.size();
 
         if (totalrows != null) {
             records = totalrows;
@@ -60,34 +61,37 @@ public class JsonGridCatalog extends JsonGridFieldsAction {
 
         if (loadonce) {
             if (totalrows != null && totalrows > 0) {
-                setGridModel(myCatalogs.subList(0, totalrows));
+                setGridModel(myAuthens.subList(0, totalrows));
             } else {
-                setGridModel(myCatalogs);
+                setGridModel(myAuthens);
             }
         } else {
             if (searchString != null && searchOper != null) {
                 int id = Integer.parseInt(searchString);
                 if (searchOper.equalsIgnoreCase("eq")) {
                     log.debug("search id equals " + id);
-                    //List<FrmAuthen> cList = new ArrayList<FrmAuthen>();
+                    // List<FrmAuthen> cList = new ArrayList<FrmAuthen>();
                     // TODO: Search by id
-                }else if (searchOper.equalsIgnoreCase("ne")) {
+                } else if (searchOper.equalsIgnoreCase("ne")) {
                     log.debug("search id not " + id);
-                    setGridModel((List<FrmCatalog>) getManager().findNotById(myCatalogs, id, from, to));
+                    setGridModel((List<FrmAuthen>) getManager().findNotById(myAuthens, id, from, to));
                 } else if (searchOper.equalsIgnoreCase("lt")) {
                     log.debug("search id lesser then " + id);
-                    setGridModel((List<FrmCatalog>) getManager().findLesserAsId(myCatalogs, id, from, to));
+                    setGridModel((List<FrmAuthen>) getManager().findLesserAsId(myAuthens, id, from, to));
                 } else if (searchOper.equalsIgnoreCase("gt")) {
                     log.debug("search id greater then " + id);
-                    setGridModel((List<FrmCatalog>) getManager().findGreaterAsId(myCatalogs, id, from, to));
+                    setGridModel((List<FrmAuthen>) getManager().findGreaterAsId(myAuthens, id, from, to));
                 }
             } else {
-                setGridModel(myCatalogs);
+                // setGridModel((List<FrmAuthen>) ((PersonDao)
+                // getDao()).getSubList(myAuthens, from, to));
+                setGridModel(myAuthens);
             }
         }
+
         // Calculate total Pages
         total = (int) Math.ceil((double) records / (double) rows);
-        
+
         return SUCCESS;
     }
 
@@ -95,18 +99,18 @@ public class JsonGridCatalog extends JsonGridFieldsAction {
         return execute();
     }
 
-    public void setGridModel(List<FrmCatalog> gridModel) {
+    @SuppressWarnings("unchecked")
+    public List<FrmAuthen> getGridModel() {
+        return (List<FrmAuthen>) getAvailableItems();
+    }
+
+    public void setGridModel(List<FrmAuthen> gridModel) {
         setAvailableItems(gridModel);
     }
 
-    @SuppressWarnings("unchecked")
-    public List<FrmCatalog> getGridModel() {
-        return (List<FrmCatalog>) getAvailableItems();
-    }
-
     @Override
-    protected ProductCatalogManager getManager() {
-        return ServiceLocator.getProductCatalogManager();
+    protected FormManager getManager() {
+        return ServiceLocator.getAuthenManager();
     }
 
 }

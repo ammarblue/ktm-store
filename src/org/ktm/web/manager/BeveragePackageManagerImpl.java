@@ -46,6 +46,24 @@ public class BeveragePackageManagerImpl extends FrmManagerAbstractImpl implement
         }
         return form;
     }
+    
+    private void syncToForm(BeveragePackage obj, FrmBeveragePackage form) {
+        BeveragePackage bp = (BeveragePackage) obj;
+        form.setId(bp.getUniqueId());
+        form.setDescripton(bp.getDescripton());
+        ProductIdentifier iden = bp.getIdentifier();
+        if (iden != null) {
+            form.setIdentifier(iden.getIdentifier());
+        }
+        form.setName(bp.getName());
+        form.setNew(false);
+        form.setUnitType(bp.getUnitType());
+        form.setUnitCount(bp.getUnitCount());
+        form.setPrice1(0.0);
+        form.setPrice2(0.0);
+        
+        form.setCatalogName(((BeveragePackage) obj).getCatalogEntry().getProductCatalog().getName());
+    }
 
     @Override
     public List<FrmDomain> findAll() {
@@ -55,23 +73,9 @@ public class BeveragePackageManagerImpl extends FrmManagerAbstractImpl implement
             Collection<?> objs = dao.findAll();
             for (Object obj : objs) {
                 if (obj instanceof BeveragePackage) {
-                    BeveragePackage bp = (BeveragePackage) obj;
                     FrmBeveragePackage form = new FrmBeveragePackage();
-                    form.setId(bp.getUniqueId());
-                    form.setDescripton(bp.getDescripton());
-                    ProductIdentifier iden = bp.getIdentifier();
-                    if (iden != null) {
-                        form.setIdentifier(iden.getIdentifier());
-                    }
-                    form.setName(bp.getName());
-                    form.setNew(false);
-                    form.setUnitType(bp.getUnitType());
-                    form.setUnitCount(bp.getUnitCount());
-                    form.setPrice1(0.0);
-                    form.setPrice2(0.0);
+                    syncToForm((BeveragePackage) obj, form);
                     result.add(form);
-                    
-                    form.setCatalogName(((BeveragePackage) obj).getCatalogEntry().getProductCatalog().getName());
                 }
             }
         }
@@ -164,6 +168,28 @@ public class BeveragePackageManagerImpl extends FrmManagerAbstractImpl implement
             }
         }
         return null;
+    }
+
+    @Override
+    public List<?> findByCatalogId(Integer id) {
+        List<FrmDomain> result = new ArrayList<FrmDomain>();
+        if (id != null) {
+            try {
+                BeveragePackageDao daoBeverage = KTMEMDaoFactory.getInstance().getBeveragePackageDao();
+                Collection<?> objs = daoBeverage.findByCatalog(id);
+
+                for (Object obj : objs) {
+                    if (obj instanceof BeveragePackage) {
+                        FrmBeveragePackage form = new FrmBeveragePackage();
+                        syncToForm((BeveragePackage) obj, form);
+                        result.add(form);
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
     }
 
 }

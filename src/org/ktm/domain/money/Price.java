@@ -7,12 +7,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 import javax.persistence.Version;
 import org.ktm.domain.product.ProductType;
 
 @Entity
-@Table(name = "price")
 public class Price {
 
     private Integer uniqueId;

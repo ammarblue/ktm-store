@@ -71,7 +71,7 @@ public class FrmPerson extends FrmParty {
     @Override
     public int compareTo(FrmDomain other) {
         FrmPerson person = (FrmPerson) other;
-        return firstname.compareTo(person.firstname);
+        return getIdentifier().compareTo(person.getIdentifier());
     }
 
 }

@@ -1,9 +1,10 @@
-package org.ktm.actions.json;
+package org.ktm.actions.party;
 
 import org.apache.log4j.Logger;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Actions;
 import org.apache.struts2.convention.annotation.Result;
+import org.ktm.actions.JsonGridFieldsAction;
 import org.ktm.web.manager.FormManager;
 
 public class JsonGridSupplier extends JsonGridFieldsAction {

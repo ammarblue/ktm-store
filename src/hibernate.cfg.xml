@@ -52,6 +52,12 @@
   <mapping class="org.ktm.domain.product.ProductType"/>
   <mapping class="org.ktm.domain.product.SerialNumber"/>
   <mapping class="org.ktm.domain.money.Price"/>
+  <mapping class="org.ktm.domain.money.Payment"/>
+  <mapping class="org.ktm.domain.money.PaymentCard"/>
+  <mapping class="org.ktm.domain.money.CreditCard"/>
+  <mapping class="org.ktm.domain.money.DebitCard"/>
+  <mapping class="org.ktm.domain.money.Check"/>
+  <mapping class="org.ktm.domain.money.Cash"/>
   <!-- 
   <mapping class="org.ktm.domain.product.Batch"/> -->
  </session-factory>

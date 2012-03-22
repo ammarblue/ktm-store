@@ -7,7 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 import javax.persistence.Version;
 import org.ktm.domain.KTMEntity;
 
@@ -16,7 +15,6 @@ import org.ktm.domain.KTMEntity;
  * specific Party.
  */
 @Entity
-@Table(name = "address_properties")
 public class AddressProperties extends KTMEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;

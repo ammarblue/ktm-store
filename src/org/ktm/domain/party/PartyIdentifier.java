@@ -13,7 +13,7 @@ import org.ktm.domain.UniqueIdentifier;
  * The PartyIdentifier represents a unique identifier for a Party
  */
 @Entity
-@Table(name = "party_identifier", uniqueConstraints = { @UniqueConstraint(columnNames = { "uniqueId", "identifier" }) })
+@Table(uniqueConstraints = { @UniqueConstraint(columnNames = { "uniqueId", "identifier" }) })
 public class PartyIdentifier extends UniqueIdentifier {
 
     private static final long serialVersionUID = 1L;

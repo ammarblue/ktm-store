@@ -9,4 +9,6 @@ public interface BeveragePackageManager extends FormManager {
 
     public FrmBeveragePackage findById(List<FrmBeveragePackage> myProductTypes, int id);
 
+    public List<?> findByCatalogId(Integer id);
+
 }

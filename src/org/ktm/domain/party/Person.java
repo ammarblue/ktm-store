@@ -4,7 +4,6 @@ import java.text.ParseException;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Table;
 import javax.persistence.Transient;
 import org.ktm.web.utils.DateUtils;
 
@@ -12,7 +11,6 @@ import org.ktm.web.utils.DateUtils;
  * The Person represents information about a human being.
  */
 @Entity
-@Table(name = "person")
 public class Person extends Party {
 
     private static final long serialVersionUID = 1L;

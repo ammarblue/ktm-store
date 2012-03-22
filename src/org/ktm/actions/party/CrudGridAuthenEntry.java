@@ -1,4 +1,4 @@
-package org.ktm.actions.crud;
+package org.ktm.actions.party;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.StringTokenizer;

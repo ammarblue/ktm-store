@@ -2,10 +2,8 @@ package org.ktm.domain.product;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Table;
 
 @Entity
-@Table(name = "beverage_package")
 public class BeveragePackage extends PackageType {
 
     private static final long serialVersionUID = -6242981125687057527L;
