@@ -4,7 +4,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.Table;
 import javax.persistence.Version;
 import org.ktm.domain.KTMEntity;
 
@@ -13,7 +12,6 @@ import org.ktm.domain.KTMEntity;
  * and PartyRelationshipType
  */
 @Entity
-@Table(name = "role_set")
 public class RoleSet extends KTMEntity {
 
     private static final long serialVersionUID = 1L;

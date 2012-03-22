@@ -6,7 +6,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Column;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 import javax.persistence.Version;
 import org.ktm.domain.UniqueIdentifier;
 
@@ -15,7 +14,6 @@ import org.ktm.domain.UniqueIdentifier;
  * assigned by a recognized or statutory body.
  */
 @Entity
-@Table(name = "registered_identifier")
 public class RegisteredIdentifier extends UniqueIdentifier {
 
     private static final long serialVersionUID = 1L;

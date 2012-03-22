@@ -40,7 +40,7 @@ public class FrmCatalog extends FrmDomain {
     @Override
     public int compareTo(FrmDomain o) {
         FrmCatalog other = (FrmCatalog) o;
-        return name.compareTo(other.name);
+        return identifier.compareTo(other.identifier);
     }
 
 }

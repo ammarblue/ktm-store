@@ -10,7 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
 import javax.persistence.Version;
 import org.ktm.domain.KTMEntity;
 
@@ -18,7 +17,6 @@ import org.ktm.domain.KTMEntity;
  * The Address represents information that can used to contact a Party.
  */
 @Entity
-@Table(name = "address")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Address extends KTMEntity implements Serializable {
 

@@ -10,7 +10,7 @@ import javax.persistence.Version;
 import org.ktm.domain.UniqueIdentifier;
 
 @Entity
-@Table(name = "serial_number", uniqueConstraints = { @UniqueConstraint(columnNames = { "uniqueId", "identifier" }) })
+@Table(uniqueConstraints = { @UniqueConstraint(columnNames = { "uniqueId", "identifier" }) })
 public class SerialNumber extends UniqueIdentifier {
 
     private static final long serialVersionUID = -3323235446876782620L;

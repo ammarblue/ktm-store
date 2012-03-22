@@ -9,13 +9,11 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
-import javax.persistence.Table;
 import javax.persistence.Version;
 import org.ktm.domain.KTMEntity;
 import org.ktm.domain.money.Price;
 
 @Entity
-@Table(name = "product_instance")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class ProductInstance extends KTMEntity {
 

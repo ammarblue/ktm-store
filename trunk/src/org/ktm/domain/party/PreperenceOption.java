@@ -4,11 +4,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.Table;
 import org.ktm.domain.KTMEntity;
 
 @Entity
-@Table(name = "preperence_option")
 public class PreperenceOption extends KTMEntity {
 
     private static final long serialVersionUID = -6293700905900842131L;

@@ -1,8 +1,7 @@
-package org.ktm.actions.json;
+package org.ktm.actions;
 
-import org.ktm.actions.CrudAction;
 
-public abstract class JsonGridFieldsAction extends CrudAction {
+public abstract class JsonGridFieldsAction extends CrudAction implements GridField {
 
     private static final long serialVersionUID = 1L;
 

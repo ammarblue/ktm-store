@@ -7,7 +7,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
-import javax.persistence.Table;
 import javax.persistence.Version;
 import org.ktm.domain.KTMEntity;
 import org.ktm.domain.product.Batch;
@@ -17,7 +16,6 @@ import org.ktm.domain.product.Batch;
  * optional task.
  */
 @Entity
-@Table(name = "party_signature")
 public class PartySignature extends KTMEntity {
 
     private static final long serialVersionUID = 1L;

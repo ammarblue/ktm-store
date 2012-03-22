@@ -9,7 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.Version;
 import org.ktm.domain.KTMEntity;
@@ -19,7 +18,6 @@ import org.ktm.domain.KTMEntity;
  * set of PartyRole instance
  */
 @Entity
-@Table(name = "party_role_type")
 public class PartyRoleType extends KTMEntity {
 
     private static final long        serialVersionUID  = 1L;
