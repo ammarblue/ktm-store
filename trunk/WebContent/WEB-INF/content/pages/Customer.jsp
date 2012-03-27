@@ -105,7 +105,6 @@
                 <s:url id="catalog_url" action="json-select-catalog" />
                 <label for="payment"><s:text name="page.supplier.payment" />: </label>
                 <sj:select href="%{catalog_url}" id="payment" name="payment" list="catalogList"
-                    emptyOption="true" 
                     headerKey="-1"
                     headerValue="%{getText('page.productType.selectCatalog')}" />
                 <label for="creditTime"><s:text name="page.supplier.credit_time" />: </label>

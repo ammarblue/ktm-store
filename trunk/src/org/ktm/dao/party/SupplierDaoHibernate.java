@@ -2,15 +2,15 @@ package org.ktm.dao.party;
 
 import java.util.List;
 import org.ktm.dao.AbstractDao;
-import org.ktm.domain.party.TelephoneAddress;
+import org.ktm.domain.party.Supplier;
 
-public class TelephoneAddressDaoHibernate extends AbstractDao implements TelephoneAddressDao {
+public class SupplierDaoHibernate extends AbstractDao implements SupplierDao {
 
-    private static final long serialVersionUID = 7584799141117100983L;
+    private static final long serialVersionUID = 1L;
 
     @Override
     public Class<?> getFeaturedClass() {
-        return TelephoneAddress.class;
+        return Supplier.class;
     }
 
     @Override
