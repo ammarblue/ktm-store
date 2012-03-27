@@ -14,6 +14,7 @@ public class GeographicAddress extends Address {
 
     private String            addressLine1;
     private String            addressLine2;
+    private String            addressLine3;
     private String            city;
     private String            zipcode;
 
@@ -33,6 +34,15 @@ public class GeographicAddress extends Address {
 
     public void setAddressLine2(String addressLine2) {
         this.addressLine2 = addressLine2;
+    }
+
+    @Column(name = "addressLine3")
+    public String getAddressLine3() {
+        return addressLine3;
+    }
+
+    public void setAddressLine3(String addressLine3) {
+        this.addressLine3 = addressLine3;
     }
 
     @Column(name = "city")

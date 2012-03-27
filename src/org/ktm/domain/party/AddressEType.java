@@ -1,7 +1,7 @@
 package org.ktm.domain.party;
 
 public enum AddressEType {
-    EMAIL("email"), TELEPHONE("phone"), GEOGRAPHICS("geographics"), WEBPAGE("web");
+    EMAIL("email"), TELEPHONE("phone"), FAX("fax"), GEOGRAPHICS("geographics"), WEBPAGE("web");
 
     private String type;
 

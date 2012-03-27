@@ -99,14 +99,12 @@ public class PersonManagerImpl extends FrmManagerAbstractImpl implements PersonM
             AddressProperties addrp = new AddressProperties();
             addrp.setAddress(email);
             addrp.setParty(person);
-            email.getPartys().add(addrp);
             addrp.setUseage(AddressEType.EMAIL);
             person.getAddresses().add(addrp);
 
             addrp = new AddressProperties();
             addrp.setAddress(phone);
             addrp.setParty(person);
-            email.getPartys().add(addrp);
             addrp.setUseage(AddressEType.TELEPHONE);
             person.getAddresses().add(addrp);
 
@@ -156,7 +154,6 @@ public class PersonManagerImpl extends FrmManagerAbstractImpl implements PersonM
                 AddressProperties addrp = new AddressProperties();
                 addrp.setAddress(email);
                 addrp.setParty(person);
-                email.getPartys().add(addrp);
                 addrp.setUseage(AddressEType.EMAIL);
                 person.getAddresses().add(addrp);
             }
@@ -179,7 +176,6 @@ public class PersonManagerImpl extends FrmManagerAbstractImpl implements PersonM
                 AddressProperties addrp = new AddressProperties();
                 addrp.setAddress(phone);
                 addrp.setParty(person);
-                phone.getPartys().add(addrp);
                 addrp.setUseage(AddressEType.TELEPHONE);
                 person.getAddresses().add(addrp);
             }

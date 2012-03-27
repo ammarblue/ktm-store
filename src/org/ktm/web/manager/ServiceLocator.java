@@ -21,4 +21,8 @@ public class ServiceLocator {
     public static BeveragePackageManager getBeveragePackageManager() {
         return BeveragePackageManagerImpl.getInstance();
     }
+
+    public static SupplierManager getSupplierManager() {
+        return SupplierManagerImpl.getInstance();
+    }
 }

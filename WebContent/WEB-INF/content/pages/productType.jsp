@@ -118,8 +118,7 @@
                     />: </label>
                 <s:url id="catalog_url" action="json-select-catalog" />
                 <sj:select href="%{catalog_url}" id="catalogName"
-                    name="catalogName" list="catalogList"
-                    emptyOption="true" headerKey="-1"
+                    name="catalogName" list="catalogList" headerKey="-1"
                     headerValue="%{getText('page.productType.selectCatalog')}"
                 />
                 <label for="price1"><s:text

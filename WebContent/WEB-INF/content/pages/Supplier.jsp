@@ -4,7 +4,29 @@
 <%@ taglib prefix="sjg" uri="/struts-jquery-grid-tags"%>
 <script type="text/javascript">
 <!--
-	
+var jsonString = $.ajax({url: 'json-select-paymethod', async: false, success: function(data, result) {if (!result) alert('Failure to retrieve the paymethod.');}}).responseText;
+function getPayMethod() {
+    var str = "";
+    prenames = JSON.parse(jsonString);
+    var objs = prenames.payMethodMap;
+    for(key in objs) {
+        if (!objs.hasOwnProperty(key)) {
+            continue;
+        }
+        str += key + ":" + objs[key] + ";";
+    }
+    str = str.substr(0,str.length-1);
+    return str;
+}
+$.subscribe('rowselect', function(event, data) {
+    var gsr = $("#supplier_entry_table").jqGrid('getGridParam', 'selrow');
+    if (gsr) {
+        jQuery("#supplier_entry_table").jqGrid('GridToForm', gsr, "#supplier_edit");
+        $("#oper").val("edit");
+    } else {
+        alert("Please select Row");
+    }
+});
 //-->
 </script>
 <p id="select_row" style="display: none;">
@@ -18,34 +40,33 @@
 </p>
 <div id="tone">
     <s:url id="supplier_url" action="json-grid-supplier" />
-    <sjg:grid id="catalog_entry_table"
+    <sjg:grid
+        id="supplier_entry_table"
         caption="%{getText('page.supplier')}"
-        loadonce="false" 
-        href="%{product_type_url}"
-        gridModel="gridModel" 
-        groupField="['catalogName']"
-        groupColumnShow="[false]" 
-        groupCollapse="true"
-        groupText="['<b>{0} - {1} %{getText('page.productType.group')}</b>']"
-        navigator="true" 
-        navigatorAdd="false" 
-        navigatorEdit="false"
-        navigatorDelete="true" 
-        navigatorView="true" 
-        rowTotal="70"
-        rowNum="-1" 
-        altRows="true" 
-        viewrecords="true" 
-        pager="true"
-        pagerButtons="false" 
-        pagerInput="false"
+        href="%{supplier_url}"
         onSelectRowTopics="rowselect" 
-        editurl="%{crud_product_type}"
-        autowidth="true">
+        dataType="json"
+        pager="true"
+        navigator="true"
+        navigatorSearchOptions="{sopt:['eq','ne','lt','gt']}"
+        navigatorAddOptions="{height:280,reloadAfterSubmit:true}"
+        navigatorEditOptions="{height:280,reloadAfterSubmit:true}"
+        navigatorDeleteOptions="{height:280,reloadAfterSubmit:true}"
+        navigatorAdd="true"
+        navigatorEdit="true"
+        navigatorDelete="true"
+        navigatorView="false"
+        gridModel="gridModel"
+        rowList="5,10,15,20"
+        rowNum="5"
+        editinline="false"
+        viewrecords="true"
+        autowidth="true"
+    >
         
         <sjg:gridColumn name="id" index="id" title="No" width="30" formatter="integer" sortable="false" />
-        <sjg:gridColumn name="identifier" index="identifier" title="%{getText('page.supplier.id')}" sortable="true" />
-        <sjg:gridColumn name="name" index="name" title="%{getText('page.supplier.name')}" sortable="true" />
+        <sjg:gridColumn name="identifier" index="identifier" title="%{getText('page.supplier.id')}" sortable="true" width="30"/>
+        <sjg:gridColumn name="desc" index="desc" title="%{getText('page.supplier.name')}" sortable="true" />
         <sjg:gridColumn name="addr1" index="addr1"
             title="%{getText('page.supplier.address')} 1"
             sortable="true" hidden="true"/>
@@ -61,13 +82,13 @@
         <sjg:gridColumn name="fax" index="fax"
             title="%{getText('page.supplier.fax')}"
             sortable="false" hidden="true"/>
-        <sjg:gridColumn name="payment" index="payment"
+        <sjg:gridColumn name="payMethod" index="payMethod"
             title="%{getText('page.supplier.payment')}"
-            formatter="currency" sortable="false" hidden="true"/>
-        <sjg:gridColumn name="creditTime" index="creditTime"
+            formatter="integer" sortable="false" hidden="true"/>
+        <sjg:gridColumn name="payDuration" index="payDuration"
             title="%{getText('page.supplier.credit_time')}"
-            formatter="currency" sortable="false" hidden="true"/>
-        <sjg:gridColumn name="contact" index="contact"
+            formatter="integer" sortable="false" hidden="true"/>
+        <sjg:gridColumn name="contactName" index="contactName"
             title="%{getText('page.supplier.contact_name')}"
             sortable="false" />
         <sjg:gridColumn name="mark" index="mark"
@@ -76,7 +97,7 @@
     </sjg:grid>
     <br />
     <s:url id="crud_supplier_url" action="crud-grid-supplier" />
-    <s:form id="ptype_edit" action="%{crud_supplier_url}" theme="simple"
+    <s:form id="supplier_edit" action="%{crud_supplier_url}" theme="simple"
         cssClass="yform">
         <fieldset>
             <legend>
@@ -90,8 +111,8 @@
                         name="page.supplier.id" />: </label>
                 <s:textfield id="identifier" name="identifier"
                     width="50" />
-                <label for="name"><s:text name="page.supplier.name" />: </label>
-                <s:textfield id="name" name="name" />
+                <label for="desc"><s:text name="page.supplier.name" />: </label>
+                <s:textfield id="desc" name="desc" />
                 <label for="addr1"><s:text name="page.supplier.address" /> 1 : </label>
                 <s:textfield id="addr1" name="addr1" />
                 <label for="addr2"><s:text name="page.supplier.address" /> 2 : </label>
@@ -102,14 +123,17 @@
                 <s:textfield id="tel" name="tel" />
                 <label for="fax"><s:text name="page.supplier.fax" />: </label>
                 <s:textfield id="fax" name="fax" />
-                <s:url id="catalog_url" action="json-select-catalog" />
+                <s:url id="paymethod_url" action="json-select-paymethod" />
                 <label for="payment"><s:text name="page.supplier.payment" />: </label>
-                <sj:select href="%{catalog_url}" id="payment" name="payment" list="catalogList"
-                    emptyOption="true" 
+                <sj:select id="payMethod" name="payMethod"
+                    href="%{paymethod_url}"
+                    list="payMethodMap"
+                    listKey="key"
+                    listValue="value"
                     headerKey="-1"
-                    headerValue="%{getText('page.productType.selectCatalog')}" />
-                <label for="creditTime"><s:text name="page.supplier.credit_time" />: </label>
-                <s:textfield id="creditTime" name="creditTime" />
+                    headerValue="%{getText('page.supplier.select_pay')}" />
+                <label for="payDuration"><s:text name="page.supplier.credit_time" />: </label>
+                <s:textfield id="payDuration" name="payDuration" />
                 <label for="contactName"><s:text name="page.supplier.contact_name" />: </label>
                 <s:textfield id="contactName" name="contactName" />
                 <label for="mark"><s:text name="page.supplier.mark" />: </label>
@@ -118,7 +142,7 @@
         </fieldset>
     </s:form>
     <br />
-    <sj:submit formIds="ptype_edit" targets="result" effect="pulsate"
+    <sj:submit formIds="supplier_edit" targets="result" effect="pulsate"
         button="true" key="page.btn.save" />
     <br /> <br />
 </div>

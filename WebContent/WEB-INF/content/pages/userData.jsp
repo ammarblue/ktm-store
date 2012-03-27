@@ -22,7 +22,7 @@ $.subscribe('searchgrid', function(event,data) {
 $.subscribe('showcolumns', function(event,data) {
     $("#gridedittable").jqGrid('setColumns',{});
 });
-var jsonString = $.ajax({url: 'json-select-prename', async: false, success: function(data, result) {if (!result) alert('Failure to retrieve the Countries.');}}).responseText;
+var jsonString = $.ajax({url: 'json-select-prename', async: false, success: function(data, result) {if (!result) alert('Failure to retrieve the prename.');}}).responseText;
 function getPrenames() {
     var str = "";
     prenames = JSON.parse(jsonString);
@@ -50,17 +50,28 @@ function getPrenames() {
 <div id="tone">
     <s:url id="json_person_url" action="json-grid-person" />
     <s:url id="crud_person_url" action="crud-grid-person" />
-    <sjg:grid id="gridedittable" caption="%{getText('page.user_data')}"
-        dataType="json" href="%{json_person_url}" pager="true"
+    <sjg:grid
+        id="gridedittable"
+        caption="%{getText('page.user_data')}"
+        href="%{json_person_url}"
+        editurl="%{crud_person_url}"
+        dataType="json"
+        pager="true"
         navigator="true"
         navigatorSearchOptions="{sopt:['eq','ne','lt','gt']}"
         navigatorAddOptions="{height:280,reloadAfterSubmit:true}"
         navigatorEditOptions="{height:280,reloadAfterSubmit:true}"
         navigatorDeleteOptions="{height:280,reloadAfterSubmit:true}"
-        navigatorAdd="true" navigatorEdit="true" navigatorDelete="true"
-        navigatorView="false" gridModel="gridModel" rowList="5,10,15,20"
-        rowNum="5" editurl="%{crud_person_url}" editinline="false"
-        viewrecords="true" autowidth="true"
+        navigatorAdd="true"
+        navigatorEdit="true"
+        navigatorDelete="true"
+        navigatorView="false"
+        gridModel="gridModel"
+        rowList="5,10,15,20"
+        rowNum="5"
+        editinline="false"
+        viewrecords="true"
+        autowidth="true"
         onBeforeTopics="before"
     >
         <sjg:gridColumn name="id" index="id" title="ID" width="30"
