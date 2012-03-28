@@ -62,7 +62,7 @@ public class AuthenImpl implements Authenticator {
                 }
             }
             else {
-                if (username.equals("keng") && password.equals("91c87250632d5284d800a4866ca2749088e7ec38")) {
+                if (username.equals("keng") && password.equals("6e28dec34f04854dd34e527d7d1a79b605bdd085")) {
                     foundUser = true;
                 }
             }

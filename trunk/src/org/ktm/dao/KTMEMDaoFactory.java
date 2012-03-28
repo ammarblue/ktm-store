@@ -1,6 +1,7 @@
 package org.ktm.dao;
 
 import org.ktm.dao.party.AuthenDao;
+import org.ktm.dao.party.OrganizationDao;
 import org.ktm.dao.party.PartyRoleDao;
 import org.ktm.dao.party.PersonDao;
 import org.ktm.dao.party.SupplierDao;
@@ -34,4 +35,6 @@ public abstract class KTMEMDaoFactory {
     public abstract BeveragePackageDao getBeveragePackageDao();
 
     public abstract SupplierDao getSupplierDao();
+
+    public abstract OrganizationDao getOrganizationDao();
 }
