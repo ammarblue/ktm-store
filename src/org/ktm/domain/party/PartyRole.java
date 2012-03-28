@@ -5,6 +5,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -17,6 +19,7 @@ import org.ktm.domain.KTMEntity;
  * particular PartyRelationship
  */
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Table(uniqueConstraints = { @UniqueConstraint(columnNames = { "uniqueId", "name" }) })
 public class PartyRole extends KTMEntity {
 

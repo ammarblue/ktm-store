@@ -4,7 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 
 @Entity
-public class Supplier extends Organization {
+public class Supplier extends Collaborator {
 
     private static final long serialVersionUID = 3772334556674798074L;
 

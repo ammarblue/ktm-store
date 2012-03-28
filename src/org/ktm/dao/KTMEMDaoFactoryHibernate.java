@@ -2,6 +2,8 @@ package org.ktm.dao;
 
 import org.ktm.dao.party.AuthenDao;
 import org.ktm.dao.party.AuthenDaoHibernate;
+import org.ktm.dao.party.OrganizationDao;
+import org.ktm.dao.party.OrganizationDaoHibernate;
 import org.ktm.dao.party.PartyRoleDao;
 import org.ktm.dao.party.PartyRoleDaoHibernate;
 import org.ktm.dao.party.PersonDao;
@@ -57,5 +59,10 @@ public class KTMEMDaoFactoryHibernate extends KTMEMDaoFactory {
     @Override
     public SupplierDao getSupplierDao() {
         return new SupplierDaoHibernate();
+    }
+
+    @Override
+    public OrganizationDao getOrganizationDao() {
+        return new OrganizationDaoHibernate();
     }
 }

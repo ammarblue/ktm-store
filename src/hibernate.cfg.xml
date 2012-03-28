@@ -35,10 +35,17 @@
   <mapping class="org.ktm.domain.party.PartyRoleIdentifier"/>
   <mapping class="org.ktm.domain.party.PartyRoleType"/>
   <mapping class="org.ktm.domain.party.RoleSet"/>
+  <mapping class="org.ktm.domain.party.Collaborator"/>
+  <mapping class="org.ktm.domain.party.Director"/>
+  <mapping class="org.ktm.domain.party.Employer"/>
+  <mapping class="org.ktm.domain.party.Employee"/>
+  <mapping class="org.ktm.domain.party.JointProject"/>
   <mapping class="org.ktm.domain.party.PartyRoleConstraint"/>
   <mapping class="org.ktm.domain.party.PartyRelationship"/>
   <mapping class="org.ktm.domain.party.PartyRelationshipType"/>
   <mapping class="org.ktm.domain.party.PartyRelationshipConstraint"/>
+  <mapping class="org.ktm.domain.party.Collaboration"/>
+  <mapping class="org.ktm.domain.party.Employment"/>
   <mapping class="org.ktm.domain.party.PartySignature"/>
   <mapping class="org.ktm.domain.product.BeveragePackage"/>
   <mapping class="org.ktm.domain.product.CatalogEntry"/>
