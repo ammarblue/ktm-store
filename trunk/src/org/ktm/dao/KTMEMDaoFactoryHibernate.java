@@ -10,8 +10,6 @@ import org.ktm.dao.party.PersonDao;
 import org.ktm.dao.party.PersonDaoHibernate;
 import org.ktm.dao.party.SupplierDao;
 import org.ktm.dao.party.SupplierDaoHibernate;
-import org.ktm.dao.party.VehicleInventoryDao;
-import org.ktm.dao.party.VehicleInventoryDaoHibernate;
 import org.ktm.dao.product.BeveragePackageDao;
 import org.ktm.dao.product.BeveragePackageDaoHibernate;
 import org.ktm.dao.product.PackageTypeDao;
@@ -20,6 +18,8 @@ import org.ktm.dao.product.InventoryDao;
 import org.ktm.dao.product.InventoryDaoHibernate;
 import org.ktm.dao.product.ProductCatalogDao;
 import org.ktm.dao.product.ProductCatalogDaoHibernate;
+import org.ktm.dao.product.VehicleInventoryDao;
+import org.ktm.dao.product.VehicleInventoryDaoHibernate;
 
 public class KTMEMDaoFactoryHibernate extends KTMEMDaoFactory {
 

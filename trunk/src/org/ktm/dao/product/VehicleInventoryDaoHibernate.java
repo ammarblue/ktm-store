@@ -1,4 +1,4 @@
-package org.ktm.dao.party;
+package org.ktm.dao.product;
 
 import java.util.List;
 import org.ktm.dao.AbstractDao;

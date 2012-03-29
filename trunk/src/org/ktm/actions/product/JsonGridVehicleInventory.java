@@ -1,4 +1,4 @@
-package org.ktm.actions.party;
+package org.ktm.actions.product;
 
 import java.util.Collections;
 import java.util.List;
