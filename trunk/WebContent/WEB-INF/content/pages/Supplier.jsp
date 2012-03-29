@@ -123,11 +123,11 @@ $.subscribe('rowselect', function(event, data) {
                 <s:textfield id="tel" name="tel" />
                 <label for="fax"><s:text name="page.supplier.fax" />: </label>
                 <s:textfield id="fax" name="fax" />
-                <s:url id="paymethod_url" action="json-select-paymethod" />
+                <s:url id="paymethod_url" action="json-select-list?listType=paymethodMap" />
                 <label for="payment"><s:text name="page.supplier.payment" />: </label>
                 <sj:select id="payMethod" name="payMethod"
                     href="%{paymethod_url}"
-                    list="payMethodMap"
+                    list="selectMap"
                     listKey="key"
                     listValue="value"
                     headerKey="-1"

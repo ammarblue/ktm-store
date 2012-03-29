@@ -13,6 +13,10 @@ public class ListValue implements Serializable {
         this.setKey(key);
         this.setValue(value);
     }
+    
+    public ListValue(Integer key, String value) {
+        this(String.valueOf(key), value);
+    }
 
     public String getKey() {
         return key;

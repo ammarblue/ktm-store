@@ -22,11 +22,11 @@ $.subscribe('searchgrid', function(event,data) {
 $.subscribe('showcolumns', function(event,data) {
     $("#gridedittable").jqGrid('setColumns',{});
 });
-var jsonString = $.ajax({url: 'json-select-prename', async: false, success: function(data, result) {if (!result) alert('Failure to retrieve the prename.');}}).responseText;
+var jsonString = $.ajax({url: 'json-select-list?listType=userlist', async: false, success: function(data, result) {if (!result) alert('Failure to retrieve the prename.');}}).responseText;
 function getPrenames() {
     var str = "";
     prenames = JSON.parse(jsonString);
-    var objs = prenames.prenameMap;
+    var objs = prenames.selectMap;
     for(key in objs) {
     	if (!objs.hasOwnProperty(key)) {
             continue;
