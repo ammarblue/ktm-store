@@ -4,16 +4,20 @@
 <%@ taglib prefix="sjg" uri="/struts-jquery-grid-tags"%>
 <script type="text/javascript">
 <!--
-	$.subscribe('rowselect', function(event, data) {
-		var gsr = $("#catalog_entry_table").jqGrid('getGridParam', 'selrow');
-		if (gsr) {
-			jQuery("#catalog_entry_table").jqGrid('GridToForm', gsr,
-					"#ptype_edit");
-			$("#oper").val("edit");
-		} else {
-			alert("Please select Row");
-		}
-	});
+$.subscribe('rowselect', function(event, data) {
+    var gsr = $("#catalog_entry_table").jqGrid('getGridParam', 'selrow');
+    if (gsr) {
+        jQuery("#catalog_entry_table").jqGrid('GridToForm', gsr,
+                "#ptype_edit");
+        $("#oper").val("edit");
+    } else {
+        alert("Please select Row");
+    }
+});
+$.subscribe('completeForm', function(event,data) {
+    //alert('status: ' + event.originalEvent.status + '\n\nresponseText: \n' + event.originalEvent.request.responseText + '\n\nThe output div should have already been updated with the responseText.');
+    $("#catalog_entry_table").trigger("reloadGrid");
+});
 //-->
 </script>
 <p id="select_row" style="display: none;">
@@ -116,9 +120,9 @@
                 <label for="catalogName"><s:text
                         name="page.productType.catalog"
                     />: </label>
-                <s:url id="catalog_url" action="json-select-catalog" />
+                <s:url id="catalog_url" action="json-select-list?listType=catalogList" />
                 <sj:select href="%{catalog_url}" id="catalogName"
-                    name="catalogName" list="catalogList" headerKey="-1"
+                    name="catalogName" list="selectList" headerKey="-1"
                     headerValue="%{getText('page.productType.selectCatalog')}"
                 />
                 <label for="price1"><s:text
@@ -133,8 +137,10 @@
         </fieldset>
     </s:form>
     <br />
-    <sj:submit formIds="ptype_edit" targets="result" effect="pulsate"
-        button="true" key="page.btn.save"
-    />
+    <sj:submit formIds="ptype_edit"
+               targets="result" 
+               onCompleteTopics="completeForm" 
+               button="true" 
+               key="page.btn.save" />
     <br /> <br />
 </div>

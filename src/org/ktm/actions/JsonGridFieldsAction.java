@@ -1,5 +1,8 @@
 package org.ktm.actions;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 
 public abstract class JsonGridFieldsAction extends CrudAction implements GridField {
 
@@ -40,6 +43,27 @@ public abstract class JsonGridFieldsAction extends CrudAction implements GridFie
     protected Integer         records          = 0;
 
     protected boolean         loadonce         = false;
+    
+    protected String dispatchMethod(String listType) {
+        String result = "";
+        try {
+            initContext();
+            Class<?> c = getClass();
+            Method m = c.getMethod(listType);
+            result = (String) m.invoke(this);
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
 
     public Integer getRows() {
         return rows;
