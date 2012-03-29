@@ -27,6 +27,10 @@ $.subscribe('rowselect', function(event, data) {
         alert("Please select Row");
     }
 });
+$.subscribe('completeForm', function(event,data) {
+    //alert('status: ' + event.originalEvent.status + '\n\nresponseText: \n' + event.originalEvent.request.responseText + '\n\nThe output div should have already been updated with the responseText.');
+    $("#supplier_entry_table").trigger("reloadGrid");
+});
 //-->
 </script>
 <p id="select_row" style="display: none;">
@@ -142,7 +146,10 @@ $.subscribe('rowselect', function(event, data) {
         </fieldset>
     </s:form>
     <br />
-    <sj:submit formIds="supplier_edit" targets="result" effect="pulsate"
-        button="true" key="page.btn.save" />
+    <sj:submit formIds="supplier_edit" 
+               targets="result" 
+               onCompleteTopics="completeForm" 
+               button="true" 
+               key="page.btn.save" />
     <br /> <br />
 </div>
