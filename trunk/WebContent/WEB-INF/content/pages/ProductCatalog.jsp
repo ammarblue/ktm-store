@@ -42,17 +42,17 @@ $.subscribe('searchgrid', function(event, data) {
     <s:text name="page.error.require_select_row" />
 </p>
 <h2>
-    <s:text name="page.product.title" />
+    <s:text name="page.catalog.title" />
 </h2>
 <p class="text">
-    <s:text name="page.product.desc" />
+    <s:text name="page.catalog.desc" />
 </p>
 <div id="tone">
     <s:url id="json_catalog_url" action="json-grid-catalog" />
     <s:url id="crud_catalog_url" action="crud-grid-catalog" />
     <s:url id="json_product_type_url" action="json-grid-product-type" />
     <sjg:grid id="catalog_entry_table"
-        caption="%{getText('page.product')}" 
+        caption="%{getText('page.catalog')}" 
         dataType="json"
         href="%{json_catalog_url}" 
         pager="true" 
