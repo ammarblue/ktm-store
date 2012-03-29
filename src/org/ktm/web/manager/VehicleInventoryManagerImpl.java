@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import org.ktm.dao.KTMEMDaoFactory;
-import org.ktm.dao.party.VehicleInventoryDao;
+import org.ktm.dao.product.VehicleInventoryDao;
 import org.ktm.web.form.FrmDomain;
 
 public class VehicleInventoryManagerImpl extends FrmManagerAbstractImpl implements VehicleInventoryManager {

@@ -5,11 +5,11 @@ import org.ktm.dao.party.OrganizationDao;
 import org.ktm.dao.party.PartyRoleDao;
 import org.ktm.dao.party.PersonDao;
 import org.ktm.dao.party.SupplierDao;
-import org.ktm.dao.party.VehicleInventoryDao;
 import org.ktm.dao.product.BeveragePackageDao;
 import org.ktm.dao.product.PackageTypeDao;
 import org.ktm.dao.product.InventoryDao;
 import org.ktm.dao.product.ProductCatalogDao;
+import org.ktm.dao.product.VehicleInventoryDao;
 
 public abstract class KTMEMDaoFactory {
 
