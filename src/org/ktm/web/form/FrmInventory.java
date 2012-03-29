@@ -6,6 +6,10 @@ public class FrmInventory extends FrmDomain {
 
     private String            identifier;
     private String            name;
+    private String            modelName;
+    private String            inventoryType;
+    private String            vehicleRegistration;
+    private String            ownerName;
 
     @Override
     public int compareTo(FrmDomain other) {
@@ -27,6 +31,38 @@ public class FrmInventory extends FrmDomain {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getModelName() {
+        return modelName;
+    }
+
+    public void setModelName(String modelName) {
+        this.modelName = modelName;
+    }
+
+    public String getVehicleRegistration() {
+        return vehicleRegistration;
+    }
+
+    public void setVehicleRegistration(String vehicleRegistration) {
+        this.vehicleRegistration = vehicleRegistration;
+    }
+
+    public String getOwnerName() {
+        return ownerName;
+    }
+
+    public void setOwnerName(String ownerName) {
+        this.ownerName = ownerName;
+    }
+
+    public String getInventoryType() {
+        return inventoryType;
+    }
+
+    public void setInventoryType(String inventoryType) {
+        this.inventoryType = inventoryType;
     }
 
 }

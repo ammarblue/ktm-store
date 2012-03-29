@@ -25,4 +25,8 @@ public class ServiceLocator {
     public static SupplierManager getSupplierManager() {
         return SupplierManagerImpl.getInstance();
     }
+
+    public static VehicleManager getVehicleManager() {
+        return VehicleManagerImpl.getInstance();
+    }
 }

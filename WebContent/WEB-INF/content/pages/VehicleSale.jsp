@@ -11,38 +11,35 @@
     <s:text name="page.error.require_select_row" />
 </p>
 <h2>
-    <s:text name="page.supplier.title" />
+    <s:text name="page.vehicle.title" />
 </h2>
 <p class="text">
-    <s:text name="page.supplier.desc" />
+    <s:text name="page.vehicle.desc" />
 </p>
 <div id="tone">
-    <s:url id="supplier_url" action="json-grid-supplier" />
-    <sjg:grid id="catalog_entry_table"
-        caption="%{getText('page.supplier')}"
-        loadonce="false" 
-        href="%{product_type_url}"
-        gridModel="gridModel" 
-        groupField="['catalogName']"
-        groupColumnShow="[false]" 
-        groupCollapse="true"
-        groupText="['<b>{0} - {1} %{getText('page.productType.group')}</b>']"
-        navigator="true" 
-        navigatorAdd="false" 
-        navigatorEdit="false"
-        navigatorDelete="true" 
-        navigatorView="true" 
-        rowTotal="70"
-        rowNum="-1" 
-        altRows="true" 
-        viewrecords="true" 
-        pager="true"
-        pagerButtons="false" 
-        pagerInput="false"
+    <s:url id="vehicle_url" action="json-grid-vehicle" />
+    <s:url id="crud_vehicle_url" action="crud-grid-vehicle" />
+    <sjg:grid id="vehicle_entry_table"
+        caption="%{getText('page.vehicle')}"
+        href="%{vehicle_url}"
+        editurl="%{crud_vehicle_url}"
         onSelectRowTopics="rowselect" 
-        editurl="%{crud_product_type}"
-        autowidth="true">
-        
+        dataType="json"
+        pager="true"
+        navigator="true"
+        navigatorSearchOptions="{sopt:['eq','ne','lt','gt']}"
+        navigatorAdd="false"
+        navigatorEdit="false"
+        navigatorDelete="false"
+        navigatorSearch="false"
+        navigatorView="false"
+        gridModel="gridModel"
+        rowList="5,10,15,20"
+        rowNum="5"
+        editinline="false"
+        viewrecords="true"
+        autowidth="true"
+    >
         <sjg:gridColumn name="id" index="id" title="No" width="30" formatter="integer" sortable="false" />
         <sjg:gridColumn name="identifier" index="identifier" title="%{getText('page.supplier.id')}" sortable="true" />
         <sjg:gridColumn name="name" index="name" title="%{getText('page.supplier.name')}" sortable="true" />

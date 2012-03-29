@@ -1,4 +1,4 @@
-package org.ktm.actions.product;
+package org.ktm.actions.party;
 
 import java.util.Collections;
 import java.util.List;
@@ -9,27 +9,27 @@ import org.apache.struts2.convention.annotation.Result;
 import org.ktm.actions.JsonGridFieldsAction;
 import org.ktm.web.form.FrmSupplier;
 import org.ktm.web.manager.ServiceLocator;
-import org.ktm.web.manager.SupplierManager;
+import org.ktm.web.manager.VehicleManager;
 
-public class JsonGridSupplier extends JsonGridFieldsAction {
+public class JsonGridVehicle extends JsonGridFieldsAction {
 
-    private static final long serialVersionUID = 1L;
-    private Logger            log              = Logger.getLogger(JsonGridSupplier.class);
+    private static final long   serialVersionUID = 97711804233910039L;
+    private Logger            log              = Logger.getLogger(JsonGridVehicle.class);
 
     @Override
-    protected SupplierManager getManager() {
-        return ServiceLocator.getSupplierManager();
+    protected VehicleManager getManager() {
+        return ServiceLocator.getVehicleManager();
     }
 
     @SuppressWarnings("unchecked")
-    @Actions({ @Action(value = "/json-grid-supplier", results = { @Result(name = "success", type = "json"), @Result(name = INPUT, location = "database-product", type = "tiles") }) })
+    @Actions({ @Action(value = "/json-grid-vehicle", results = { @Result(name = "success", type = "json"), @Result(name = INPUT, location = "database-product", type = "tiles") }) })
     public String execute() {
         log.debug("Page " + getPage() + " Rows " + getRows() + " Sorting Order " + getSord() + " Index Row :" + getSidx());
         log.debug("Search :" + searchField + " " + searchOper + " " + searchString);
 
         initContext();
         
-        log.debug("Get Supplier List");
+        log.debug("Get vehicle List");
         try {
             list();
         } catch (Exception e) {
@@ -108,4 +108,5 @@ public class JsonGridSupplier extends JsonGridFieldsAction {
     public List<FrmSupplier> getGridModel() {
         return (List<FrmSupplier>) getAvailableItems();
     }
+
 }
