@@ -18,19 +18,44 @@ function getPayMethod() {
     str = str.substr(0,str.length-1);
     return str;
 }
-$.subscribe('rowselect', function(event, data) {
-    var gsr = $("#supplier_entry_table").jqGrid('getGridParam', 'selrow');
-    if (gsr) {
-        jQuery("#supplier_entry_table").jqGrid('GridToForm', gsr, "#supplier_edit");
-        $("#oper").val("edit");
+$.subscribe('rowadd', function(event,data) {
+    $("#supplier_entry_table").jqGrid('editGridRow',"new",{height:340,reloadAfterSubmit:false});
+});
+$.subscribe('rowedit', function(event,data) {
+    var gsr = jQuery("#supplier_entry_table").jqGrid('getGridParam', 'selrow');
+    if(gsr){
+        jQuery("#supplier_entry_table").jqGrid('editGridRow', gsr, {height:340,reloadAfterSubmit:true});
     } else {
-        alert("Please select Row");
+        var txt = $("#select_row").html();
+        alert(txt);
     }
 });
-$.subscribe('completeForm', function(event,data) {
-    //alert('status: ' + event.originalEvent.status + '\n\nresponseText: \n' + event.originalEvent.request.responseText + '\n\nThe output div should have already been updated with the responseText.');
-    $("#supplier_entry_table").trigger("reloadGrid");
+$.subscribe('rowdelete', function(event,data) {
+    var gsr = jQuery("#supplier_entry_table").jqGrid('getGridParam', 'selrow');
+    if(gsr){
+        jQuery("#supplier_entry_table").jqGrid('delGridRow', gsr, {height:100,reloadAfterSubmit:true});
+    } else {
+        var txt = $("#select_row").html();
+        alert(txt);
+    }
 });
+$.subscribe('searchgrid', function(event,data) {
+    $("#supplier_entry_table").jqGrid('searchGrid', {sopt:['cn','bw','eq','ne','lt','gt','ew']} );
+});
+var jsonString = $.ajax({url: 'json-select-list?listType=paymethodMap', async: false, success: function(data, result) {if (!result) alert('Failure to retrieve the pay method.');}}).responseText;
+function getPaymethod() {
+    var str = "";
+    paymethod = JSON.parse(jsonString);
+    var objs = paymethod.selectMap;
+    for(key in objs) {
+        if (!objs.hasOwnProperty(key)) {
+            continue;
+        }
+        str += key + ":" + objs[key] + ";";
+    }
+    str = str.substr(0,str.length-1);
+    return str;
+}
 //-->
 </script>
 <p id="select_row" style="display: none;">
@@ -44,21 +69,21 @@ $.subscribe('completeForm', function(event,data) {
 </p>
 <div id="tone">
     <s:url id="supplier_url" action="json-grid-supplier" />
+    <s:url id="crud_supplier_url" action="crud-grid-supplier" />
     <sjg:grid
         id="supplier_entry_table"
         caption="%{getText('page.supplier')}"
         href="%{supplier_url}"
+        editurl="%{crud_supplier_url}"
         onSelectRowTopics="rowselect" 
         dataType="json"
         pager="true"
         navigator="true"
         navigatorSearchOptions="{sopt:['eq','ne','lt','gt']}"
-        navigatorAddOptions="{height:280,reloadAfterSubmit:true}"
-        navigatorEditOptions="{height:280,reloadAfterSubmit:true}"
-        navigatorDeleteOptions="{height:280,reloadAfterSubmit:true}"
-        navigatorAdd="true"
-        navigatorEdit="true"
-        navigatorDelete="true"
+        navigatorAdd="false"
+        navigatorEdit="false"
+        navigatorDelete="false"
+        navigatorSearch="false"
         navigatorView="false"
         gridModel="gridModel"
         rowList="5,10,15,20"
@@ -69,87 +94,52 @@ $.subscribe('completeForm', function(event,data) {
     >
         
         <sjg:gridColumn name="id" index="id" title="No" width="30" formatter="integer" sortable="false" />
-        <sjg:gridColumn name="identifier" index="identifier" title="%{getText('page.supplier.id')}" sortable="true" width="30"/>
-        <sjg:gridColumn name="desc" index="desc" title="%{getText('page.supplier.name')}" sortable="true" />
+        <sjg:gridColumn name="identifier" index="identifier" title="%{getText('page.supplier.id')}" sortable="true" width="30"
+                        editable="true" edittype="text" />
+        <sjg:gridColumn name="desc" index="desc" title="%{getText('page.supplier.name')}" sortable="true" 
+                        editable="true" edittype="text" />
         <sjg:gridColumn name="addr1" index="addr1"
-            title="%{getText('page.supplier.address')} 1"
-            sortable="true" hidden="true"/>
+            title="%{getText('page.supplier.address')} 1" hidden="true"
+            editable="true" edittype="text" editrules="{ edithidden : true } " />
         <sjg:gridColumn name="addr2" index="addr2"
-            title="%{getText('page.supplier.address')} 2"
-            sortable="true" hidden="true"/>
+            title="%{getText('page.supplier.address')} 2" hidden="true"
+            editable="true" edittype="text" editrules="{ edithidden : true } " />
         <sjg:gridColumn name="addr3" index="addr3"
-            title="%{getText('page.supplier.address')} 3"
-            sortable="true" hidden="true"/>
+            title="%{getText('page.supplier.address')} 3" hidden="true"
+            editable="true" edittype="text" editrules="{ edithidden : true } " />
         <sjg:gridColumn name="tel" index="tel"
-            title="%{getText('page.supplier.tel')}"
-            sortable="true" hidden="true"/>
+            title="%{getText('page.supplier.tel')}" hidden="true"
+            editable="true" edittype="text" editrules="{ edithidden : true } " />
         <sjg:gridColumn name="fax" index="fax"
-            title="%{getText('page.supplier.fax')}"
-            sortable="false" hidden="true"/>
-        <sjg:gridColumn name="payMethod" index="payMethod"
-            title="%{getText('page.supplier.payment')}"
-            formatter="integer" sortable="false" hidden="true"/>
+            title="%{getText('page.supplier.fax')}" hidden="true"
+            editable="true" edittype="text" editrules="{ edithidden : true } " />
+        <sjg:gridColumn name="payMethod" index="payMethod" title="%{getText('page.supplier.payment')}"
+            width="70"  editable="true" edittype="select"
+            editoptions="{ value: getPaymethod()}" hidden="true" 
+            editrules="{ edithidden : true } " />
         <sjg:gridColumn name="payDuration" index="payDuration"
             title="%{getText('page.supplier.credit_time')}"
-            formatter="integer" sortable="false" hidden="true"/>
+            formatter="integer" hidden="true"
+            editable="true" edittype="text" editrules="{ edithidden : true } " />
         <sjg:gridColumn name="contactName" index="contactName"
             title="%{getText('page.supplier.contact_name')}"
-            sortable="false" />
+            editable="true" edittype="text" editrules="{ edithidden : true } " />
         <sjg:gridColumn name="mark" index="mark"
             title="%{getText('page.supplier.mark')}"
-            sortable="false" />
+            editable="true" edittype="text" editrules="{ edithidden : true } " />
     </sjg:grid>
-    <br />
-    <s:url id="crud_supplier_url" action="crud-grid-supplier" />
-    <s:form id="supplier_edit" action="%{crud_supplier_url}" theme="simple"
-        cssClass="yform">
-        <fieldset>
-            <legend>
-                <s:text name="page.productType.editProduct" />
-            </legend>
-            <div class="type-text">
-                <s:hidden id="oper" name="oper" value="add" />
-                <s:hidden id="id" name="id" />
-                
-                <label for="identifier"><s:text
-                        name="page.supplier.id" />: </label>
-                <s:textfield id="identifier" name="identifier"
-                    width="50" />
-                <label for="desc"><s:text name="page.supplier.name" />: </label>
-                <s:textfield id="desc" name="desc" />
-                <label for="addr1"><s:text name="page.supplier.address" /> 1 : </label>
-                <s:textfield id="addr1" name="addr1" />
-                <label for="addr2"><s:text name="page.supplier.address" /> 2 : </label>
-                <s:textfield id="addr2" name="addr2" />
-                <label for="addr3"><s:text name="page.supplier.address" /> 3 : </label>
-                <s:textfield id="addr3" name="addr3" />
-                <label for="tel"><s:text name="page.supplier.tel" />: </label>
-                <s:textfield id="tel" name="tel" />
-                <label for="fax"><s:text name="page.supplier.fax" />: </label>
-                <s:textfield id="fax" name="fax" />
-                <s:url id="paymethod_url" action="json-select-list?listType=paymethodMap" />
-                <label for="payment"><s:text name="page.supplier.payment" />: </label>
-                <sj:select id="payMethod" name="payMethod"
-                    href="%{paymethod_url}"
-                    list="selectMap"
-                    listKey="key"
-                    listValue="value"
-                    headerKey="-1"
-                    headerValue="%{getText('page.supplier.select_pay')}" />
-                <label for="payDuration"><s:text name="page.supplier.credit_time" />: </label>
-                <s:textfield id="payDuration" name="payDuration" />
-                <label for="contactName"><s:text name="page.supplier.contact_name" />: </label>
-                <s:textfield id="contactName" name="contactName" />
-                <label for="mark"><s:text name="page.supplier.mark" />: </label>
-                <s:textfield id="mark" name="mark" />
-            </div>
-        </fieldset>
-    </s:form>
-    <br />
-    <sj:submit formIds="supplier_edit" 
-               targets="result" 
-               onCompleteTopics="completeForm" 
-               button="true" 
-               key="page.btn.save" />
+    <br /> <br />
+    <sj:submit id="grid_edit_addbutton" key="page.btn.add"
+        onClickTopics="rowadd" button="true"
+    />
+    <sj:submit id="grid_edit_savebutton" key="page.btn.edit"
+        onClickTopics="rowedit" button="true"
+    />
+    <sj:submit id="grid_edit_deletebutton" key="page.btn.delete"
+        onClickTopics="rowdelete" button="true"
+    />
+    <sj:submit id="grid_edit_searchbutton" key="page.btn.search"
+        onClickTopics="searchgrid" button="true"
+    />
     <br /> <br />
 </div>

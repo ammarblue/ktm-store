@@ -14,10 +14,34 @@ $.subscribe('rowselect', function(event, data) {
         alert("Please select Row");
     }
 });
-$.subscribe('completeForm', function(event,data) {
-    //alert('status: ' + event.originalEvent.status + '\n\nresponseText: \n' + event.originalEvent.request.responseText + '\n\nThe output div should have already been updated with the responseText.');
-    $("#catalog_entry_table").trigger("reloadGrid");
+$.subscribe('rowadd', function(event,data) {
+    $("#catalog_entry_table").jqGrid('editGridRow',"new",{height:220,reloadAfterSubmit:false});
 });
+$.subscribe('rowedit', function(event,data) {
+    var gsr = jQuery("#catalog_entry_table").jqGrid('getGridParam', 'selrow');
+    if(gsr){
+        jQuery("#catalog_entry_table").jqGrid('editGridRow', gsr, {height:220,reloadAfterSubmit:true});
+    } else {
+        var txt = $("#select_row").html();
+        alert(txt);
+    }
+});
+$.subscribe('rowdelete', function(event,data) {
+    var gsr = jQuery("#catalog_entry_table").jqGrid('getGridParam', 'selrow');
+    if(gsr){
+        jQuery("#catalog_entry_table").jqGrid('delGridRow', gsr, {height:100,reloadAfterSubmit:true});
+    } else {
+        var txt = $("#select_row").html();
+        alert(txt);
+    }
+});
+$.subscribe('searchgrid', function(event,data) {
+    $("#catalog_entry_table").jqGrid('searchGrid', {sopt:['cn','bw','eq','ne','lt','gt','ew']} );
+});
+//$.subscribe('completeForm', function(event,data) {
+//    alert('status: ' + event.originalEvent.status + '\n\nresponseText: \n' + event.originalEvent.request.responseText + '\n\nThe output div should have already been updated with the responseText.');
+//    $("#catalog_entry_table").trigger("reloadGrid");
+//});
 //-->
 </script>
 <p id="select_row" style="display: none;">
@@ -44,8 +68,9 @@ $.subscribe('completeForm', function(event,data) {
         navigator="true"
         navigatorAdd="false"
         navigatorEdit="false"
-        navigatorDelete="true"
-        navigatorView="true"
+        navigatorDelete="false"
+        navigatorSearch="false"
+        navigatorView="false"
         rowTotal="70"
         rowNum="-1"
         altRows="true"
@@ -61,86 +86,48 @@ $.subscribe('completeForm', function(event,data) {
         />
         <sjg:gridColumn name="identifier" index="identifier"
             title="%{getText('page.productType.identifier')}"
-            sortable="true"
+            editable="true" edittype="text" sortable="true" search="true"
+            searchoptions="{sopt:['eq','ne','lt','gt']}"
         />
         <sjg:gridColumn name="name" index="name"
             title="%{getText('page.productType.name')}" sortable="true"
+            editable="true" edittype="text" 
         />
         <sjg:gridColumn name="unitType" index="unitType"
-            title="%{getText('page.productType.unitType')}"
-            sortable="true"
+            title="%{getText('page.productType.unitType')}" sortable="false"
+            editable="true" edittype="text" 
         />
         <sjg:gridColumn name="unitCount" index="unitCount"
-            title="%{getText('page.productType.unitCount')}"
-            sortable="true"
+            title="%{getText('page.productType.unitCount')}" sortable="false"
+            formatter="integer" editable="true" edittype="text" 
         />
         <sjg:gridColumn name="catalogName" index="catalogName"
-            title="grouping" sortable="false"
+            title="%{getText('page.productType.catalog')}" sortable="false"
+            editable="true" edittype="text" 
         />
         <sjg:gridColumn name="price1" index="price1"
             title="%{getText('page.productType.price1')}" align="right"
             formatter="currency" sortable="false"
+            editable="true" edittype="text" 
         />
         <sjg:gridColumn name="price2" index="price2"
             title="%{getText('page.productType.price2')}" align="right"
             formatter="currency" sortable="false"
+            editable="true" edittype="text" 
         />
     </sjg:grid>
-    <br />
-    <s:form id="ptype_edit" action="%{crud_product_type}" theme="simple"
-        cssClass="yform"
-    >
-        <fieldset>
-            <legend>
-                <s:text name="page.productType.editProduct" />
-            </legend>
-            <div class="type-text">
-                <s:hidden id="oper" name="oper" value="add" />
-                <s:hidden id="id" name="id" />
-                <label for="identifier"><s:text
-                        name="page.productType.identifier"
-                    />: </label>
-                <s:textfield id="identifier" name="identifier"
-                    width="50"
-                />
-                <label for="name"><s:text
-                        name="page.productType.name"
-                    />: </label>
-                <s:textfield id="name" name="name" />
-                <label for="unitType"><s:text
-                        name="page.productType.unitType"
-                    />: </label>
-                <s:textfield id="unitType" name="unitType" />
-                <label for="unitCount"><s:text
-                        name="page.productType.unitCount"
-                    />: </label>
-                <s:textfield id="unitCount" name="unitCount"
-                    key="page.productType.unitCount"
-                />
-                <label for="catalogName"><s:text
-                        name="page.productType.catalog"
-                    />: </label>
-                <s:url id="catalog_url" action="json-select-list?listType=catalogList" />
-                <sj:select href="%{catalog_url}" id="catalogName"
-                    name="catalogName" list="selectList" headerKey="-1"
-                    headerValue="%{getText('page.productType.selectCatalog')}"
-                />
-                <label for="price1"><s:text
-                        name="page.productType.price1"
-                    />: </label>
-                <s:textfield id="price1" name="price1" />
-                <label for="price2"><s:text
-                        name="page.productType.price2"
-                    />: </label>
-                <s:textfield id="price2" name="price2" />
-            </div>
-        </fieldset>
-    </s:form>
-    <br />
-    <sj:submit formIds="ptype_edit"
-               targets="result" 
-               onCompleteTopics="completeForm" 
-               button="true" 
-               key="page.btn.save" />
+    <br /><br />
+    <sj:submit id="grid_edit_addbutton" key="page.btn.add"
+        onClickTopics="rowadd" button="true"
+    />
+    <sj:submit id="grid_edit_savebutton" key="page.btn.edit"
+        onClickTopics="rowedit" button="true"
+    />
+    <sj:submit id="grid_edit_deletebutton" key="page.btn.delete"
+        onClickTopics="rowdelete" button="true"
+    />
+    <sj:submit id="grid_edit_searchbutton" key="page.btn.search"
+        onClickTopics="searchgrid" button="true"
+    />
     <br /> <br />
 </div>
