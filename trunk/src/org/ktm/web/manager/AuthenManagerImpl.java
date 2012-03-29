@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import org.ktm.actions.KTMAction;
+import org.ktm.core.KTMContext;
 import org.ktm.dao.KTMEMDaoFactory;
 import org.ktm.dao.party.AuthenDao;
 import org.ktm.dao.party.PersonDao;
@@ -13,6 +15,7 @@ import org.ktm.exception.CreateException;
 import org.ktm.exception.DeleteException;
 import org.ktm.web.form.FrmAuthen;
 import org.ktm.web.form.FrmDomain;
+import com.opensymphony.xwork2.ActionContext;
 
 public class AuthenManagerImpl extends FrmManagerAbstractImpl implements AuthenManager {
 
@@ -116,7 +119,9 @@ public class AuthenManagerImpl extends FrmManagerAbstractImpl implements AuthenM
                 form.setId(person.getUniqueId());
             }
             if (person.getPrename() != null) {
-                form.setPrename(person.getPrename());
+                KTMContext context = (KTMContext) ActionContext.getContext().get(KTMAction.CURRENT_CONTEXT);
+                String txt = context.getAction().getText("page.common.prename_" + person.getPrename());
+                form.setPrename(txt);
             }
             if (person.getFirstname() != null) {
                 form.setFirstname(person.getFirstname());
