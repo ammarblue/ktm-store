@@ -10,10 +10,10 @@ import org.ktm.web.form.FrmInventory;
 import org.ktm.web.manager.ServiceLocator;
 import org.ktm.web.manager.SupplierManager;
 
-public class CrudGridVehicle extends CrudAction {
+public class CrudGridVehicleInventory extends CrudAction {
 
     private static final long serialVersionUID = 3928207560159104965L;
-    private Logger            log              = Logger.getLogger(CrudGridVehicle.class);
+    private Logger            log              = Logger.getLogger(CrudGridVehicleInventory.class);
 
     private String            oper             = "";
     private String            id;

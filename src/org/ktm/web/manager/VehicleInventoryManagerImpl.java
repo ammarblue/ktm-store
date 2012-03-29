@@ -5,16 +5,16 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import org.ktm.dao.KTMEMDaoFactory;
-import org.ktm.dao.party.VehicleDao;
+import org.ktm.dao.party.VehicleInventoryDao;
 import org.ktm.web.form.FrmDomain;
 
-public class VehicleManagerImpl extends FrmManagerAbstractImpl implements VehicleManager {
+public class VehicleInventoryManagerImpl extends FrmManagerAbstractImpl implements VehicleInventoryManager {
 
-    private static VehicleManagerImpl theInstance = null;
+    private static VehicleInventoryManagerImpl theInstance = null;
     
-    public static VehicleManager getInstance() {
+    public static VehicleInventoryManager getInstance() {
         if (theInstance == null) {
-            theInstance = new VehicleManagerImpl();
+            theInstance = new VehicleInventoryManagerImpl();
         }
         return theInstance;
     }
@@ -28,7 +28,7 @@ public class VehicleManagerImpl extends FrmManagerAbstractImpl implements Vehicl
     @Override
     public List<?> findAll() {
         List<FrmDomain> result = new ArrayList<FrmDomain>();
-        VehicleDao dao = KTMEMDaoFactory.getInstance().getVehicleDao();
+        VehicleInventoryDao dao = KTMEMDaoFactory.getInstance().getVehicleDao();
         if (dao != null) {
             Collection<?> objs = dao.findAll();
         }
