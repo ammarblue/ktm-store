@@ -16,6 +16,15 @@ $.subscribe('rowedit', function(event,data) {
         alert(txt);
     }
 });
+$.subscribe('rowdelete', function(event,data) {
+    var gsr = jQuery("#gridedittable").jqGrid('getGridParam', 'selrow');
+    if(gsr){
+        jQuery("#gridedittable").jqGrid('delGridRow', gsr, {height:100,reloadAfterSubmit:true});
+    } else {
+        var txt = $("#select_row").html();
+        alert(txt);
+    }
+});
 $.subscribe('searchgrid', function(event,data) {
     $("#gridedittable").jqGrid('searchGrid', {sopt:['cn','bw','eq','ne','lt','gt','ew']} );
 });
@@ -62,9 +71,10 @@ function getPrenames() {
         navigatorAddOptions="{height:280,reloadAfterSubmit:true}"
         navigatorEditOptions="{height:280,reloadAfterSubmit:true}"
         navigatorDeleteOptions="{height:280,reloadAfterSubmit:true}"
-        navigatorAdd="true"
-        navigatorEdit="true"
-        navigatorDelete="true"
+        navigatorAdd="false"
+        navigatorEdit="false"
+        navigatorDelete="false"
+        navigatorSearch="false"
         navigatorView="false"
         gridModel="gridModel"
         rowList="5,10,15,20"
@@ -118,6 +128,9 @@ function getPrenames() {
     />
     <sj:submit id="grid_edit_savebutton" key="page.btn.edit"
         onClickTopics="rowedit" button="true"
+    />
+    <sj:submit id="grid_edit_deletebutton" key="page.btn.delete"
+        onClickTopics="rowdelete" button="true"
     />
     <sj:submit id="grid_edit_searchbutton" key="page.btn.search"
         onClickTopics="searchgrid" button="true"
