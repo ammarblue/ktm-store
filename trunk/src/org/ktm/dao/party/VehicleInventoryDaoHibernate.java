@@ -3,7 +3,7 @@ package org.ktm.dao.party;
 import java.util.List;
 import org.ktm.dao.AbstractDao;
 
-public class VehicleDaoHibernate extends AbstractDao implements VehicleDao {
+public class VehicleInventoryDaoHibernate extends AbstractDao implements VehicleInventoryDao {
 
     private static final long serialVersionUID = 1L;
 

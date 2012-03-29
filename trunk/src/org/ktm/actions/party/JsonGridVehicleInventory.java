@@ -9,15 +9,15 @@ import org.apache.struts2.convention.annotation.Result;
 import org.ktm.actions.JsonGridFieldsAction;
 import org.ktm.web.form.FrmSupplier;
 import org.ktm.web.manager.ServiceLocator;
-import org.ktm.web.manager.VehicleManager;
+import org.ktm.web.manager.VehicleInventoryManager;
 
-public class JsonGridVehicle extends JsonGridFieldsAction {
+public class JsonGridVehicleInventory extends JsonGridFieldsAction {
 
     private static final long   serialVersionUID = 97711804233910039L;
-    private Logger            log              = Logger.getLogger(JsonGridVehicle.class);
+    private Logger            log              = Logger.getLogger(JsonGridVehicleInventory.class);
 
     @Override
-    protected VehicleManager getManager() {
+    protected VehicleInventoryManager getManager() {
         return ServiceLocator.getVehicleManager();
     }
 
