@@ -12,14 +12,14 @@ import org.ktm.dao.party.SupplierDao;
 import org.ktm.dao.party.SupplierDaoHibernate;
 import org.ktm.dao.product.BeveragePackageDao;
 import org.ktm.dao.product.BeveragePackageDaoHibernate;
+import org.ktm.dao.product.FixedInventoryDaoHibernate;
+import org.ktm.dao.product.MovingInventoryDaoHibernate;
 import org.ktm.dao.product.PackageTypeDao;
 import org.ktm.dao.product.PackageTypeDaoHibernate;
 import org.ktm.dao.product.InventoryDao;
 import org.ktm.dao.product.InventoryDaoHibernate;
 import org.ktm.dao.product.ProductCatalogDao;
 import org.ktm.dao.product.ProductCatalogDaoHibernate;
-import org.ktm.dao.product.VehicleInventoryDao;
-import org.ktm.dao.product.VehicleInventoryDaoHibernate;
 
 public class KTMEMDaoFactoryHibernate extends KTMEMDaoFactory {
 
@@ -36,11 +36,6 @@ public class KTMEMDaoFactoryHibernate extends KTMEMDaoFactory {
     @Override
     public PartyRoleDao getPartyRoleDao() {
         return new PartyRoleDaoHibernate();
-    }
-
-    @Override
-    public InventoryDao getInventoryDao() {
-        return new InventoryDaoHibernate();
     }
 
     @Override
@@ -69,7 +64,17 @@ public class KTMEMDaoFactoryHibernate extends KTMEMDaoFactory {
     }
 
     @Override
-    public VehicleInventoryDao getVehicleDao() {
-        return new VehicleInventoryDaoHibernate();
+    public InventoryDao getInventoryDao() {
+        return new InventoryDaoHibernate();
+    }
+
+    @Override
+    public InventoryDao getFixedInventoryDao() {
+        return new FixedInventoryDaoHibernate();
+    }
+
+    @Override
+    public InventoryDao getMovingInventoryDao() {
+        return new MovingInventoryDaoHibernate();
     }
 }

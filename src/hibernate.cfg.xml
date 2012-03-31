@@ -51,11 +51,8 @@
   <mapping class="org.ktm.domain.product.CatalogEntry"/>
   <mapping class="org.ktm.domain.product.Inventory"/>
   <mapping class="org.ktm.domain.product.InventoryEntry"/>
-  <mapping class="org.ktm.domain.product.CenterInventory"/>
   <mapping class="org.ktm.domain.product.FixedInventory"/>
-  <mapping class="org.ktm.domain.product.FrontInventory"/>
   <mapping class="org.ktm.domain.product.MovingInventory"/>
-  <mapping class="org.ktm.domain.product.VehicleInventory"/>
   <mapping class="org.ktm.domain.product.PackageInstance"/>
   <mapping class="org.ktm.domain.product.PackageType"/>
   <mapping class="org.ktm.domain.product.ProductCatalog"/>

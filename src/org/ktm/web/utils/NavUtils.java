@@ -33,6 +33,7 @@ public class NavUtils {
         map.put("index.action?t=t&page=database-group-product", "nav.database.group_product");
         map.put("index.action?t=t&page=database-supplier", "nav.database.supplier");
         map.put("index.action?t=t&page=database-customer", "nav.database.customer");
+        map.put("index.action?t=t&page=database-stock", "nav.database.store");
         map.put("index.action?t=t&page=database-vehicle-sale", "nav.database.substore");
         menus.put(NavType.database, map);
 

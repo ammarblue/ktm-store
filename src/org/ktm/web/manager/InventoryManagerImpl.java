@@ -2,10 +2,15 @@ package org.ktm.web.manager;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import org.ktm.dao.KTMEMDaoFactory;
 import org.ktm.dao.product.InventoryDao;
+import org.ktm.domain.product.FixedInventory;
 import org.ktm.domain.product.Inventory;
+import org.ktm.domain.product.MovingInventory;
+import org.ktm.exception.CreateException;
+import org.ktm.exception.DeleteException;
 import org.ktm.web.form.FrmDomain;
 import org.ktm.web.form.FrmInventory;
 import org.ktm.web.form.FrmInventoryEntry;
@@ -22,49 +27,112 @@ public class InventoryManagerImpl extends FrmManagerAbstractImpl implements Inve
         }
         return theInstance;
     }
-
-    private InventoryDao getDao() {
+    
+    protected InventoryDao getDao() {
         return KTMEMDaoFactory.getInstance().getInventoryDao();
+    }
+    
+    private void syncToForm(Inventory ivn, FrmInventory form) {
+        if (ivn.getUniqueId() != null) {
+            form.setId(ivn.getUniqueId());
+        }
+        if (ivn.getIdentifier() != null) {
+            form.setIdentifier(ivn.getIdentifier());
+        }
+        if (ivn.getName() != null) {
+            form.setName(ivn.getName());
+        }
+        
+        if (ivn instanceof MovingInventory) {
+            MovingInventory vi = (MovingInventory) ivn;
+            form.setModelName(vi.getModelName());
+            form.setOwnerName(vi.getOwnerName());
+            form.setVehicleRegistration(vi.getVehicleRegistration());
+            form.setInventoryType("MovingInventory");
+        } else if (ivn instanceof FixedInventory){
+            form.setInventoryType("FixedInventory");
+        }
     }
     
     @Override
     public FrmDomain get(Serializable tryId) {
-        // TODO Auto-generated method stub
-        return null;
+        FrmInventory form = new FrmInventory();
+        InventoryDao dao = getDao();
+        Inventory sup = (Inventory) dao.get(tryId);
+        if (sup != null) {
+            syncToForm(sup, form);
+        }
+        return form;
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public List<FrmDomain> findAll() {
-        List<FrmDomain> myInventorys = new ArrayList<FrmDomain>();
-
-        List<Inventory> inventorys = (List<Inventory>) getDao().findAll();
-        for (Inventory ivn : inventorys) {
-            FrmInventory fi = new FrmInventory();
-            fi.setId(ivn.getUniqueId());
-            fi.setIdentifier(ivn.getIdentifier());
-            fi.setName(ivn.getName());
-            myInventorys.add(fi);
+        List<FrmDomain> result = new ArrayList<FrmDomain>();
+        InventoryDao dao = getDao();
+        if (dao != null) {
+            Collection<?> objs = dao.findAll();
+            for (Object obj : objs) {
+                if (obj instanceof Inventory) {
+                    FrmInventory form = new FrmInventory();
+                    syncToForm((Inventory)obj, form);
+                    result.add(form);
+                }
+            }
         }
-        return myInventorys;
+        return result;
     }
 
     @Override
     public Integer delete(Serializable tryId) {
-        // TODO Auto-generated method stub
+        try {
+            InventoryDao dao = getDao();
+            return dao.delete(tryId);
+        } catch (DeleteException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
     @Override
     public Integer delete(FrmDomain toDelete) {
-        // TODO Auto-generated method stub
-        return null;
+        return delete(toDelete.getId());
     }
 
     @Override
     public Integer addOrUpdate(FrmDomain toAdd) {
-        // TODO Auto-generated method stub
-        return null;
+        Integer id = null;
+        Inventory ivn = null;
+        if (toAdd != null) {
+            FrmInventory form = (FrmInventory) toAdd;
+            InventoryDao dao = getDao();
+            
+            if (form.isNew()) {
+                if (form.getInventoryType().equals("FixedInventory")) {
+                    ivn = new FixedInventory();
+                } else if (form.getInventoryType().equals("MovingInventory")) {
+                    ivn = new MovingInventory();
+                }
+            } else {
+                ivn = (Inventory) dao.get(form.getId());
+            }
+            
+            ivn.setIdentifier(form.getIdentifier());
+            ivn.setName(form.getName());
+            
+            if (ivn instanceof MovingInventory) {
+                MovingInventory vi = (MovingInventory) ivn;
+                vi.setModelName(form.getModelName());
+                vi.setOwnerName(form.getOwnerName());
+                vi.setVehicleRegistration(form.getVehicleRegistration());
+            }
+            
+            try {
+                id = (Integer) dao.create(ivn);
+            } catch (CreateException e) {
+                e.printStackTrace();
+            }
+        }
+        return id;
     }
 
     @Override
@@ -120,78 +188,4 @@ public class InventoryManagerImpl extends FrmManagerAbstractImpl implements Inve
         // TODO Auto-generated method stub
         return null;
     }
-    
-    /*
-
-
-
-    @Override
-    @SuppressWarnings("unchecked")
-    public synchronized List<FrmDomain> findAll(KTMAction action) {
-        List<FrmDomain> myCatalogs = new ArrayList<FrmDomain>();
-
-        List<Inventory> catalogs = (List<Inventory>) getDao(action).findAll();
-        for (Inventory cate : catalogs) {
-            FrmProduct p = new FrmProduct();
-            p.setId(cate.getUniqueId());
-            p.setIdentifier(cate.getIdentifier());
-            p.setName(cate.getName());
-            myCatalogs.add(p);
-        }
-        return myCatalogs;
-    }
-
-    @Override
-    public synchronized Integer delete(KTMAction action, FrmDomain toDelete) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public synchronized FrmDomain get(KTMAction action, Serializable tryId) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public synchronized Integer addOrUpdate(KTMAction action, FrmDomain toAdd) {
-        Integer result = null;
-        if (toAdd != null) {
-            InventoryDao catalogDao = KTMEMDaoFactoryHibernate.getInstance().getProductCatalogDao(action);
-            FrmProduct productCatalog = (FrmProduct) toAdd;
-
-            Inventory catalog = null;
-            if (toAdd.isNew()) {
-                catalog = new Inventory();
-            } else {
-                catalog = (Inventory) catalogDao.get(productCatalog.getId());
-            }
-
-            catalog.setIdentifier(productCatalog.getIdentifier());
-            catalog.setName(productCatalog.getName());
-
-            try {
-                result = (Integer) catalogDao.create(catalog);
-            } catch (CreateException e) {
-                e.printStackTrace();
-            }
-        }
-        return result;
-    }
-
-    @Override
-    public Integer delete(KTMAction action, Serializable tryId) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public List<FrmPackageType> findByCatalog(KTMAction action, Integer catalogIdentifier) {
-        InventoryDao catalogDao = KTMEMDaoFactoryHibernate.getInstance().getProductCatalogDao(action);
-        catalogDao.findProductTypeByCatalogIdentifier(catalogIdentifier);
-        return null;
-    }
-
-     */
-
 }

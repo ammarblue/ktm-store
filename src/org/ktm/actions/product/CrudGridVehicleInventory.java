@@ -7,8 +7,8 @@ import org.apache.struts2.convention.annotation.Actions;
 import org.apache.struts2.convention.annotation.Result;
 import org.ktm.actions.CrudAction;
 import org.ktm.web.form.FrmInventory;
+import org.ktm.web.manager.InventoryManager;
 import org.ktm.web.manager.ServiceLocator;
-import org.ktm.web.manager.SupplierManager;
 
 public class CrudGridVehicleInventory extends CrudAction {
 
@@ -23,19 +23,20 @@ public class CrudGridVehicleInventory extends CrudAction {
     private String            inventoryType;
     private String            vehicleRegistration;
     private String            ownerName;
+    private String            type;
     
     @Override
-    protected SupplierManager getManager() {
-        return ServiceLocator.getSupplierManager();
+    protected InventoryManager getManager() {
+        if (type.equals("Fixed")) {
+            return ServiceLocator.getFixedInventoryManager();
+        } else {
+            return ServiceLocator.getMovingInventoryManager();
+        }
     }
-
-    @Actions({ @Action(value = "/crud-grid-vehicle", results = { @Result(location = "simpleecho.jsp", name = "success"), @Result(location = "simpleecho.jsp", name = "input") }) })
-    public String execute() throws Exception {
-        log.debug("id: " + id);
-        log.debug("identifier: " + identifier);
-
+    
+    public String execute(FrmInventory form) throws Exception {
         initContext();
-
+        
         if (oper.equalsIgnoreCase("del")) {
             StringTokenizer ids = new StringTokenizer(id, ",");
             while (ids.hasMoreTokens()) {
@@ -44,9 +45,6 @@ public class CrudGridVehicleInventory extends CrudAction {
                 getManager().delete(removeId);
             }
         } else {
-            FrmInventory form = new FrmInventory();
-            form.setIdentifier(identifier);
-
             if (oper.equalsIgnoreCase("add")) {
                 log.debug("Add new Supplier");
                 form.setNew(true);
@@ -55,10 +53,45 @@ public class CrudGridVehicleInventory extends CrudAction {
                 form.setId(Integer.parseInt(id));
                 form.setNew(false);
             }
-            
-            getManager().addOrUpdate(form);
         }
+        
+        getManager().addOrUpdate(form);
+        
         return SUCCESS;
+    }
+
+    @Actions({ @Action(value = "/crud-grid-stock", results = { @Result(location = "simpleecho.jsp", name = "success"), @Result(location = "simpleecho.jsp", name = "input") }) })
+    public String executeStock() throws Exception {
+        log.debug("id: " + id);
+        log.debug("identifier: " + identifier);
+        log.debug("name: " + name);
+        
+        FrmInventory form = new FrmInventory();
+        form.setIdentifier(identifier);
+        form.setName(name);
+        form.setInventoryType("FixedInventory");
+            
+        return execute(form);
+    }
+    
+    @Actions({ @Action(value = "/crud-grid-vehicle", results = { @Result(location = "simpleecho.jsp", name = "success"), @Result(location = "simpleecho.jsp", name = "input") }) })
+    public String executeVehicel() throws Exception {
+        log.debug("id: " + id);
+        log.debug("identifier: " + identifier);
+        log.debug("name: " + name);
+        log.debug("modelName: " + modelName);
+        log.debug("vehicleRegistration: " + vehicleRegistration);
+        log.debug("ownerName: " + ownerName);
+        
+        FrmInventory form = new FrmInventory();
+        form.setIdentifier(identifier);
+        form.setName(name);
+        form.setModelName(modelName);
+        form.setVehicleRegistration(vehicleRegistration);
+        form.setOwnerName(ownerName);
+        form.setInventoryType("MovingInventory");
+
+        return execute(form);
     }
 
     public String getOper() {
@@ -123,6 +156,14 @@ public class CrudGridVehicleInventory extends CrudAction {
 
     public void setOwnerName(String ownerName) {
         this.ownerName = ownerName;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
     
 }

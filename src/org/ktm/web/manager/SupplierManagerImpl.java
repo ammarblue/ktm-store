@@ -128,88 +128,86 @@ public class SupplierManagerImpl extends FrmManagerAbstractImpl implements Suppl
             SupplierDao supplierDao = KTMEMDaoFactory.getInstance().getSupplierDao();
             OrganizationDao orgDao = KTMEMDaoFactory.getInstance().getOrganizationDao();
 
-            if (toAdd != null) {
-                if (toAdd.isNew()) {
-                    sup = new Supplier();
-                } else {
-                    sup = (Supplier) supplierDao.get(toAdd.getId());
+            if (toAdd.isNew()) {
+                sup = new Supplier();
+            } else {
+                sup = (Supplier) supplierDao.get(toAdd.getId());
+            }
+
+            if (sup.getIdentifier() == null) {
+                sup.setIdentifier(new PartyRoleIdentifier());
+            }
+            sup.getIdentifier().setIdentifier(form.getIdentifier());
+            sup.setDescription(form.getDesc());
+            sup.setPayMethod(Integer.parseInt(form.getPayMethod()));
+            sup.setPayDuration(Integer.parseInt(form.getPayDuration()));
+            sup.setContactName(form.getContactName());
+            sup.setMark(form.getMark());
+
+            Organization org = (Organization) sup.getParty();
+            if (org == null) {
+                org = new Organization();
+            }
+            Set<AddressProperties> addrps = org.getAddresses();
+            if (addrps == null) {
+                org.setAddresses(new HashSet<AddressProperties>());
+                addrps = org.getAddresses();
+            }
+            if (addrps.size() <= 0) {
+                AddressProperties addrp = new AddressProperties();
+                addrp.setParty(org);
+                addrp.setUseage(AddressEType.GEOGRAPHICS);
+                GeographicAddress adds = new GeographicAddress();
+                addrp.setAddress(adds);
+                addrps.add(addrp);
+
+                addrp = new AddressProperties();
+                addrp.setParty(org);
+                addrp.setUseage(AddressEType.TELEPHONE);
+                TelephoneAddress tel = new TelephoneAddress();
+                addrp.setAddress(tel);
+                addrps.add(addrp);
+
+                addrp = new AddressProperties();
+                addrp.setParty(org);
+                addrp.setUseage(AddressEType.FAX);
+                TelephoneAddress fax = new TelephoneAddress();
+                addrp.setAddress(fax);
+                addrps.add(addrp);
+            }
+
+            // search for GeographicsAddress
+            for (AddressProperties addrp : addrps) {
+                if (AddressEType.GEOGRAPHICS.equals(addrp.getUseage())) {
+                    GeographicAddress ga = (GeographicAddress) addrp.getAddress();
+                    ga.setAddressLine1(form.getAddr1());
+                    ga.setAddressLine2(form.getAddr2());
+                    ga.setAddressLine3(form.getAddr3());
+                } else if (AddressEType.TELEPHONE.equals(addrp.getUseage())) {
+                    TelephoneAddress ta = (TelephoneAddress) addrp.getAddress();
+                    ta.setNumber(form.getTel());
+                } else if (AddressEType.FAX.equals(addrp.getUseage())) {
+                    TelephoneAddress fa = (TelephoneAddress) addrp.getAddress();
+                    fa.setNumber(form.getFax());
                 }
+            }
 
-                if (sup.getIdentifier() == null) {
-                    sup.setIdentifier(new PartyRoleIdentifier());
-                }
-                sup.getIdentifier().setIdentifier(form.getIdentifier());
-                sup.setDescription(form.getDesc());
-                sup.setPayMethod(Integer.parseInt(form.getPayMethod()));
-                sup.setPayDuration(Integer.parseInt(form.getPayDuration()));
-                sup.setContactName(form.getContactName());
-                sup.setMark(form.getMark());
+            try {
+                id = (Integer) supplierDao.create(sup);
+                sup = (Supplier) supplierDao.get(id);
 
-                Organization org = (Organization) sup.getParty();
-                if (org == null) {
-                    org = new Organization();
-                }
-                Set<AddressProperties> addrps = org.getAddresses();
-                if (addrps == null) {
-                    org.setAddresses(new HashSet<AddressProperties>());
-                    addrps = org.getAddresses();
-                }
-                if (addrps.size() <= 0) {
-                    AddressProperties addrp = new AddressProperties();
-                    addrp.setParty(org);
-                    addrp.setUseage(AddressEType.GEOGRAPHICS);
-                    GeographicAddress adds = new GeographicAddress();
-                    addrp.setAddress(adds);
-                    addrps.add(addrp);
+                Integer orgId = (Integer) orgDao.create(org);
+                org = (Organization) orgDao.get(orgId);
 
-                    addrp = new AddressProperties();
-                    addrp.setParty(org);
-                    addrp.setUseage(AddressEType.TELEPHONE);
-                    TelephoneAddress tel = new TelephoneAddress();
-                    addrp.setAddress(tel);
-                    addrps.add(addrp);
+                org.getRoles().add(sup);
+                sup.setParty(org);
 
-                    addrp = new AddressProperties();
-                    addrp.setParty(org);
-                    addrp.setUseage(AddressEType.FAX);
-                    TelephoneAddress fax = new TelephoneAddress();
-                    addrp.setAddress(fax);
-                    addrps.add(addrp);
-                }
+                orgDao.update(org);
 
-                // search for GeographicsAddress
-                for (AddressProperties addrp : addrps) {
-                    if (AddressEType.GEOGRAPHICS.equals(addrp.getUseage())) {
-                        GeographicAddress ga = (GeographicAddress) addrp.getAddress();
-                        ga.setAddressLine1(form.getAddr1());
-                        ga.setAddressLine2(form.getAddr2());
-                        ga.setAddressLine3(form.getAddr3());
-                    } else if (AddressEType.TELEPHONE.equals(addrp.getUseage())) {
-                        TelephoneAddress ta = (TelephoneAddress) addrp.getAddress();
-                        ta.setNumber(form.getTel());
-                    } else if (AddressEType.FAX.equals(addrp.getUseage())) {
-                        TelephoneAddress fa = (TelephoneAddress) addrp.getAddress();
-                        fa.setNumber(form.getFax());
-                    }
-                }
-
-                try {
-                    id = (Integer) supplierDao.create(sup);
-                    sup = (Supplier) supplierDao.get(id);
-
-                    Integer orgId = (Integer) orgDao.create(org);
-                    org = (Organization) orgDao.get(orgId);
-
-                    org.getRoles().add(sup);
-                    sup.setParty(org);
-
-                    orgDao.update(org);
-
-                } catch (CreateException e) {
-                    e.printStackTrace();
-                } catch (UpdateException e) {
-                    e.printStackTrace();
-                }
+            } catch (CreateException e) {
+                e.printStackTrace();
+            } catch (UpdateException e) {
+                e.printStackTrace();
             }
         }
         return id;

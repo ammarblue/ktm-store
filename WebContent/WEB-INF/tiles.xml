@@ -72,6 +72,10 @@
       <put-attribute name="main" value="/WEB-INF/content/pages/Customer.jsp"/>      
   </definition>
   
+  <definition name="database-stock" extends="database">
+      <put-attribute name="main" value="/WEB-INF/content/pages/Stock.jsp"/>      
+  </definition>
+  
   <definition name="database-vehicle-sale" extends="database">
       <put-attribute name="main" value="/WEB-INF/content/pages/VehicleSale.jsp"/>      
   </definition>

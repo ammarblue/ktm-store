@@ -8,24 +8,31 @@ import org.apache.struts2.convention.annotation.Actions;
 import org.apache.struts2.convention.annotation.Result;
 import org.ktm.actions.JsonGridFieldsAction;
 import org.ktm.web.form.FrmSupplier;
+import org.ktm.web.manager.InventoryManager;
 import org.ktm.web.manager.ServiceLocator;
-import org.ktm.web.manager.VehicleInventoryManager;
 
 public class JsonGridVehicleInventory extends JsonGridFieldsAction {
 
-    private static final long   serialVersionUID = 97711804233910039L;
+    private static final long serialVersionUID = 97711804233910039L;
     private Logger            log              = Logger.getLogger(JsonGridVehicleInventory.class);
 
+    private String            type;
+
     @Override
-    protected VehicleInventoryManager getManager() {
-        return ServiceLocator.getVehicleManager();
+    protected InventoryManager getManager() {
+        if (type.equals("Fixed")) {
+            return ServiceLocator.getFixedInventoryManager();
+        } else {
+            return ServiceLocator.getMovingInventoryManager();
+        }
     }
 
     @SuppressWarnings("unchecked")
-    @Actions({ @Action(value = "/json-grid-vehicle", results = { @Result(name = "success", type = "json"), @Result(name = INPUT, location = "database-product", type = "tiles") }) })
+    @Actions({ @Action(value = "/json-grid-inventory", results = { @Result(name = "success", type = "json"), @Result(name = INPUT, location = "database-product", type = "tiles") }) })
     public String execute() {
         log.debug("Page " + getPage() + " Rows " + getRows() + " Sorting Order " + getSord() + " Index Row :" + getSidx());
         log.debug("Search :" + searchField + " " + searchOper + " " + searchString);
+        log.debug("Type: " + type);
 
         initContext();
         
@@ -107,6 +114,14 @@ public class JsonGridVehicleInventory extends JsonGridFieldsAction {
     @SuppressWarnings("unchecked")
     public List<FrmSupplier> getGridModel() {
         return (List<FrmSupplier>) getAvailableItems();
+    }
+    
+    public String getType() {
+        return type;
+    }
+    
+    public void setType(String type) {
+        this.type = type;
     }
 
 }
