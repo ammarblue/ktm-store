@@ -67,7 +67,6 @@ function getPrenames() {
         dataType="json"
         pager="true"
         navigator="true"
-        navigatorSearchOptions="{sopt:['eq','ne','lt','gt']}"
         navigatorAdd="false"
         navigatorEdit="false"
         navigatorDelete="false"

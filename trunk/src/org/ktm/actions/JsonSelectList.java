@@ -77,6 +77,19 @@ public class JsonSelectList extends JsonGridFieldsAction {
         }
         return SUCCESS;
     }
+    
+    public String inventoryTypeList() {
+        String [] vals = { "page.vehicle.center", "page.vehicle.front", "page.vehicle.vehicle" };
+        
+        int i = 1;
+        for (String str : vals) {
+            String val = getText(str);
+            selectList.add(val);
+            selectMap.put(String.valueOf(i), val);
+            selectObjList.add(new ListValue(String.valueOf(i++), val));
+        }
+        return SUCCESS;
+    }
 
     public List<String> getSelectList() {
         return selectList;

@@ -9,7 +9,6 @@ import org.ktm.dao.product.BeveragePackageDao;
 import org.ktm.dao.product.PackageTypeDao;
 import org.ktm.dao.product.InventoryDao;
 import org.ktm.dao.product.ProductCatalogDao;
-import org.ktm.dao.product.VehicleInventoryDao;
 
 public abstract class KTMEMDaoFactory {
 
@@ -27,8 +26,6 @@ public abstract class KTMEMDaoFactory {
 
     public abstract PartyRoleDao getPartyRoleDao();
 
-    public abstract InventoryDao getInventoryDao();
-
     public abstract PackageTypeDao getPackageTypeDao();
 
     public abstract ProductCatalogDao getProductCatalogDao();
@@ -38,6 +35,10 @@ public abstract class KTMEMDaoFactory {
     public abstract SupplierDao getSupplierDao();
 
     public abstract OrganizationDao getOrganizationDao();
+    
+    public abstract InventoryDao getInventoryDao();
+    
+    public abstract InventoryDao getFixedInventoryDao();
 
-    public abstract VehicleInventoryDao getVehicleDao();
+    public abstract InventoryDao getMovingInventoryDao();
 }

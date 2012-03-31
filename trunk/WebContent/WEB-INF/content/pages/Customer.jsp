@@ -39,7 +39,6 @@
         pager="true"
         pagerButtons="false" 
         pagerInput="false"
-        onSelectRowTopics="rowselect" 
         editurl="%{crud_product_type}"
         autowidth="true">
         
