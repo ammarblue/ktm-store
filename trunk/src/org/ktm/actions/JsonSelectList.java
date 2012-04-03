@@ -51,7 +51,7 @@ public class JsonSelectList extends JsonGridFieldsAction {
         for (int i = 1; i <= max; i++) {
             String txt = getText("page.common.prename_" + i);
             selectList.add(txt);
-            selectMap.put(String.valueOf(i), txt);
+            selectMap.put(txt, txt);
         }
         return SUCCESS;
     }

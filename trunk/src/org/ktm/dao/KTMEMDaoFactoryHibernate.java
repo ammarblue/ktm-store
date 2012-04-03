@@ -2,6 +2,10 @@ package org.ktm.dao;
 
 import org.ktm.dao.party.AuthenDao;
 import org.ktm.dao.party.AuthenDaoHibernate;
+import org.ktm.dao.party.CustomerDao;
+import org.ktm.dao.party.CustomerDaoHibernate;
+import org.ktm.dao.party.EmploymentDao;
+import org.ktm.dao.party.EmploymentDaoHibernate;
 import org.ktm.dao.party.OrganizationDao;
 import org.ktm.dao.party.OrganizationDaoHibernate;
 import org.ktm.dao.party.PartyRoleDao;
@@ -76,5 +80,15 @@ public class KTMEMDaoFactoryHibernate extends KTMEMDaoFactory {
     @Override
     public InventoryDao getMovingInventoryDao() {
         return new MovingInventoryDaoHibernate();
+    }
+
+    @Override
+    public CustomerDao getCustomerDao() {
+        return new CustomerDaoHibernate();
+    }
+
+    @Override
+    public EmploymentDao getEmploymentDao() {
+        return new EmploymentDaoHibernate();
     }
 }

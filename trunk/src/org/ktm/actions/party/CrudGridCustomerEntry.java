@@ -6,14 +6,14 @@ import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Actions;
 import org.apache.struts2.convention.annotation.Result;
 import org.ktm.actions.CrudAction;
-import org.ktm.web.form.FrmPerson;
+import org.ktm.web.form.FrmCustomer;
 import org.ktm.web.manager.FormManager;
 import org.ktm.web.manager.ServiceLocator;
 
-public class CrudGridPersonEntry extends CrudAction {
+public class CrudGridCustomerEntry extends CrudAction {
 
     private static final long serialVersionUID = -3454448309088641394L;
-    private Logger            log              = Logger.getLogger(CrudGridPersonEntry.class);
+    private Logger            log              = Logger.getLogger(CrudGridCustomerEntry.class);
 
     private String            oper             = "";
     private String            id;
@@ -25,13 +25,14 @@ public class CrudGridPersonEntry extends CrudAction {
     private String            birthDay;
     private String            emailAddress;
     private String            tel;
+    private String            desc;
     
     @Override
     protected FormManager getManager() {
-        return ServiceLocator.getEmploymentManager();
+        return ServiceLocator.getCustomerManager();
     }
     
-    @Actions({ @Action(value = "/crud-grid-person", results = { @Result(location = "simpleecho.jsp", name = "success"), @Result(location = "simpleecho.jsp", name = "input") }) })
+    @Actions({ @Action(value = "/crud-grid-customer", results = { @Result(location = "simpleecho.jsp", name = "success") }) })
     public String execute() throws Exception {
         log.debug("id :" + id);
         log.debug("identifier :" + identifier);
@@ -42,6 +43,7 @@ public class CrudGridPersonEntry extends CrudAction {
         log.debug("birthDay :" + birthDay);
         log.debug("emailAddress:" + emailAddress);
         log.debug("tel:" + tel);
+        log.debug("desc: " + desc);
 
         initContext();
         
@@ -53,26 +55,27 @@ public class CrudGridPersonEntry extends CrudAction {
                 getManager().delete(removeId);
             }
         } else {
-            FrmPerson frmPerson = new FrmPerson();
-            frmPerson.setIdentifier(identifier);
-            frmPerson.setRegisteredIdentifier(registeredIdentifier);
-            frmPerson.setPrename(prename);
-            frmPerson.setFirstname(firstname);
-            frmPerson.setLastname(lastname);
-            frmPerson.setBirthDay(birthDay);
-            frmPerson.setEmailAddress(emailAddress);
-            frmPerson.setTel(tel);
+            FrmCustomer frmCustomer = new FrmCustomer();
+            frmCustomer.setIdentifier(identifier);
+            frmCustomer.setRegisteredIdentifier(registeredIdentifier);
+            frmCustomer.setPrename(prename);
+            frmCustomer.setFirstname(firstname);
+            frmCustomer.setLastname(lastname);
+            frmCustomer.setBirthDay(birthDay);
+            frmCustomer.setEmailAddress(emailAddress);
+            frmCustomer.setTel(tel);
+            frmCustomer.setDesc(desc);
 
             if (oper.equalsIgnoreCase("add")) {
                 log.debug("Add Person");
-                frmPerson.setNew(true);
+                frmCustomer.setNew(true);
             } else if (oper.equalsIgnoreCase("edit")) {
                 log.debug("Edit Person");
-                frmPerson.setId(Integer.parseInt(id));
-                frmPerson.setNew(false);
+                frmCustomer.setId(Integer.parseInt(id));
+                frmCustomer.setNew(false);
             }
 
-            getManager().addOrUpdate(frmPerson);
+            getManager().addOrUpdate(frmCustomer);
         }
         return SUCCESS;
     }
@@ -151,6 +154,14 @@ public class CrudGridPersonEntry extends CrudAction {
 
     public void setTel(String tel) {
         this.tel = tel;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 
 }
