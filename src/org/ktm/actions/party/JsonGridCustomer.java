@@ -8,22 +8,21 @@ import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Actions;
 import org.apache.struts2.convention.annotation.Result;
 import org.ktm.actions.JsonGridFieldsAction;
-import org.ktm.web.form.FrmPerson;
+import org.ktm.web.form.FrmCustomer;
 import org.ktm.web.manager.FormManager;
 import org.ktm.web.manager.ServiceLocator;
 
-public class JsonGridPerson extends JsonGridFieldsAction {
+public class JsonGridCustomer extends JsonGridFieldsAction {
 
     private static final long serialVersionUID = 8072293334749008043L;
-    private Logger            log              = Logger.getLogger(JsonGridPerson.class);
-
-
+    private Logger            log              = Logger.getLogger(JsonGridCustomer.class);
+    
     @Override
     protected FormManager getManager() {
-        return ServiceLocator.getEmploymentManager();
+        return ServiceLocator.getCustomerManager();
     }
     
-    @Actions({ @Action(value = "/json-grid-person", results = { @Result(name = "success", type = "json"), @Result(name = INPUT, location = "user-login", type = "tiles") }) })
+    @Actions({ @Action(value = "/json-grid-customer", results = { @Result(name = "success", type = "json") }) })
     @SuppressWarnings("unchecked")
     public String execute() {
         log.debug("Page " + getPage() + " Rows " + getRows() + " Sorting Order " + getSord() + " Index Row :" + getSidx());
@@ -31,24 +30,24 @@ public class JsonGridPerson extends JsonGridFieldsAction {
 
         initContext();
         
-        log.debug("Get person List");
+        log.debug("Get Customer List");
         try {
             list();
         } catch (Exception e) {
 
         }
-        List<FrmPerson> myPersons = (List<FrmPerson>) getAvailableItems();
+        List<FrmCustomer> myCustomers = (List<FrmCustomer>) getAvailableItems();
 
         if (sord != null && sord.equalsIgnoreCase("asc")) {
-            Collections.sort(myPersons);
+            Collections.sort(myCustomers);
         }
         if (sord != null && sord.equalsIgnoreCase("desc")) {
-            Collections.sort(myPersons);
-            Collections.reverse(myPersons);
+            Collections.sort(myCustomers);
+            Collections.reverse(myCustomers);
         }
 
         // Count all record (select count(*) from your_custumers)
-        records = myPersons.size();
+        records = myCustomers.size();
 
         if (totalrows != null) {
             records = totalrows;
@@ -67,10 +66,10 @@ public class JsonGridPerson extends JsonGridFieldsAction {
 
         if (loadonce) {
             if (totalrows != null && totalrows > 0) {
-                setGridModel(myPersons.subList(0, totalrows));
+                setGridModel(myCustomers.subList(0, totalrows));
             } else {
                 // All Custumer
-                setGridModel(myPersons);
+                setGridModel(myCustomers);
             }
         } else {
             // Search Custumers
@@ -78,26 +77,26 @@ public class JsonGridPerson extends JsonGridFieldsAction {
                 int id = Integer.parseInt(searchString);
                 if (searchOper.equalsIgnoreCase("eq")) {
                     log.debug("search id equals " + id);
-                    List<FrmPerson> cList = new ArrayList<FrmPerson>();
-                    FrmPerson fperson = (FrmPerson) getManager().get(id);
+                    List<FrmCustomer> cList = new ArrayList<FrmCustomer>();
+                    FrmCustomer fcustomer = (FrmCustomer) getManager().get(id);
 
-                    if (fperson != null) {
-                        cList.add(fperson);
+                    if (fcustomer != null) {
+                        cList.add(fcustomer);
                     }
 
                     setGridModel(cList);
                 } else if (searchOper.equalsIgnoreCase("ne")) {
                     log.debug("search id not " + id);
-                    setGridModel((List<FrmPerson>) getManager().findNotById(myPersons, id, from, to));
+                    setGridModel((List<FrmCustomer>) getManager().findNotById(myCustomers, id, from, to));
                 } else if (searchOper.equalsIgnoreCase("lt")) {
                     log.debug("search id lesser then " + id);
-                    setGridModel((List<FrmPerson>) getManager().findLesserAsId(myPersons, id, from, to));
+                    setGridModel((List<FrmCustomer>) getManager().findLesserAsId(myCustomers, id, from, to));
                 } else if (searchOper.equalsIgnoreCase("gt")) {
                     log.debug("search id greater then " + id);
-                    setGridModel((List<FrmPerson>) getManager().findGreaterAsId(myPersons, id, from, to));
+                    setGridModel((List<FrmCustomer>) getManager().findGreaterAsId(myCustomers, id, from, to));
                 }
             } else {
-                setGridModel((List<FrmPerson>) getManager().getSubList(myPersons, from, to));
+                setGridModel((List<FrmCustomer>) getManager().getSubList(myCustomers, from, to));
             }
         }
 
@@ -112,11 +111,11 @@ public class JsonGridPerson extends JsonGridFieldsAction {
     }
 
     @SuppressWarnings("unchecked")
-    public List<FrmPerson> getGridModel() {
-        return (List<FrmPerson>) getAvailableItems();
+    public List<FrmCustomer> getGridModel() {
+        return (List<FrmCustomer>) getAvailableItems();
     }
 
-    private void setGridModel(List<FrmPerson> subList) {
+    private void setGridModel(List<FrmCustomer> subList) {
         setAvailableItems(subList);
     }
 }

@@ -33,4 +33,12 @@ public class ServiceLocator {
     public static InventoryManager getMovingInventoryManager() {
         return MovingInventoryManagerImpl.getInstance();
     }
+
+    public static FormManager getCustomerManager() {
+        return CustomerManagerImpl.getInstance();
+    }
+
+    public static FormManager getEmploymentManager() {
+        return EmploymentManagerImpl.getInstance();
+    }
 }

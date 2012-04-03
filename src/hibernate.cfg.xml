@@ -32,6 +32,7 @@
   <mapping class="org.ktm.domain.party.WebPageAddress"/>
   <mapping class="org.ktm.domain.party.Organization"/>
   <mapping class="org.ktm.domain.party.PartyRole"/>
+  <mapping class="org.ktm.domain.party.Customer"/>
   <mapping class="org.ktm.domain.party.PartyRoleIdentifier"/>
   <mapping class="org.ktm.domain.party.PartyRoleType"/>
   <mapping class="org.ktm.domain.party.RoleSet"/>

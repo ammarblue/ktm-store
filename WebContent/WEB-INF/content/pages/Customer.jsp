@@ -4,119 +4,134 @@
 <%@ taglib prefix="sjg" uri="/struts-jquery-grid-tags"%>
 <script type="text/javascript">
 <!--
-    
+$.subscribe('rowadd', function(event,data) {
+    $("#gridedittable").jqGrid('editGridRow',"new",{height:300,reloadAfterSubmit:false});
+});
+$.subscribe('rowedit', function(event,data) {
+    var gsr = jQuery("#gridedittable").jqGrid('getGridParam', 'selrow');
+    if(gsr){
+        jQuery("#gridedittable").jqGrid('editGridRow', gsr, {height:300,reloadAfterSubmit:true});
+    } else {
+        var txt = $("#select_row").html();
+        alert(txt);
+    }
+});
+$.subscribe('rowdelete', function(event,data) {
+    var gsr = jQuery("#gridedittable").jqGrid('getGridParam', 'selrow');
+    if(gsr){
+        jQuery("#gridedittable").jqGrid('delGridRow', gsr, {height:100,reloadAfterSubmit:true});
+    } else {
+        var txt = $("#select_row").html();
+        alert(txt);
+    }
+});
+$.subscribe('searchgrid', function(event,data) {
+    $("#gridedittable").jqGrid('searchGrid', {sopt:['cn','bw','eq','ne','lt','gt','ew']} );
+});
+$.subscribe('showcolumns', function(event,data) {
+    $("#gridedittable").jqGrid('setColumns',{});
+});
+var jsonString = $.ajax({url: 'json-select-list?listType=userlist', async: false, success: function(data, result) {if (!result) alert('Failure to retrieve the prename.');}}).responseText;
+function getPrenames() {
+    var str = "";
+    prenames = JSON.parse(jsonString);
+    var objs = prenames.selectMap;
+    for(key in objs) {
+        if (!objs.hasOwnProperty(key)) {
+            continue;
+        }
+        str += key + ":" + objs[key] + ";";
+    }
+    str = str.substr(0,str.length-1);
+    return str;
+}
 //-->
 </script>
 <p id="select_row" style="display: none;">
     <s:text name="page.error.require_select_row" />
 </p>
 <h2>
-    <s:text name="page.supplier.title" />
+    <s:text name="page.customer.title" />
 </h2>
 <p class="text">
-    <s:text name="page.supplier.desc" />
+    <s:text name="page.customer.desc" />
 </p>
 <div id="tone">
-    <s:url id="supplier_url" action="json-grid-supplier" />
-    <sjg:grid id="catalog_entry_table"
-        caption="%{getText('page.supplier')}"
-        loadonce="false" 
-        href="%{product_type_url}"
-        gridModel="gridModel" 
-        groupField="['catalogName']"
-        groupColumnShow="[false]" 
-        groupCollapse="true"
-        groupText="['<b>{0} - {1} %{getText('page.productType.group')}</b>']"
-        navigator="true" 
-        navigatorAdd="false" 
-        navigatorEdit="false"
-        navigatorDelete="true" 
-        navigatorView="true" 
-        rowTotal="70"
-        rowNum="-1" 
-        altRows="true" 
-        viewrecords="true" 
+    <s:url id="json_person_url" action="json-grid-person" />
+    <s:url id="crud_person_url" action="crud-grid-person" />
+    <sjg:grid
+        id="gridedittable"
+        caption="%{getText('page.customer')}"
+        href="%{json_person_url}"
+        editurl="%{crud_person_url}"
+        dataType="json"
         pager="true"
-        pagerButtons="false" 
-        pagerInput="false"
-        editurl="%{crud_product_type}"
-        autowidth="true">
-        
-        <sjg:gridColumn name="id" index="id" title="No" width="30" formatter="integer" sortable="false" />
-        <sjg:gridColumn name="identifier" index="identifier" title="%{getText('page.supplier.id')}" sortable="true" />
-        <sjg:gridColumn name="name" index="name" title="%{getText('page.supplier.name')}" sortable="true" />
-        <sjg:gridColumn name="addr1" index="addr1"
-            title="%{getText('page.supplier.address')} 1"
-            sortable="true" hidden="true"/>
-        <sjg:gridColumn name="addr2" index="addr2"
-            title="%{getText('page.supplier.address')} 2"
-            sortable="true" hidden="true"/>
-        <sjg:gridColumn name="addr3" index="addr3"
-            title="%{getText('page.supplier.address')} 3"
-            sortable="true" hidden="true"/>
-        <sjg:gridColumn name="tel" index="tel"
-            title="%{getText('page.supplier.tel')}"
-            sortable="true" hidden="true"/>
-        <sjg:gridColumn name="fax" index="fax"
-            title="%{getText('page.supplier.fax')}"
-            sortable="false" hidden="true"/>
-        <sjg:gridColumn name="payment" index="payment"
-            title="%{getText('page.supplier.payment')}"
-            formatter="currency" sortable="false" hidden="true"/>
-        <sjg:gridColumn name="creditTime" index="creditTime"
-            title="%{getText('page.supplier.credit_time')}"
-            formatter="currency" sortable="false" hidden="true"/>
-        <sjg:gridColumn name="contact" index="contact"
-            title="%{getText('page.supplier.contact_name')}"
-            sortable="false" />
-        <sjg:gridColumn name="mark" index="mark"
-            title="%{getText('page.supplier.mark')}"
-            sortable="false" />
+        navigator="true"
+        navigatorAdd="false"
+        navigatorEdit="false"
+        navigatorDelete="false"
+        navigatorSearch="false"
+        navigatorView="false"
+        gridModel="gridModel"
+        rowList="5,10,15,20"
+        rowNum="5"
+        editinline="false"
+        viewrecords="true"
+        autowidth="true"
+        onBeforeTopics="before"
+    >
+        <sjg:gridColumn name="id" index="id" title="ID" width="30"
+            formatter="integer" editable="false" sortable="false"
+            search="false" hidden="true"
+        />
+        <sjg:gridColumn name="identifier" index="identifier"
+            title="%{getText('page.user_data.field.id')}" hidden="true" editable="true" edittype="text"
+            editrules="{ edithidden : true } "
+        />
+        <sjg:gridColumn name="registeredIdentifier"
+            index="registeredIdentifier" title="%{getText('page.user_data.identifier')}"
+            width="130" formatter="integer" editable="true"
+            edittype="text" sortable="false" search="false"
+        />
+        <sjg:gridColumn name="prename" index="prename" title="%{getText('page.user_data.prename')}"
+            width="70" editable="true" edittype="select"
+            editoptions="{ value: getPrenames()}"
+            sortable="false" search="false"
+        />
+        <sjg:gridColumn name="firstname" index="firstname" title="%{getText('page.user_data.name')}"
+            width="150" editable="true" edittype="text" sortable="true"
+            search="false"
+        />
+        <sjg:gridColumn name="lastname" index="lastname" title="%{getText('page.user_data.lastname')}"
+            width="150" editable="true" sortable="false" search="false"
+        />
+        <sjg:gridColumn name="birthDay" index="birthDay" title="%{getText('page.user_data.birthday')}"
+            hidden="true" editable="true" edittype="text" editrules="{ edithidden : true } "
+            editoptions="{ size: 12, maxlength: 10 , dataInit: function(element) { $(element).datepicker({dateFormat:'dd-mm-yy'}); } }"
+        />
+        <sjg:gridColumn name="emailAddress" index="%{getText('page.user_data.email')}"
+            title="Email" width="150" editable="true" sortable="false"
+            search="false"
+        />
+        <sjg:gridColumn name="tel" index="tel" title="%{getText('page.user_data.tel')}"
+            width="150" editable="true" sortable="false" search="false"
+        />
+        <sjg:gridColumn name="desc" index="desc" title="%{getText('page.user_data.field.desc')}"
+            width="150" editable="true" sortable="false" search="false"
+        />
     </sjg:grid>
-    <br />
-    <s:url id="crud_supplier_url" action="crud-grid-supplier" />
-    <s:form id="ptype_edit" action="%{crud_supplier_url}" theme="simple"
-        cssClass="yform">
-        <fieldset>
-            <legend>
-                <s:text name="page.productType.editProduct" />
-            </legend>
-            <div class="type-text">
-                <s:hidden id="oper" name="oper" value="add" />
-                <s:hidden id="id" name="id" />
-                
-                <label for="identifier"><s:text
-                        name="page.supplier.id" />: </label>
-                <s:textfield id="identifier" name="identifier"
-                    width="50" />
-                <label for="name"><s:text name="page.supplier.name" />: </label>
-                <s:textfield id="name" name="name" />
-                <label for="addr1"><s:text name="page.supplier.address" /> 1 : </label>
-                <s:textfield id="addr1" name="addr1" />
-                <label for="addr2"><s:text name="page.supplier.address" /> 2 : </label>
-                <s:textfield id="addr2" name="addr2" />
-                <label for="addr3"><s:text name="page.supplier.address" /> 3 : </label>
-                <s:textfield id="addr3" name="addr3" />
-                <label for="tel"><s:text name="page.supplier.tel" />: </label>
-                <s:textfield id="tel" name="tel" />
-                <label for="fax"><s:text name="page.supplier.fax" />: </label>
-                <s:textfield id="fax" name="fax" />
-                <s:url id="catalog_url" action="json-select-catalog" />
-                <label for="payment"><s:text name="page.supplier.payment" />: </label>
-                <sj:select href="%{catalog_url}" id="payment" name="payment" list="catalogList"
-                    headerKey="-1"
-                    headerValue="%{getText('page.productType.selectCatalog')}" />
-                <label for="creditTime"><s:text name="page.supplier.credit_time" />: </label>
-                <s:textfield id="creditTime" name="creditTime" />
-                <label for="contactName"><s:text name="page.supplier.contact_name" />: </label>
-                <s:textfield id="contactName" name="contactName" />
-                <label for="mark"><s:text name="page.supplier.mark" />: </label>
-                <s:textfield id="mark" name="mark" />
-            </div>
-        </fieldset>
-    </s:form>
-    <br />
-    <sj:submit formIds="ptype_edit" targets="result" effect="pulsate"
-        button="true" key="page.btn.save" />
+    <br /> <br />
+    <sj:submit id="grid_edit_addbutton" key="page.btn.add"
+        onClickTopics="rowadd" button="true"
+    />
+    <sj:submit id="grid_edit_savebutton" key="page.btn.edit"
+        onClickTopics="rowedit" button="true"
+    />
+    <sj:submit id="grid_edit_deletebutton" key="page.btn.delete"
+        onClickTopics="rowdelete" button="true"
+    />
+    <sj:submit id="grid_edit_searchbutton" key="page.btn.search"
+        onClickTopics="searchgrid" button="true"
+    />
     <br /> <br />
 </div>

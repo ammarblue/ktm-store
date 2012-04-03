@@ -85,36 +85,36 @@ function getPrenames() {
             search="false" hidden="true"
         />
         <sjg:gridColumn name="identifier" index="identifier"
-            title="รหัส" width="50" editable="true" edittype="text"
+            title="%{getText('page.user_data.field.id')}" width="50" editable="true" edittype="text"
             sortable="true" search="true"
             searchoptions="{sopt:['eq','ne','lt','gt']}"
         />
         <sjg:gridColumn name="registeredIdentifier"
-            index="registeredIdentifier" title="หมายเลขบัตรประชาชน"
+            index="registeredIdentifier" title="%{getText('page.user_data.identifier')}"
             width="130" formatter="integer" editable="true"
             edittype="text" sortable="false" search="false"
         />
-        <sjg:gridColumn name="prename" index="prename" title="คำนำหน้า"
+        <sjg:gridColumn name="prename" index="prename" title="%{getText('page.user_data.prename')}"
             width="70" editable="true" edittype="select"
             editoptions="{ value: getPrenames()}"
             sortable="false" search="false"
         />
-        <sjg:gridColumn name="firstname" index="firstname" title="ชื่อ"
+        <sjg:gridColumn name="firstname" index="firstname" title="%{getText('page.user_data.name')}"
             width="150" editable="true" edittype="text" sortable="true"
             search="false"
         />
-        <sjg:gridColumn name="lastname" index="lastname" title="นามสกุล"
+        <sjg:gridColumn name="lastname" index="lastname" title="%{getText('page.user_data.lastname')}"
             width="150" editable="true" sortable="false" search="false"
         />
-        <sjg:gridColumn name="birthDay" index="birthDay" title="วันเกิด"
+        <sjg:gridColumn name="birthDay" index="birthDay" title="%{getText('page.user_data.birthday')}"
             editable="true" sorttype="date" width="90" search="false"
             editoptions="{ size: 12, maxlength: 10 , dataInit: function(element) { $(element).datepicker({dateFormat:'dd-mm-yy'}); } }"
         />
-        <sjg:gridColumn name="emailAddress" index="emailAddress"
+        <sjg:gridColumn name="emailAddress" index="%{getText('page.user_data.email')}"
             title="Email" width="150" editable="true" sortable="false"
             search="false"
         />
-        <sjg:gridColumn name="tel" index="tel" title="เบอร์โทรศัพท์"
+        <sjg:gridColumn name="tel" index="tel" title="%{getText('page.user_data.tel')}"
             width="150" editable="true" sortable="false" search="false"
         />
     </sjg:grid>

@@ -1,6 +1,8 @@
 package org.ktm.dao;
 
 import org.ktm.dao.party.AuthenDao;
+import org.ktm.dao.party.CustomerDao;
+import org.ktm.dao.party.EmploymentDao;
 import org.ktm.dao.party.OrganizationDao;
 import org.ktm.dao.party.PartyRoleDao;
 import org.ktm.dao.party.PersonDao;
@@ -41,4 +43,8 @@ public abstract class KTMEMDaoFactory {
     public abstract InventoryDao getFixedInventoryDao();
 
     public abstract InventoryDao getMovingInventoryDao();
+
+    public abstract CustomerDao getCustomerDao();
+
+    public abstract EmploymentDao getEmploymentDao();
 }

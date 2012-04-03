@@ -8,55 +8,61 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import org.ktm.dao.KTMEMDaoFactory;
+import org.ktm.dao.party.CustomerDao;
 import org.ktm.dao.party.PartyRoleDao;
-import org.ktm.dao.party.PersonDao;
 import org.ktm.domain.party.Address;
 import org.ktm.domain.party.AddressEType;
 import org.ktm.domain.party.AddressProperties;
+import org.ktm.domain.party.Customer;
 import org.ktm.domain.party.EmailAddress;
-import org.ktm.domain.party.PartyIdentifier;
 import org.ktm.domain.party.PartyRole;
+import org.ktm.domain.party.PartyRoleIdentifier;
 import org.ktm.domain.party.Person;
 import org.ktm.domain.party.RegisteredIdentifier;
 import org.ktm.domain.party.TelephoneAddress;
 import org.ktm.exception.CreateException;
 import org.ktm.exception.DeleteException;
+import org.ktm.web.form.FrmCustomer;
 import org.ktm.web.form.FrmDomain;
-import org.ktm.web.form.FrmPerson;
 import org.ktm.web.utils.DateUtils;
 
-public class PersonManagerImpl extends FrmManagerAbstractImpl implements PersonManager {
+public class CustomerManagerImpl extends FrmManagerAbstractImpl implements CustomerManager {
+
+    private static CustomerManager theInstance = null;
     
-    private static PersonManager theInstance = null;
-    
-    public static PersonManager getInstance() {
+    public static CustomerManager getInstance() {
         if (theInstance == null) {
-            theInstance = new PersonManagerImpl();
+            theInstance = new CustomerManagerImpl();
         }
         return theInstance;
     }
-
-    private PersonDao getDao() {
-        return KTMEMDaoFactory.getInstance().getPersonDao();
+    
+    private CustomerDao getDao() {
+        return KTMEMDaoFactory.getInstance().getCustomerDao();
     }
     
     @Override
-    public synchronized FrmDomain get(Serializable tryId) {
-        FrmPerson fperson = null;
-        Person person = (Person) getDao().get(tryId);
-        if (person != null) {
-            fperson = new FrmPerson();
-            syncFormPerson(person, fperson);
+    public FrmDomain get(Serializable tryId) {
+        FrmCustomer form = new FrmCustomer();
+        Customer cus = (Customer) getDao().get(tryId);
+        if (cus != null) {
+            syncFormCustomer(cus, form);
         }
-        return fperson;
+        return form;
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public synchronized List<FrmDomain> findAll() {
-        List<FrmDomain> myPersons = new ArrayList<FrmDomain>();
-        syncFormPersonCollection((Collection<Person>) getDao().findAll(), myPersons);
-        return myPersons;
+    public List<?> findAll() {
+        List<FrmDomain> myCustomers = new ArrayList<FrmDomain>();
+        Collection<?> customers = getDao().findAll();
+        for (Object obj : customers) {
+            if (obj instanceof Customer) {
+                FrmCustomer form = new FrmCustomer();
+                syncFormCustomer((Customer)obj, form);
+                myCustomers.add(form);
+            }
+        }
+        return myCustomers;
     }
 
     @Override
@@ -75,26 +81,30 @@ public class PersonManagerImpl extends FrmManagerAbstractImpl implements PersonM
     }
 
     @Override
-    public synchronized Integer addOrUpdate(FrmDomain toAdd) {
-        FrmPerson frmPerson = (FrmPerson) toAdd;
-        Person person = new Person();
+    public Integer addOrUpdate(FrmDomain toAdd) {
+        FrmCustomer frmCustomer = (FrmCustomer) toAdd;
+        Customer cus = new Customer();
+        Person person = null;
 
-        PersonDao personDao = KTMEMDaoFactory.getInstance().getPersonDao();
+        CustomerDao dao = KTMEMDaoFactory.getInstance().getCustomerDao();
 
         if (toAdd.isNew()) {
-            PartyIdentifier ident = new PartyIdentifier();
-            ident.setIdentifier(frmPerson.getIdentifier());
-            person.setIdentifier(ident);
+            PartyRoleIdentifier ident = new PartyRoleIdentifier();
+            ident.setIdentifier(frmCustomer.getIdentifier());
+            cus.setIdentifier(ident);
+            cus.setDescription(frmCustomer.getDesc());
 
+            person = new Person();
+            
             RegisteredIdentifier regid = new RegisteredIdentifier();
-            regid.setIdentifier(frmPerson.getRegisteredIdentifier());
+            regid.setIdentifier(frmCustomer.getRegisteredIdentifier());
             regid.setParty(person);
             person.getRegisteredIdentifiers().add(regid);
 
             EmailAddress email = new EmailAddress();
-            email.setEmail(frmPerson.getEmailAddress());
+            email.setEmail(frmCustomer.getEmailAddress());
             TelephoneAddress phone = new TelephoneAddress();
-            phone.setNumber(frmPerson.getTel());
+            phone.setNumber(frmCustomer.getTel());
 
             AddressProperties addrp = new AddressProperties();
             addrp.setAddress(email);
@@ -113,24 +123,29 @@ public class PersonManagerImpl extends FrmManagerAbstractImpl implements PersonM
             role.setParty(person);
             person.getRoles().add(role);
         } else {
-            person = (Person) personDao.get(frmPerson.getId());
-            PartyIdentifier ident = person.getIdentifier();
+            cus = (Customer) dao.get(frmCustomer.getId());
+            person = (Person) cus.getParty();
+            if (person == null) {
+                person = new Person();
+                person.getRoles().add(cus);
+            }
+            PartyRoleIdentifier ident = cus.getIdentifier();
             if (ident == null) {
-                ident = new PartyIdentifier();
-                ident.setIdentifier(frmPerson.getIdentifier());
-                person.setIdentifier(ident);
+                ident = new PartyRoleIdentifier();
+                ident.setIdentifier(frmCustomer.getIdentifier());
+                cus.setIdentifier(ident);
             } else {
-                person.getIdentifier().setIdentifier(frmPerson.getIdentifier());
+                cus.getIdentifier().setIdentifier(frmCustomer.getIdentifier());
             }
 
             Iterator<RegisteredIdentifier> regids = person.getRegisteredIdentifiers().iterator();
             RegisteredIdentifier regid = null;
             if (regids.hasNext()) {
                 regid = regids.next();
-                regid.setIdentifier(frmPerson.getRegisteredIdentifier());
+                regid.setIdentifier(frmCustomer.getRegisteredIdentifier());
             } else {
                 regid = new RegisteredIdentifier();
-                regid.setIdentifier(frmPerson.getRegisteredIdentifier());
+                regid.setIdentifier(frmCustomer.getRegisteredIdentifier());
                 regid.setParty(person);
                 person.getRegisteredIdentifiers().add(regid);
             }
@@ -142,7 +157,7 @@ public class PersonManagerImpl extends FrmManagerAbstractImpl implements PersonM
                 if (AddressEType.EMAIL.equals(addrp.getUseage())) {
                     Address adds = addrp.getAddress();
                     if (adds instanceof EmailAddress) {
-                        ((EmailAddress) adds).setEmail(frmPerson.getEmailAddress());
+                        ((EmailAddress) adds).setEmail(frmCustomer.getEmailAddress());
                         found = true;
                         break;
                     }
@@ -150,7 +165,7 @@ public class PersonManagerImpl extends FrmManagerAbstractImpl implements PersonM
             }
             if (!found) {
                 EmailAddress email = new EmailAddress();
-                email.setEmail(frmPerson.getEmailAddress());
+                email.setEmail(frmCustomer.getEmailAddress());
                 AddressProperties addrp = new AddressProperties();
                 addrp.setAddress(email);
                 addrp.setParty(person);
@@ -164,7 +179,7 @@ public class PersonManagerImpl extends FrmManagerAbstractImpl implements PersonM
                 if (AddressEType.TELEPHONE.equals(addrp.getUseage())) {
                     Address adds = addrp.getAddress();
                     if (adds instanceof TelephoneAddress) {
-                        ((TelephoneAddress) adds).setNumber(frmPerson.getTel());
+                        ((TelephoneAddress) adds).setNumber(frmCustomer.getTel());
                         found = true;
                         break;
                     }
@@ -172,7 +187,7 @@ public class PersonManagerImpl extends FrmManagerAbstractImpl implements PersonM
             }
             if (!found) {
                 TelephoneAddress phone = new TelephoneAddress();
-                phone.setNumber(frmPerson.getTel());
+                phone.setNumber(frmCustomer.getTel());
                 AddressProperties addrp = new AddressProperties();
                 addrp.setAddress(phone);
                 addrp.setParty(person);
@@ -192,14 +207,14 @@ public class PersonManagerImpl extends FrmManagerAbstractImpl implements PersonM
             }
         }
 
-        person.setPrename(frmPerson.getPrename());
-        person.setFirstname(frmPerson.getFirstname());
-        person.setLastname(frmPerson.getLastname());
-        person.setBirthDay(frmPerson.getBirthDay());
+        person.setPrename(frmCustomer.getPrename());
+        person.setFirstname(frmCustomer.getFirstname());
+        person.setLastname(frmCustomer.getLastname());
+        person.setBirthDay(frmCustomer.getBirthDay());
 
         Integer id = 0;
         try {
-            id = (Integer) personDao.create(person);
+            id = (Integer) dao.create(cus);
         } catch (CreateException e) {
             e.printStackTrace();
         }
@@ -207,11 +222,15 @@ public class PersonManagerImpl extends FrmManagerAbstractImpl implements PersonM
         return id;
     }
 
-    public synchronized void syncFormPerson(Person person, FrmPerson form) {
-        if (person != null && form != null) {
-            if (person.getUniqueId() != null) {
-                form.setId(person.getUniqueId());
+    public synchronized void syncFormCustomer(Customer customer, FrmCustomer form) {
+        if (customer != null && form != null) {
+            if (customer.getUniqueId() != null) {
+                form.setId(customer.getUniqueId());
             }
+            if (customer.getDescription() != null) {
+                form.setDesc(customer.getDescription());
+            }
+            Person person = (Person) customer.getParty();
             if (person.getPrename() != null) {
                 form.setPrename(person.getPrename());
             }
@@ -251,37 +270,4 @@ public class PersonManagerImpl extends FrmManagerAbstractImpl implements PersonM
             }
         }
     }
-
-    public synchronized void syncFormPersonCollection(Collection<Person> persons, Collection<FrmDomain> myPersons) {
-        if (persons != null && persons.size() > 0) {
-            if (myPersons != null) {
-                Iterator<Person> it1 = persons.iterator();
-                Iterator<FrmDomain> it2 = myPersons.iterator();
-
-                List<FrmPerson> tmps = new ArrayList<FrmPerson>();
-
-                FrmPerson f = null;
-                while (it1.hasNext()) {
-                    Person p = it1.next();
-                    if (!it2.hasNext()) {
-                        f = new FrmPerson();
-                        tmps.add(f);
-                    } else {
-                        FrmDomain obj = it2.next();
-                        if (obj instanceof FrmPerson) {
-                            f = (FrmPerson) obj;
-                        }
-                    }
-                    this.syncFormPerson(p, f);
-                }
-
-                if (tmps.size() > 0) {
-                    for (FrmPerson nf : tmps) {
-                        myPersons.add(nf);
-                    }
-                }
-            }
-        }
-    }
-
 }

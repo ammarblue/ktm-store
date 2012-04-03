@@ -8,12 +8,15 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import org.ktm.dao.KTMEMDaoFactory;
-import org.ktm.dao.party.PartyRoleDao;
+import org.ktm.dao.party.EmploymentDao;
 import org.ktm.dao.party.PersonDao;
 import org.ktm.domain.party.Address;
 import org.ktm.domain.party.AddressEType;
 import org.ktm.domain.party.AddressProperties;
 import org.ktm.domain.party.EmailAddress;
+import org.ktm.domain.party.Employee;
+import org.ktm.domain.party.Employer;
+import org.ktm.domain.party.Employment;
 import org.ktm.domain.party.PartyIdentifier;
 import org.ktm.domain.party.PartyRole;
 import org.ktm.domain.party.Person;
@@ -25,37 +28,64 @@ import org.ktm.web.form.FrmDomain;
 import org.ktm.web.form.FrmPerson;
 import org.ktm.web.utils.DateUtils;
 
-public class PersonManagerImpl extends FrmManagerAbstractImpl implements PersonManager {
-    
-    private static PersonManager theInstance = null;
-    
-    public static PersonManager getInstance() {
+public class EmploymentManagerImpl extends FrmManagerAbstractImpl  implements EmploymentManager {
+
+    private static EmploymentManager theInstance = null;
+
+    public static FormManager getInstance() {
         if (theInstance == null) {
-            theInstance = new PersonManagerImpl();
+            theInstance = new EmploymentManagerImpl();
         }
         return theInstance;
     }
 
-    private PersonDao getDao() {
-        return KTMEMDaoFactory.getInstance().getPersonDao();
+    private EmploymentDao getDao() {
+        return KTMEMDaoFactory.getInstance().getEmploymentDao();
     }
     
     @Override
-    public synchronized FrmDomain get(Serializable tryId) {
+    public FrmDomain get(Serializable tryId) {
         FrmPerson fperson = null;
-        Person person = (Person) getDao().get(tryId);
-        if (person != null) {
-            fperson = new FrmPerson();
-            syncFormPerson(person, fperson);
+        Employment emp = (Employment) getDao().get(tryId);
+        if (emp != null) {
+            PartyRole emr = emp.getSupply();
+            PartyRole eme = emp.getClient();
+            if (emr != null && eme != null) {
+                fperson = new FrmPerson();
+                // TODO: set Employer information
+                if (emr instanceof Employer) {
+                    
+                }
+                
+                if (eme instanceof Employee) {
+                    Person person = (Person) eme.getParty();
+                    syncFormPerson(person, fperson);
+                }
+            }
         }
         return fperson;
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public synchronized List<FrmDomain> findAll() {
+    public List<?> findAll() {
         List<FrmDomain> myPersons = new ArrayList<FrmDomain>();
-        syncFormPersonCollection((Collection<Person>) getDao().findAll(), myPersons);
+        Collection<?> objs = getDao().findAll();
+        for (Object obj : objs) {
+            if (obj instanceof Employment) {
+                Employment emm = (Employment) obj;
+                
+                //PartyRole emr = emm.getSupply();
+                // TODO: Employer information
+
+                PartyRole eme = emm.getClient();
+                if(eme instanceof Employee) {
+                    FrmPerson fperson = new FrmPerson();
+                    Person person = (Person) eme.getParty();
+                    syncFormPerson(person, fperson);
+                    myPersons.add(fperson);
+                }
+            }
+        }
         return myPersons;
     }
 
@@ -75,13 +105,26 @@ public class PersonManagerImpl extends FrmManagerAbstractImpl implements PersonM
     }
 
     @Override
-    public synchronized Integer addOrUpdate(FrmDomain toAdd) {
+    public Integer addOrUpdate(FrmDomain toAdd) {
         FrmPerson frmPerson = (FrmPerson) toAdd;
-        Person person = new Person();
+        Employment emm = null;
+        Employee eme = null;
+        Person person = null;
 
         PersonDao personDao = KTMEMDaoFactory.getInstance().getPersonDao();
 
         if (toAdd.isNew()) {
+            // TODO: add Employer information
+            
+            emm = new Employment();
+            
+            eme = new Employee();
+            person = new Person();
+            
+            eme.setName("Employee");
+            eme.setParty(person);
+            person.getRoles().add(eme);
+            
             PartyIdentifier ident = new PartyIdentifier();
             ident.setIdentifier(frmPerson.getIdentifier());
             person.setIdentifier(ident);
@@ -107,13 +150,13 @@ public class PersonManagerImpl extends FrmManagerAbstractImpl implements PersonM
             addrp.setParty(person);
             addrp.setUseage(AddressEType.TELEPHONE);
             person.getAddresses().add(addrp);
-
-            PartyRole role = new PartyRole();
-            role.setName("Employee");
-            role.setParty(person);
-            person.getRoles().add(role);
         } else {
-            person = (Person) personDao.get(frmPerson.getId());
+            emm = (Employment) getDao().get(frmPerson.getId());
+            eme = (Employee) emm.getClient();
+            
+            // TODO: employer information
+            
+            person = (Person) eme.getParty();
             PartyIdentifier ident = person.getIdentifier();
             if (ident == null) {
                 ident = new PartyIdentifier();
@@ -179,17 +222,6 @@ public class PersonManagerImpl extends FrmManagerAbstractImpl implements PersonM
                 addrp.setUseage(AddressEType.TELEPHONE);
                 person.getAddresses().add(addrp);
             }
-
-            Set<PartyRole> roles = person.getRoles();
-            PartyRoleDao partyRoleDao = KTMEMDaoFactory.getInstance().getPartyRoleDao();
-            
-            PartyRole role = partyRoleDao.findByRoleName(person, "Employee");
-            if (role == null) {
-                role = new PartyRole();
-                role.setName("Employee");
-                role.setParty(person);
-                roles.add(role);
-            }
         }
 
         person.setPrename(frmPerson.getPrename());
@@ -199,7 +231,20 @@ public class PersonManagerImpl extends FrmManagerAbstractImpl implements PersonM
 
         Integer id = 0;
         try {
-            id = (Integer) personDao.create(person);
+            Integer personId = (Integer) personDao.create(person);
+            person = (Person) personDao.get(personId);
+            
+            Set<PartyRole> roles = person.getRoles();
+            for (PartyRole role : roles) {
+                if (role instanceof Employee) {
+                    eme = (Employee) role;
+                    break;
+                }
+            }
+            emm.setClient(eme);
+            
+            id = (Integer) getDao().create(emm);
+            
         } catch (CreateException e) {
             e.printStackTrace();
         }
@@ -251,37 +296,4 @@ public class PersonManagerImpl extends FrmManagerAbstractImpl implements PersonM
             }
         }
     }
-
-    public synchronized void syncFormPersonCollection(Collection<Person> persons, Collection<FrmDomain> myPersons) {
-        if (persons != null && persons.size() > 0) {
-            if (myPersons != null) {
-                Iterator<Person> it1 = persons.iterator();
-                Iterator<FrmDomain> it2 = myPersons.iterator();
-
-                List<FrmPerson> tmps = new ArrayList<FrmPerson>();
-
-                FrmPerson f = null;
-                while (it1.hasNext()) {
-                    Person p = it1.next();
-                    if (!it2.hasNext()) {
-                        f = new FrmPerson();
-                        tmps.add(f);
-                    } else {
-                        FrmDomain obj = it2.next();
-                        if (obj instanceof FrmPerson) {
-                            f = (FrmPerson) obj;
-                        }
-                    }
-                    this.syncFormPerson(p, f);
-                }
-
-                if (tmps.size() > 0) {
-                    for (FrmPerson nf : tmps) {
-                        myPersons.add(nf);
-                    }
-                }
-            }
-        }
-    }
-
 }

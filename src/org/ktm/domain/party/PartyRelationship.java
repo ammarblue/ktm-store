@@ -9,6 +9,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
 import javax.persistence.Version;
+import org.ktm.domain.KTMEntity;
 
 /*
  * The PartyRelationship captures the fact that there is a semantic relationship
@@ -16,7 +17,7 @@ import javax.persistence.Version;
  */
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class PartyRelationship implements Serializable {
+public class PartyRelationship extends KTMEntity implements Serializable {
 
     private static final long     serialVersionUID = 1L;
 
