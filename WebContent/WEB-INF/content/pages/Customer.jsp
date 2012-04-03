@@ -57,13 +57,13 @@ function getPrenames() {
     <s:text name="page.customer.desc" />
 </p>
 <div id="tone">
-    <s:url id="json_person_url" action="json-grid-person" />
-    <s:url id="crud_person_url" action="crud-grid-person" />
+    <s:url id="json_customer_url" action="json-grid-customer" />
+    <s:url id="crud_customer_url" action="crud-grid-customer" />
     <sjg:grid
         id="gridedittable"
         caption="%{getText('page.customer')}"
-        href="%{json_person_url}"
-        editurl="%{crud_person_url}"
+        href="%{json_customer_url}"
+        editurl="%{crud_customer_url}"
         dataType="json"
         pager="true"
         navigator="true"
