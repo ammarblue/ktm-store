@@ -1,30 +1,33 @@
 package org.ktm.domain.money;
 
 import java.util.Date;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 
 @Entity
-public class Check extends Payment {
+public class Check extends PaymentMethod {
 
-    private static final long serialVersionUID = 2794678647219779937L;
+    private static final long serialVersionUID = 1L;
 
-    private String accountName;
-    private String accountNumber;
-    private String checkNumber;
-    private String paynee;
-    private Date dateWritten;
-    private String bankName;
-    private String bankAddress;
-    private String bankIdentificationNumber;
-    
+    private String            accountName;
+    private String            accountNumber;
+    private String            checkNumber;
+    private String            paynee;
+    private Date              dateWritten;
+    private String            bankName;
+    private String            bankAddress;
+    private String            bankIdentificationNumber;
+
+    @Column
     public String getAccountName() {
         return accountName;
     }
-    
+
     public void setAccountName(String accountName) {
         this.accountName = accountName;
     }
 
+    @Column
     public String getAccountNumber() {
         return accountNumber;
     }
@@ -33,6 +36,7 @@ public class Check extends Payment {
         this.accountNumber = accountNumber;
     }
 
+    @Column
     public String getCheckNumber() {
         return checkNumber;
     }
@@ -41,6 +45,7 @@ public class Check extends Payment {
         this.checkNumber = checkNumber;
     }
 
+    @Column
     public String getPaynee() {
         return paynee;
     }
@@ -49,6 +54,7 @@ public class Check extends Payment {
         this.paynee = paynee;
     }
 
+    @Column
     public Date getDateWritten() {
         return dateWritten;
     }
@@ -57,6 +63,7 @@ public class Check extends Payment {
         this.dateWritten = dateWritten;
     }
 
+    @Column
     public String getBankName() {
         return bankName;
     }
@@ -65,6 +72,7 @@ public class Check extends Payment {
         this.bankName = bankName;
     }
 
+    @Column
     public String getBankAddress() {
         return bankAddress;
     }
@@ -73,6 +81,7 @@ public class Check extends Payment {
         this.bankAddress = bankAddress;
     }
 
+    @Column
     public String getBankIdentificationNumber() {
         return bankIdentificationNumber;
     }
@@ -80,5 +89,5 @@ public class Check extends Payment {
     public void setBankIdentificationNumber(String bankIdentificationNumber) {
         this.bankIdentificationNumber = bankIdentificationNumber;
     }
-    
+
 }

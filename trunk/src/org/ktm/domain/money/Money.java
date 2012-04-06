@@ -9,6 +9,8 @@ import org.ktm.domain.quantity.SystemOfUnits;
 @Embeddable
 public class Money extends Quantity {
 
+    private static final long serialVersionUID = 1L;
+
     public Money() {
         super(0.0, SystemOfUnits.getInstance().BATH);
     }

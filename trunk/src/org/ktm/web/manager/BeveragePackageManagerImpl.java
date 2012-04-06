@@ -112,7 +112,7 @@ public class BeveragePackageManagerImpl extends FrmManagerAbstractImpl implement
             ProductIdentifier iden = null;
             
             try {
-                catalog = daoCatalog.findByName(form.getCatalogName());
+                catalog = (ProductCatalog) daoCatalog.get(Integer.valueOf(form.getCatalogName()));
                 List<CatalogEntry> entrys = catalog.getCatalogEntry();
                 if (entrys != null && entrys.size() > 0) {
                     entry = entrys.get(0);
