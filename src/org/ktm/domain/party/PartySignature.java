@@ -5,11 +5,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Version;
 import org.ktm.domain.KTMEntity;
-import org.ktm.domain.product.Batch;
 
 /*
  * The PartySignature represents the identifying mark of a party. When specific
@@ -26,8 +24,6 @@ public class PartySignature extends KTMEntity {
     private String            reason;
     private PartyIdentifier   partyIdentifier;
     private Authen            authen;
-
-    // private Batch batch;
 
     @Id
     @GeneratedValue
@@ -85,9 +81,4 @@ public class PartySignature extends KTMEntity {
     public void setAuthen(Authen authen) {
         this.authen = authen;
     }
-    /*
-     * @ManyToOne public Batch getBatch() { return batch; } public void
-     * setBatch(Batch batch) { this.batch = batch; }
-     */
-
 }

@@ -1,5 +1,6 @@
 package org.ktm.domain.money;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 
 @Entity
@@ -9,7 +10,8 @@ public class CreditCard extends PaymentCard {
     
     private Double creditLimit;
     private Double dailyWithdrawLimit;
-    
+
+    @Column
     public Double getCreditLimit() {
         return creditLimit;
     }
@@ -18,6 +20,7 @@ public class CreditCard extends PaymentCard {
         this.creditLimit = creditLimit;
     }
 
+    @Column
     public Double getDailyWithdrawLimit() {
         return dailyWithdrawLimit;
     }

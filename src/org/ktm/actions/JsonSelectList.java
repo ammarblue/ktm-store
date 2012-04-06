@@ -9,6 +9,7 @@ import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Actions;
 import org.apache.struts2.convention.annotation.Result;
 import org.ktm.web.form.FrmCatalog;
+import org.ktm.web.form.FrmSupplier;
 import org.ktm.web.manager.FormManager;
 import org.ktm.web.manager.ServiceLocator;
 
@@ -27,6 +28,8 @@ public class JsonSelectList extends JsonGridFieldsAction {
         FormManager result = null;
         if (listType.equals("catalogList")) {
             result = ServiceLocator.getProductCatalogManager();
+        } else if (listType.equals("supplierList")) {
+            result = ServiceLocator.getSupplierManager();
         }
         return result;
     }
@@ -87,6 +90,17 @@ public class JsonSelectList extends JsonGridFieldsAction {
             selectList.add(val);
             selectMap.put(String.valueOf(i), val);
             selectObjList.add(new ListValue(String.valueOf(i++), val));
+        }
+        return SUCCESS;
+    }
+    
+    @SuppressWarnings("unchecked")
+    public String supplierList() {
+        List<FrmSupplier> frmSuppliers = (List<FrmSupplier>) getManager().findAll();
+        for (FrmSupplier form : frmSuppliers) {
+            selectList.add(form.getDesc());
+            selectMap.put(String.valueOf(form.getId()), form.getDesc());
+            selectObjList.add(new ListValue(form.getId(), form.getDesc()));
         }
         return SUCCESS;
     }

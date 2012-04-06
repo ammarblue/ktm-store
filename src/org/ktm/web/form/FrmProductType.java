@@ -4,11 +4,11 @@ public class FrmProductType extends FrmDomain {
 
     private static final long serialVersionUID = 4339114129576929550L;
 
-    private String            name;
-    private String            descripton;
     private String            identifier;
+    private String            name;
     private double            price1;
     private double            price2;
+    private String            descripton;
 
     @Override
     public int compareTo(FrmDomain o) {

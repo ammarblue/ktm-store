@@ -124,7 +124,7 @@ public class Batch extends KTMEntity {
         this.comment = comment;
     }
 
-    @OneToMany(mappedBy = "batch")
+    @OneToMany
     public Set<PartySignature> getCheckedBy() {
         return checkedBy;
     }

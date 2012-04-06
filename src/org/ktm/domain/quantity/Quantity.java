@@ -1,9 +1,31 @@
 package org.ktm.domain.quantity;
 
-public class Quantity {
+import org.ktm.domain.KTMEntity;
 
-    protected Double amount;
-    private Metric   metric;
+public class Quantity extends KTMEntity {
+
+    private static final long serialVersionUID = 1L;
+
+    private Integer           uniqueId;
+    private Integer           version;
+    protected Double          amount;
+    private Metric            metric;
+
+    public Integer getUniqueId() {
+        return uniqueId;
+    }
+
+    public void setUniqueId(Integer uniqueId) {
+        this.uniqueId = uniqueId;
+    }
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
+    }
 
     public Quantity(Double amount, Metric metric) {
         this.amount = amount;

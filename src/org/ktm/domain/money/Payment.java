@@ -13,31 +13,31 @@ public class Payment extends Money implements Serializable {
 
     private static final long serialVersionUID = 9151493751652052575L;
 
-    private Integer           uniqueId;
-    private Integer           version;
     private Date              dateMade;
     private Date              dateReceived;
     private Date              dateDue;
     private Date              dateCleared;
 
+    @Override
     @Id
     @GeneratedValue
     @Column(name = "uniqueId", nullable = false)
     public Integer getUniqueId() {
-        return uniqueId;
+        return super.getUniqueId();
     }
 
     public void setUniqueId(Integer uniqueId) {
-        this.uniqueId = uniqueId;
+        super.setUniqueId(uniqueId);
     }
 
+    @Override
     @Version
     public Integer getVersion() {
-        return version;
+        return super.getVersion();
     }
 
     public void setVersion(Integer version) {
-        this.version = version;
+        super.setVersion(version);
     }
 
     public Date getDateMade() {

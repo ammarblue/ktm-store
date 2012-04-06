@@ -1,13 +1,17 @@
 package org.ktm.domain.product;
 
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
 import org.ktm.domain.quantity.Metric;
 
+@Entity
 public class MeasuredProductType extends ProductType {
 
     private static final long serialVersionUID = -1001101148550691330L;
 
     private Metric metric;
 
+    @Embedded
     public Metric getMetric() {
         return metric;
     }

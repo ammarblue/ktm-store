@@ -17,9 +17,9 @@ $.subscribe('rowadd', function(event,data) {
 $.subscribe('searchgrid', function(event,data) {
     $("#gridedittable").jqGrid('searchGrid', {sopt:['cn','bw','eq','ne','lt','gt','ew']} );
 });
-$.subscribe('showcolumns', function(event,data) {
-    $("#gridedittable").jqGrid('setColumns',{});
-});
+$.subscribe('showSupplierInfo', function(event,data) {
+    $("#sinfo").html('as;lfdjsl;df<br/>;asdlfjdkf;lfsdf,=<br/>;lsdfja;slfdjka;sldf');
+})
 //-->
 </script>
 
@@ -27,58 +27,69 @@ $.subscribe('showcolumns', function(event,data) {
     <p class="text">
         A editable Grid with pager and navigator. Entries are editable when a cell is selected. This Grid is sortable by name column and searchable by id. The first two Columns are frozen.
     </p>
+    <div style="padding: 10px; border: 1px solid #77D5F7;" class="ui-corner-all">
+        <div style="float: right;">
+            <s:form id="form">
+                <sj:datepicker value="today" id="date3" name="date3" displayFormat="dd-mm-yy" label="Today" />
+                <s:url id="jsonsupplier" action="json-select-list?listType=supplierList"/>
+                <sj:select 
+                    id="customersjson" 
+                    name="echo"
+                    label="Supplier"
+                    href="%{jsonsupplier}" 
+                    list="selectMap"
+                    autocomplete="true"
+                    loadMinimumCount="2"
+                    onChangeTopics="showSupplierInfo"
+                />
+                <sj:textfield id="No" name="No" value="" label="No"/>
+            </s:form>
+        </div>
+        <div>
+            <div style="height: 65px;">
+                <span id="sinfo"></span>
+            </div>
+        </div>
+    </div>
       <div id="tone">
           <s:url id="remoteurl" action="jsonperson"/>
           <s:url id="editurl" action="grid-edit-person-entry"/>
           <sjg:grid
               id="gridedittable"
-              caption="%{getText('page.user_data')}"
               dataType="json"
               href="%{remoteurl}"
-              pager="true"
-              navigator="true"
-              navigatorEdit="false"
-              navigatorView="false"
-              navigatorDelete="true"
-              navigatorDeleteOptions="{height:280,reloadAfterSubmit:true}"
-              navigatorExtraButtons="{
-                  seperator: { 
-                      title : 'seperator'  
-                  }, 
-                  hide : { 
-                      title : 'Show/Hide', 
-                      icon: 'ui-icon-wrench', 
-                      topic: 'showcolumns'
-                  },
-                  alert : { 
-                      title : 'Edit', 
-                      onclick: function(){ 
-                        $.subscribe('rowadd', function(event,data) {
-                            $('#gridedittable').jqGrid('editGridRow','edit',{height:280,reloadAfterSubmit:false});
-                        });
-                      }
-                  }
-              }"
+              pager="false"
+              navigator="false"
               gridModel="gridModel"
-              rowList="10,15,20"
-              rowNum="15"
               editurl="%{editurl}"
               editinline="true"
+              autowidth="true"
               onSelectRowTopics="rowselect"
               onEditInlineSuccessTopics="oneditsuccess"
-              viewrecords="true"
           >
-              <sjg:gridColumn name="id" index="id" title="ID" width="30" formatter="integer" editable="false" sortable="false" search="true" searchoptions="{sopt:['eq','ne','lt','gt']}"/>
-              <sjg:gridColumn name="identifier" index="identifier" title="Identifier" width="130" editable="true" edittype="text" sortable="false" search="false"/>
-              <sjg:gridColumn name="registeredIdentifier" index="registeredIdentifier" title="Citizen Id" width="130" editable="true" edittype="text" sortable="false" search="false"/>
-              <sjg:gridColumn name="prename" index="prename" title="Pre Name" width="70" editable="true" edittype="select" editoptions="{value:'%{getText('prename.mr')}:%{getText('prename.mr')};%{getText('prename.miss')}:%{getText('prename.miss')};%{getText('prename.mis')}:%{getText('prename.mis')}'}" sortable="false" search="false"/>
-              <sjg:gridColumn name="firstname" index="firstname" title="First Name" width="150" editable="true" edittype="text" sortable="true" search="false"/>
-              <sjg:gridColumn name="lastname" index="lastname" title="Last Name" width="150" editable="true" sortable="false" />
-              <sjg:gridColumn name="birthDay" index="birthDay" title="Birth Day" editable="true" sortable="false" formatter="date" hidden="true" />
-              <sjg:gridColumn name="emailAddress" index="emailAddress" title="Email" width="150" editable="true" sortable="false" hidden="true" />
-              <sjg:gridColumn name="tel" index="tel" title="Tel" width="150" editable="true" sortable="false" hidden="true" />
-              <sjg:gridColumn name="username" index="username" title="Username" width="150" editable="true" sortable="false" hidden="true" />
-              <sjg:gridColumn name="password" index="password" title="Password" width="150" editable="false" sortable="false" hidden="true" />
+            <sjg:gridColumn name="id" index="id" title="ID" width="30"
+                formatter="integer" editable="false" sortable="false"
+                search="false" hidden="true"
+            />
+            <sjg:gridColumn name="productCode" index="productCode"
+                title="Product Code" width="130" editable="true" edittype="text"
+            />
+            <sjg:gridColumn name="desc" index="desc" title="Description"
+                width="550" editable="true" edittype="text" sortable="true"
+                search="false"
+            />
+            <sjg:gridColumn name="unit" index="unit"
+                title="Unit" editable="true" edittype="text"
+            />
+            <sjg:gridColumn name="cost" index="cost"
+                title="Cost" editable="true" edittype="text"
+            />
+            <sjg:gridColumn name="quanitity" index="quanitity"
+                title="Quantity" editable="true" edittype="text"
+            />
+            <sjg:gridColumn name="total" index="total"
+                title="Total" editable="true" edittype="text"
+            />
           </sjg:grid>
           <br/>
           <sj:submit id="grid_edit_addbutton" value="Add Row" onClickTopics="rowadd" button="true"/>
@@ -86,5 +97,4 @@ $.subscribe('showcolumns', function(event,data) {
           <sj:submit id="grid_edit_colsbutton" value="Show/Hide Columns" onClickTopics="showcolumns" button="true"/>
           <br/>
           <br/>
-          <div id="gridinfo" class="ui-widget-content ui-corner-all"><p>Edit Mode for Row :</p></div>
       </div>

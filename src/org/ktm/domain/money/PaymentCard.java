@@ -1,13 +1,14 @@
 package org.ktm.domain.money;
 
 import java.util.Date;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class PaymentCard extends Payment {
+public class PaymentCard extends PaymentMethod {
 
     private static final long serialVersionUID = 1L;
 
@@ -20,6 +21,7 @@ public class PaymentCard extends Payment {
     private String            cardVerificationCode;
     private String            issueNumber;
 
+    @Column
     public String getCardAssociationName() {
         return cardAssociationName;
     }
@@ -28,6 +30,7 @@ public class PaymentCard extends Payment {
         this.cardAssociationName = cardAssociationName;
     }
 
+    @Column
     public String getCardNumber() {
         return cardNumber;
     }
@@ -36,6 +39,7 @@ public class PaymentCard extends Payment {
         this.cardNumber = cardNumber;
     }
 
+    @Column
     public String getNameOnCard() {
         return nameOnCard;
     }
@@ -44,6 +48,7 @@ public class PaymentCard extends Payment {
         this.nameOnCard = nameOnCard;
     }
 
+    @Column
     public Date getExpiryDate() {
         return expiryDate;
     }
@@ -52,6 +57,7 @@ public class PaymentCard extends Payment {
         this.expiryDate = expiryDate;
     }
 
+    @Column
     public String getBillingAddress() {
         return billingAddress;
     }
@@ -60,6 +66,7 @@ public class PaymentCard extends Payment {
         this.billingAddress = billingAddress;
     }
 
+    @Column
     public Date getValidFrom() {
         return validFrom;
     }
@@ -68,6 +75,7 @@ public class PaymentCard extends Payment {
         this.validFrom = validFrom;
     }
 
+    @Column
     public String getCardVerificationCode() {
         return cardVerificationCode;
     }
@@ -76,6 +84,7 @@ public class PaymentCard extends Payment {
         this.cardVerificationCode = cardVerificationCode;
     }
 
+    @Column
     public String getIssueNumber() {
         return issueNumber;
     }
