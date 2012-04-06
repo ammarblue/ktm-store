@@ -15,12 +15,12 @@ $.subscribe('rowselect', function(event, data) {
     }
 });
 $.subscribe('rowadd', function(event,data) {
-    $("#catalog_entry_table").jqGrid('editGridRow',"new",{height:220,reloadAfterSubmit:false});
+    $("#catalog_entry_table").jqGrid('editGridRow',"new",{height:240,reloadAfterSubmit:false});
 });
 $.subscribe('rowedit', function(event,data) {
     var gsr = jQuery("#catalog_entry_table").jqGrid('getGridParam', 'selrow');
     if(gsr){
-        jQuery("#catalog_entry_table").jqGrid('editGridRow', gsr, {height:220,reloadAfterSubmit:true});
+        jQuery("#catalog_entry_table").jqGrid('editGridRow', gsr, {height:240,reloadAfterSubmit:true});
     } else {
         var txt = $("#select_row").html();
         alert(txt);
@@ -42,6 +42,20 @@ $.subscribe('searchgrid', function(event,data) {
 //    alert('status: ' + event.originalEvent.status + '\n\nresponseText: \n' + event.originalEvent.request.responseText + '\n\nThe output div should have already been updated with the responseText.');
 //    $("#catalog_entry_table").trigger("reloadGrid");
 //});
+var jsonString = $.ajax({url: 'json-select-list?listType=catalogList', async: false, success: function(data, result) {if (!result) alert('Failure to retrieve the prename.');}}).responseText;
+function getCatalog() {
+    var str = "";
+    prenames = JSON.parse(jsonString);
+    var objs = prenames.selectMap;
+    for(key in objs) {
+        if (!objs.hasOwnProperty(key)) {
+            continue;
+        }
+        str += key + ":" + objs[key] + ";";
+    }
+    str = str.substr(0,str.length-1);
+    return str;
+}
 //-->
 </script>
 <p id="select_row" style="display: none;">
@@ -62,7 +76,7 @@ $.subscribe('searchgrid', function(event,data) {
         href="%{product_type_url}"
         gridModel="gridModel"
         groupField="['catalogName']"
-        groupColumnShow="[false]"
+        groupColumnShow="[true]"
         groupCollapse="true"
         groupText="['<b>{0} - {1} %{getText('page.productType.group')}</b>']"
         navigator="true"
@@ -101,9 +115,10 @@ $.subscribe('searchgrid', function(event,data) {
             title="%{getText('page.productType.unitCount')}" sortable="false"
             formatter="integer" editable="true" edittype="text" 
         />
-        <sjg:gridColumn name="catalogName" index="catalogName"
-            title="%{getText('page.productType.catalog')}" sortable="false"
-            editable="true" edittype="text" 
+        <sjg:gridColumn name="catalogName" index="catalogName" title="%{getText('page.productType.catalog')}"
+            width="70" editable="true" edittype="select"
+            editoptions="{ value: getCatalog()}"
+            sortable="false" search="false"
         />
         <sjg:gridColumn name="price1" index="price1"
             title="%{getText('page.productType.price1')}" align="right"
