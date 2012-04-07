@@ -18,7 +18,11 @@ $.subscribe('searchgrid', function(event,data) {
     $("#gridedittable").jqGrid('searchGrid', {sopt:['cn','bw','eq','ne','lt','gt','ew']} );
 });
 $.subscribe('showSupplierInfo', function(event,data) {
-    $("#sinfo").html('as;lfdjsl;df<br/>;asdlfjdkf;lfsdf,=<br/>;lsdfja;slfdjka;sldf');
+    var ids = data.item.value.split("-");
+    var urlRequest = 'json-select-list?listType=supplierList&id=' + ids[0];
+    var jsonString = $.ajax({url: urlRequest, async: false, success: function(data, result) {if (!result) alert('Failure to retrieve the prename.');}}).responseText;
+    var jsonObj = jQuery.parseJSON(jsonString);
+    $("#sinfo").html(jsonObj.description);
 })
 //-->
 </script>
@@ -29,12 +33,12 @@ $.subscribe('showSupplierInfo', function(event,data) {
     </p>
     <div style="padding: 10px; border: 1px solid #77D5F7;" class="ui-corner-all">
         <div style="float: right;">
-            <s:form id="form">
-                <sj:datepicker value="today" id="date3" name="date3" displayFormat="dd-mm-yy" label="Today" />
+            <s:form id="headFrom">
+                <sj:datepicker value="today" id="orderDate" name="orderDate" displayFormat="dd-mm-yy" label="Today" />
                 <s:url id="jsonsupplier" action="json-select-list?listType=supplierList"/>
                 <sj:select 
-                    id="customersjson" 
-                    name="echo"
+                    id="supplierjson" 
+                    name="supplier"
                     label="Supplier"
                     href="%{jsonsupplier}" 
                     list="selectMap"
@@ -42,12 +46,12 @@ $.subscribe('showSupplierInfo', function(event,data) {
                     loadMinimumCount="2"
                     onChangeTopics="showSupplierInfo"
                 />
-                <sj:textfield id="No" name="No" value="" label="No"/>
+                <sj:textfield id="orderNo" name="orderNo" value="" label="No"/>
             </s:form>
         </div>
         <div>
-            <div style="height: 65px;">
-                <span id="sinfo"></span>
+            <div id="sinfo" style="height: 65px;">
+                <img id="indicator" src="images/indicator.gif" alt="Loading..." style="display:none"/>
             </div>
         </div>
     </div>

@@ -8,7 +8,7 @@ public abstract class JsonGridFieldsAction extends CrudAction implements GridFie
 
     private static final long serialVersionUID = 1L;
 
-    protected Integer         id;
+    protected Integer         id               = -1;
 
     // get how many rows we want to have into the grid - rowNum attribute in the
     // grid

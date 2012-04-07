@@ -22,6 +22,7 @@ public class JsonSelectList extends JsonGridFieldsAction {
     private List<ListValue>     selectObjList    = null;
     private Map<String, String> selectMap        = null;
     private String              listType;
+    private String              description;
 
     @Override
     protected FormManager getManager() {
@@ -98,9 +99,14 @@ public class JsonSelectList extends JsonGridFieldsAction {
     public String supplierList() {
         List<FrmSupplier> frmSuppliers = (List<FrmSupplier>) getManager().findAll();
         for (FrmSupplier form : frmSuppliers) {
-            selectList.add(form.getDesc());
-            selectMap.put(String.valueOf(form.getId()), form.getDesc());
-            selectObjList.add(new ListValue(form.getId(), form.getDesc()));
+            String txt = form.getIdentifier() + "-" + form.getDesc();
+            selectList.add(txt);
+            selectMap.put(String.valueOf(form.getId()), txt);
+            selectObjList.add(new ListValue(form.getId(), txt));
+            int formId = Integer.valueOf(form.getIdentifier());
+            if (formId == getId()) {
+                description = form.getDesc() + "<br/>" + form.getMark();
+            }
         }
         return SUCCESS;
     }
@@ -135,6 +141,14 @@ public class JsonSelectList extends JsonGridFieldsAction {
 
     public void setListType(String listType) {
         this.listType = listType;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
 }
