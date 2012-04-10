@@ -32,6 +32,7 @@ public class OrderLine extends KTMEntity {
     private Integer             numberOrdered;
     private Money               unitPrice;
     private Date                expectedDeliveryDate;
+    private Order               order;
 
     @Id
     @GeneratedValue
@@ -123,6 +124,15 @@ public class OrderLine extends KTMEntity {
 
     public void setNumberOrdered(Integer numberOrdered) {
         this.numberOrdered = numberOrdered;
+    }
+
+    @ManyToOne
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 
 }
