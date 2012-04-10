@@ -1,6 +1,7 @@
 package org.ktm.domain.order;
 
 import java.util.Date;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,6 +9,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Version;
@@ -27,6 +29,7 @@ public class Order extends KTMEntity {
     private PartySummary             partySummary;
     private ESalesChannel            salesChannel;
     private EPartySummaryRoleInOrder partySummaryRoleInOrder;
+    private Set<OrderLine>           orderLines;
 
     @Id
     @GeneratedValue
@@ -100,6 +103,15 @@ public class Order extends KTMEntity {
 
     public void setPartySummaryRoleInOrder(EPartySummaryRoleInOrder partySummaryRoleInOrder) {
         this.partySummaryRoleInOrder = partySummaryRoleInOrder;
+    }
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    public Set<OrderLine> getOrderLines() {
+        return orderLines;
+    }
+
+    public void setOrderLines(Set<OrderLine> orderLines) {
+        this.orderLines = orderLines;
     }
 
 }

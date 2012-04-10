@@ -41,4 +41,12 @@ public class ServiceLocator {
     public static FormManager getEmploymentManager() {
         return EmploymentManagerImpl.getInstance();
     }
+
+    public static FormManager getOrderLineManager() {
+        return OrderLineManagerImpl.getInstance();
+    }
+
+    public static FormManager getOrderManager() {
+        return OrderManagerImpl.getInstance();
+    }
 }
