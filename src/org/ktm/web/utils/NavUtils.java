@@ -5,16 +5,15 @@ import java.util.Map;
 
 public class NavUtils {
 
-    private NavType                           currentMenu;
-    private Map<NavType, String>              links = new LinkedHashMap<NavType, String>();
-    private Map<NavType, Map<String, String>> menus = new LinkedHashMap<NavType, Map<String, String>>();
+    private static NavType                           currentMenu;
+    private static Map<NavType, String>              links = new LinkedHashMap<NavType, String>();
+    private static Map<NavType, Map<String, String>> menus = new LinkedHashMap<NavType, Map<String, String>>();
 
-    public NavUtils() {
-        currentMenu = NavType.edit;
+    static {
         links.put(NavType.file, "nav.file");
         links.put(NavType.edit, "nav.edit");
         links.put(NavType.database, "nav.database");
-        links.put(NavType.transaction, "nav.transaction");
+        links.put(NavType.trans, "nav.transaction");
         links.put(NavType.other, "nav.other");
         links.put(NavType.report, "nav.report");
 
@@ -47,7 +46,7 @@ public class NavUtils {
         map.put("index.action?t=t&page=transaction-substore-close", "nav.transaction.substore_close");
         map.put("index.action?t=t&page=transaction-substore-return-close", "nav.transaction.substore_return_close");
         map.put("index.action?t=t&page=transaction-close-sale", "nav.transaction.close_sale");
-        menus.put(NavType.transaction, map);
+        menus.put(NavType.trans, map);
 
         map = new LinkedHashMap<String, String>();
         map.put("index.action?t=t&page=other-user-authrized", "nav.other.user_authrized");
@@ -68,6 +67,10 @@ public class NavUtils {
         map.put("index.action?t=t&page=report-after-close07", "nav.report.after_close07");
         menus.put(NavType.report, map);
     }
+    
+    public NavUtils() {
+    	
+    }
 
     public Map<NavType, String> getLinks() {
         return links;
@@ -78,6 +81,6 @@ public class NavUtils {
     }
 
     public void setCurrentMenu(NavType currentMenu) {
-        this.currentMenu = currentMenu;
+    	NavUtils.currentMenu = currentMenu;
     }
 }

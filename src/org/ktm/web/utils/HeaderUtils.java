@@ -28,14 +28,14 @@ public class HeaderUtils {
         cssFiles.put(NavType.file, new String[] { "./style/layout.css", "./style/nav.css" });
         cssFiles.put(NavType.edit, new String[] { "./style/layout.css", "./style/nav.css" });
         cssFiles.put(NavType.database, new String[] { "./style/layout.css", "./style/nav.css" });
-        cssFiles.put(NavType.transaction, new String[] { "./style/layout.css", "./style/nav.css" });
+        cssFiles.put(NavType.trans, new String[] { "./style/layout.css", "./style/nav.css" });
         cssFiles.put(NavType.other, new String[] { "./style/layout.css", "./style/nav.css" });
         cssFiles.put(NavType.report, new String[] { "./style/layout.css", "./style/nav.css" });
 
         jsFiles.put(NavType.file, new String[] { "./js/nav.js" });
         jsFiles.put(NavType.edit, new String[] { "./js/nav.js" });
         jsFiles.put(NavType.database, new String[] { "./js/nav.js" });
-        jsFiles.put(NavType.transaction, new String[] { "./js/nav.js" });
+        jsFiles.put(NavType.trans, new String[] { "./js/nav.js" });
         jsFiles.put(NavType.other, new String[] { "./js/nav.js" });
         jsFiles.put(NavType.report, new String[] { "./js/nav.js" });
     }
