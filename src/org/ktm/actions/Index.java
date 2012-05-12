@@ -7,7 +7,11 @@ import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
 
 @ParentPackage("ktm-flow")
-@Results({ @Result(name = "tiles", location = "${redirectName}", type = "tiles"), @Result(name = Action.SUCCESS, location = "${redirectName}", type = "redirectAction") })
+@Results({
+    @Result(name = "tiles", location = "${redirectName}", type = "tiles"),
+    @Result(name = "action", location = "${redirectName}", type = "redirectAction"),
+    @Result(name = Action.SUCCESS, location = "${redirectName}", type = "redirectAction") 
+})
 public class Index extends KTMAction {
 
     private static final long serialVersionUID = 7430650672422777500L;
@@ -29,6 +33,9 @@ public class Index extends KTMAction {
                 if (pageType.equals("t")) {
                     log.info("Go to tiles: " + redirectName);
                     result = "tiles";
+                } else if (pageType.equals("a")) {
+                    log.info("Go to action: " + redirectName);
+                    result = "action";
                 }
                 return result;
             }

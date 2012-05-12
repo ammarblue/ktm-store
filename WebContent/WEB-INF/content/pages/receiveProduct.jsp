@@ -44,11 +44,11 @@ $.subscribe('showSupplierInfo', function(event,data) {
             <s:url id="jsonsupplier"
                 action="json-select-list?listType=supplierList" />
             <s:url id="jsonorderno" action="" />
-            <sj:select id="supplierjson" name="supplier"
+            <sj:select id="supplierId" name="supplierId"
                 label="Supplier" href="%{jsonsupplier}" list="selectMap"
                 autocomplete="true" loadMinimumCount="2"
                 indicator="indicator" onChangeTopics="showSupplierInfo" />
-            <sj:select id="orderNo" name="orderNo" label="รหัส"
+            <sj:select id="orderNumber" name="orderNumber" label="รหัส"
                 href="%{jsonorderno}" list="selectMap"
                 autocomplete="true" loadMinimumCount="2" />
         </s:form>

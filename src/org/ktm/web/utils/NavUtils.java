@@ -37,7 +37,7 @@ public class NavUtils {
         menus.put(NavType.database, map);
 
         map = new LinkedHashMap<String, String>();
-        map.put("index.action?t=t&page=transaction-receive-from-supplier", "nav.transaction.receive_from_supplier");
+        map.put("index.action?t=a&page=crud-order", "nav.transaction.receive_from_supplier");
         map.put("index.action?t=t&page=transaction-return-to-supplier", "nav.transaction.return_to_supplier");
         map.put("index.action?t=t&page=transaction-transfer", "nav.transaction.transfer");
         map.put("index.action?t=t&page=transaction-sale", "nav.transaction.sale");
