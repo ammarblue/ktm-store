@@ -6,6 +6,9 @@ import org.apache.log4j.Logger;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Result;
 import org.ktm.actions.CrudAction;
+import org.ktm.dao.KTMEMDaoFactory;
+import org.ktm.dao.KTMMaxIdentifierDao;
+import org.ktm.exception.UpdateException;
 import org.ktm.web.form.FrmOrder;
 import org.ktm.web.manager.OrderManager;
 import org.ktm.web.manager.ServiceLocator;
@@ -33,7 +36,18 @@ public class CrudOrder extends CrudAction {
             frmOrder = new FrmOrder();
             frmOrder.setNew(true);
             session.put("current_order", frmOrder);
+            
+            KTMMaxIdentifierDao dao = KTMEMDaoFactory.getInstance().getKTMMaxIdentifierDao();
+            try {
+                String newId = dao.getMaxPurchaseOrderId();
+                frmOrder.setOrderId(newId);
+            } catch (UpdateException e) {
+                e.printStackTrace();
+            }
         }
+
+        //session.put("current_order", null);
+        
         return frmOrder;
     }
     
@@ -68,6 +82,8 @@ public class CrudOrder extends CrudAction {
         log.info("orderDate: " + orderDate);
         log.info("supplierId: " + supplierId);
         log.info("orderNumber: " + orderNumber);
+
+        initContext();
         
         FrmOrder frmOrder = getOrder();
         mergeOrder(frmOrder);

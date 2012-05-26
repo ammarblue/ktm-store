@@ -91,4 +91,9 @@ public class KTMEMDaoFactoryHibernate extends KTMEMDaoFactory {
     public EmploymentDao getEmploymentDao() {
         return new EmploymentDaoHibernate();
     }
+
+    @Override
+    public KTMMaxIdentifierDao getKTMMaxIdentifierDao() {
+        return new KTMMaxIdentifierDaoHibernate();
+    }
 }
