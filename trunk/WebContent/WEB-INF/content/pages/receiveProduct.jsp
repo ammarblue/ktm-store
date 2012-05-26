@@ -36,21 +36,18 @@ $.subscribe('showSupplierInfo', function(event,data) {
 </p>
 <div style="padding: 10px; border: 1px solid #77D5F7;"
     class="ui-corner-all">
-    <div style="float: right;">
+    <div style="float: right; width: 250px;">
         <s:url id="crud_order_url" action="crud-order" />
         <s:form id="headFrom" action="%{crud_order_url}" target="_blank">
             <sj:datepicker value="today" id="orderDate" name="orderDate"
                 displayFormat="dd-mm-yy" label="วันที่" />
             <s:url id="jsonsupplier"
                 action="json-select-list?listType=supplierList" />
-            <s:url id="jsonorderno" action="" />
             <sj:select id="supplierId" name="supplierId"
                 label="Supplier" href="%{jsonsupplier}" list="selectMap"
                 autocomplete="true" loadMinimumCount="2"
                 indicator="indicator" onChangeTopics="showSupplierInfo" />
-            <sj:select id="orderNumber" name="orderNumber" label="รหัส"
-                href="%{jsonorderno}" list="selectMap"
-                autocomplete="true" loadMinimumCount="2" />
+            <sj:textfield id="orderNumber" name="orderNumber" label="รหัส" readonly="true" cssStyle="width: 160px"/>
         </s:form>
     </div>
     <div>

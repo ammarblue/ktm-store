@@ -47,4 +47,6 @@ public abstract class KTMEMDaoFactory {
     public abstract CustomerDao getCustomerDao();
 
     public abstract EmploymentDao getEmploymentDao();
+
+    public abstract KTMMaxIdentifierDao getKTMMaxIdentifierDao();
 }

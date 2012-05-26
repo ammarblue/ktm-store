@@ -18,30 +18,30 @@ import com.opensymphony.xwork2.ActionContext;
 @ParentPackage(value = "ktm-test")
 public abstract class CrudAction extends KTMAction {
 
-    private static final long     serialVersionUID = -3092632134847280150L;
-    private Logger                log              = Logger.getLogger(CrudAction.class);
+    private static final long serialVersionUID = -3092632134847280150L;
+    private Logger            log              = Logger.getLogger(CrudAction.class);
 
-    private Collection<?> availableItems;
-    private Set<FrmDomain>        toDelete         = new HashSet<FrmDomain>();
-    private Set<FrmDomain>        toAdd            = new HashSet<FrmDomain>();
+    private Collection<?>     availableItems;
+    private Set<FrmDomain>    toDelete         = new HashSet<FrmDomain>();
+    private Set<FrmDomain>    toAdd            = new HashSet<FrmDomain>();
 
     @SessionTarget
-    public Session             hbmSession;
+    public Session            hbmSession;
 
     @TransactionTarget
-    public Transaction         transaction;
+    public Transaction        transaction;
 
     protected abstract FormManager getManager();
-    
+
     protected void initContext() {
         KTMCurdContext context = new KTMCurdContext(this, hbmSession, transaction);
         ActionContext.getContext().put(CURRENT_CONTEXT, context);
     }
-    
+
     public Collection<?> getAvailableItems() {
         return availableItems;
     }
-    
+
     public void setAvailableItems(Collection<?> subList) {
         availableItems = subList;
     }
