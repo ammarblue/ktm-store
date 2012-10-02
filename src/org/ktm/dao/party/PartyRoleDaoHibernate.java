@@ -1,29 +1,43 @@
 package org.ktm.dao.party;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
+import java.util.Set;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
-import org.ktm.dao.AbstractDao;
-import org.ktm.domain.party.*;
+import org.hibernate.Transaction;
+import org.hibernate.classic.Session;
+import org.ktm.core.KTMContext;
+import org.ktm.dao.AbstractHibernateStorageDao;
+import org.ktm.domain.party.Authen;
+import org.ktm.domain.party.Party;
+import org.ktm.domain.party.PartyRole;
+import org.ktm.utils.HibernateUtil;
 
-public class PartyRoleDaoHibernate extends AbstractDao implements PartyRoleDao {
+public class PartyRoleDaoHibernate extends AbstractHibernateStorageDao implements PartyRoleDao {
 
-    private static final long serialVersionUID = -4224224421030924258L;
+    private static final long serialVersionUID = 1L;
 
     @Override
     public Class<?> getFeaturedClass() {
         return Authen.class;
     }
 
+    @Override
     @SuppressWarnings("rawtypes")
     public PartyRole findByRoleName(Party party, String roleName) {
         PartyRole result = null;
+
+        Session session = HibernateUtil.getSession(KTMContext.getSession());
+        Transaction transaction = null;
+
         try {
             String queryString = "select partyrole FROM PartyRole AS partyrole WHERE partyrole.name = :rolename AND partyrole.party.uniqueId=:partyid";
 
-            Query query = getStorage().getQuery(queryString);
+            transaction = session.beginTransaction();
+
+            Query query = session.createQuery(queryString);
             query.setParameter("partyid", party.getUniqueId());
             query.setParameter("rolename", roleName);
 
@@ -34,7 +48,7 @@ public class PartyRoleDaoHibernate extends AbstractDao implements PartyRoleDao {
             }
 
             for (Iterator objectIt = query.list().iterator(); objectIt.hasNext();) {
-                Object object = (Object) objectIt.next();
+                Object object = objectIt.next();
 
                 if (object instanceof PartyRole) {
                     result = (PartyRole) object;
@@ -48,34 +62,58 @@ public class PartyRoleDaoHibernate extends AbstractDao implements PartyRoleDao {
                     }
                 }
             }
+            transaction.commit();
         } catch (HibernateException he) {
+            transaction.rollback();
             he.printStackTrace();
+        } finally {
+            session.close();
         }
         return result;
     }
 
     @Override
-    public List<?> getSubList(List<?> cols, int form, int to) {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    public Set<PartyRole> findByParty(Party party) {
+        Set<PartyRole> result = new HashSet<PartyRole>();
+        try {
+            String queryString = "select role FROM PartyRole AS role WHERE role.party.uniqueId = :id";
 
-    @Override
-    public List<?> findNotById(List<?> cols, int id, int from, int to) {
-        // TODO Auto-generated method stub
-        return null;
-    }
+            Session session = HibernateUtil.getSession(KTMContext.getSession());
+            Transaction transaction = null;
+            try {
+                transaction = session.beginTransaction();
+                Query query = session.createQuery(queryString);
+                query.setParameter("id", party.getUniqueId());
 
-    @Override
-    public List<?> findGreaterAsId(List<?> list, int id, int from, int to) {
-        // TODO Auto-generated method stub
-        return null;
-    }
+                query.setFirstResult(0);
+                query.setMaxResults(Integer.MAX_VALUE);
+                Iterator<?> objectIt = query.iterate();
 
-    @Override
-    public List<?> findLesserAsId(List<?> list, int id, int from, int to) {
-        // TODO Auto-generated method stub
-        return null;
-    }
+                while (objectIt.hasNext()) {
+                    Object object = objectIt.next();
 
+                    if (object instanceof PartyRole) {
+                        result.add((PartyRole) object);
+                    } else if (object instanceof Collection) {
+                        Collection<?> subList = (Collection<?>) object;
+                        for (Object subObject : subList) {
+                            if (subObject instanceof PartyRole) {
+                                result.add((PartyRole) subObject);
+                            }
+                        }
+                    }
+                }
+                transaction.commit();
+            } catch (HibernateException e) {
+                transaction.rollback();
+                e.printStackTrace();
+            } finally {
+                session.close();
+            }
+
+        } catch (HibernateException he) {
+            he.printStackTrace();
+        }
+        return result;
+    }
 }

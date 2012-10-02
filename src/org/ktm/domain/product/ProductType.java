@@ -24,11 +24,12 @@ public class ProductType extends KTMEntity {
     private Integer           uniqueId;
     private Integer           version;
     private String            name;
-    private String            descripton;
+    private String            description;
     private ProductIdentifier identifier;
     private Set<Price>        prices;
     private CatalogEntry      catalogEntry;
 
+    @Override
     @Id
     @GeneratedValue
     @Column(name = "uniqueId", nullable = false)
@@ -36,16 +37,19 @@ public class ProductType extends KTMEntity {
         return uniqueId;
     }
 
+    @Override
     public void setUniqueId(Integer uniqueId) {
         this.uniqueId = uniqueId;
     }
 
+    @Override
     @Version
     @Column(name = "version")
     public Integer getVersion() {
         return version;
     }
 
+    @Override
     public void setVersion(Integer version) {
         this.version = version;
     }
@@ -60,12 +64,12 @@ public class ProductType extends KTMEntity {
     }
 
     @Column(name = "description")
-    public String getDescripton() {
-        return descripton;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDescripton(String descripton) {
-        this.descripton = descripton;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -107,19 +111,28 @@ public class ProductType extends KTMEntity {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (!super.equals(obj)) return false;
-        if (getClass() != obj.getClass()) return false;
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
         ProductType other = (ProductType) obj;
         if (identifier == null) {
-            if (other.identifier != null) return false;
-        } else if (!identifier.equals(other.identifier)) return false;
+            if (other.identifier != null)
+                return false;
+        } else if (!identifier.equals(other.identifier))
+            return false;
         if (name == null) {
-            if (other.name != null) return false;
-        } else if (!name.equals(other.name)) return false;
+            if (other.name != null)
+                return false;
+        } else if (!name.equals(other.name))
+            return false;
         if (uniqueId == null) {
-            if (other.uniqueId != null) return false;
-        } else if (!uniqueId.equals(other.uniqueId)) return false;
+            if (other.uniqueId != null)
+                return false;
+        } else if (!uniqueId.equals(other.uniqueId))
+            return false;
         return true;
     }
 
