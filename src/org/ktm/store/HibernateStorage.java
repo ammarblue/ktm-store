@@ -23,7 +23,7 @@ public class HibernateStorage extends Storage {
     public KTMEntity get(Class<?> entityClass, Serializable id) {
         KTMEntity object = null;
         if (entityClass != null && id != null) {
-            Session session = HibernateUtil.getSession(KTMContext.getInstance().getSession());
+            Session session = HibernateUtil.getSession(KTMContext.getSession());
             Transaction transaction = null;
             try {
                 transaction = session.beginTransaction();
@@ -44,7 +44,7 @@ public class HibernateStorage extends Storage {
             throw new CreateException("Either given class or object was null");
         }
 
-        Session session = HibernateUtil.getSession(KTMContext.getInstance().getSession());
+        Session session = HibernateUtil.getSession(KTMContext.getSession());
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
@@ -69,7 +69,7 @@ public class HibernateStorage extends Storage {
             throw new UpdateException("Object to update not found.");
         }
 
-        Session session = HibernateUtil.getSession(KTMContext.getInstance().getSession());
+        Session session = HibernateUtil.getSession(KTMContext.getSession());
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
@@ -92,7 +92,7 @@ public class HibernateStorage extends Storage {
         if (object.getUniqueId() == null || get(object.getClass(), object.getUniqueId()) == null) {
             return create(object);
         } else {
-            Session session = HibernateUtil.getSession(KTMContext.getInstance().getSession());
+            Session session = HibernateUtil.getSession(KTMContext.getSession());
             Transaction transaction = null;
             try {
                 transaction = session.beginTransaction();
@@ -111,7 +111,7 @@ public class HibernateStorage extends Storage {
     @Override
     public int delete(Class<?> entityClass, Serializable id) throws DeleteException {
         int result = 0;
-        Session session = HibernateUtil.getSession(KTMContext.getInstance().getSession());
+        Session session = HibernateUtil.getSession(KTMContext.getSession());
         Transaction transaction = null;
         try {
             if (get(entityClass, id) != null) {
@@ -135,7 +135,7 @@ public class HibernateStorage extends Storage {
     @Override
     public int delete(KTMEntity object) throws DeleteException {
         int result = 0;
-        Session session = HibernateUtil.getSession(KTMContext.getInstance().getSession());
+        Session session = HibernateUtil.getSession(KTMContext.getSession());
         Transaction transaction = null;
         try {
             if (get(object.getClass(), object.getUniqueId()) != null) {
@@ -158,7 +158,7 @@ public class HibernateStorage extends Storage {
     @Override
     public Collection<?> findAll(Class<?> entityClass) {
         List<KTMEntity> result = new ArrayList<KTMEntity>();
-        Session session = HibernateUtil.getSession(KTMContext.getInstance().getSession());
+        Session session = HibernateUtil.getSession(KTMContext.getSession());
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();

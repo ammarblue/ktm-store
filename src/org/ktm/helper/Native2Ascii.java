@@ -9,6 +9,9 @@ import java.io.InputStreamReader;
 
 public class Native2Ascii {
 
+    private static BufferedReader reader;
+
+
     private Native2Ascii() {
         super();
     }
@@ -40,7 +43,7 @@ public class Native2Ascii {
         
         //InputStream in = translateToAscii( new FileInputStream( file ), encoding );
         
-        BufferedReader reader = encoding == null ?
+        reader = encoding == null ?
                 new BufferedReader( new InputStreamReader( new FileInputStream( file ) ) ) :
                 new BufferedReader( new InputStreamReader( new FileInputStream( file ), encoding ) );
         String line;
