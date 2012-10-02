@@ -7,23 +7,30 @@ import java.util.List;
 import java.util.Set;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
-import org.ktm.dao.AbstractDao;
+import org.hibernate.Transaction;
+import org.hibernate.classic.Session;
+import org.ktm.core.KTMContext;
+import org.ktm.dao.AbstractHibernateStorageDao;
 import org.ktm.domain.money.Price;
 import org.ktm.domain.product.BeveragePackage;
 import org.ktm.domain.product.PackageType;
+import org.ktm.utils.HibernateUtil;
 
-public class PackageTypeDaoHibernate extends AbstractDao implements PackageTypeDao {
+public class PackageTypeDaoHibernate extends AbstractHibernateStorageDao implements PackageTypeDao {
 
-    private static final long serialVersionUID = -8979762984033084626L;
+    private static final long serialVersionUID = 1L;
 
+    @Override
     public List<PackageType> getComponents() {
         return null;
     }
 
+    @Override
     public List<Price> getPrices() {
         return null;
     }
 
+    @Override
     public void addProductSet(Set<PackageType> products) {
 
     }
@@ -31,30 +38,6 @@ public class PackageTypeDaoHibernate extends AbstractDao implements PackageTypeD
     @Override
     public Class<?> getFeaturedClass() {
         return PackageType.class;
-    }
-
-    @Override
-    public List<?> getSubList(List<?> cols, int form, int to) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public List<?> findNotById(List<?> cols, int id, int from, int to) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public List<?> findGreaterAsId(List<?> list, int id, int from, int to) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public List<?> findLesserAsId(List<?> list, int id, int from, int to) {
-        // TODO Auto-generated method stub
-        return null;
     }
 
     @Override
@@ -66,10 +49,16 @@ public class PackageTypeDaoHibernate extends AbstractDao implements PackageTypeD
     @Override
     public List<PackageType> findByCatalog(Integer id) {
         List<PackageType> result = null;
+
+        Session session = HibernateUtil.getSession(KTMContext.getSession());
+        Transaction transaction = null;
+
         try {
             String queryString = "select new list(pck) " + "FROM PackageType AS pck " + "WHERE pck.catalogEntry.productCatalog.uniqueId = :catalogId";
 
-            Query query = getStorage().getQuery(queryString);
+            transaction = session.beginTransaction();
+
+            Query query = session.createQuery(queryString);
             query.setInteger("catalogId", id);
 
             query.setFirstResult(getFirstResult());
@@ -80,7 +69,7 @@ public class PackageTypeDaoHibernate extends AbstractDao implements PackageTypeD
 
             List<PackageType> objs = new ArrayList<PackageType>();
             for (Iterator<?> objectIt = query.list().iterator(); objectIt.hasNext();) {
-                Object object = (Object) objectIt.next();
+                Object object = objectIt.next();
 
                 if (object instanceof PackageType || object instanceof BeveragePackage) {
                     objs.add((PackageType) object);
@@ -95,8 +84,12 @@ public class PackageTypeDaoHibernate extends AbstractDao implements PackageTypeD
                 }
             }
             result = objs;
+            transaction.commit();
         } catch (HibernateException he) {
+            transaction.rollback();
             he.printStackTrace();
+        } finally {
+            session.close();
         }
         return result;
     }

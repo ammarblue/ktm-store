@@ -2,29 +2,32 @@ package org.ktm.store;
 
 import java.io.Serializable;
 import java.util.Collection;
-
-import org.hibernate.Query;
 import org.ktm.domain.KTMEntity;
 import org.ktm.exception.CreateException;
 import org.ktm.exception.DeleteException;
 import org.ktm.exception.StorageException;
 import org.ktm.exception.UpdateException;
 
-public interface Storage extends Serializable {
-	
-    KTMEntity get( Class<?> entityClass, Serializable id );
+public abstract class Storage implements Serializable {
 
-    Serializable create ( KTMEntity object ) throws CreateException;
+    private static final long serialVersionUID                     = 1L;
 
-    KTMEntity update ( KTMEntity object ) throws UpdateException;
+    public static int         QUERY_FIRST_RESULT_DEFAULT           = 0;
+    public static int         QUERY_MAX_RESULTS_DEFAULT            = Integer.MAX_VALUE;
+    public static boolean     OPTIMISTIC_LOCKMODE_DEFAULT          = true;
+    public static boolean     EXCEPTION_CONVERSION_ENABLED_DEFAULT = true;
 
-    Serializable merge ( KTMEntity object ) throws StorageException;
+    public abstract KTMEntity get(Class<?> entityClass, Serializable id);
 
-    int delete( Class<?> entityClass, Serializable id ) throws DeleteException;
+    public abstract Serializable create(KTMEntity object) throws CreateException;
 
-    int delete( KTMEntity object ) throws DeleteException;
+    public abstract KTMEntity update(KTMEntity object) throws UpdateException;
 
-    Collection<?> findAll( Class<?> entityClass );
-    
-    Query getQuery(String queryString);
+    public abstract Serializable merge(KTMEntity object) throws StorageException;
+
+    public abstract int delete(Class<?> entityClass, Serializable id) throws DeleteException;
+
+    public abstract int delete(KTMEntity object) throws DeleteException;
+
+    public abstract Collection<?> findAll(Class<?> entityClass);
 }

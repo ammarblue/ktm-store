@@ -19,14 +19,14 @@ import org.ktm.web.form.FrmDomain;
 public class BeveragePackageManagerImpl extends FrmManagerAbstractImpl implements BeveragePackageManager {
 
     public static BeveragePackageManagerImpl theInstance = null;
-    
+
     public static BeveragePackageManager getInstance() {
         if (theInstance == null) {
             theInstance = new BeveragePackageManagerImpl();
         }
         return theInstance;
     }
-    
+
     @Override
     public FrmDomain get(Serializable tryId) {
         BeveragePackageDao dao = KTMEMDaoFactory.getInstance().getBeveragePackageDao();
@@ -46,11 +46,11 @@ public class BeveragePackageManagerImpl extends FrmManagerAbstractImpl implement
         }
         return form;
     }
-    
+
     private void syncToForm(BeveragePackage obj, FrmBeveragePackage form) {
-        BeveragePackage bp = (BeveragePackage) obj;
+        BeveragePackage bp = obj;
         form.setId(bp.getUniqueId());
-        form.setDescripton(bp.getDescripton());
+        form.setDescripton(bp.getDescription());
         ProductIdentifier iden = bp.getIdentifier();
         if (iden != null) {
             form.setIdentifier(iden.getIdentifier());
@@ -61,8 +61,8 @@ public class BeveragePackageManagerImpl extends FrmManagerAbstractImpl implement
         form.setUnitCount(bp.getUnitCount());
         form.setPrice1(0.0);
         form.setPrice2(0.0);
-        
-        form.setCatalogName(((BeveragePackage) obj).getCatalogEntry().getProductCatalog().getName());
+
+        form.setCatalogName(obj.getCatalogEntry().getProductCatalog().getName());
     }
 
     @Override
@@ -105,12 +105,12 @@ public class BeveragePackageManagerImpl extends FrmManagerAbstractImpl implement
             FrmBeveragePackage form = (FrmBeveragePackage) toAdd;
             ProductCatalogDao daoCatalog = KTMEMDaoFactory.getInstance().getProductCatalogDao();
             BeveragePackageDao daoBeverage = KTMEMDaoFactory.getInstance().getBeveragePackageDao();
-            
+
             ProductCatalog catalog = null;
             CatalogEntry entry = null;
             BeveragePackage bp = null;
             ProductIdentifier iden = null;
-            
+
             try {
                 catalog = (ProductCatalog) daoCatalog.get(Integer.valueOf(form.getCatalogName()));
                 List<CatalogEntry> entrys = catalog.getCatalogEntry();
@@ -121,7 +121,7 @@ public class BeveragePackageManagerImpl extends FrmManagerAbstractImpl implement
                     entry.setProductCatalog(catalog);
                     catalog.getCatalogEntry().add(entry);
                 }
-                
+
                 if (form.isNew()) {
                     bp = new BeveragePackage();
                     iden = new ProductIdentifier();
@@ -132,14 +132,14 @@ public class BeveragePackageManagerImpl extends FrmManagerAbstractImpl implement
                 }
                 entry.getProductType().add(bp);
                 bp.setCatalogEntry(entry);
-                
+
                 iden.setIdentifier(form.getIdentifier());
                 bp.setName(form.getName());
                 form.getCatalogName();
                 bp.setUnitType(form.getUnitType());
                 bp.setUnitCount(form.getUnitCount());
-                //bp.setPrices(prices);
-                
+                // bp.setPrices(prices);
+
                 result = (Integer) daoCatalog.create(catalog);
             } catch (CreateException e) {
                 e.printStackTrace();

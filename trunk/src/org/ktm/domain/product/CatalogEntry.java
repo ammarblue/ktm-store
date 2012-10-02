@@ -23,10 +23,12 @@ public class CatalogEntry extends KTMEntity {
 
     private Integer           uniqueId;
     private Integer           version;
-    private String            descripton;
+    private String            identifier;
+    private String            description;
     private ProductCatalog    productCatalog;
     private Set<ProductType>  productType      = new HashSet<ProductType>();
 
+    @Override
     @Id
     @GeneratedValue
     @Column(name = "uniqueId", nullable = false)
@@ -34,27 +36,39 @@ public class CatalogEntry extends KTMEntity {
         return uniqueId;
     }
 
+    @Override
     public void setUniqueId(Integer uniqueId) {
         this.uniqueId = uniqueId;
     }
 
+    @Override
     @Version
     @Column(name = "version")
     public Integer getVersion() {
         return version;
     }
 
+    @Column(name = "identifier")
+    public String getIdentifier() {
+        return identifier;
+    }
+
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
+    }
+
+    @Override
     public void setVersion(Integer version) {
         this.version = version;
     }
 
     @Column(name = "description")
-    public String getDescripton() {
-        return descripton;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDescripton(String descripton) {
-        this.descripton = descripton;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @OneToMany(mappedBy = "catalogEntry", cascade = CascadeType.ALL)
@@ -85,13 +99,18 @@ public class CatalogEntry extends KTMEntity {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (!super.equals(obj)) return false;
-        if (getClass() != obj.getClass()) return false;
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
         CatalogEntry other = (CatalogEntry) obj;
         if (uniqueId == null) {
-            if (other.uniqueId != null) return false;
-        } else if (!uniqueId.equals(other.uniqueId)) return false;
+            if (other.uniqueId != null)
+                return false;
+        } else if (!uniqueId.equals(other.uniqueId))
+            return false;
         return true;
     }
 

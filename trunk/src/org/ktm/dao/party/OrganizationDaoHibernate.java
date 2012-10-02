@@ -1,8 +1,9 @@
 package org.ktm.dao.party;
 
+import org.ktm.dao.AbstractHibernateStorageDao;
 import org.ktm.domain.party.Organization;
 
-public class OrganizationDaoHibernate extends PartyDaoHibernate implements OrganizationDao {
+public class OrganizationDaoHibernate extends AbstractHibernateStorageDao implements OrganizationDao {
 
     private static final long serialVersionUID = 1L;
 

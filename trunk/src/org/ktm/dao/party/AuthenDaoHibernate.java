@@ -2,38 +2,46 @@ package org.ktm.dao.party;
 
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
-import org.ktm.dao.AbstractDao;
-import org.ktm.domain.party.*;
+import org.hibernate.Transaction;
+import org.hibernate.classic.Session;
+import org.ktm.core.KTMContext;
+import org.ktm.dao.AbstractHibernateStorageDao;
+import org.ktm.domain.party.Authen;
+import org.ktm.utils.HibernateUtil;
 
-public class AuthenDaoHibernate extends AbstractDao implements AuthenDao {
+public class AuthenDaoHibernate extends AbstractHibernateStorageDao implements AuthenDao {
 
-    private static final long serialVersionUID = -4224224421030924258L;
+    private static final long serialVersionUID = 1L;
 
     @Override
     public Class<?> getFeaturedClass() {
         return Authen.class;
     }
 
+    @Override
     @SuppressWarnings("rawtypes")
     public Authen findByUsername(String username) {
         Authen result = null;
-        try {
-            String queryString = "select authen FROM Authen AS authen WHERE authen.username = :username";
+        String queryString = "select authen FROM Authen AS authen WHERE authen.username = :username";
 
-            Query query = getStorage().getQuery(queryString);
+        Session session = HibernateUtil.getSession(KTMContext.getSession());
+        Transaction transaction = null;
+
+        try {
+            transaction = session.beginTransaction();
+
+            Query query = session.createQuery(queryString);
             query.setParameter("username", username);
 
             query.setFirstResult(getFirstResult());
-
             if (getMaxResults() < QUERY_MAX_RESULTS_DEFAULT) {
                 query.setMaxResults(getMaxResults());
             }
 
             for (Iterator objectIt = query.list().iterator(); objectIt.hasNext();) {
-                Object object = (Object) objectIt.next();
+                Object object = objectIt.next();
 
                 if (object instanceof Authen) {
                     result = (Authen) object;
@@ -47,19 +55,29 @@ public class AuthenDaoHibernate extends AbstractDao implements AuthenDao {
                     }
                 }
             }
+            transaction.commit();
         } catch (HibernateException he) {
+            transaction.rollback();
             he.printStackTrace();
+        } finally {
+            session.close();
         }
         return result;
     }
 
+    @Override
     @SuppressWarnings("rawtypes")
     public Authen findByPartyId(Integer id) {
         Authen result = null;
+
+        Session session = HibernateUtil.getSession(KTMContext.getSession());
+        Transaction transaction = null;
+
         try {
+            transaction = session.beginTransaction();
             String queryString = "select new list(authen) " + "FROM Authen AS authen " + "WHERE authen.party.uniqueId = :partyId";
 
-            Query query = getStorage().getQuery(queryString);
+            Query query = session.createQuery(queryString);
             query.setParameter("partyId", id);
 
             query.setFirstResult(getFirstResult());
@@ -69,7 +87,7 @@ public class AuthenDaoHibernate extends AbstractDao implements AuthenDao {
             }
 
             for (Iterator objectIt = query.list().iterator(); objectIt.hasNext();) {
-                Object object = (Object) objectIt.next();
+                Object object = objectIt.next();
 
                 if (object instanceof Authen) {
                     result = (Authen) object;
@@ -85,34 +103,12 @@ public class AuthenDaoHibernate extends AbstractDao implements AuthenDao {
                     break;
                 }
             }
+            transaction.commit();
         } catch (HibernateException he) {
+            transaction.rollback();
             he.printStackTrace();
         }
         return result;
-    }
-
-    @Override
-    public List<?> getSubList(List<?> cols, int form, int to) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public List<?> findNotById(List<?> cols, int id, int from, int to) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public List<?> findGreaterAsId(List<?> list, int id, int from, int to) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public List<?> findLesserAsId(List<?> list, int id, int from, int to) {
-        // TODO Auto-generated method stub
-        return null;
     }
 
 }
