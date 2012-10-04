@@ -1,4 +1,4 @@
-package org.ktm.utils;
+package org.ktm.dao;
 
 import java.util.Collection;
 import java.util.HashMap;

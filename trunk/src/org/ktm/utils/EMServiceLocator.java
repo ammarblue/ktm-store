@@ -1,6 +1,8 @@
 package org.ktm.utils;
 
 import org.hibernate.SessionFactory;
+import org.ktm.core.SessionContext;
+import org.ktm.core.SessionWrapper;
 
 public class EMServiceLocator extends ServiceLocator {
 
