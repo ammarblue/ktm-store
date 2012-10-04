@@ -12,12 +12,13 @@ import org.ktm.domain.UniqueIdentifier;
 @Entity
 public class PartyRoleIdentifier extends UniqueIdentifier {
 
-    private static final long serialVersionUID = -4285085585845888905L;
+    private static final long serialVersionUID = 1L;
 
     private Integer           uniqueId;
     private Integer           version;
     private String            identifier;
 
+    @Override
     @Id
     @GeneratedValue
     @Column(name = "uniqueId")
@@ -25,15 +26,18 @@ public class PartyRoleIdentifier extends UniqueIdentifier {
         return uniqueId;
     }
 
+    @Override
     public void setUniqueId(Integer uniqueId) {
         this.uniqueId = uniqueId;
     }
 
+    @Override
     @Column(name = "version")
     public Integer getVersion() {
         return version;
     }
 
+    @Override
     public void setVersion(Integer version) {
         this.version = version;
     }

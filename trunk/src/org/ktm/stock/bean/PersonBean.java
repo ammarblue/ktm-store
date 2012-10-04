@@ -79,6 +79,7 @@ public class PersonBean extends FormBean {
                 person.setIdentifier(identifier);
             }
             identifier.setIdentifier(this.getCitizenId());
+            person.setBirthDay(this.getBirthDay());
 
             // TODO: sync more additional properties
         }

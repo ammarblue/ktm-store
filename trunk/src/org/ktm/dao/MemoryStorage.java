@@ -1,4 +1,4 @@
-package org.ktm.store;
+package org.ktm.dao;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -11,8 +11,9 @@ import org.ktm.exception.DeleteException;
 import org.ktm.exception.DuplicateKeyException;
 import org.ktm.exception.StorageException;
 import org.ktm.exception.UpdateException;
+import org.ktm.utils.CrudAdmin;
 
-public class MemoryStorage extends Storage {
+public class MemoryStorage extends DaoImpl {
 
     private static final long serialVersionUID = 1L;
 
@@ -41,7 +42,6 @@ public class MemoryStorage extends Storage {
         return object;
     }
 
-    @Override
     public KTMEntity get(Class<?> entityClass, Serializable id) {
         if (entityClass != null && id != null) {
             return (KTMEntity) getEntityMap(entityClass).get(id);
@@ -87,7 +87,6 @@ public class MemoryStorage extends Storage {
         }
     }
 
-    @Override
     public int delete(Class<?> entityClass, Serializable id) throws DeleteException {
         try {
             if (get(entityClass, id) != null) {
@@ -109,7 +108,6 @@ public class MemoryStorage extends Storage {
         return delete(object.getClass(), object.getUniqueId());
     }
 
-    @Override
     public Collection<?> findAll(Class<?> entityClass) {
         if (entityClass != null) {
             return getEntityMap(entityClass).values();
@@ -121,6 +119,42 @@ public class MemoryStorage extends Storage {
     @SuppressWarnings({ "unchecked", "rawtypes" })
     public void reset() {
         this.memory = new HashMap();
+    }
+
+    @Override
+    public Class<?> getFeaturedClass() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public CrudAdmin getCrudAdmin() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public boolean isManaged(Object entity) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public KTMEntity get(Serializable id) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public int delete(Serializable id) throws DeleteException {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    @Override
+    public Collection<?> findAll() {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

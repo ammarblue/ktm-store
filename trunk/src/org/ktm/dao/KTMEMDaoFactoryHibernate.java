@@ -9,6 +9,7 @@ import org.ktm.dao.party.EmploymentDaoHibernate;
 import org.ktm.dao.party.OrganizationDao;
 import org.ktm.dao.party.OrganizationDaoHibernate;
 import org.ktm.dao.party.PartyDao;
+import org.ktm.dao.party.PartyDaoHibernate;
 import org.ktm.dao.party.PartyRoleDao;
 import org.ktm.dao.party.PartyRoleDaoHibernate;
 import org.ktm.dao.party.PersonDao;
@@ -114,7 +115,6 @@ public class KTMEMDaoFactoryHibernate extends KTMEMDaoFactory {
 
     @Override
     public PartyDao getPartyDao() {
-        // TODO Auto-generated method stub
-        return null;
+        return new PartyDaoHibernate();
     }
 }

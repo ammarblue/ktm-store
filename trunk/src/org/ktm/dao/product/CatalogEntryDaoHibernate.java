@@ -1,6 +1,8 @@
 package org.ktm.dao.product;
 
+import java.util.List;
 import org.ktm.dao.AbstractHibernateStorageDao;
+import org.ktm.domain.product.CatalogEntry;
 
 public class CatalogEntryDaoHibernate extends AbstractHibernateStorageDao implements CatalogEntryDao {
 
@@ -8,8 +10,13 @@ public class CatalogEntryDaoHibernate extends AbstractHibernateStorageDao implem
 
     @Override
     public Class<?> getFeaturedClass() {
-        // TODO Auto-generated method stub
-        return null;
+        return CatalogEntry.class;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<CatalogEntry> findAll() {
+        return (List<CatalogEntry>) super.findAll();
     }
 
 }

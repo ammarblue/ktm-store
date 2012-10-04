@@ -24,15 +24,17 @@ import java.io.Serializable;
 
 public class Globals implements Serializable {
 
-    private static final long  serialVersionUID     = -2065449278377178400L;
+    private static final long  serialVersionUID                   = -2065449278377178400L;
 
-    public static final String FORWARD_QUERY_STRING = "javax.servlet.forward.query_string";
-    public static final String FORWARD_REQUEST_URI  = "javax.servlet.forward.request_uri";
-    public static final String FORWARD_SERVLET_PATH = "javax.servlet.forward.servlet_path";
-    public static final String FORWARD_CONTEXT_PATH = "javax.servlet.forward.context_path";
-    public static final String MAIN_PAGE            = "MainPage";
-    public static final String LOGIN_PAGE           = "jspLoginPage";
-    public static final String BASE_PATH            = "BasePath";
+    public static final String FORWARD_QUERY_STRING               = "javax.servlet.forward.query_string";
+    public static final String FORWARD_REQUEST_URI                = "javax.servlet.forward.request_uri";
+    public static final String FORWARD_SERVLET_PATH               = "javax.servlet.forward.servlet_path";
+    public static final String FORWARD_CONTEXT_PATH               = "javax.servlet.forward.context_path";
+    public static final String MAIN_PAGE                          = "MainPage";
+    public static final String LOGIN_PAGE                         = "jspLoginPage";
+    public static final String BASE_PATH                          = "BasePath";
+    public static final String ENTITY_SESSION                     = "entity_session";
+    public static final String ENTITY_SESSION_END_OF_CONVERSATION = "entity_session_end_of_conversion";
 
     // javax.servlet.include.request_uri
     // javax.servlet.include.context_path

@@ -2,11 +2,11 @@ package org.ktm.exception;
 
 public class KTMException extends Exception {
 
-	private static final long serialVersionUID = 6947527086283998843L;
+    private static final long serialVersionUID = 1L;
 
-	public KTMException(String message) {
-		super(message);
-	}
+    public KTMException(String message) {
+        super(message);
+    }
 
     public KTMException(Throwable cause) {
         super(cause);

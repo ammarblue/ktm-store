@@ -5,13 +5,10 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.Transient;
 import javax.persistence.Version;
 import org.ktm.domain.KTMEntity;
 
@@ -21,8 +18,7 @@ import org.ktm.domain.KTMEntity;
  * actions.
  */
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
-public class Party extends KTMEntity implements Comparable<Party> {
+public class Party extends KTMEntity {
 
     private static final long         serialVersionUID      = 1L;
 
@@ -31,10 +27,12 @@ public class Party extends KTMEntity implements Comparable<Party> {
     private PartyIdentifier           identifier;
     private Set<RegisteredIdentifier> registeredIdentifiers = new HashSet<RegisteredIdentifier>(0);
     private Set<AddressProperties>    addresses             = new HashSet<AddressProperties>();
+    private Set<Authen>               authens               = new HashSet<Authen>(0);
     private Set<PartyRole>            roles                 = new HashSet<PartyRole>(0);
 
     // private Set<Preperence> preperences = new HashSet<Preperence>(0);
 
+    @Override
     @Id
     @GeneratedValue
     @Column(name = "uniqueId", nullable = false)
@@ -42,36 +40,21 @@ public class Party extends KTMEntity implements Comparable<Party> {
         return uniqueId;
     }
 
+    @Override
     public void setUniqueId(Integer uniqueId) {
         this.uniqueId = uniqueId;
     }
 
+    @Override
     @Version
     @Column(name = "version")
     public Integer getVersion() {
         return version;
     }
 
+    @Override
     public void setVersion(Integer version) {
         this.version = version;
-    }
-
-    public int compareTo(Party party) {
-        return uniqueId.compareTo(party.uniqueId);
-    }
-
-    @Transient
-    public String getLabel() {
-        return "party";
-    }
-
-    @OneToOne(cascade = CascadeType.ALL)
-    public PartyIdentifier getIdentifier() {
-        return identifier;
-    }
-
-    public void setIdentifier(PartyIdentifier identifier) {
-        this.identifier = identifier;
     }
 
     @OneToMany(mappedBy = "party", cascade = CascadeType.ALL)
@@ -92,6 +75,24 @@ public class Party extends KTMEntity implements Comparable<Party> {
         this.addresses = addresses;
     }
 
+    @OneToOne(cascade = CascadeType.ALL)
+    public PartyIdentifier getIdentifier() {
+        return identifier;
+    }
+
+    public void setIdentifier(PartyIdentifier identifier) {
+        this.identifier = identifier;
+    }
+
+    @OneToMany(mappedBy = "party", cascade = CascadeType.ALL)
+    public Set<Authen> getAuthens() {
+        return authens;
+    }
+
+    public void setAuthens(Set<Authen> authens) {
+        this.authens = authens;
+    }
+
     @OneToMany(mappedBy = "party", cascade = CascadeType.ALL)
     public Set<PartyRole> getRoles() {
         return roles;
@@ -99,20 +100,6 @@ public class Party extends KTMEntity implements Comparable<Party> {
 
     public void setRoles(Set<PartyRole> roles) {
         this.roles = roles;
-    }
-
-    @Override
-    public boolean equals(Object other) {
-        boolean result = false;
-        if (other instanceof Party) {
-            Party party = (Party) other;
-            if (party != null && party.getIdentifier() != null && this.getIdentifier() != null) {
-                if (this.getIdentifier().equals(party.getIdentifier())) {
-                    result = super.equals(other);
-                }
-            }
-        }
-        return result;
     }
 
 }
