@@ -15,12 +15,12 @@ import org.ktm.domain.product.ProductType;
 import org.ktm.exception.CreateException;
 import org.ktm.exception.DeleteException;
 import org.ktm.servlet.ActionForward;
-import org.ktm.servlet.DispatchServlet;
+import org.ktm.servlet.CRUDServlet;
 import org.ktm.stock.bean.FormBean;
 import org.ktm.stock.bean.ProductTypeBean;
 
 @WebServlet("/CRUDProductType")
-public class CRUDProductTypeServlet extends DispatchServlet {
+public class CRUDProductTypeServlet extends CRUDServlet {
 
     private static final long serialVersionUID = 1L;
 

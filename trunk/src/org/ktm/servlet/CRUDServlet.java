@@ -11,27 +11,26 @@ import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Transaction;
 import org.hibernate.classic.Session;
-import org.ktm.stock.bean.FormBean;
 import org.ktm.tags.MessageManager;
+import org.ktm.utils.Globals;
 import org.ktm.utils.HibernateSessionUtil;
 import org.ktm.utils.ServiceLocator;
 
-public class EMStoreServlet extends SecureServlet {
+public class CRUDServlet extends DispatchServlet {
 
     private static final long serialVersionUID = 1L;
 
-    private static Logger     log              = Logger.getLogger(EMStoreServlet.class);
+    private static Logger     log              = Logger.getLogger(CRUDServlet.class);
 
     public ActionForward handleStoreException(Exception exception) {
         log.error("message.store.failure");
         throw new RuntimeException(MessageManager.getString("hibernate.transaction.error"), exception);
     }
 
-    @Override
-    protected ActionForward processRequest(FormBean form, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected boolean store(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         List<String> errors = new ArrayList<String>();
-        ActionForward actionForward = null;
+        boolean result = false;
 
         Session hibernateSession = ServiceLocator.getCurrentSession();
         Transaction transaction = null;
@@ -69,11 +68,15 @@ public class EMStoreServlet extends SecureServlet {
 
         // request.setAttribute(Globals.KEY_BACKWARD, Globals.ANYVALUE);
 
-        if (actionForward == null) {
-            // actionForward = mapping.findForward(EVENT_success);
-        }
+        // if (actionForward == null) {
+        // actionForward = mapping.findForward(EVENT_success);
+        // }
 
-        return actionForward;
+        return result;
+    }
+
+    protected void closeSession(HttpServletRequest request) {
+        request.setAttribute(Globals.ENTITY_SESSION_END_OF_CONVERSATION, Globals.ANY);
     }
 
     private void saveErrors(HttpServletRequest request, List<String> errors) {

@@ -12,12 +12,12 @@ import org.ktm.domain.product.CatalogEntry;
 import org.ktm.exception.CreateException;
 import org.ktm.exception.DeleteException;
 import org.ktm.servlet.ActionForward;
-import org.ktm.servlet.DispatchServlet;
+import org.ktm.servlet.CRUDServlet;
 import org.ktm.stock.bean.CatalogEntryBean;
 import org.ktm.stock.bean.FormBean;
 
 @WebServlet("/CRUDCatalogEntry")
-public class CRUDCatalogEntryServlet extends DispatchServlet {
+public class CRUDCatalogEntryServlet extends CRUDServlet {
 
     private static final long serialVersionUID = 1L;
 
