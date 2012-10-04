@@ -8,6 +8,7 @@ import java.util.MissingResourceException;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
+import org.ktm.utils.Localizer;
 
 public class OptionsTag extends SimpleTagSupport {
 
@@ -95,7 +96,7 @@ public class OptionsTag extends SimpleTagSupport {
     private String getLabelString(String label) {
         String result = label;
         try {
-            result = MessageManager.getString(label);
+            result = Localizer.getString(label);
         } catch (MissingResourceException mre) {
 
         }

@@ -11,7 +11,6 @@ import org.ktm.exception.DeleteException;
 import org.ktm.exception.DuplicateKeyException;
 import org.ktm.exception.StorageException;
 import org.ktm.exception.UpdateException;
-import org.ktm.utils.CrudAdmin;
 
 public class MemoryStorage extends DaoImpl {
 

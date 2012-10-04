@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 import org.ktm.filter.AddableHttpRequest;
-import org.ktm.tags.MessageManager;
+import org.ktm.utils.Localizer;
 
 public class AuthenticatorFactory implements Serializable {
 
@@ -185,12 +185,12 @@ public class AuthenticatorFactory implements Serializable {
                 c = Class.forName(authenticatorClassName);
             }
         } catch (Exception ex) {
-            throw new AuthException(MessageManager.getString("ERR_AUTH_LoadAuthenticatorException"));
+            throw new AuthException(Localizer.getString("ERR_AUTH_LoadAuthenticatorException"));
         }
         try {
             o = c.newInstance();
         } catch (Exception ex) {
-            String errMsg = MessageManager.getString("ERR_AUTH_InstantiateAuthenticatorException");
+            String errMsg = Localizer.getString("ERR_AUTH_InstantiateAuthenticatorException");
             throw new AuthException(errMsg + " " + ex.getClass() + ": " + ex.getMessage());
         }
         try {
