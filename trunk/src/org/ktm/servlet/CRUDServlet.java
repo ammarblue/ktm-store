@@ -11,9 +11,9 @@ import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Transaction;
 import org.hibernate.classic.Session;
-import org.ktm.tags.MessageManager;
 import org.ktm.utils.Globals;
 import org.ktm.utils.HibernateSessionUtil;
+import org.ktm.utils.Localizer;
 import org.ktm.utils.ServiceLocator;
 
 public class CRUDServlet extends DispatchServlet {
@@ -24,7 +24,7 @@ public class CRUDServlet extends DispatchServlet {
 
     public ActionForward handleStoreException(Exception exception) {
         log.error("message.store.failure");
-        throw new RuntimeException(MessageManager.getString("hibernate.transaction.error"), exception);
+        throw new RuntimeException(Localizer.getString("hibernate.transaction.error"), exception);
     }
 
     protected boolean store(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

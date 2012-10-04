@@ -1,11 +1,12 @@
 package org.ktm.tags;
 
 import java.util.Collection;
+import org.ktm.utils.Localizer;
 
 public class Functions {
 
     public static String getText(String name) {
-        return MessageManager.getString(name);
+        return Localizer.getString(name);
     }
 
     public static Object getBeanProperty(Object obj, String name) {

@@ -9,7 +9,7 @@ import org.hibernate.EmptyInterceptor;
 import org.hibernate.EntityMode;
 import org.hibernate.Transaction;
 import org.hibernate.type.Type;
-import org.ktm.utils.CrudAdmin;
+import org.ktm.dao.CrudAdmin;
 
 public class SessionStatisticsInterceptorImpl extends EmptyInterceptor implements SessionStatisticsInterceptor {
 

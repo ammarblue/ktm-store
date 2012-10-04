@@ -5,7 +5,7 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 import org.ktm.core.KTMContext;
-import org.ktm.tags.MessageManager;
+import org.ktm.utils.Localizer;
 
 //import java.util.logging.Logger;
 
@@ -25,7 +25,7 @@ public class InitListener implements ServletContextListener {
         ktmContext.setJspHeader(context.getInitParameter("JspHeader"));
         ktmContext.setJspFooter(context.getInitParameter("JspFooter"));
 
-        MessageManager.switchLocale(MessageManager.eLanguage.THAI);
+        Localizer.switchLocale(Localizer.eLanguage.THAI);
     }
 
     @Override

@@ -12,6 +12,14 @@ public class Localizer {
 
     protected static final String RESOURCE_BUNDLE_NAME_DEFAULT = "message";
 
+    public static enum eLanguage {
+        THAI, ENGLISH
+    };
+
+    private static Locale locale_th = new Locale("th", "TH");
+    private static Locale locale_en = new Locale("en", "US");
+    private static Locale locale    = locale_th;
+
     public static String getClassName(Class<?> clazz) {
         String className = clazz.getName();
         int i = className.lastIndexOf('.');
@@ -70,5 +78,27 @@ public class Localizer {
 
     private static String getQualifiedResourceBundleName(Class<?> clazz, String unqualifiedResourceBundleName) {
         return (clazz.getPackage().getName() + "." + unqualifiedResourceBundleName);
+    }
+
+    private static ResourceBundle getBundle() {
+        return ResourceBundle.getBundle("messages", locale);
+    }
+
+    public static void switchLocale(eLanguage lang) {
+        if (lang == eLanguage.THAI) {
+            locale = locale_th;
+        } else if (lang == eLanguage.ENGLISH) {
+            locale = locale_en;
+        }
+    }
+
+    public static String getString(String name) {
+        String result = name;
+        try {
+            result = getBundle().getString(name);
+        } catch (MissingResourceException mre) {
+
+        }
+        return result;
     }
 }

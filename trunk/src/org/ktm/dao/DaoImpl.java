@@ -1,7 +1,6 @@
 package org.ktm.dao;
 
 import java.io.Serializable;
-import org.ktm.utils.CrudAdmin;
 
 public abstract class DaoImpl implements Dao, Serializable {
 
