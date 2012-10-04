@@ -5,7 +5,7 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Transient;
-import org.ktm.web.utils.DateUtils;
+import org.ktm.utils.DateUtils;
 
 /*
  * The Person represents information about a human being.
