@@ -4,9 +4,8 @@ import java.io.Serializable;
 import java.util.Collection;
 import org.ktm.domain.KTMEntity;
 import org.ktm.exception.DeleteException;
-import org.ktm.store.HibernateStorage;
 
-public abstract class AbstractHibernateStorageDao extends HibernateStorage implements Dao {
+public abstract class AbstractHibernateStorageDao extends DaoImplHibernate implements Dao {
 
     private static final long serialVersionUID   = 1L;
 
@@ -14,33 +13,34 @@ public abstract class AbstractHibernateStorageDao extends HibernateStorage imple
     private int               maxResults         = QUERY_MAX_RESULTS_DEFAULT;
     private boolean           optimisticLockMode = OPTIMISTIC_LOCKMODE_DEFAULT;
 
-    @Override
     public KTMEntity get(Serializable id) {
         return get(getFeaturedClass(), id);
     }
 
-    @Override
     public int delete(Serializable id) throws DeleteException {
         return delete(getFeaturedClass(), id);
     }
 
-    @Override
     public Collection<?> findAll() {
         return findAll(getFeaturedClass());
     }
 
+    @Override
     public int getFirstResult() {
         return firstResult;
     }
 
+    @Override
     public void setFirstResult(int firstResult) {
         this.firstResult = firstResult;
     }
 
+    @Override
     public int getMaxResults() {
         return maxResults;
     }
 
+    @Override
     public void setMaxResults(int maxResults) {
         this.maxResults = maxResults;
     }
@@ -49,6 +49,7 @@ public abstract class AbstractHibernateStorageDao extends HibernateStorage imple
         return optimisticLockMode;
     }
 
+    @Override
     public void setOptimisticLockMode(boolean optimisticLockMode) {
         this.optimisticLockMode = optimisticLockMode;
     }

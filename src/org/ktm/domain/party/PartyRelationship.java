@@ -19,14 +19,16 @@ import org.ktm.domain.KTMEntity;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class PartyRelationship extends KTMEntity implements Serializable {
 
-    private static final long     serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-    private Integer               uniqueId;
-    private Integer               version;
-    private PartyRole             supply;
-    private PartyRole             client;
-    private PartyRelationshipType type;
+    private Integer           uniqueId;
+    private Integer           version;
+    private PartyRole         supply;
+    private PartyRole         client;
 
+    // private PartyRelationshipType type;
+
+    @Override
     @Id
     @GeneratedValue
     @Column(name = "uniqueId", nullable = false)
@@ -34,16 +36,19 @@ public class PartyRelationship extends KTMEntity implements Serializable {
         return uniqueId;
     }
 
+    @Override
     public void setUniqueId(Integer uniqueId) {
         this.uniqueId = uniqueId;
     }
 
+    @Override
     @Version
     @Column(name = "version")
     public Integer getVersion() {
         return version;
     }
 
+    @Override
     public void setVersion(Integer version) {
         this.version = version;
     }
@@ -66,13 +71,13 @@ public class PartyRelationship extends KTMEntity implements Serializable {
         this.client = client;
     }
 
-    @ManyToOne
-    public PartyRelationshipType getType() {
-        return type;
-    }
+    // @ManyToOne
+    // public PartyRelationshipType getType() {
+    // return type;
+    // }
 
-    public void setType(PartyRelationshipType type) {
-        this.type = type;
-    }
+    // public void setType(PartyRelationshipType type) {
+    // this.type = type;
+    // }
 
 }

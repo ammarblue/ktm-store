@@ -1,6 +1,5 @@
 package org.ktm.domain.party;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -27,6 +26,7 @@ public class Authen extends KTMEntity {
     private String            password;
     private Party             party;
 
+    @Override
     @Id
     @GeneratedValue
     @Column(name = "uniqueId", nullable = false)
@@ -34,16 +34,19 @@ public class Authen extends KTMEntity {
         return uniqueId;
     }
 
+    @Override
     public void setUniqueId(Integer uniqueId) {
         this.uniqueId = uniqueId;
     }
 
+    @Override
     @Version
     @Column(name = "version")
     public Integer getVersion() {
         return version;
     }
 
+    @Override
     public void setVersion(Integer version) {
         this.version = version;
     }
@@ -66,7 +69,7 @@ public class Authen extends KTMEntity {
         this.password = password;
     }
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     public Party getParty() {
         return party;
     }

@@ -2,7 +2,7 @@ package org.ktm.exception;
 
 public class DuplicateKeyException extends CreateException {
 
-    private static final long serialVersionUID = 989620752592415898L;
+    private static final long serialVersionUID = 1L;
 
     public DuplicateKeyException(String message) {
         super(message);

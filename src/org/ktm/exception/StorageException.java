@@ -2,7 +2,7 @@ package org.ktm.exception;
 
 public class StorageException extends KTMException {
 
-    private static final long serialVersionUID = -2528721270540362905L;
+    private static final long serialVersionUID = 1L;
 
     public StorageException(String message) {
         super(message);

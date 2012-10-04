@@ -2,7 +2,7 @@ package org.ktm.exception;
 
 public class DeleteException extends StorageException {
 
-    private static final long serialVersionUID = -5286362812955627352L;
+    private static final long serialVersionUID = 1L;
 
     public DeleteException(String message) {
         super(message);

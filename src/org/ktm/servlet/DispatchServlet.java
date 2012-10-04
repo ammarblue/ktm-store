@@ -28,19 +28,19 @@ public class DispatchServlet extends SecureServlet {
                 try {
                     actionMethod = getClass().getMethod(methodName, paramClasses);
                 } catch (SecurityException e) {
-
+                    e.printStackTrace();
                 } catch (NoSuchMethodException e) {
-
+                    e.printStackTrace();
                 }
 
                 try {
                     return (ActionForward) actionMethod.invoke(this, paramValues);
                 } catch (IllegalArgumentException e) {
-
+                    e.printStackTrace();
                 } catch (IllegalAccessException e) {
-
+                    e.printStackTrace();
                 } catch (InvocationTargetException e) {
-
+                    e.printStackTrace();
                 }
             }
         }

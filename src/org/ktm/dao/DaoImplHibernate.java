@@ -1,66 +1,73 @@
-package org.ktm.store;
+package org.ktm.dao;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import org.hibernate.Transaction;
-import org.hibernate.classic.Session;
-import org.ktm.core.KTMContext;
+import org.hibernate.Session;
 import org.ktm.domain.KTMEntity;
 import org.ktm.exception.CreateException;
 import org.ktm.exception.DeleteException;
 import org.ktm.exception.StorageException;
 import org.ktm.exception.UpdateException;
-import org.ktm.utils.HibernateUtil;
+import org.ktm.utils.CrudAdmin;
+import org.ktm.utils.ServiceLocator;
+import org.ktm.utils.SessionWrapper;
 
-public class HibernateStorage extends Storage {
+public abstract class DaoImplHibernate extends DaoImpl {
 
     private static final long serialVersionUID = 1L;
 
+    public Session getCurrentSession() {
+        return ServiceLocator.getCurrentSession();
+    }
+
     @Override
+    public CrudAdmin getCrudAdmin() {
+        SessionWrapper currentSessionWrapper = ServiceLocator.getCurrentSessionWrapper();
+
+        if (currentSessionWrapper != null) {
+            return currentSessionWrapper.getInterceptor().getCrudAdmin();
+        } else {
+            return new CrudAdmin();
+        }
+    }
+
+    @Override
+    public boolean isManaged(Object entity) {
+        return getCurrentSession().contains(entity);
+    }
+
+    @Override
+    public abstract Class<?> getFeaturedClass();
+
     public KTMEntity get(Class<?> entityClass, Serializable id) {
         KTMEntity object = null;
         if (entityClass != null && id != null) {
-            Session session = HibernateUtil.getSession(KTMContext.getSession());
-            Transaction transaction = null;
             try {
-                transaction = session.beginTransaction();
-                object = (KTMEntity) session.get(entityClass, id);
-                transaction.commit();
+                object = (KTMEntity) getCurrentSession().get(entityClass, id);
             } catch (Exception e) {
                 e.printStackTrace();
-            } finally {
-                session.close();
             }
         }
         return object;
     }
 
-    @Override
     public Serializable create(KTMEntity object) throws CreateException {
         if (object == null) {
             throw new CreateException("Either given class or object was null");
         }
 
-        Session session = HibernateUtil.getSession(KTMContext.getSession());
-        Transaction transaction = null;
         try {
-            transaction = session.beginTransaction();
-            session.saveOrUpdate(object);
-            transaction.commit();
+            getCurrentSession().saveOrUpdate(object);
         } catch (Exception e) {
-            transaction.rollback();
             throw new CreateException(e);
-        } finally {
-            session.close();
         }
 
         return object.getUniqueId();
     }
 
-    @Override
     public KTMEntity update(KTMEntity object) throws UpdateException {
         if (object == null) {
             throw new UpdateException("Cannot update null object.");
@@ -69,22 +76,14 @@ public class HibernateStorage extends Storage {
             throw new UpdateException("Object to update not found.");
         }
 
-        Session session = HibernateUtil.getSession(KTMContext.getSession());
-        Transaction transaction = null;
         try {
-            transaction = session.beginTransaction();
-            session.saveOrUpdate(object);
-            transaction.commit();
+            getCurrentSession().saveOrUpdate(object);
         } catch (Exception e) {
-            transaction.rollback();
             throw new UpdateException(e);
-        } finally {
-            session.close();
         }
         return object;
     }
 
-    @Override
     public Serializable merge(KTMEntity object) throws StorageException {
         if (object == null) {
             throw new StorageException("Cannot merge null object");
@@ -92,77 +91,50 @@ public class HibernateStorage extends Storage {
         if (object.getUniqueId() == null || get(object.getClass(), object.getUniqueId()) == null) {
             return create(object);
         } else {
-            Session session = HibernateUtil.getSession(KTMContext.getSession());
-            Transaction transaction = null;
             try {
-                transaction = session.beginTransaction();
-                session.merge(object);
-                transaction.commit();
+                getCurrentSession().merge(object);
             } catch (Exception e) {
-                transaction.rollback();
                 throw new StorageException(e);
-            } finally {
-                session.close();
             }
         }
         return object.getUniqueId();
     }
 
-    @Override
     public int delete(Class<?> entityClass, Serializable id) throws DeleteException {
         int result = 0;
-        Session session = HibernateUtil.getSession(KTMContext.getSession());
-        Transaction transaction = null;
         try {
             if (get(entityClass, id) != null) {
-                transaction = session.beginTransaction();
-                KTMEntity object = (KTMEntity) session.get(entityClass, id);
-                session.delete(object);
+                KTMEntity object = (KTMEntity) getCurrentSession().get(entityClass, id);
+                getCurrentSession().delete(object);
                 result = 1;
-                transaction.commit();
             } else {
                 return 0;
             }
         } catch (Exception e) {
-            transaction.rollback();
             throw new DeleteException(e);
-        } finally {
-            session.close();
         }
         return result;
     }
 
-    @Override
     public int delete(KTMEntity object) throws DeleteException {
         int result = 0;
-        Session session = HibernateUtil.getSession(KTMContext.getSession());
-        Transaction transaction = null;
         try {
             if (get(object.getClass(), object.getUniqueId()) != null) {
-                transaction = session.beginTransaction();
-                session.delete(object);
+                getCurrentSession().delete(object);
                 result = 1;
-                transaction.commit();
             } else {
                 return 0;
             }
         } catch (Exception e) {
-            transaction.rollback();
             throw new DeleteException(e);
-        } finally {
-            session.close();
         }
         return result;
     }
 
-    @Override
     public Collection<?> findAll(Class<?> entityClass) {
         List<KTMEntity> result = new ArrayList<KTMEntity>();
-        Session session = HibernateUtil.getSession(KTMContext.getSession());
-        Transaction transaction = null;
         try {
-            transaction = session.beginTransaction();
-            List<?> objects = session.createQuery(queryStringAllFromClass(entityClass)).list();
+            List<?> objects = getCurrentSession().createQuery(queryStringAllFromClass(entityClass)).list();
             Iterator<?> it = objects.iterator();
 
             while (it != null && it.hasNext()) {
@@ -179,12 +151,8 @@ public class HibernateStorage extends Storage {
                     }
                 }
             }
-            transaction.commit();
         } catch (Exception e) {
-            transaction.rollback();
             e.printStackTrace();
-        } finally {
-            session.close();
         }
         return result;
     }
@@ -192,5 +160,4 @@ public class HibernateStorage extends Storage {
     private String queryStringAllFromClass(Class<?> entityClass) {
         return "from " + entityClass.getName();
     }
-
 }
