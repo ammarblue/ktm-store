@@ -4,8 +4,8 @@ import java.io.Serializable;
 import org.hibernate.FlushMode;
 import org.hibernate.SessionFactory;
 import org.hibernate.classic.Session;
-import org.ktm.utils.interceptor.SessionStatisticsInterceptor;
-import org.ktm.utils.interceptor.SessionStatisticsInterceptorImpl;
+import org.ktm.dao.interceptor.SessionStatisticsInterceptor;
+import org.ktm.dao.interceptor.SessionStatisticsInterceptorImpl;
 
 public class SessionWrapper implements Serializable {
 
