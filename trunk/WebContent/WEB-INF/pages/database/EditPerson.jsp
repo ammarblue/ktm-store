@@ -32,22 +32,22 @@
                       />
                     </div>
                     <div class="ym-fbox-select">
-                      <label for="preName">${ktm:getText("prename")}</label>
-                      <select name="preName" id="preName" size="1">
+                      <label for="prename">${ktm:getText("nav.database.user.prename")}</label>
+                      <select name="prename" id="prename" size="1">
                         <option value="0" selected="selected" disabled="disabled">${ktm:getText("choose")}</option>
-                        <ktm:options selected="preName" bean="bean" label="prename.mr,prename.miss,prename.mis"/>
+                        <ktm:options selected="prename" bean="bean" label="prename.mr,prename.miss,prename.mis"/>
                       </select>
                     </div>
                     <div class="ym-fbox-text">
-                      <label for="firstName">${ktm:getText("nav.database.user.firstname")}<sup class="ym-required">*</sup></label>
-                      <input type="text" name="firstName" id="firstName" size="20"
-                        required="required" value="${bean.firstName}"
+                      <label for="firstname">${ktm:getText("nav.database.user.firstname")}<sup class="ym-required">*</sup></label>
+                      <input type="text" name="firstname" id="firstname" size="20"
+                        required="required" value="${bean.firstname}"
                       />
                     </div>
                     <div class="ym-fbox-text">
-                      <label for="lastName">${ktm:getText("nav.database.user.lastname")}<sup class="ym-required">*</sup></label>
-                      <input type="text" name="lastName" id="lastName" size="20"
-                        required="required" value="${bean.lastName}"
+                      <label for="lastname">${ktm:getText("nav.database.user.lastname")}<sup class="ym-required">*</sup></label>
+                      <input type="text" name="lastname" id="lastname" size="20"
+                        required="required" value="${bean.lastname}"
                       />
                     </div>
                     <div class="ym-fbox-text">

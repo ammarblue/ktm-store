@@ -26,9 +26,9 @@
                     <input type="hidden" name="uniqueId" value="${bean.uniqueId}">
                     <input type="hidden" name="method" value="save">
                     <div class="ym-fbox-text">
-                      <label for="catalogIdentifier">${ktm:getText("nav.database.group_product.id")}<sup class="ym-required">*</sup></label>
-                      <input type="text" name="catalogIdentifier" id="catalogIdentifier" size="20"
-                        required="required" value="${bean.catalogIdentifier}"
+                      <label for="identifier">${ktm:getText("nav.database.group_product.id")}<sup class="ym-required">*</sup></label>
+                      <input type="text" name="identifier" id="identifier" size="20"
+                        required="required" value="${bean.identifier}"
                       />
                     </div>
                     <div class="ym-fbox-text">

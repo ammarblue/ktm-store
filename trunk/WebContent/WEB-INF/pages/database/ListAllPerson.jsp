@@ -52,7 +52,7 @@
                       <div>
                         <div class="gridBox" style="width: 30px; text-align: right;">${id}.</div>
                         <div class="gridBox" style="width: 400px;">
-                          ${ktm:getText(person.preName)} ${person.firstName} ${person.lastName}
+                          ${ktm:getText(person.prename)} ${person.firstname} ${person.lastname}
                         </div>
                         <div class="gridBox" style="width: 243px;">
                           <input type="button" value="edit" onclick="goTo('CRUDPerson?method=edit&uniqueId=${person.uniqueId}')">
