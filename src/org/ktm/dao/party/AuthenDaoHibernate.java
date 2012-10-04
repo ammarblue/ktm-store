@@ -4,12 +4,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
-import org.hibernate.Transaction;
-import org.hibernate.classic.Session;
-import org.ktm.core.KTMContext;
 import org.ktm.dao.AbstractHibernateStorageDao;
 import org.ktm.domain.party.Authen;
-import org.ktm.utils.HibernateUtil;
 
 public class AuthenDaoHibernate extends AbstractHibernateStorageDao implements AuthenDao {
 
@@ -26,13 +22,8 @@ public class AuthenDaoHibernate extends AbstractHibernateStorageDao implements A
         Authen result = null;
         String queryString = "select authen FROM Authen AS authen WHERE authen.username = :username";
 
-        Session session = HibernateUtil.getSession(KTMContext.getSession());
-        Transaction transaction = null;
-
         try {
-            transaction = session.beginTransaction();
-
-            Query query = session.createQuery(queryString);
+            Query query = getCurrentSession().createQuery(queryString);
             query.setParameter("username", username);
 
             query.setFirstResult(getFirstResult());
@@ -55,12 +46,8 @@ public class AuthenDaoHibernate extends AbstractHibernateStorageDao implements A
                     }
                 }
             }
-            transaction.commit();
         } catch (HibernateException he) {
-            transaction.rollback();
             he.printStackTrace();
-        } finally {
-            session.close();
         }
         return result;
     }
@@ -70,14 +57,10 @@ public class AuthenDaoHibernate extends AbstractHibernateStorageDao implements A
     public Authen findByPartyId(Integer id) {
         Authen result = null;
 
-        Session session = HibernateUtil.getSession(KTMContext.getSession());
-        Transaction transaction = null;
-
         try {
-            transaction = session.beginTransaction();
             String queryString = "select new list(authen) " + "FROM Authen AS authen " + "WHERE authen.party.uniqueId = :partyId";
 
-            Query query = session.createQuery(queryString);
+            Query query = getCurrentSession().createQuery(queryString);
             query.setParameter("partyId", id);
 
             query.setFirstResult(getFirstResult());
@@ -103,9 +86,7 @@ public class AuthenDaoHibernate extends AbstractHibernateStorageDao implements A
                     break;
                 }
             }
-            transaction.commit();
         } catch (HibernateException he) {
-            transaction.rollback();
             he.printStackTrace();
         }
         return result;

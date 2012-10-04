@@ -7,14 +7,10 @@ import java.util.List;
 import java.util.Set;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
-import org.hibernate.Transaction;
-import org.hibernate.classic.Session;
-import org.ktm.core.KTMContext;
 import org.ktm.dao.AbstractHibernateStorageDao;
 import org.ktm.domain.money.Price;
 import org.ktm.domain.product.BeveragePackage;
 import org.ktm.domain.product.PackageType;
-import org.ktm.utils.HibernateUtil;
 
 public class PackageTypeDaoHibernate extends AbstractHibernateStorageDao implements PackageTypeDao {
 
@@ -50,15 +46,10 @@ public class PackageTypeDaoHibernate extends AbstractHibernateStorageDao impleme
     public List<PackageType> findByCatalog(Integer id) {
         List<PackageType> result = null;
 
-        Session session = HibernateUtil.getSession(KTMContext.getSession());
-        Transaction transaction = null;
-
         try {
             String queryString = "select new list(pck) " + "FROM PackageType AS pck " + "WHERE pck.catalogEntry.productCatalog.uniqueId = :catalogId";
 
-            transaction = session.beginTransaction();
-
-            Query query = session.createQuery(queryString);
+            Query query = getCurrentSession().createQuery(queryString);
             query.setInteger("catalogId", id);
 
             query.setFirstResult(getFirstResult());
@@ -84,12 +75,8 @@ public class PackageTypeDaoHibernate extends AbstractHibernateStorageDao impleme
                 }
             }
             result = objs;
-            transaction.commit();
         } catch (HibernateException he) {
-            transaction.rollback();
             he.printStackTrace();
-        } finally {
-            session.close();
         }
         return result;
     }

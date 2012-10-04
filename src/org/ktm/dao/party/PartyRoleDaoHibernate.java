@@ -6,14 +6,10 @@ import java.util.Iterator;
 import java.util.Set;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
-import org.hibernate.Transaction;
-import org.hibernate.classic.Session;
-import org.ktm.core.KTMContext;
 import org.ktm.dao.AbstractHibernateStorageDao;
 import org.ktm.domain.party.Authen;
 import org.ktm.domain.party.Party;
 import org.ktm.domain.party.PartyRole;
-import org.ktm.utils.HibernateUtil;
 
 public class PartyRoleDaoHibernate extends AbstractHibernateStorageDao implements PartyRoleDao {
 
@@ -29,15 +25,10 @@ public class PartyRoleDaoHibernate extends AbstractHibernateStorageDao implement
     public PartyRole findByRoleName(Party party, String roleName) {
         PartyRole result = null;
 
-        Session session = HibernateUtil.getSession(KTMContext.getSession());
-        Transaction transaction = null;
-
         try {
             String queryString = "select partyrole FROM PartyRole AS partyrole WHERE partyrole.name = :rolename AND partyrole.party.uniqueId=:partyid";
 
-            transaction = session.beginTransaction();
-
-            Query query = session.createQuery(queryString);
+            Query query = getCurrentSession().createQuery(queryString);
             query.setParameter("partyid", party.getUniqueId());
             query.setParameter("rolename", roleName);
 
@@ -62,12 +53,8 @@ public class PartyRoleDaoHibernate extends AbstractHibernateStorageDao implement
                     }
                 }
             }
-            transaction.commit();
         } catch (HibernateException he) {
-            transaction.rollback();
             he.printStackTrace();
-        } finally {
-            session.close();
         }
         return result;
     }
@@ -78,11 +65,8 @@ public class PartyRoleDaoHibernate extends AbstractHibernateStorageDao implement
         try {
             String queryString = "select role FROM PartyRole AS role WHERE role.party.uniqueId = :id";
 
-            Session session = HibernateUtil.getSession(KTMContext.getSession());
-            Transaction transaction = null;
             try {
-                transaction = session.beginTransaction();
-                Query query = session.createQuery(queryString);
+                Query query = getCurrentSession().createQuery(queryString);
                 query.setParameter("id", party.getUniqueId());
 
                 query.setFirstResult(0);
@@ -103,12 +87,8 @@ public class PartyRoleDaoHibernate extends AbstractHibernateStorageDao implement
                         }
                     }
                 }
-                transaction.commit();
             } catch (HibernateException e) {
-                transaction.rollback();
                 e.printStackTrace();
-            } finally {
-                session.close();
             }
 
         } catch (HibernateException he) {
