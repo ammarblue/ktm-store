@@ -35,6 +35,7 @@ public class Globals implements Serializable {
     public static final String BASE_PATH                          = "BasePath";
     public static final String ENTITY_SESSION                     = "entity_session";
     public static final String ENTITY_SESSION_END_OF_CONVERSATION = "entity_session_end_of_conversion";
+    public static final Object ANY                                = Integer.valueOf(0);
 
     // javax.servlet.include.request_uri
     // javax.servlet.include.context_path
