@@ -123,7 +123,7 @@ public class CRUDPersonServlet extends CRUDServlet {
         int id = Integer.valueOf(bean.getUniqueId());
         personDao.delete(id);
 
-        return ActionForward.getAction(this, request, "CRUDPerson?method=list", true);
+        return ActionForward.getAction(this, request, "CRUDPerson?method=store", true);
     }
 
     public ActionForward storePerson(FormBean form, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, DeleteException {

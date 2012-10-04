@@ -91,7 +91,7 @@ public class CRUDProductTypeServlet extends CRUDServlet {
         cEntry.getProductType().add(ptype);
         cEntryDao.create(cEntry);
 
-        return ActionForward.getAction(this, request, "CRUDProductType?method=list", true);
+        return ActionForward.getAction(this, request, "CRUDProductType?method=store", true);
     }
 
     public ActionForward editProductType(FormBean form, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -116,6 +116,12 @@ public class CRUDProductTypeServlet extends CRUDServlet {
         int id = Integer.valueOf(bean.getUniqueId());
         ptypeDao.delete(id);
 
+        return ActionForward.getAction(this, request, "CRUDProductType?method=store", true);
+    }
+
+    public ActionForward storeProductType(FormBean form, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, DeleteException {
+        store(request, response);
+        closeSession(request);
         return ActionForward.getAction(this, request, "CRUDProductType?method=list", true);
     }
 

@@ -57,7 +57,7 @@ public class CRUDCatalogEntryServlet extends CRUDServlet {
 
         cEntryDao.create(cEntry);
 
-        return ActionForward.getAction(this, request, "CRUDCatalogEntry?method=list", true);
+        return ActionForward.getAction(this, request, "CRUDCatalogEntry?method=store", true);
     }
 
     public ActionForward editCatalogEntry(FormBean form, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -82,6 +82,12 @@ public class CRUDCatalogEntryServlet extends CRUDServlet {
         int id = Integer.valueOf(bean.getUniqueId());
         cEntryDao.delete(id);
 
+        return ActionForward.getAction(this, request, "CRUDCatalogEntry?method=store", true);
+    }
+
+    public ActionForward storeCatalogEntry(FormBean form, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, DeleteException {
+        store(request, response);
+        closeSession(request);
         return ActionForward.getAction(this, request, "CRUDCatalogEntry?method=list", true);
     }
 
