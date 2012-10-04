@@ -1,4 +1,4 @@
-package org.ktm.utils;
+package org.ktm.core;
 
 import java.io.Serializable;
 import org.hibernate.FlushMode;

@@ -1,10 +1,11 @@
-package org.ktm.utils;
+package org.ktm.core;
 
 import org.hibernate.FlushMode;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.classic.Session;
 import org.ktm.exception.ConstraintException;
+import org.ktm.utils.ServiceLocator;
 
 public class SessionTransactionWrapper extends SessionWrapper {
 

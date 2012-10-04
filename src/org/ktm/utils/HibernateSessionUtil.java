@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 import org.hibernate.HibernateException;
 import org.hibernate.classic.Session;
 import org.hibernate.context.ManagedSessionContext;
+import org.ktm.core.SessionWrapper;
 
 public class HibernateSessionUtil {
 

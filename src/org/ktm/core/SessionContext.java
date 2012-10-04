@@ -1,4 +1,4 @@
-package org.ktm.utils;
+package org.ktm.core;
 
 import org.hibernate.classic.Session;
 import org.ktm.exception.ConstraintException;
@@ -9,7 +9,7 @@ import org.ktm.exception.ConstraintException;
  * 
  *         SessionContext instances faciliate client code in their session /
  *         transaction / validation demarcation.
- * @see com.kg.dev.hibernate.persistence.SessionTransactionWrapper
+ * @see org.ktm.core.kg.dev.hibernate.persistence.SessionTransactionWrapper
  */
 public class SessionContext {
 

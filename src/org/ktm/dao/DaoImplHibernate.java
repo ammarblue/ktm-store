@@ -6,13 +6,13 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import org.hibernate.Session;
+import org.ktm.core.SessionWrapper;
 import org.ktm.domain.KTMEntity;
 import org.ktm.exception.CreateException;
 import org.ktm.exception.DeleteException;
 import org.ktm.exception.StorageException;
 import org.ktm.exception.UpdateException;
 import org.ktm.utils.ServiceLocator;
-import org.ktm.utils.SessionWrapper;
 
 public abstract class DaoImplHibernate extends DaoImpl {
 

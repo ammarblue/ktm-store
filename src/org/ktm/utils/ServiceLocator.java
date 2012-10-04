@@ -9,6 +9,9 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.classic.Session;
 import org.hibernate.impl.SessionFactoryObjectFactory;
+import org.ktm.core.SessionContext;
+import org.ktm.core.SessionTransactionWrapper;
+import org.ktm.core.SessionWrapper;
 
 public class ServiceLocator implements Serializable {
 
