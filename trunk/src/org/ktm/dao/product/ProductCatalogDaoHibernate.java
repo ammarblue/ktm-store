@@ -4,12 +4,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
-import org.hibernate.Transaction;
-import org.hibernate.classic.Session;
-import org.ktm.core.KTMContext;
 import org.ktm.dao.AbstractHibernateStorageDao;
 import org.ktm.domain.product.ProductCatalog;
-import org.ktm.utils.HibernateUtil;
 
 public class ProductCatalogDaoHibernate extends AbstractHibernateStorageDao implements ProductCatalogDao {
 
@@ -24,14 +20,9 @@ public class ProductCatalogDaoHibernate extends AbstractHibernateStorageDao impl
     public ProductCatalog findByName(String name) {
         ProductCatalog result = null;
 
-        Session session = HibernateUtil.getSession(KTMContext.getSession());
-        Transaction transaction = null;
-
         String queryString = "select catalog FROM ProductCatalog AS catalog WHERE catalog.name = :name";
         try {
-            transaction = session.beginTransaction();
-
-            Query query = session.createQuery(queryString);
+            Query query = getCurrentSession().createQuery(queryString);
             query.setString("name", name);
 
             query.setFirstResult(getFirstResult());
@@ -55,12 +46,8 @@ public class ProductCatalogDaoHibernate extends AbstractHibernateStorageDao impl
                     }
                 }
             }
-            transaction.commit();
         } catch (HibernateException he) {
-            transaction.rollback();
             he.printStackTrace();
-        } finally {
-            session.close();
         }
 
         return result;

@@ -2,14 +2,10 @@ package org.ktm.dao.party;
 
 import java.io.Serializable;
 import java.util.List;
-import org.hibernate.Transaction;
-import org.hibernate.classic.Session;
-import org.ktm.core.KTMContext;
 import org.ktm.dao.KTMEMDaoFactory;
 import org.ktm.domain.party.Authen;
 import org.ktm.domain.party.Person;
 import org.ktm.exception.DeleteException;
-import org.ktm.utils.HibernateUtil;
 
 public class PersonDaoHibernate extends PartyDaoHibernate implements PersonDao {
 
@@ -34,20 +30,14 @@ public class PersonDaoHibernate extends PartyDaoHibernate implements PersonDao {
             AuthenDao authDao = KTMEMDaoFactory.getInstance().getAuthenDao();
             Authen auth = authDao.findByPartyId((Integer) id);
 
-            Session session = HibernateUtil.getSession(KTMContext.getSession());
-            Transaction transaction = null;
             try {
-                transaction = session.beginTransaction();
-                person = (Person) session.get(getFeaturedClass(), id);
+                person = (Person) getCurrentSession().get(getFeaturedClass(), id);
                 if (auth != null) {
-                    session.delete(auth);
+                    getCurrentSession().delete(auth);
                 }
-                session.delete(person);
-                transaction.commit();
+                getCurrentSession().delete(person);
             } catch (Exception e) {
                 e.printStackTrace();
-            } finally {
-                session.close();
             }
             return person.getUniqueId();
         }
