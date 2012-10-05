@@ -57,6 +57,7 @@ public class CRUDServlet extends DispatchServlet {
                 if (transaction != null) {
                     transaction.rollback();
                 }
+                exception.printStackTrace();
                 // actionForward = handleStoreException(mapping, request,
                 // errors, dataAccessException, hibernateSession);
             }

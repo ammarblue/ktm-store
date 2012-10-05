@@ -18,7 +18,7 @@ public class MongoStorage extends DaoImpl {
     }
 
     @Override
-    public Serializable create(KTMEntity object) throws CreateException {
+    public Serializable createOrUpdate(KTMEntity object) throws CreateException {
         // TODO Auto-generated method stub
         return null;
     }

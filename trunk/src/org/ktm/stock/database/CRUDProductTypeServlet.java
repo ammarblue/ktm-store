@@ -84,12 +84,15 @@ public class CRUDProductTypeServlet extends CRUDServlet {
             }
         } else {
             bean.syncToProductType(ptype);
+            ptype.setCatalogEntry(cEntry);
+            cEntry.getProductType().add(ptype);
         }
 
-        ptypeDao.create(ptype);
+        if (ptype.getCatalogEntry().getUniqueId() != cEntry.getUniqueId()) {
+            ptype.setCatalogEntry(cEntry);
+        }
 
-        cEntry.getProductType().add(ptype);
-        cEntryDao.create(cEntry);
+        ptypeDao.createOrUpdate(ptype);
 
         return ActionForward.getAction(this, request, "CRUDProductType?method=store", true);
     }
@@ -108,13 +111,16 @@ public class CRUDProductTypeServlet extends CRUDServlet {
         return ActionForward.getUri(this, request, "database/EditProductType.jsp");
     }
 
-    public ActionForward delProductType(FormBean form, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, DeleteException {
+    public ActionForward delProductType(FormBean form, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, DeleteException, CreateException {
         ProductTypeBean bean = (ProductTypeBean) form;
 
         ProductTypeDao ptypeDao = KTMEMDaoFactory.getInstance().getProductTypeDao();
 
         int id = Integer.valueOf(bean.getUniqueId());
-        ptypeDao.delete(id);
+        ProductType ptype = (ProductType) ptypeDao.get(id);
+        if (ptype != null) {
+            ptypeDao.delete(id);
+        }
 
         return ActionForward.getAction(this, request, "CRUDProductType?method=store", true);
     }

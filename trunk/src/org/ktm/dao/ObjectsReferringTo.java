@@ -1,5 +1,6 @@
 package org.ktm.dao;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -7,10 +8,12 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-public class ObjectsReferringTo {
+public class ObjectsReferringTo implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @SuppressWarnings("rawtypes")
-    private final Map referredObjects = new HashMap();
+    private final Map         referredObjects  = new HashMap();
 
     public ObjectsReferringTo() {
     }

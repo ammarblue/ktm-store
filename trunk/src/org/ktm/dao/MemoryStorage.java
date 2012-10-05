@@ -50,7 +50,7 @@ public class MemoryStorage extends DaoImpl {
     }
 
     @Override
-    public Serializable create(KTMEntity object) throws CreateException {
+    public Serializable createOrUpdate(KTMEntity object) throws CreateException {
         if (object == null) {
             throw new CreateException("Either given class or object was null");
         }
@@ -80,7 +80,7 @@ public class MemoryStorage extends DaoImpl {
             throw new StorageException("Cannot merge null object");
         }
         if (object.getUniqueId() == null || get(object.getClass(), object.getUniqueId()) == null) {
-            return create(object);
+            return createOrUpdate(object);
         } else {
             return update(object).getUniqueId();
         }

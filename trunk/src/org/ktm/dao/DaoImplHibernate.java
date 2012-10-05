@@ -53,7 +53,8 @@ public abstract class DaoImplHibernate extends DaoImpl {
         return object;
     }
 
-    public Serializable create(KTMEntity object) throws CreateException {
+    @Override
+    public Serializable createOrUpdate(KTMEntity object) throws CreateException {
         if (object == null) {
             throw new CreateException("Either given class or object was null");
         }
@@ -67,6 +68,7 @@ public abstract class DaoImplHibernate extends DaoImpl {
         return object.getUniqueId();
     }
 
+    @Override
     public KTMEntity update(KTMEntity object) throws UpdateException {
         if (object == null) {
             throw new UpdateException("Cannot update null object.");
@@ -83,12 +85,13 @@ public abstract class DaoImplHibernate extends DaoImpl {
         return object;
     }
 
+    @Override
     public Serializable merge(KTMEntity object) throws StorageException {
         if (object == null) {
             throw new StorageException("Cannot merge null object");
         }
         if (object.getUniqueId() == null || get(object.getClass(), object.getUniqueId()) == null) {
-            return create(object);
+            return createOrUpdate(object);
         } else {
             try {
                 getCurrentSession().merge(object);
@@ -115,6 +118,7 @@ public abstract class DaoImplHibernate extends DaoImpl {
         return result;
     }
 
+    @Override
     public int delete(KTMEntity object) throws DeleteException {
         int result = 0;
         try {

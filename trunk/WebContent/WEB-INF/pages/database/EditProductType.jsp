@@ -19,7 +19,7 @@
             <div class="ym-cbox">
               <section class="box info">
                 <div class="ym-wbox">
-                <h3>${ktm:getText("nav.database")} ${ktm:getText("nav.database.group_product")}</h3>
+                <h3>${ktm:getText("nav.database")} ${ktm:getText("nav.database.group_product")} ${bean.catalogEntry.description }</h3>
                 </div>
                 <div class="ym-wbox">
                   <form class="ym-form ym-columner" action="CRUDProductType" method="post">
@@ -44,7 +44,7 @@
                       />
                     </div>
                     <div class="ym-fbox-button">
-                      <input type="submit" class="ym-button" value='${ktm:getText("page.btn.save")} ${ktm:getText("nav.database.group_product")}' id="submit"
+                      <input type="submit" class="ym-button" value='${ktm:getText("page.btn.save")} ${ktm:getText("nav.database.product")}' id="submit"
                         name="submit"
                       />
                       <input type="button" class="ym-button" value='${ktm:getText("page.btn.cancel")}' id="cancel"

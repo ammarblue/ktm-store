@@ -2,7 +2,6 @@ package org.ktm.domain.product;
 
 import java.util.HashSet;
 import java.util.Set;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -71,7 +70,7 @@ public class CatalogEntry extends KTMEntity {
         this.description = description;
     }
 
-    @OneToMany(mappedBy = "catalogEntry", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "catalogEntry")
     public Set<ProductType> getProductType() {
         return productType;
     }
