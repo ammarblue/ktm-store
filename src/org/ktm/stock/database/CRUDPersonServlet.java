@@ -96,7 +96,7 @@ public class CRUDPersonServlet extends CRUDServlet {
             person.getRoles().add(emp);
         }
 
-        personDao.create(person);
+        personDao.createOrUpdate(person);
 
         return ActionForward.getAction(this, request, "CRUDPerson?method=store", true);
     }

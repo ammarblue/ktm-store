@@ -40,7 +40,7 @@ public class KTMMaxIdentifierDaoHibernate extends AbstractHibernateStorageDao im
             if (objs.size() <= 0) {
                 maxObj = new KTMMaxIdentifier();
                 try {
-                    create(maxObj);
+                    createOrUpdate(maxObj);
                 } catch (CreateException e) {
                     e.printStackTrace();
                 }
@@ -74,7 +74,7 @@ public class KTMMaxIdentifierDaoHibernate extends AbstractHibernateStorageDao im
             if (objs.size() <= 0) {
                 maxObj = new KTMMaxIdentifier();
                 try {
-                    create(maxObj);
+                    createOrUpdate(maxObj);
                 } catch (CreateException e) {
                     e.printStackTrace();
                 }

@@ -55,7 +55,7 @@ public class CRUDCatalogEntryServlet extends CRUDServlet {
             bean.syncToCatalogEntry(cEntry);
         }
 
-        cEntryDao.create(cEntry);
+        cEntryDao.createOrUpdate(cEntry);
 
         return ActionForward.getAction(this, request, "CRUDCatalogEntry?method=store", true);
     }

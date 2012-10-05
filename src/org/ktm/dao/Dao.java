@@ -121,7 +121,7 @@ public interface Dao {
 
     public KTMEntity get(Serializable id);
 
-    public Serializable create(KTMEntity object) throws CreateException;
+    public Serializable createOrUpdate(KTMEntity object) throws CreateException;
 
     public KTMEntity update(KTMEntity object) throws UpdateException;
 
