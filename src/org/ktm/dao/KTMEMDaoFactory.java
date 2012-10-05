@@ -1,5 +1,6 @@
 package org.ktm.dao;
 
+import org.ktm.core.KTMContext;
 import org.ktm.dao.party.AuthenDao;
 import org.ktm.dao.party.CustomerDao;
 import org.ktm.dao.party.EmploymentDao;
@@ -17,10 +18,14 @@ import org.ktm.dao.product.ProductTypeDao;
 public abstract class KTMEMDaoFactory {
 
     public static final KTMEMDaoFactory HIBERNATE = new KTMEMDaoFactoryHibernate();
+    public static final KTMEMDaoFactory MANGODB   = new KTMEMDaoFactoryMongoDB();
 
     public static final KTMEMDaoFactory DEFAULT   = HIBERNATE;
 
     public static KTMEMDaoFactory getInstance() {
+        if (KTMContext.databaseSystem == EDatabaseSystem.MONGODB) {
+            return MANGODB;
+        }
         return DEFAULT;
     }
 

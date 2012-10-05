@@ -10,6 +10,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import org.ktm.core.KTMContext;
+import org.ktm.dao.EDatabaseSystem;
 import org.ktm.utils.HibernateSessionUtil;
 
 @WebFilter("/*")
@@ -51,12 +52,15 @@ public class RequestWrapperFilter implements Filter {
     }
 
     private void unbindOrCloseSessions(HttpServletRequest httpRequest, boolean forceClose) {
-        HibernateSessionUtil.unbindEntitySession(httpRequest, forceClose);
+        if (KTMContext.databaseSystem == EDatabaseSystem.HIBERNATE) {
+            HibernateSessionUtil.unbindEntitySession(httpRequest, forceClose);
+        }
     }
 
     private void bindSessions(HttpServletRequest httpRequest) {
-        HibernateSessionUtil.bindEntitySession(httpRequest);
-
+        if (KTMContext.databaseSystem == EDatabaseSystem.HIBERNATE) {
+            HibernateSessionUtil.bindEntitySession(httpRequest);
+        }
     }
 
     @Override

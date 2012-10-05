@@ -5,6 +5,7 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 import org.ktm.core.KTMContext;
+import org.ktm.dao.EDatabaseSystem;
 import org.ktm.utils.Localizer;
 
 //import java.util.logging.Logger;
@@ -25,6 +26,10 @@ public class InitListener implements ServletContextListener {
         ktmContext.setJspHeader(context.getInitParameter("JspHeader"));
         ktmContext.setJspFooter(context.getInitParameter("JspFooter"));
 
+        String databaseSystem = context.getInitParameter("database_system");
+        KTMContext.databaseSystem = EDatabaseSystem.get(Integer.valueOf(databaseSystem));
+
+        KTMContext.databaseName = context.getInitParameter("database_name");
         Localizer.switchLocale(Localizer.eLanguage.THAI);
     }
 
