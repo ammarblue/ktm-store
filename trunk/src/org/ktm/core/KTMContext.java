@@ -1,15 +1,18 @@
 package org.ktm.core;
 
 import javax.servlet.http.HttpSession;
+import org.ktm.dao.EDatabaseSystem;
 
 public class KTMContext {
-    private static HttpSession session    = null;
+    private static HttpSession    session        = null;
 
-    public static final String APPCONTEXT = "context";
-    public static KTMContext   instance   = null;
+    public static final String    APPCONTEXT     = "context";
+    public static KTMContext      instance       = null;
+    public static EDatabaseSystem databaseSystem = EDatabaseSystem.HIBERNATE;
+    public static String          databaseName   = "";
 
-    private String             jspHeader;
-    private String             jspFooter;
+    private String                jspHeader;
+    private String                jspFooter;
 
     public String getJspHeader() {
         return jspHeader;
