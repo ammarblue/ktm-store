@@ -11,7 +11,7 @@ import javax.persistence.Version;
 @Entity
 public class Payment extends Money implements Serializable {
 
-    private static final long serialVersionUID = 9151493751652052575L;
+    private static final long serialVersionUID = 1L;
 
     private Date              dateMade;
     private Date              dateReceived;
@@ -26,6 +26,7 @@ public class Payment extends Money implements Serializable {
         return super.getUniqueId();
     }
 
+    @Override
     public void setUniqueId(Integer uniqueId) {
         super.setUniqueId(uniqueId);
     }
@@ -36,6 +37,7 @@ public class Payment extends Money implements Serializable {
         return super.getVersion();
     }
 
+    @Override
     public void setVersion(Integer version) {
         super.setVersion(version);
     }
