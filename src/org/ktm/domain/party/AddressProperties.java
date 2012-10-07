@@ -55,7 +55,7 @@ public class AddressProperties extends KTMEntity implements Serializable {
         this.useage = useage;
     }
 
-    public void setUseage(AddressEType useage) {
+    public void setUseage(EAddressType useage) {
         this.useage = useage.getType();
     }
 

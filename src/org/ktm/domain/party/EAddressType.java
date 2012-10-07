@@ -1,11 +1,11 @@
 package org.ktm.domain.party;
 
-public enum AddressEType {
+public enum EAddressType {
     EMAIL("email"), TELEPHONE("phone"), FAX("fax"), GEOGRAPHICS("geographics"), WEBPAGE("web");
 
     private String type;
 
-    private AddressEType(String type) {
+    private EAddressType(String type) {
         this.setType(type);
     }
 
