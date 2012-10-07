@@ -26,7 +26,7 @@ public class Party extends KTMEntity {
     private Integer                   version;
     private PartyIdentifier           identifier;
     private Set<RegisteredIdentifier> registeredIdentifiers = new HashSet<RegisteredIdentifier>(0);
-    private Set<AddressProperties>    addresses             = new HashSet<AddressProperties>();
+    private Set<AddressProperties>    addresses             = new HashSet<AddressProperties>(0);
     private Set<Authen>               authens               = new HashSet<Authen>(0);
     private Set<PartyRole>            roles                 = new HashSet<PartyRole>(0);
 

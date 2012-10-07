@@ -12,7 +12,7 @@ import javax.persistence.InheritanceType;
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Organization extends Party {
 
-    private static final long serialVersionUID = 6900931315594214549L;
+    private static final long serialVersionUID = 1L;
 
     private String            name;
 
