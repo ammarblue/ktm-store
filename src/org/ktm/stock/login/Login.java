@@ -25,7 +25,7 @@ public class Login extends AbstractServlet {
     private final Logger      log              = Logger.getLogger(Login.class);
 
     @Override
-    protected String getBeanClass() {
+    public String getBeanClass() {
         return "org.ktm.stock.bean.LoginBean";
     }
 
@@ -69,5 +69,4 @@ public class Login extends AbstractServlet {
         }
         return action;
     }
-
 }

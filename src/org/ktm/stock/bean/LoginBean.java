@@ -1,5 +1,7 @@
 package org.ktm.stock.bean;
 
+import java.util.Collection;
+
 public class LoginBean extends FormBean {
 
     private String loginuser;
@@ -19,6 +21,11 @@ public class LoginBean extends FormBean {
 
     public void setLoginpassword(String loginpassword) {
         this.loginpassword = loginpassword;
+    }
+
+    @Override
+    public void loadFormCollection(Collection<?> entitys) {
+
     }
 
 }

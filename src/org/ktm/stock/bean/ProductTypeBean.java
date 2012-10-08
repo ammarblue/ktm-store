@@ -1,6 +1,7 @@
 package org.ktm.stock.bean;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import org.ktm.domain.product.CatalogEntry;
 import org.ktm.domain.product.ProductIdentifier;
@@ -17,6 +18,14 @@ public class ProductTypeBean extends FormBean {
 
     private List<ProductTypeBean>  productTypeCollection  = new ArrayList<ProductTypeBean>(0);
     private List<CatalogEntryBean> catalogEntryCollection = new ArrayList<CatalogEntryBean>(0);
+
+    @Override
+    public void reset() {
+        super.reset();
+        catalogEntry.reset();
+        productTypeCollection.clear();
+        catalogEntryCollection.clear();
+    }
 
     public String getName() {
         return name;
@@ -74,13 +83,15 @@ public class ProductTypeBean extends FormBean {
         this.selectedCatalogEntry = selectedCatalogEntry;
     }
 
-    public void loadFormCollection(List<ProductType> ptypes) {
-        if (ptypes != null) {
-            productTypeCollection.clear();
-            for (ProductType ptype : ptypes) {
-                ProductTypeBean bean = new ProductTypeBean();
-                bean.loadToForm(ptype);
-                productTypeCollection.add(bean);
+    @Override
+    public void loadFormCollection(Collection<?> entitys) {
+        if (entitys != null) {
+            for (Object entity : entitys) {
+                if (entity instanceof ProductType) {
+                    ProductTypeBean bean = new ProductTypeBean();
+                    bean.loadToForm((ProductType) entity);
+                    productTypeCollection.add(bean);
+                }
             }
         }
     }
@@ -116,7 +127,6 @@ public class ProductTypeBean extends FormBean {
 
     public void loadCatalogEntryFormCollection(List<CatalogEntry> cEntrys) {
         if (cEntrys != null) {
-            catalogEntryCollection.clear();
             for (CatalogEntry cEntry : cEntrys) {
                 CatalogEntryBean bean = new CatalogEntryBean();
                 bean.loadToForm(cEntry);

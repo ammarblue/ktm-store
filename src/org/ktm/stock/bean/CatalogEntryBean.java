@@ -1,7 +1,7 @@
 package org.ktm.stock.bean;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Collection;
 import java.util.List;
 import org.ktm.domain.product.CatalogEntry;
 
@@ -11,6 +11,12 @@ public class CatalogEntryBean extends FormBean {
     private String                 description;
 
     private List<CatalogEntryBean> catalogEntryCollection = new ArrayList<CatalogEntryBean>(0);
+
+    @Override
+    public void reset() {
+        super.reset();
+        catalogEntryCollection.clear();
+    }
 
     public String getIdentifier() {
         return identifier;
@@ -54,14 +60,15 @@ public class CatalogEntryBean extends FormBean {
         }
     }
 
-    public void loadFormCollection(List<CatalogEntry> catalogEntrys) {
-        if (catalogEntrys != null) {
-            catalogEntryCollection.clear();
-            Iterator<CatalogEntry> it = catalogEntrys.iterator();
-            while (it.hasNext()) {
-                CatalogEntryBean bean = new CatalogEntryBean();
-                bean.loadToForm(it.next());
-                catalogEntryCollection.add(bean);
+    @Override
+    public void loadFormCollection(Collection<?> entitys) {
+        if (entitys != null) {
+            for (Object entity : entitys) {
+                if (entity instanceof CatalogEntry) {
+                    CatalogEntryBean bean = new CatalogEntryBean();
+                    bean.loadToForm((CatalogEntry) entity);
+                    catalogEntryCollection.add(bean);
+                }
             }
         }
     }

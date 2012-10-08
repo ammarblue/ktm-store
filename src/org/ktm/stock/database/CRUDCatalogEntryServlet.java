@@ -22,7 +22,7 @@ public class CRUDCatalogEntryServlet extends CRUDServlet {
     private static final long serialVersionUID = 1L;
 
     @Override
-    protected String getBeanClass() {
+    public String getBeanClass() {
         return "org.ktm.stock.bean.CatalogEntryBean";
     }
 

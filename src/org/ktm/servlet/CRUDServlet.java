@@ -11,7 +11,6 @@ import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Transaction;
 import org.hibernate.classic.Session;
-import org.ktm.utils.Globals;
 import org.ktm.utils.HibernateSessionUtil;
 import org.ktm.utils.Localizer;
 import org.ktm.utils.ServiceLocator;
@@ -74,10 +73,6 @@ public class CRUDServlet extends DispatchServlet {
         // }
 
         return result;
-    }
-
-    protected void closeSession(HttpServletRequest request) {
-        request.setAttribute(Globals.ENTITY_SESSION_END_OF_CONVERSATION, Globals.ANY);
     }
 
     private void saveErrors(HttpServletRequest request, List<String> errors) {

@@ -25,7 +25,7 @@ public class CRUDProductTypeServlet extends CRUDServlet {
     private static final long serialVersionUID = 1L;
 
     @Override
-    protected String getBeanClass() {
+    public String getBeanClass() {
         return "org.ktm.stock.bean.ProductTypeBean";
     }
 

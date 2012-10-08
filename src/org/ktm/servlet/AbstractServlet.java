@@ -22,11 +22,13 @@ public abstract class AbstractServlet extends HttpServlet {
         super();
     }
 
-    protected String getBeanClass() {
+    protected abstract ActionForward processRequest(FormBean form, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;
+
+    public String getBeanClass() {
         return "org.ktm.stock.bean.FormBean";
     }
 
-    private FormBean getBean() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+    public FormBean getBean() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
         if (bean == null) {
             Class<?> c = null;
 
@@ -39,6 +41,7 @@ public abstract class AbstractServlet extends HttpServlet {
             }
 
             bean = (FormBean) c.newInstance();
+            bean.setServlet(this);
         }
         return bean;
     }
@@ -86,17 +89,26 @@ public abstract class AbstractServlet extends HttpServlet {
             } else {
                 request.getRequestDispatcher(uri).forward(request, response);
             }
+
+            if (action.isEndConversation()) {
+                closeSession(request);
+            }
         }
+    }
+
+    private ActionForward checkLogin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+        String loginUri = request.getServletContext().getInitParameter(Globals.LOGIN_PAGE);
+        ActionForward action = ActionForward.getUri(this, request, loginUri);
+        if (prepareRequest(request)) {
+            action = processRequest(getBean(), request, response);
+        }
+        return action;
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            String loginUri = request.getServletContext().getInitParameter(Globals.LOGIN_PAGE);
-            ActionForward action = ActionForward.getUri(this, request, loginUri);
-            if (prepareRequest(request)) {
-                action = processRequest(getBean(), request, response);
-            }
+            ActionForward action = checkLogin(request, response);
             postRequest(request, response, action);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
@@ -110,8 +122,7 @@ public abstract class AbstractServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            prepareRequest(request);
-            ActionForward action = processRequest(getBean(), request, response);
+            ActionForward action = checkLogin(request, response);
             postRequest(request, response, action);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
@@ -121,8 +132,6 @@ public abstract class AbstractServlet extends HttpServlet {
             e.printStackTrace();
         }
     }
-
-    protected abstract ActionForward processRequest(FormBean form, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;
 
     public KTMContext getAppContext() {
         return appContext;
@@ -138,6 +147,10 @@ public abstract class AbstractServlet extends HttpServlet {
 
     protected String getBasePath(HttpServletRequest request) {
         return request.getServletContext().getInitParameter(Globals.BASE_PATH);
+    }
+
+    protected void closeSession(HttpServletRequest request) {
+        request.setAttribute(Globals.ENTITY_SESSION_END_OF_CONVERSATION, Globals.ANY);
     }
 
 }

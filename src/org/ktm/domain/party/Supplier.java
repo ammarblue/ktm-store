@@ -2,7 +2,6 @@ package org.ktm.domain.party;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import org.ktm.domain.money.EPaymentType;
 
 @Entity
 public class Supplier extends Collaborator {
@@ -12,8 +11,9 @@ public class Supplier extends Collaborator {
     private String            description;
     private Integer           payDuration;
     private String            contactName;
+    private String            payMethod;
+    private String            payPolicy;
     private String            mark;
-    private EPaymentType      payMethod;
 
     @Column(name = "description")
     public String getDescription() {
@@ -52,12 +52,21 @@ public class Supplier extends Collaborator {
     }
 
     @Column(name = "pay_method")
-    public EPaymentType getPayMethod() {
+    public String getPayMethod() {
         return payMethod;
     }
 
-    public void setPayMethod(EPaymentType payMethod) {
+    public void setPayMethod(String payMethod) {
         this.payMethod = payMethod;
+    }
+
+    @Column(name = "pay_policy")
+    public String getPayPolicy() {
+        return payPolicy;
+    }
+
+    public void setPayPolicy(String payPolicy) {
+        this.payPolicy = payPolicy;
     }
 
 }

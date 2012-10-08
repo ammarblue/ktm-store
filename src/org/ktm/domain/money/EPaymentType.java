@@ -1,7 +1,7 @@
 package org.ktm.domain.money;
 
 public enum EPaymentType {
-    Cash("cash"), Check("check"), CreditCard("credit_card"), DebitCard("debit_card");
+    Cash("payment.cash"), Check("payment.check"), CreditCard("payment.credit_card"), DebitCard("payment.debit_card");
 
     private String name;
 
