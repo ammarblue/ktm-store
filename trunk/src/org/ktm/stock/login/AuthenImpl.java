@@ -15,6 +15,7 @@ import org.ktm.domain.party.Authen;
 import org.ktm.domain.party.PartyRole;
 import org.ktm.tags.auth.AuthException;
 import org.ktm.tags.auth.Authenticator;
+import org.ktm.utils.Localizer;
 
 public class AuthenImpl implements Authenticator {
 
@@ -101,7 +102,7 @@ public class AuthenImpl implements Authenticator {
                 Set<PartyRole> lst = roleDao.findByParty(authen.getParty());
                 if (lst.size() > 0) {
                     for (PartyRole pr : lst) {
-                        String roleName = pr.getName();
+                        String roleName = Localizer.getClassName(pr.getClass());
                         if (roleName != null) {
                             log.info("Adding => " + roleName);
                             if (!v.contains(roleName)) {

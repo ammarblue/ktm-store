@@ -1,5 +1,7 @@
 package org.ktm.stock.bean;
 
+import java.util.Collection;
+
 public class MainBean extends FormBean {
 
     private String page;
@@ -19,6 +21,11 @@ public class MainBean extends FormBean {
 
     public void setPage(String page) {
         this.page = page;
+    }
+
+    @Override
+    public void loadFormCollection(Collection<?> entitys) {
+
     }
 
 }

@@ -36,6 +36,7 @@ public class AuthenDaoHibernate extends AbstractHibernateStorageDao implements A
 
                 if (object instanceof Authen) {
                     result = (Authen) object;
+                    break;
                 } else if (object instanceof Collection) {
                     Collection subList = (Collection) object;
                     for (Object listObject : subList) {

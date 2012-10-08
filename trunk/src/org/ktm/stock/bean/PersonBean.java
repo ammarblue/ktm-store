@@ -2,13 +2,15 @@ package org.ktm.stock.bean;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import org.ktm.domain.KTMEntity;
 import org.ktm.domain.party.ISOGender;
 import org.ktm.domain.party.PartyIdentifier;
 import org.ktm.domain.party.Person;
 import org.ktm.utils.DateUtils;
 
-public class PersonBean extends FormBean {
+public class PersonBean extends PartyBean {
 
     private String           citizenId;
     private String           prename;
@@ -22,28 +24,19 @@ public class PersonBean extends FormBean {
 
     private List<PersonBean> personCollection;
 
-    public PersonBean() {
-        reset();
-    }
-
     @Override
     public void reset() {
         super.reset();
-        setCitizenId("");
-        setPrename("");
-        setFirstname("");
-        setLastname("");
-        setBirthDay("");
         setGender(ISOGender.MALE);
-
-        setUsername("");
-        setPassword("");
 
         personCollection = new ArrayList<PersonBean>();
     }
 
-    public void loadToForm(Person person) {
-        if (person != null) {
+    @Override
+    public void loadToForm(KTMEntity entity) {
+        if (entity != null && entity instanceof Person) {
+            super.loadToForm(entity);
+            Person person = (Person) entity;
             this.setUniqueId(String.valueOf(person.getUniqueId()));
             this.setPrename(person.getPrename());
             this.setFirstname(person.getFirstname());
@@ -59,8 +52,6 @@ public class PersonBean extends FormBean {
                 e.printStackTrace();
             }
             this.setGender(person.getGender());
-
-            // TODO: sync more additional properties
         }
     }
 
@@ -157,14 +148,17 @@ public class PersonBean extends FormBean {
         this.personCollection = personCollection;
     }
 
-    public void loadFormCollection(List<Person> persons) {
-        if (persons != null && persons.size() > 0) {
+    @Override
+    public void loadFormCollection(Collection<?> entitys) {
+        if (entitys != null) {
             personCollection.clear();
 
-            for (Person person : persons) {
-                PersonBean bean = new PersonBean();
-                bean.loadToForm(person);
-                personCollection.add(bean);
+            for (Object entity : entitys) {
+                if (entity instanceof Person) {
+                    PersonBean bean = new PersonBean();
+                    bean.loadToForm((Person) entity);
+                    personCollection.add(bean);
+                }
             }
         }
     }

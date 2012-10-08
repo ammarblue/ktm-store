@@ -64,15 +64,16 @@ public class PropertyUtils {
         } catch (NoSuchMethodException e) {
 
         }
+        if (method != null) {
+            try {
+                return method.invoke(bean, paramValues);
+            } catch (IllegalArgumentException e) {
 
-        try {
-            return method.invoke(bean, paramValues);
-        } catch (IllegalArgumentException e) {
+            } catch (IllegalAccessException e) {
 
-        } catch (IllegalAccessException e) {
+            } catch (InvocationTargetException e) {
 
-        } catch (InvocationTargetException e) {
-
+            }
         }
         return null;
     }
@@ -87,18 +88,21 @@ public class PropertyUtils {
     }
 
     public static void setProperty(Object bean, String property, Object value) {
-        try {
-            String[] names = property.split("\\.");
-            Object obj = bean;
-            if (names.length > 0) {
-                for (String method : names) {
-                    obj = _setProperty(obj, method, value);
-                }
-            } else {
-                _setProperty(obj, property, value);
-            }
-        } catch (Exception ex) {
+        if (bean != null) {
+            try {
+                int idx = property.indexOf(".", 0);
+                if (idx > 0) {
+                    String objName = property.substring(0, idx);
+                    String tmpProperty = property.substring(idx + 1);
 
+                    Object obj = getProperty(bean, objName);
+                    setProperty(obj, tmpProperty, value);
+                } else {
+                    _setProperty(bean, property, value);
+                }
+            } catch (Exception ex) {
+
+            }
         }
     }
 

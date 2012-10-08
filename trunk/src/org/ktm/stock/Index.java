@@ -21,6 +21,11 @@ public class Index extends AbstractServlet {
 
     private String            redirectName;
 
+    @Override
+    public String getBeanClass() {
+        return "org.ktm.stock.bean.MainBean";
+    }
+
     public String getRedirectName() {
         return redirectName;
     }
