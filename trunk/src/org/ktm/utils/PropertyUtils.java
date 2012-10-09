@@ -54,7 +54,7 @@ public class PropertyUtils {
         String methodName = "set" + capitalize(property);
         Method method = null;
 
-        Class<?>[] paramClasses = { String.class };
+        Class<?>[] paramClasses = { value.getClass() };
         Object[] paramValues = { value };
 
         try {

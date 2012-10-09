@@ -39,9 +39,7 @@
                     </div>
                     <div class="ym-fbox-text">
                       <label for="party.address">${ktm:getText("nav.database.supplier.address")}<sup class="ym-required">*</sup></label>
-                      <textarea name="party.address" id="party.address" cols="30" rows="7">
-                        ${bean.party.address}
-                      </textarea>
+                      <textarea name="party.address" id="party.address" cols="30" rows="7">${bean.party.address}</textarea>
                     </div>
                     <div class="ym-fbox-text">
                       <label for="party.tel">${ktm:getText("nav.database.supplier.tel")}<sup class="ym-required">*</sup></label>
@@ -63,14 +61,14 @@
                       <label for="payMethod">${ktm:getText("nav.database.supplier.paypolicy")}</label>
                       <select name="payMethod" id="payMethod" size="1">
                         <option value="0" selected="selected" disabled="disabled">${ktm:getText("choose")}</option>
-                        <ktm:options selected="payMethod" bean="bean" label="page.payment.cash,page.payment.check,page.payment.credit_card,page.payment.debit_card"/>
+                        <ktm:options selected="payMethod" bean="bean" label="payment.cash,payment.check,payment.credit_card,payment.debit_card"/>
                       </select>
                     </div>
                     <div class="ym-fbox-text">
                       <label for="payPolicy">${ktm:getText("nav.database.supplier.paypolicy")}</label>
                       <select name="payPolicy" id="payPolicy" size="1">
                         <option value="0" selected="selected" disabled="disabled">${ktm:getText("choose")}</option>
-                        <ktm:options selected="payPolicy" bean="bean" label="page.payment_policy.credit,page.payment_policy.no_credit"/>
+                        <ktm:options selected="payPolicy" bean="bean" label="payment_policy.credit,payment_policy.no_credit"/>
                       </select>
                     </div>
                     <div class="ym-fbox-text">
