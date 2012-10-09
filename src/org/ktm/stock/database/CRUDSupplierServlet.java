@@ -15,7 +15,6 @@ import org.ktm.domain.party.PartyRole;
 import org.ktm.domain.party.Supplier;
 import org.ktm.exception.CreateException;
 import org.ktm.exception.DeleteException;
-import org.ktm.exception.UpdateException;
 import org.ktm.servlet.ActionForward;
 import org.ktm.servlet.CRUDServlet;
 import org.ktm.stock.bean.FormBean;
@@ -79,8 +78,8 @@ public class CRUDSupplierServlet extends CRUDServlet {
         bean.syncToEntity(supplier);
 
         try {
-            orgDao.update(org);
-        } catch (UpdateException e) {
+            orgDao.createOrUpdate(org);
+        } catch (CreateException e) {
             e.printStackTrace();
         }
 
