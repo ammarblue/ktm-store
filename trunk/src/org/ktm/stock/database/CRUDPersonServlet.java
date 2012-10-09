@@ -98,7 +98,7 @@ public class CRUDPersonServlet extends CRUDServlet {
 
         personDao.createOrUpdate(person);
 
-        return ActionForward.getAction(this, request, "CRUDPerson?method=store", true);
+        return ActionForward.getAction(this, request, "CRUDPerson?method=list", true);
     }
 
     public ActionForward editPerson(FormBean form, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -123,13 +123,13 @@ public class CRUDPersonServlet extends CRUDServlet {
         int id = Integer.valueOf(bean.getUniqueId());
         personDao.delete(id);
 
-        return ActionForward.getAction(this, request, "CRUDPerson?method=store", true);
-    }
-
-    public ActionForward storePerson(FormBean form, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, DeleteException {
-        store(request, response);
-        closeSession(request);
         return ActionForward.getAction(this, request, "CRUDPerson?method=list", true);
     }
-
+    /*
+     * public ActionForward storePerson(FormBean form, HttpServletRequest
+     * request, HttpServletResponse response) throws ServletException,
+     * IOException, DeleteException { store(request, response);
+     * closeSession(request); return ActionForward.getAction(this, request,
+     * "CRUDPerson?method=list", true); }
+     */
 }

@@ -6,11 +6,11 @@ import javax.persistence.Entity;
 @Entity
 public class BeveragePackage extends PackageType {
 
-    private static final long serialVersionUID = -6242981125687057527L;
+    private static final long serialVersionUID = 1L;
 
     private String            unitType;
     private Integer           unitCount;
-    
+
     @Column(name = "unit_type")
     public String getUnitType() {
         return unitType;

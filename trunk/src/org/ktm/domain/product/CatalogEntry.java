@@ -18,7 +18,7 @@ import org.ktm.domain.KTMEntity;
 @Entity
 public class CatalogEntry extends KTMEntity {
 
-    private static final long serialVersionUID = -8647167825792048264L;
+    private static final long serialVersionUID = 1L;
 
     private Integer           uniqueId;
     private Integer           version;

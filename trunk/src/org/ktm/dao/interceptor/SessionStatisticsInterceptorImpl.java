@@ -136,6 +136,7 @@ public class SessionStatisticsInterceptorImpl extends EmptyInterceptor implement
     @Override
     public void afterTransactionCompletion(Transaction tx) {
         log.debug("AfterTransactionCompletion: clearing the created, updated, and deleted collection.");
+        getCrudAdmin().clear();
     }
 
     @Override
