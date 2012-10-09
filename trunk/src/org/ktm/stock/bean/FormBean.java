@@ -9,10 +9,9 @@ import org.ktm.utils.Localizer;
 
 public abstract class FormBean {
 
-    private String          uniqueId    = "";
-    private String          method      = "";
-    private Boolean         isNewObject = true;
-    private AbstractServlet servlet     = null;
+    private String          uniqueId = "";
+    private String          method   = "";
+    private AbstractServlet servlet  = null;
 
     public FormBean getBeanInstance() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
         FormBean bean = null;
@@ -65,14 +64,6 @@ public abstract class FormBean {
 
     public void setUniqueId(String uniqueId) {
         this.uniqueId = uniqueId;
-    }
-
-    public Boolean isNewObject() {
-        return isNewObject;
-    }
-
-    public void setIsNewObject(Boolean isNewObject) {
-        this.isNewObject = isNewObject;
     }
 
     private Object[] getDefaultParameters(Method m) {

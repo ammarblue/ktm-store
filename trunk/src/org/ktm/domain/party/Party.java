@@ -27,7 +27,6 @@ public class Party extends KTMEntity {
     private PartyIdentifier           identifier;
     private Set<RegisteredIdentifier> registeredIdentifiers = new HashSet<RegisteredIdentifier>(0);
     private Set<AddressProperties>    addresses             = new HashSet<AddressProperties>(0);
-    private Set<Authen>               authens               = new HashSet<Authen>(0);
     private Set<PartyRole>            roles                 = new HashSet<PartyRole>(0);
 
     // private Set<Preperence> preperences = new HashSet<Preperence>(0);
@@ -82,15 +81,6 @@ public class Party extends KTMEntity {
 
     public void setIdentifier(PartyIdentifier identifier) {
         this.identifier = identifier;
-    }
-
-    @OneToMany(mappedBy = "party", cascade = CascadeType.ALL)
-    public Set<Authen> getAuthens() {
-        return authens;
-    }
-
-    public void setAuthens(Set<Authen> authens) {
-        this.authens = authens;
     }
 
     @OneToMany(mappedBy = "party", cascade = CascadeType.ALL)
