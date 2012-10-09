@@ -1,10 +1,9 @@
 package org.ktm.stock.database;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -49,42 +48,15 @@ public class CRUDPersonServlet extends CRUDServlet {
         PersonBean bean = (PersonBean) form;
         PersonDao personDao = KTMEMDaoFactory.getInstance().getPersonDao();
         Person person = new Person();
+        boolean needAuthenOnNewPerson = false;
 
         if (!bean.getUniqueId().isEmpty()) {
             Integer id = Integer.valueOf(bean.getUniqueId());
             person = (Person) personDao.get(id);
             bean.syncToPerson(person);
-            bean.setIsNewObject(false);
         } else {
             bean.syncToPerson(person);
-            bean.setIsNewObject(true);
-        }
-
-        if (!bean.isNewObject()) {
-            Authen authen = null;
-            Set<Authen> authens = person.getAuthens();
-            Iterator<Authen> ait = authens.iterator();
-            while (ait.hasNext()) {
-                Authen aobj = ait.next();
-                if (aobj.getParty().getUniqueId() == person.getUniqueId()) {
-                    authen = aobj;
-                    break;
-                }
-            }
-            if (authen == null) {
-                authen = new Authen();
-                authen.setParty(person);
-                person.getAuthens().add(authen);
-            }
-
-            try {
-                bean.setPassword(KTMCrypt.SHA1(bean.getUsername() + bean.getPassword()));
-            } catch (NoSuchAlgorithmException e) {
-                e.printStackTrace();
-            }
-
-            authen.setUsername(bean.getUsername());
-            authen.setPassword(bean.getPassword());
+            needAuthenOnNewPerson = true;
         }
 
         if (person.getRoles().size() <= 0) {
@@ -96,7 +68,26 @@ public class CRUDPersonServlet extends CRUDServlet {
             person.getRoles().add(emp);
         }
 
-        personDao.createOrUpdate(person);
+        Serializable personId = personDao.createOrUpdate(person);
+
+        if (needAuthenOnNewPerson && personId != null) {
+            person = (Person) personDao.get(personId);
+            if (person != null) {
+                Authen authen = new Authen();
+                authen.setParty(person);
+
+                try {
+                    bean.setPassword(KTMCrypt.SHA1(bean.getUsername() + bean.getPassword()));
+                } catch (NoSuchAlgorithmException e) {
+                    e.printStackTrace();
+                }
+
+                authen.setUsername(bean.getUsername());
+                authen.setPassword(bean.getPassword());
+
+                KTMEMDaoFactory.getInstance().getAuthenDao().createOrUpdate(authen);
+            }
+        }
 
         return ActionForward.getAction(this, request, "CRUDPerson?method=list", true);
     }
