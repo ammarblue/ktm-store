@@ -84,7 +84,7 @@ public class CRUDSupplierServlet extends CRUDServlet {
             e.printStackTrace();
         }
 
-        return ActionForward.getAction(this, request, "CRUDSupplier?method=store", true);
+        return ActionForward.getAction(this, request, "CRUDSupplier?method=list", true);
     }
 
     public ActionForward editSupplier(FormBean form, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -109,13 +109,13 @@ public class CRUDSupplierServlet extends CRUDServlet {
         int id = Integer.valueOf(bean.getUniqueId());
         cEntryDao.delete(id);
 
-        return ActionForward.getAction(this, request, "CRUDSupplier?method=store", true);
-    }
-
-    public ActionForward storeSupplier(FormBean form, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, DeleteException {
-        store(request, response);
-        closeSession(request);
         return ActionForward.getAction(this, request, "CRUDSupplier?method=list", true);
     }
-
+    /*
+     * public ActionForward storeSupplier(FormBean form, HttpServletRequest
+     * request, HttpServletResponse response) throws ServletException,
+     * IOException, DeleteException { store(request, response);
+     * closeSession(request); return ActionForward.getAction(this, request,
+     * "CRUDSupplier?method=list", true); }
+     */
 }

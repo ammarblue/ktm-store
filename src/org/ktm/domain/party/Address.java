@@ -5,8 +5,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.Version;
 import org.ktm.domain.KTMEntity;
 
@@ -14,14 +12,14 @@ import org.ktm.domain.KTMEntity;
  * The Address represents information that can used to contact a Party.
  */
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
 public class Address extends KTMEntity implements Serializable {
 
-    private static final long      serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-    private Integer                uniqueId;
-    private Integer                version;
+    private Integer           uniqueId;
+    private Integer           version;
 
+    @Override
     @Id
     @GeneratedValue
     @Column(name = "uniqueId", nullable = false)
@@ -29,16 +27,19 @@ public class Address extends KTMEntity implements Serializable {
         return uniqueId;
     }
 
+    @Override
     public void setUniqueId(Integer uniqueId) {
         this.uniqueId = uniqueId;
     }
 
+    @Override
     @Version
     @Column(name = "version")
     public Integer getVersion() {
         return version;
     }
 
+    @Override
     public void setVersion(Integer version) {
         this.version = version;
     }

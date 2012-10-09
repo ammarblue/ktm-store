@@ -17,7 +17,7 @@ import org.ktm.domain.party.PartySignature;
 @Table(name = "batch")
 public class Batch extends KTMEntity {
 
-    private static final long   serialVersionUID = 1470044792628041316L;
+    private static final long   serialVersionUID = 1L;
 
     private Integer             uniqueId;
     private Integer             version;
@@ -31,6 +31,7 @@ public class Batch extends KTMEntity {
     private String              comment;
     private Set<PartySignature> checkedBy        = new HashSet<PartySignature>();
 
+    @Override
     @Id
     @GeneratedValue
     @Column(name = "uniqueId", nullable = false)
@@ -38,16 +39,19 @@ public class Batch extends KTMEntity {
         return uniqueId;
     }
 
+    @Override
     public void setUniqueId(Integer uniqueId) {
         this.uniqueId = uniqueId;
     }
 
+    @Override
     @Version
     @Column(name = "version")
     public Integer getVersion() {
         return version;
     }
 
+    @Override
     public void setVersion(Integer version) {
         this.version = version;
     }

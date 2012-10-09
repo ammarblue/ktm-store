@@ -6,7 +6,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import org.hibernate.Session;
-import org.ktm.core.SessionWrapper;
+import org.hibernate.Transaction;
 import org.ktm.domain.KTMEntity;
 import org.ktm.exception.CreateException;
 import org.ktm.exception.DeleteException;
@@ -24,13 +24,15 @@ public abstract class DaoImplHibernate extends DaoImpl {
 
     @Override
     public CrudAdmin getCrudAdmin() {
-        SessionWrapper currentSessionWrapper = ServiceLocator.getCurrentSessionWrapper();
+        // SessionWrapper currentSessionWrapper =
+        // ServiceLocator.getCurrentSessionWrapper();
 
-        if (currentSessionWrapper != null) {
-            return currentSessionWrapper.getInterceptor().getCrudAdmin();
-        } else {
-            return new CrudAdmin();
-        }
+        // if (currentSessionWrapper != null) {
+        // return currentSessionWrapper.getInterceptor().getCrudAdmin();
+        // } else {
+        // return new CrudAdmin();
+        // }
+        return null;
     }
 
     @Override
@@ -59,9 +61,16 @@ public abstract class DaoImplHibernate extends DaoImpl {
             throw new CreateException("Either given class or object was null");
         }
 
+        Transaction transaction = null;
+
         try {
+            transaction = getCurrentSession().beginTransaction();
             getCurrentSession().saveOrUpdate(object);
+            transaction.commit();
         } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
             throw new CreateException(e);
         }
 
@@ -77,9 +86,16 @@ public abstract class DaoImplHibernate extends DaoImpl {
             throw new UpdateException("Object to update not found.");
         }
 
+        Transaction transaction = null;
+
         try {
-            getCurrentSession().saveOrUpdate(object);
+            transaction = getCurrentSession().beginTransaction();
+            getCurrentSession().update(object);
+            transaction.commit();
         } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
             throw new UpdateException(e);
         }
         return object;
@@ -90,29 +106,50 @@ public abstract class DaoImplHibernate extends DaoImpl {
         if (object == null) {
             throw new StorageException("Cannot merge null object");
         }
-        if (object.getUniqueId() == null || get(object.getClass(), object.getUniqueId()) == null) {
-            return createOrUpdate(object);
-        } else {
-            try {
-                getCurrentSession().merge(object);
-            } catch (Exception e) {
-                throw new StorageException(e);
+
+        Transaction transaction = null;
+
+        try {
+            transaction = getCurrentSession().beginTransaction();
+
+            if (object.getUniqueId() == null || get(object.getClass(), object.getUniqueId()) == null) {
+                return createOrUpdate(object);
+            } else {
+                try {
+                    getCurrentSession().merge(object);
+                } catch (Exception e) {
+                    throw new StorageException(e);
+                }
             }
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new StorageException(e);
         }
+
         return object.getUniqueId();
     }
 
     public int delete(Class<?> entityClass, Serializable id) throws DeleteException {
         int result = 0;
+        Transaction transaction = null;
         try {
+            transaction = getCurrentSession().beginTransaction();
+
             if (get(entityClass, id) != null) {
                 KTMEntity object = (KTMEntity) getCurrentSession().get(entityClass, id);
                 getCurrentSession().delete(object);
+                transaction.commit();
                 result = 1;
             } else {
                 return 0;
             }
         } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
             throw new DeleteException(e);
         }
         return result;

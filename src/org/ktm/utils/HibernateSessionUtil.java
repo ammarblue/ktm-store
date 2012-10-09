@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.hibernate.HibernateException;
 import org.hibernate.classic.Session;
+import org.hibernate.context.ManagedSessionContext;
 import org.ktm.core.SessionWrapper;
 
 public class HibernateSessionUtil {
@@ -26,7 +27,7 @@ public class HibernateSessionUtil {
 
         Session session = sessionWrapper.getSession();
 
-        // ManagedSessionContext.bind(session);
+        ManagedSessionContext.bind(session);
 
         return session;
     }
@@ -36,7 +37,7 @@ public class HibernateSessionUtil {
         SessionWrapper sessionWrapper = (SessionWrapper) httpSession.getAttribute(Globals.ENTITY_SESSION);
 
         if (sessionWrapper != null) {
-            // ManagedSessionContext.unbind(sessionWrapper.getSession().getSessionFactory());
+            ManagedSessionContext.unbind(sessionWrapper.getSession().getSessionFactory());
             EMServiceLocator.clearSessionWrapper();
 
             if (forceClose || httpRequest.getAttribute(Globals.ENTITY_SESSION_END_OF_CONVERSATION) != null) {

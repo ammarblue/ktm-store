@@ -11,6 +11,7 @@ import org.ktm.dao.product.CatalogEntryDao;
 import org.ktm.domain.product.CatalogEntry;
 import org.ktm.exception.CreateException;
 import org.ktm.exception.DeleteException;
+import org.ktm.exception.UpdateException;
 import org.ktm.servlet.ActionForward;
 import org.ktm.servlet.CRUDServlet;
 import org.ktm.stock.bean.CatalogEntryBean;
@@ -38,7 +39,7 @@ public class CRUDCatalogEntryServlet extends CRUDServlet {
         return ActionForward.getUri(this, request, "database/EditCatalogEntry.jsp");
     }
 
-    public ActionForward saveCatalogEntry(FormBean form, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, CreateException {
+    public ActionForward saveCatalogEntry(FormBean form, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, CreateException, UpdateException {
         CatalogEntryBean bean = (CatalogEntryBean) form;
 
         CatalogEntryDao cEntryDao = KTMEMDaoFactory.getInstance().getCatalogEntryDao();
@@ -51,13 +52,13 @@ public class CRUDCatalogEntryServlet extends CRUDServlet {
             if (cEntry != null) {
                 bean.syncToCatalogEntry(cEntry);
             }
+            cEntryDao.update(cEntry);
         } else {
             bean.syncToCatalogEntry(cEntry);
+            cEntryDao.createOrUpdate(cEntry);
         }
 
-        cEntryDao.createOrUpdate(cEntry);
-
-        return ActionForward.getAction(this, request, "CRUDCatalogEntry?method=store", true);
+        return ActionForward.getAction(this, request, "CRUDCatalogEntry?method=list", true);
     }
 
     public ActionForward editCatalogEntry(FormBean form, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -82,13 +83,13 @@ public class CRUDCatalogEntryServlet extends CRUDServlet {
         int id = Integer.valueOf(bean.getUniqueId());
         cEntryDao.delete(id);
 
-        return ActionForward.getAction(this, request, "CRUDCatalogEntry?method=store", true);
-    }
-
-    public ActionForward storeCatalogEntry(FormBean form, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, DeleteException {
-        store(request, response);
-        closeSession(request);
         return ActionForward.getAction(this, request, "CRUDCatalogEntry?method=list", true);
     }
-
+    /*
+     * public ActionForward storeCatalogEntry(FormBean form, HttpServletRequest
+     * request, HttpServletResponse response) throws ServletException,
+     * IOException, DeleteException { store(request, response);
+     * closeSession(request); return ActionForward.getAction(this, request,
+     * "CRUDCatalogEntry?method=list", true); }
+     */
 }
