@@ -55,8 +55,10 @@ public class PersonBean extends PartyBean {
         }
     }
 
-    public void syncToPerson(Person person) {
-        if (person != null) {
+    @Override
+    public void syncToEntity(KTMEntity entity) {
+        if (entity != null && entity instanceof Person) {
+            Person person = (Person) entity;
             if (!this.getUniqueId().isEmpty()) {
                 person.setUniqueId(Integer.valueOf(this.getUniqueId()));
             }

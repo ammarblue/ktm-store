@@ -70,7 +70,7 @@ public class CRUDProductTypeServlet extends CRUDServlet {
         }
         CatalogEntry cEntry = (CatalogEntry) cEntryDao.get(Integer.valueOf(selectedCatalogEntry));
 
-        bean.getCatalogEntry().loadToForm(cEntry);
+        bean.setCatalogEntryName(cEntry.getDescription());
 
         return ActionForward.getUri(this, request, "database/EditProductType.jsp");
     }
@@ -97,12 +97,7 @@ public class CRUDProductTypeServlet extends CRUDServlet {
             }
         } else {
             bean.syncToProductType(ptype);
-            ptype.setCatalogEntry(cEntry);
             cEntry.getProductType().add(ptype);
-        }
-
-        if (ptype.getCatalogEntry().getUniqueId() != cEntry.getUniqueId()) {
-            ptype.setCatalogEntry(cEntry);
         }
 
         ptypeDao.createOrUpdate(ptype);
@@ -111,15 +106,25 @@ public class CRUDProductTypeServlet extends CRUDServlet {
     }
 
     public ActionForward editProductType(FormBean form, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
         ProductTypeBean bean = (ProductTypeBean) form;
 
         ProductTypeDao ptypeDao = KTMEMDaoFactory.getInstance().getProductTypeDao();
+        CatalogEntryDao cEntryDao = KTMEMDaoFactory.getInstance().getCatalogEntryDao();
 
         int id = Integer.valueOf(bean.getUniqueId());
         ProductType ptype = (ProductType) ptypeDao.get(id);
         if (ptype != null) {
             bean.loadToForm(ptype);
         }
+
+        String selectedCatalogEntry = bean.getSelectedCatalogEntry();
+        if (selectedCatalogEntry.isEmpty()) {
+            selectedCatalogEntry = (String) session.getAttribute("selectedCatalogEntry");
+        }
+        CatalogEntry cEntry = (CatalogEntry) cEntryDao.get(Integer.valueOf(selectedCatalogEntry));
+
+        bean.setCatalogEntryName(cEntry.getDescription());
 
         return ActionForward.getUri(this, request, "database/EditProductType.jsp");
     }

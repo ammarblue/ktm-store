@@ -24,7 +24,7 @@ public class CatalogEntry extends KTMEntity {
     private Integer           version;
     private String            identifier;
     private String            description;
-    private ProductCatalog    productCatalog;
+    private CatalogEntryType  type;
     private Set<ProductType>  productType      = new HashSet<ProductType>();
 
     @Override
@@ -70,22 +70,22 @@ public class CatalogEntry extends KTMEntity {
         this.description = description;
     }
 
-    @OneToMany(mappedBy = "catalogEntry")
+    @ManyToOne
+    public CatalogEntryType getType() {
+        return type;
+    }
+
+    public void setType(CatalogEntryType type) {
+        this.type = type;
+    }
+
+    @OneToMany
     public Set<ProductType> getProductType() {
         return productType;
     }
 
     public void setProductType(Set<ProductType> productType) {
         this.productType = productType;
-    }
-
-    @ManyToOne
-    public ProductCatalog getProductCatalog() {
-        return productCatalog;
-    }
-
-    public void setProductCatalog(ProductCatalog productCatalog) {
-        this.productCatalog = productCatalog;
     }
 
     @Override
@@ -98,18 +98,13 @@ public class CatalogEntry extends KTMEntity {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (!super.equals(obj))
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (!super.equals(obj)) return false;
+        if (getClass() != obj.getClass()) return false;
         CatalogEntry other = (CatalogEntry) obj;
         if (uniqueId == null) {
-            if (other.uniqueId != null)
-                return false;
-        } else if (!uniqueId.equals(other.uniqueId))
-            return false;
+            if (other.uniqueId != null) return false;
+        } else if (!uniqueId.equals(other.uniqueId)) return false;
         return true;
     }
 

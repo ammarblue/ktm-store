@@ -1,25 +1,21 @@
-package org.ktm.domain.party;
+package org.ktm.domain.product;
 
-import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.Transient;
 import javax.persistence.Version;
+import org.ktm.domain.KTMEntity;
 
-/*
- * The PartyRoleConstraint specifies the theOfParty that is allowed to play a
- * PartyRole of a specific PartyRoleType
- */
 @Entity
-public class PartyRoleConstraint implements Serializable {
+public class CatalogEntryType extends KTMEntity {
 
     private static final long serialVersionUID = 1L;
 
     private Integer           uniqueId;
     private Integer           version;
-    private String            typeOfParty;
+    private String            identifier;
+    private String            name;
 
     @Id
     @GeneratedValue
@@ -33,7 +29,6 @@ public class PartyRoleConstraint implements Serializable {
     }
 
     @Version
-    @Column(name = "version")
     public Integer getVersion() {
         return version;
     }
@@ -42,18 +37,20 @@ public class PartyRoleConstraint implements Serializable {
         this.version = version;
     }
 
-    @Column(name = "typeOfParty")
-    public String getTypeOfParty() {
-        return typeOfParty;
+    public String getIdentifier() {
+        return identifier;
     }
 
-    public void setTypeOfParty(String typeOfParty) {
-        this.typeOfParty = typeOfParty;
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
     }
 
-    @Transient
-    public boolean canPlayRole(Party party) {
-        return true;
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
 }
