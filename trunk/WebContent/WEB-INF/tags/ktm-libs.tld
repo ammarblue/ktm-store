@@ -10,7 +10,7 @@
     <short-name>ktm</short-name>
     <tag>
         <name>iterate</name>
-        <tag-class>org.ktm.tags.IterateTag</tag-class>
+        <tag-class>org.ktm.web.tags.IterateTag</tag-class>
         <body-content>scriptless</body-content>
         <attribute>
             <name>id</name>
@@ -29,7 +29,7 @@
     </tag>
     <tag>
         <name>options</name>
-        <tag-class>org.ktm.tags.OptionsTag</tag-class>
+        <tag-class>org.ktm.web.tags.OptionsTag</tag-class>
         <body-content>empty</body-content>
         <attribute>
             <name>bean</name>
@@ -56,27 +56,27 @@
     </tag>
     <tag>
         <name>if</name>
-        <tag-class>org.ktm.tags.IfTag</tag-class>
+        <tag-class>org.ktm.web.tags.IfTag</tag-class>
         <body-content>scriptless</body-content>
     </tag>
     <tag>
         <name>condition</name>
-        <tag-class>org.ktm.tags.IfConditionTag</tag-class>
+        <tag-class>org.ktm.web.tags.IfConditionTag</tag-class>
         <body-content>scriptless</body-content>
     </tag>
     <tag>
         <name>then</name>
-        <tag-class>org.ktm.tags.IfThenTag</tag-class>
+        <tag-class>org.ktm.web.tags.IfThenTag</tag-class>
         <body-content>scriptless</body-content>
     </tag>
     <tag>
         <name>else</name>
-        <tag-class>org.ktm.tags.IfElseTag</tag-class>
+        <tag-class>org.ktm.web.tags.IfElseTag</tag-class>
         <body-content>scriptless</body-content>
     </tag>
     <tag>
         <name>Input</name>
-        <tag-class>org.ktm.tags.InputTag</tag-class>
+        <tag-class>org.ktm.web.tags.InputTag</tag-class>
         <body-content>empty</body-content>
         <attribute>
             <name>name</name>
@@ -91,7 +91,7 @@
     </tag>
     <tag>
       <name>isUserInRole</name>
-      <tag-class>org.ktm.tags.auth.IsUserInRoleTag</tag-class>
+      <tag-class>org.ktm.web.tags.auth.IsUserInRoleTag</tag-class>
       <body-content>JSP</body-content>
       <description>
                 
@@ -106,7 +106,7 @@
      </tag>
      <tag>
       <name>isUserNotInRole</name>
-      <tag-class>org.ktm.tags.auth.IsUserNotInRoleTag</tag-class>
+      <tag-class>org.ktm.web.tags.auth.IsUserNotInRoleTag</tag-class>
       <body-content>JSP</body-content>
       <description>
                 
@@ -121,7 +121,7 @@
      </tag>
      <tag>
       <name>isUserInRoles</name>
-      <tag-class>org.ktm.tags.auth.IsUserInRolesTag</tag-class>
+      <tag-class>org.ktm.web.tags.auth.IsUserInRolesTag</tag-class>
       <body-content>JSP</body-content>
       <description>
                 
@@ -136,7 +136,7 @@
      </tag>
      <tag>
       <name>isUserNotInRoles</name>
-      <tag-class>org.ktm.tags.auth.IsUserNotInRolesTag</tag-class>
+      <tag-class>org.ktm.web.tags.auth.IsUserNotInRolesTag</tag-class>
       <body-content>JSP</body-content>
       <description>
                 
@@ -151,7 +151,7 @@
      </tag>
      <tag>
       <name>isUserInAllRoles</name>
-      <tag-class>org.ktm.tags.auth.IsUserInAllRolesTag</tag-class>
+      <tag-class>org.ktm.web.tags.auth.IsUserInAllRolesTag</tag-class>
       <body-content>JSP</body-content>
       <description>
                 
@@ -166,7 +166,7 @@
      </tag>
      <tag>
       <name>isUserNotInAllRoles</name>
-      <tag-class>org.ktm.tags.auth.IsUserNotInAllRolesTag</tag-class>
+      <tag-class>org.ktm.web.tags.auth.IsUserNotInAllRolesTag</tag-class>
       <body-content>JSP</body-content>
       <description>
                 
@@ -181,7 +181,7 @@
      </tag>
      <tag>
       <name>enforceAuthentication</name>
-      <tag-class>org.ktm.tags.auth.EnforceLoginTag</tag-class>
+      <tag-class>org.ktm.web.tags.auth.EnforceLoginTag</tag-class>
       <body-content>empty</body-content>
       <description>
                 
@@ -196,7 +196,7 @@
      </tag>
      <tag>
       <name>isUserLoggedIn</name>
-      <tag-class>org.ktm.tags.auth.IsUserLoggedInTag</tag-class>
+      <tag-class>org.ktm.web.tags.auth.IsUserLoggedInTag</tag-class>
       <body-content>JSP</body-content>
       <description>
                 
@@ -206,7 +206,7 @@
      </tag>
      <tag>
       <name>isUserNotLoggedIn</name>
-      <tag-class>org.ktm.tags.auth.IsUserNotLoggedInTag</tag-class>
+      <tag-class>org.ktm.web.tags.auth.IsUserNotLoggedInTag</tag-class>
       <body-content>JSP</body-content>
       <description>
                 
@@ -216,7 +216,7 @@
      </tag>
      <tag>
       <name>tracUri</name>
-      <tag-class>org.ktm.tags.auth.TracUriTag</tag-class>
+      <tag-class>org.ktm.web.tags.auth.TracUriTag</tag-class>
       <body-content>empty</body-content>
       <description>
                 
@@ -226,7 +226,7 @@
      </tag>
      <tag>
       <name>redirectPage</name>
-      <tag-class>org.ktm.tags.auth.RedirectTag</tag-class>
+      <tag-class>org.ktm.web.tags.auth.RedirectTag</tag-class>
       <body-content>empty</body-content>
       <description>
                 

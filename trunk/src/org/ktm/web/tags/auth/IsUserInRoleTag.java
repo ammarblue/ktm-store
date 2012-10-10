@@ -1,16 +1,22 @@
-package org.ktm.web.tabs.auth;
+package org.ktm.web.tags.auth;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
-public class IsUserLoggedInTag extends TagSupport {
+public class IsUserInRoleTag extends TagSupport {
 
     private static final long serialVersionUID = 1L;
 
+    protected String role = ""; /* default access */
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+    
     @Override
     public int doStartTag() throws JspException {
 
-        if(IsUserTagsImpl.isUserLogedIn(this.pageContext)) {
+        if(IsUserTagsImpl.isUserInRole(this.pageContext, role)) {
             return EVAL_BODY_INCLUDE;
         } else {
             return SKIP_BODY;

@@ -1,4 +1,4 @@
-package org.ktm.web.tabs;
+package org.ktm.web.tags;
 
 import java.io.IOException;
 
