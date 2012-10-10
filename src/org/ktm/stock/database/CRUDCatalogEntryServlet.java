@@ -14,8 +14,8 @@ import org.ktm.exception.UpdateException;
 import org.ktm.servlet.ActionForward;
 import org.ktm.servlet.CRUDServlet;
 import org.ktm.stock.bean.CatalogEntryBean;
-import org.ktm.stock.bean.FormBean;
 import org.ktm.stock.dao.KTMEMDaoFactory;
+import org.ktm.web.bean.FormBean;
 
 @WebServlet("/CRUDCatalogEntry")
 public class CRUDCatalogEntryServlet extends CRUDServlet {

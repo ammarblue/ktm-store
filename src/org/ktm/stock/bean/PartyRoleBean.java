@@ -6,6 +6,7 @@ import java.util.List;
 import org.ktm.domain.KTMEntity;
 import org.ktm.domain.party.PartyRole;
 import org.ktm.domain.party.PartyRoleIdentifier;
+import org.ktm.web.bean.FormBean;
 
 public class PartyRoleBean extends FormBean {
 

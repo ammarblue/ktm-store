@@ -6,8 +6,8 @@ import java.lang.reflect.Method;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.ktm.stock.bean.FormBean;
 import org.ktm.utils.PropertyUtils;
+import org.ktm.web.bean.FormBean;
 
 public class DispatchServlet extends SecureServlet {
 

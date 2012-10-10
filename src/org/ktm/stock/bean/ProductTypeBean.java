@@ -6,6 +6,7 @@ import java.util.List;
 import org.ktm.domain.product.CatalogEntry;
 import org.ktm.domain.product.ProductIdentifier;
 import org.ktm.domain.product.ProductType;
+import org.ktm.web.bean.FormBean;
 
 public class ProductTypeBean extends FormBean {
 

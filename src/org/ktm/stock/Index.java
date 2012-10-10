@@ -9,9 +9,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.ktm.servlet.AbstractServlet;
 import org.ktm.servlet.ActionForward;
-import org.ktm.stock.bean.FormBean;
 import org.ktm.tags.auth.AuthenticatorFactory;
 import org.ktm.utils.Globals;
+import org.ktm.web.bean.FormBean;
 
 @WebServlet("/index")
 public class Index extends AbstractServlet {

@@ -16,9 +16,9 @@ import org.ktm.exception.CreateException;
 import org.ktm.exception.DeleteException;
 import org.ktm.servlet.ActionForward;
 import org.ktm.servlet.CRUDServlet;
-import org.ktm.stock.bean.FormBean;
 import org.ktm.stock.bean.SupplierBean;
 import org.ktm.stock.dao.KTMEMDaoFactory;
+import org.ktm.web.bean.FormBean;
 
 @WebServlet("/CRUDSupplier")
 public class CRUDSupplierServlet extends CRUDServlet {

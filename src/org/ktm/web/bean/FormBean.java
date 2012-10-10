@@ -1,4 +1,4 @@
-package org.ktm.stock.bean;
+package org.ktm.web.bean;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
