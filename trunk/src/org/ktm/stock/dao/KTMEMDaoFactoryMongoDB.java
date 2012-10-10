@@ -1,4 +1,4 @@
-package org.ktm.dao;
+package org.ktm.stock.dao;
 
 import org.ktm.dao.party.AuthenDao;
 import org.ktm.dao.party.AuthenDaoMongoDB;

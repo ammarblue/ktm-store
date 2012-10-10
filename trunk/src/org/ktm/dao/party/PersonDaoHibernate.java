@@ -2,10 +2,10 @@ package org.ktm.dao.party;
 
 import java.io.Serializable;
 import java.util.List;
-import org.ktm.dao.KTMEMDaoFactory;
 import org.ktm.domain.party.Authen;
 import org.ktm.domain.party.Person;
 import org.ktm.exception.DeleteException;
+import org.ktm.stock.dao.KTMEMDaoFactory;
 
 public class PersonDaoHibernate extends PartyDaoHibernate implements PersonDao {
 

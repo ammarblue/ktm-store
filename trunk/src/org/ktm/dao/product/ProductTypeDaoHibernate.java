@@ -5,9 +5,9 @@ import java.util.Iterator;
 import java.util.List;
 import org.hibernate.LazyInitializationException;
 import org.ktm.dao.AbstractHibernateStorageDao;
-import org.ktm.dao.KTMEMDaoFactory;
 import org.ktm.domain.product.CatalogEntry;
 import org.ktm.domain.product.ProductType;
+import org.ktm.stock.dao.KTMEMDaoFactory;
 
 public class ProductTypeDaoHibernate extends AbstractHibernateStorageDao implements ProductTypeDao {
 

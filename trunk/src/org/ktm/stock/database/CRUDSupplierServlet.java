@@ -7,7 +7,6 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.ktm.dao.KTMEMDaoFactory;
 import org.ktm.dao.party.OrganizationDao;
 import org.ktm.dao.party.SupplierDao;
 import org.ktm.domain.party.Organization;
@@ -19,6 +18,7 @@ import org.ktm.servlet.ActionForward;
 import org.ktm.servlet.CRUDServlet;
 import org.ktm.stock.bean.FormBean;
 import org.ktm.stock.bean.SupplierBean;
+import org.ktm.stock.dao.KTMEMDaoFactory;
 
 @WebServlet("/CRUDSupplier")
 public class CRUDSupplierServlet extends CRUDServlet {
