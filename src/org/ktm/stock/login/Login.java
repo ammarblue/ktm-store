@@ -12,11 +12,11 @@ import org.ktm.crypt.KTMCrypt;
 import org.ktm.servlet.AbstractServlet;
 import org.ktm.servlet.ActionForward;
 import org.ktm.stock.bean.LoginBean;
-import org.ktm.tags.auth.AuthException;
-import org.ktm.tags.auth.Authenticator;
-import org.ktm.tags.auth.AuthenticatorFactory;
 import org.ktm.utils.Globals;
 import org.ktm.web.bean.FormBean;
+import org.ktm.web.tabs.auth.AuthException;
+import org.ktm.web.tabs.auth.Authenticator;
+import org.ktm.web.tabs.auth.AuthenticatorFactory;
 
 @WebServlet("/login")
 public class Login extends AbstractServlet {

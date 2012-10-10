@@ -1,11 +1,11 @@
-package org.ktm.tags;
+package org.ktm.web.tabs;
 
 import java.io.IOException;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
-public class IfElseTag extends SimpleTagSupport {
+public class IfThenTag extends SimpleTagSupport {
 
 	@Override
 	public void doTag() throws JspException {
@@ -16,11 +16,11 @@ public class IfElseTag extends SimpleTagSupport {
 			throw new JspException("Condition tag must come before Then tag");
 		}
 		
-		if (!parent.isCondition()) {
+		if (parent.isCondition()) {
 			try {
 				getJspBody().invoke(null);
 			} catch (IOException e) {
-				System.out.println("Error in IfElseTag: " + e);
+				System.out.println("Error in IfThenTag: " + e);
 			}
 		}
 	}

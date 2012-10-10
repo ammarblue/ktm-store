@@ -1,4 +1,4 @@
-package org.ktm.tags;
+package org.ktm.web.tabs;
 
 import java.util.Collection;
 import org.ktm.utils.Localizer;

@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.Iterator;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
-import org.ktm.tags.Functions;
+import org.ktm.web.tabs.Functions;
 
 public class NavSubMenuTag extends SimpleTagSupport {
 

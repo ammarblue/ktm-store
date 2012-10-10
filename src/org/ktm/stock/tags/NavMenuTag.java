@@ -3,7 +3,7 @@ package org.ktm.stock.tags;
 import java.io.IOException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
-import org.ktm.tags.Functions;
+import org.ktm.web.tabs.Functions;
 
 public class NavMenuTag extends SimpleTagSupport {
 
