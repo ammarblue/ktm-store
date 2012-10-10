@@ -17,10 +17,14 @@ import org.ktm.domain.KTMEntity;
  * business
  */
 @Entity
-@Table(uniqueConstraints = {@UniqueConstraint(columnNames={"uniqueId", "identifier"})})
+@Table(uniqueConstraints = {
+    @UniqueConstraint(columnNames = {
+    "uniqueId", "identifier"
+    })
+})
 public class Inventory extends KTMEntity {
 
-    private static final long    serialVersionUID = -5079941812147428733L;
+    private static final long    serialVersionUID = 1L;
 
     private Integer              uniqueId;
     private Integer              version;
