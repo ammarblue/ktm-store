@@ -32,7 +32,7 @@
             <div class="ym-cbox">
               <section class="box info">
                 <div class="ym-wbox">
-                <h3>${ktm:getText("nav.database")} ${ktm:getText("nav.database.supplier")}</h3>
+                <h3>${ktm:getText("nav.database")} ${ktm:getText("nav.database.customer")}</h3>
                 </div>
               </section>
               <div class="ym-wbox">
@@ -48,15 +48,15 @@
                     </div>
                   </ktm:then>
                   <ktm:else>
-                    <ktm:iterate name="bean" property="collaboratorCollection" id="supplier">
+                    <ktm:iterate name="bean" property="collaboratorCollection" id="customer">
                       <div>
                         <div class="gridBox" style="width: 30px; text-align: right;">${id}.</div>
                         <div class="gridBox" style="width: 400px;">
-                          ${ktm:getText(supplier.description)}
+                          ${ktm:getText(customer.description)}
                         </div>
                         <div class="gridBox" style="width: 220px;">
-                          <input type="button" value="edit" onclick="goTo('CRUDSupplier?method=edit&uniqueId=${supplier.uniqueId}')">
-                          <input type="button" value="delete" onclick="doDelete('Do you want to delete ?','CRUDSupplier?method=del&uniqueId=${supplier.uniqueId}')">
+                          <input type="button" value="edit" onclick="goTo('CRUDCustomer?method=edit&uniqueId=${customer.uniqueId}')">
+                          <input type="button" value="delete" onclick="doDelete('Do you want to delete ?','CRUDCustomer?method=del&uniqueId=${customer.uniqueId}')">
                         </div>
                       </div>
                     </ktm:iterate>
@@ -68,7 +68,7 @@
             <aside class="ym-col3">
             <div class="ym-cbox">
               <ul>
-                <li><a href="CRUDSupplier?method=new">${ktm:getText("page.btn.add")} ${ktm:getText("nav.database.supplier")}</a></li>
+                <li><a href="CRUDCustomer?method=new">${ktm:getText("page.btn.add")} ${ktm:getText("nav.database.customer")}</a></li>
                 <li><a href="Main?page=database">${ktm:getText("menu.main")}</a></li>
               </ul>
             </div>
