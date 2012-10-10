@@ -13,9 +13,9 @@ import org.ktm.dao.party.PartyRoleDao;
 import org.ktm.domain.party.Authen;
 import org.ktm.domain.party.PartyRole;
 import org.ktm.stock.dao.KTMEMDaoFactory;
-import org.ktm.tags.auth.AuthException;
-import org.ktm.tags.auth.Authenticator;
 import org.ktm.utils.Localizer;
+import org.ktm.web.tabs.auth.AuthException;
+import org.ktm.web.tabs.auth.Authenticator;
 
 public class AuthenImpl implements Authenticator {
 

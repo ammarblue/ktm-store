@@ -3,7 +3,7 @@ package org.ktm.servlet;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import org.ktm.tags.auth.AuthenticatorFactory;
+import org.ktm.web.tabs.auth.AuthenticatorFactory;
 
 public abstract class SecureServlet extends AbstractServlet {
 

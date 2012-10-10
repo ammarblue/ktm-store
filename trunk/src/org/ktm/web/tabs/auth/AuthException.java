@@ -1,4 +1,4 @@
-package org.ktm.tags.auth;
+package org.ktm.web.tabs.auth;
 
 public class AuthException extends Exception {
 

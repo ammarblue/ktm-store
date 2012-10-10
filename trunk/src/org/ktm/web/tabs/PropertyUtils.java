@@ -1,4 +1,4 @@
-package org.ktm.tags;
+package org.ktm.web.tabs;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
