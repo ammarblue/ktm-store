@@ -253,37 +253,37 @@
     <function>
         <description>Get string from resource bundle</description>
         <name>getText</name>
-        <function-class>org.ktm.tags.Functions</function-class>
+        <function-class>org.ktm.web.tags.Functions</function-class>
         <function-signature>java.lang.String getText( java.lang.String )</function-signature>
     </function>
     <function>
         <description>Get bean property method</description>
         <name>getBeanProperty</name>
-        <function-class>org.ktm.tags.Functions</function-class>
+        <function-class>org.ktm.web.tags.Functions</function-class>
         <function-signature>java.lang.Object getBeanProperty(
             java.lang.Object, java.lang.String )</function-signature>
     </function>
     <function>
         <description>Return lenght of a Collection</description>
         <name>length</name>
-        <function-class>org.ktm.tags.Functions</function-class>
+        <function-class>org.ktm.web.tags.Functions</function-class>
         <function-signature>java.lang.Integer length( java.util.Collection )</function-signature>
     </function>
     <function>
         <name>isEmptyCollection</name>
-        <function-class>org.ktm.tags.Functions</function-class>
+        <function-class>org.ktm.web.tags.Functions</function-class>
         <function-signature>java.lang.Boolean isEmptyCollection(
             java.util.Collection )</function-signature>
     </function>
     <function>
         <name>isEmpty</name>
-        <function-class>org.ktm.tags.Functions</function-class>
+        <function-class>org.ktm.web.tags.Functions</function-class>
         <function-signature>java.lang.Boolean isEmpty(
             java.lang.String )</function-signature>
     </function>
     <function>
         <name>equal</name>
-        <function-class>org.ktm.tags.Functions</function-class>
+        <function-class>org.ktm.web.tags.Functions</function-class>
         <function-signature>java.lang.Boolean equal(java.lang.String, java.lang.String)</function-signature>
     </function>
 </taglib>
