@@ -7,6 +7,7 @@ import org.ktm.dao.party.CustomerDao;
 import org.ktm.dao.party.EmploymentDao;
 import org.ktm.dao.party.OrganizationDao;
 import org.ktm.dao.party.PartyRoleDao;
+import org.ktm.dao.party.PartyRoleTypeDao;
 import org.ktm.dao.party.PersonDao;
 import org.ktm.dao.party.SupplierDao;
 import org.ktm.dao.product.BeveragePackageDao;
@@ -24,9 +25,7 @@ public abstract class KTMEMDaoFactory {
     public static final KTMEMDaoFactory DEFAULT   = HIBERNATE;
 
     public static KTMEMDaoFactory getInstance() {
-        if (KTMContext.databaseSystem == EDatabaseSystem.MONGODB) {
-            return MANGODB;
-        }
+        if (KTMContext.databaseSystem == EDatabaseSystem.MONGODB) { return MANGODB; }
         return DEFAULT;
     }
 
@@ -63,4 +62,6 @@ public abstract class KTMEMDaoFactory {
     public abstract CatalogEntryDao getCatalogEntryDao();
 
     public abstract ProductTypeDao getProductTypeDao();
+
+    public abstract PartyRoleTypeDao getPartyRoleTypeDao();
 }

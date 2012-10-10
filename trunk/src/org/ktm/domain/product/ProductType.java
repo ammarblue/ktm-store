@@ -8,7 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Version;
@@ -27,7 +26,6 @@ public class ProductType extends KTMEntity {
     private String            description;
     private ProductIdentifier identifier;
     private Set<Price>        prices;
-    private CatalogEntry      catalogEntry;
 
     @Override
     @Id
@@ -88,15 +86,6 @@ public class ProductType extends KTMEntity {
 
     public void setPrices(Set<Price> prices) {
         this.prices = prices;
-    }
-
-    @ManyToOne
-    public CatalogEntry getCatalogEntry() {
-        return catalogEntry;
-    }
-
-    public void setCatalogEntry(CatalogEntry catalogEntry) {
-        this.catalogEntry = catalogEntry;
     }
 
     @Override

@@ -1,4 +1,4 @@
-package org.ktm.stock.database;
+package org.ktm.stock.other;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -53,9 +53,9 @@ public class CRUDPersonServlet extends CRUDServlet {
         if (!bean.getUniqueId().isEmpty()) {
             Integer id = Integer.valueOf(bean.getUniqueId());
             person = (Person) personDao.get(id);
-            bean.syncToPerson(person);
+            bean.syncToEntity(person);
         } else {
-            bean.syncToPerson(person);
+            bean.syncToEntity(person);
             needAuthenOnNewPerson = true;
         }
 

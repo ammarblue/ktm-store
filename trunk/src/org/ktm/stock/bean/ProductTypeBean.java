@@ -13,7 +13,7 @@ public class ProductTypeBean extends FormBean {
     private String                 name;
     private String                 description;
     private String                 identifier;
-    private CatalogEntryBean       catalogEntry           = new CatalogEntryBean();
+    private String                 catalogEntryName;
 
     private String                 selectedCatalogEntry;
 
@@ -23,7 +23,6 @@ public class ProductTypeBean extends FormBean {
     @Override
     public void reset() {
         super.reset();
-        catalogEntry.reset();
         productTypeCollection.clear();
         catalogEntryCollection.clear();
     }
@@ -52,12 +51,12 @@ public class ProductTypeBean extends FormBean {
         this.identifier = identifier;
     }
 
-    public CatalogEntryBean getCatalogEntry() {
-        return catalogEntry;
+    public String getCatalogEntryName() {
+        return catalogEntryName;
     }
 
-    public void setCatalogEntry(CatalogEntryBean catalogEntry) {
-        this.catalogEntry = catalogEntry;
+    public void setCatalogEntryName(String catalogEntryName) {
+        this.catalogEntryName = catalogEntryName;
     }
 
     public List<ProductTypeBean> getProductTypeCollection() {
@@ -105,7 +104,6 @@ public class ProductTypeBean extends FormBean {
             this.setUniqueId(String.valueOf(ptype.getUniqueId()));
             this.setName(ptype.getName());
             this.setDescription(ptype.getDescription());
-            this.getCatalogEntry().loadToForm(ptype.getCatalogEntry());
         }
     }
 

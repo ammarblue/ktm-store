@@ -12,6 +12,8 @@ import org.ktm.dao.party.PartyDao;
 import org.ktm.dao.party.PartyDaoHibernate;
 import org.ktm.dao.party.PartyRoleDao;
 import org.ktm.dao.party.PartyRoleDaoHibernate;
+import org.ktm.dao.party.PartyRoleTypeDao;
+import org.ktm.dao.party.PartyRoleTypeDaoHibernate;
 import org.ktm.dao.party.PersonDao;
 import org.ktm.dao.party.PersonDaoHibernate;
 import org.ktm.dao.party.SupplierDao;
@@ -116,5 +118,10 @@ public class KTMEMDaoFactoryHibernate extends KTMEMDaoFactory {
     @Override
     public PartyDao getPartyDao() {
         return new PartyDaoHibernate();
+    }
+
+    @Override
+    public PartyRoleTypeDao getPartyRoleTypeDao() {
+        return new PartyRoleTypeDaoHibernate();
     }
 }

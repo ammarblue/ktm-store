@@ -71,7 +71,7 @@ public class ProductCatalog extends KTMEntity {
         this.name = name;
     }
 
-    @OneToMany(mappedBy = "productCatalog", cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     public List<CatalogEntry> getCatalogEntry() {
         return catalogEntry;
     }

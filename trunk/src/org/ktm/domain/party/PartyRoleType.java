@@ -9,7 +9,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 import javax.persistence.Version;
 import org.ktm.domain.KTMEntity;
 
@@ -18,6 +20,11 @@ import org.ktm.domain.KTMEntity;
  * set of PartyRole instance
  */
 @Entity
+@Table(uniqueConstraints = {
+    @UniqueConstraint(columnNames = {
+    "uniqueId", "name"
+    })
+})
 public class PartyRoleType extends KTMEntity {
 
     private static final long        serialVersionUID  = 1L;
@@ -25,6 +32,7 @@ public class PartyRoleType extends KTMEntity {
     private Integer                  uniqueId;
     private Integer                  version;
     private String                   name;
+    private String                   description;
     private RoleSet                  requirementsForRole;
     private Set<PartyRoleConstraint> validTypesOfParty = new HashSet<PartyRoleConstraint>(0);
 
@@ -58,6 +66,14 @@ public class PartyRoleType extends KTMEntity {
         this.name = name;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     @OneToOne(cascade = CascadeType.ALL)
     public RoleSet getRequirementsForRole() {
         return requirementsForRole;
@@ -67,7 +83,7 @@ public class PartyRoleType extends KTMEntity {
         this.requirementsForRole = requirementsForRole;
     }
 
-    @OneToMany(mappedBy = "partyRoleType")
+    @OneToMany
     public Set<PartyRoleConstraint> getValidTypesOfParty() {
         return validTypesOfParty;
     }
