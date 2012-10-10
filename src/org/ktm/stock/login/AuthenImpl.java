@@ -8,14 +8,14 @@ import java.util.Vector;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
+import org.ktm.authen.AuthException;
+import org.ktm.authen.Authenticator;
 import org.ktm.dao.party.AuthenDao;
 import org.ktm.dao.party.PartyRoleDao;
 import org.ktm.domain.party.Authen;
 import org.ktm.domain.party.PartyRole;
 import org.ktm.stock.dao.KTMEMDaoFactory;
 import org.ktm.utils.Localizer;
-import org.ktm.web.tags.auth.AuthException;
-import org.ktm.web.tags.auth.Authenticator;
 
 public class AuthenImpl implements Authenticator {
 
