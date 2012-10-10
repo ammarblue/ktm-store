@@ -7,11 +7,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
+import org.ktm.authen.AuthenticatorFactory;
 import org.ktm.servlet.AbstractServlet;
 import org.ktm.servlet.ActionForward;
 import org.ktm.utils.Globals;
 import org.ktm.web.bean.FormBean;
-import org.ktm.web.tags.auth.AuthenticatorFactory;
 
 @WebServlet("/index")
 public class Index extends AbstractServlet {

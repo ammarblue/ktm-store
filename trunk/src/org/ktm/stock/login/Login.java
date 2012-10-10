@@ -8,15 +8,15 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
+import org.ktm.authen.AuthException;
+import org.ktm.authen.Authenticator;
+import org.ktm.authen.AuthenticatorFactory;
 import org.ktm.crypt.KTMCrypt;
 import org.ktm.servlet.AbstractServlet;
 import org.ktm.servlet.ActionForward;
 import org.ktm.stock.bean.LoginBean;
 import org.ktm.utils.Globals;
 import org.ktm.web.bean.FormBean;
-import org.ktm.web.tags.auth.AuthException;
-import org.ktm.web.tags.auth.Authenticator;
-import org.ktm.web.tags.auth.AuthenticatorFactory;
 
 @WebServlet("/login")
 public class Login extends AbstractServlet {
