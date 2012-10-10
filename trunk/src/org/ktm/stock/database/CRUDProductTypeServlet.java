@@ -59,6 +59,19 @@ public class CRUDProductTypeServlet extends CRUDServlet {
     }
 
     public ActionForward newProductType(FormBean form, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        ProductTypeBean bean = (ProductTypeBean) form;
+
+        CatalogEntryDao cEntryDao = KTMEMDaoFactory.getInstance().getCatalogEntryDao();
+
+        String selectedCatalogEntry = bean.getSelectedCatalogEntry();
+        if (selectedCatalogEntry.isEmpty()) {
+            selectedCatalogEntry = (String) session.getAttribute("selectedCatalogEntry");
+        }
+        CatalogEntry cEntry = (CatalogEntry) cEntryDao.get(Integer.valueOf(selectedCatalogEntry));
+
+        bean.getCatalogEntry().loadToForm(cEntry);
+
         return ActionForward.getUri(this, request, "database/EditProductType.jsp");
     }
 
