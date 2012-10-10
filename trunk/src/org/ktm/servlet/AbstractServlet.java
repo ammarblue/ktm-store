@@ -12,10 +12,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.ktm.core.KTMContext;
-import org.ktm.stock.bean.FormBean;
 import org.ktm.utils.Globals;
 import org.ktm.utils.Localizer;
 import org.ktm.utils.PropertyUtils;
+import org.ktm.web.bean.FormBean;
 
 public abstract class AbstractServlet extends HttpServlet {
     private static final long            serialVersionUID = 1L;

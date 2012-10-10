@@ -10,6 +10,7 @@ import org.ktm.domain.party.GeographicAddress;
 import org.ktm.domain.party.Party;
 import org.ktm.domain.party.PartyIdentifier;
 import org.ktm.domain.party.TelephoneAddress;
+import org.ktm.web.bean.FormBean;
 
 public class PartyBean extends FormBean {
 

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import org.ktm.domain.product.CatalogEntry;
+import org.ktm.web.bean.FormBean;
 
 public class CatalogEntryBean extends FormBean {
 

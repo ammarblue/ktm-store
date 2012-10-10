@@ -1,6 +1,7 @@
 package org.ktm.stock.bean;
 
 import java.util.Collection;
+import org.ktm.web.bean.FormBean;
 
 public class MainBean extends FormBean {
 

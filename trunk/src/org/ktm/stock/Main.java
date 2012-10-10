@@ -8,9 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.ktm.servlet.ActionForward;
 import org.ktm.servlet.SecureServlet;
-import org.ktm.stock.bean.FormBean;
 import org.ktm.stock.bean.MainBean;
 import org.ktm.utils.Globals;
+import org.ktm.web.bean.FormBean;
 
 @WebServlet("/Main")
 public class Main extends SecureServlet {
