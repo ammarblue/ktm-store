@@ -1,4 +1,4 @@
-package org.ktm.web.tabs.auth;
+package org.ktm.web.tags.auth;
 
 import java.io.Serializable;
 import java.util.Collection;

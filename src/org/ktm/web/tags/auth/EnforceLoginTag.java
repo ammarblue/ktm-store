@@ -1,4 +1,4 @@
-package org.ktm.web.tabs.auth;
+package org.ktm.web.tags.auth;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;

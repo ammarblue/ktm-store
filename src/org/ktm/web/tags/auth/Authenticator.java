@@ -1,4 +1,4 @@
-package org.ktm.web.tabs.auth;
+package org.ktm.web.tags.auth;
 
 import java.util.Collection;
 import javax.servlet.ServletContext;

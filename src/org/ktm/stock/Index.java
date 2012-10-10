@@ -11,7 +11,7 @@ import org.ktm.servlet.AbstractServlet;
 import org.ktm.servlet.ActionForward;
 import org.ktm.utils.Globals;
 import org.ktm.web.bean.FormBean;
-import org.ktm.web.tabs.auth.AuthenticatorFactory;
+import org.ktm.web.tags.auth.AuthenticatorFactory;
 
 @WebServlet("/index")
 public class Index extends AbstractServlet {
