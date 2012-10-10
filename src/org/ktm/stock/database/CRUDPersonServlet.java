@@ -9,7 +9,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.ktm.crypt.KTMCrypt;
-import org.ktm.dao.KTMEMDaoFactory;
 import org.ktm.dao.party.PersonDao;
 import org.ktm.domain.party.Authen;
 import org.ktm.domain.party.Employee;
@@ -21,6 +20,7 @@ import org.ktm.servlet.ActionForward;
 import org.ktm.servlet.CRUDServlet;
 import org.ktm.stock.bean.FormBean;
 import org.ktm.stock.bean.PersonBean;
+import org.ktm.stock.dao.KTMEMDaoFactory;
 
 @WebServlet("/CRUDPerson")
 public class CRUDPersonServlet extends CRUDServlet {

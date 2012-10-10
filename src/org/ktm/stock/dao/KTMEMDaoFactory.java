@@ -1,6 +1,7 @@
-package org.ktm.dao;
+package org.ktm.stock.dao;
 
 import org.ktm.core.KTMContext;
+import org.ktm.dao.EDatabaseSystem;
 import org.ktm.dao.party.AuthenDao;
 import org.ktm.dao.party.CustomerDao;
 import org.ktm.dao.party.EmploymentDao;

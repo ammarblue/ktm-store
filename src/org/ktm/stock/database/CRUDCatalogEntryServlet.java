@@ -6,7 +6,6 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.ktm.dao.KTMEMDaoFactory;
 import org.ktm.dao.product.CatalogEntryDao;
 import org.ktm.domain.product.CatalogEntry;
 import org.ktm.exception.CreateException;
@@ -16,6 +15,7 @@ import org.ktm.servlet.ActionForward;
 import org.ktm.servlet.CRUDServlet;
 import org.ktm.stock.bean.CatalogEntryBean;
 import org.ktm.stock.bean.FormBean;
+import org.ktm.stock.dao.KTMEMDaoFactory;
 
 @WebServlet("/CRUDCatalogEntry")
 public class CRUDCatalogEntryServlet extends CRUDServlet {

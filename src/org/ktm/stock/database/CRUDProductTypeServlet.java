@@ -7,7 +7,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import org.ktm.dao.KTMEMDaoFactory;
 import org.ktm.dao.product.CatalogEntryDao;
 import org.ktm.dao.product.ProductTypeDao;
 import org.ktm.domain.product.CatalogEntry;
@@ -18,6 +17,7 @@ import org.ktm.servlet.ActionForward;
 import org.ktm.servlet.CRUDServlet;
 import org.ktm.stock.bean.FormBean;
 import org.ktm.stock.bean.ProductTypeBean;
+import org.ktm.stock.dao.KTMEMDaoFactory;
 
 @WebServlet("/CRUDProductType")
 public class CRUDProductTypeServlet extends CRUDServlet {

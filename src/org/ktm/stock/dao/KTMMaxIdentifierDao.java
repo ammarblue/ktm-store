@@ -1,5 +1,6 @@
-package org.ktm.dao;
+package org.ktm.stock.dao;
 
+import org.ktm.dao.Dao;
 import org.ktm.exception.UpdateException;
 
 public interface KTMMaxIdentifierDao extends Dao {

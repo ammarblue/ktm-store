@@ -1,10 +1,11 @@
-package org.ktm.dao;
+package org.ktm.stock.dao;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Iterator;
+import org.ktm.dao.AbstractHibernateStorageDao;
 import org.ktm.domain.KTMMaxIdentifier;
 import org.ktm.exception.CreateException;
 import org.ktm.exception.UpdateException;
