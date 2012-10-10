@@ -13,7 +13,7 @@ import javax.persistence.ManyToMany;
 @Entity
 public class PackageType extends ProductType {
 
-    private static final long serialVersionUID = 1051794584014937364L;
+    private static final long serialVersionUID = 1L;
 
     private Set<ProductType>  components       = new HashSet<ProductType>();
 

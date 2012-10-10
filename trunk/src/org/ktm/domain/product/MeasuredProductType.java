@@ -7,9 +7,9 @@ import org.ktm.domain.quantity.Metric;
 @Entity
 public class MeasuredProductType extends ProductType {
 
-    private static final long serialVersionUID = -1001101148550691330L;
+    private static final long serialVersionUID = 1L;
 
-    private Metric metric;
+    private Metric            metric;
 
     @Embedded
     public Metric getMetric() {

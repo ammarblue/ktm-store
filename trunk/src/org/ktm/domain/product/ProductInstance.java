@@ -17,7 +17,7 @@ import org.ktm.domain.money.Price;
 @Inheritance(strategy = InheritanceType.JOINED)
 public class ProductInstance extends KTMEntity {
 
-    private static final long serialVersionUID = 4297163700298706453L;
+    private static final long serialVersionUID = 1L;
 
     private Integer           uniqueId;
     private Integer           version;

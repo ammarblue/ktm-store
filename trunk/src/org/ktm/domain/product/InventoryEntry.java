@@ -2,7 +2,6 @@ package org.ktm.domain.product;
 
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,7 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Version;
-
 import org.ktm.domain.KTMEntity;
 
 /*
@@ -21,44 +19,44 @@ import org.ktm.domain.KTMEntity;
 @Entity
 public class InventoryEntry extends KTMEntity {
 
-	private static final long serialVersionUID = -8647167825792048264L;
-	
-	private Integer uniqueId;
-	private Integer version;
-	private String descripton;
-	private Inventory inventory;
-	private ProductType productType;
-	private Set<ProductInstance> productInstances = new HashSet<ProductInstance>(); 
+    private static final long    serialVersionUID = 1L;
+
+    private Integer              uniqueId;
+    private Integer              version;
+    private String               descripton;
+    private Inventory            inventory;
+    private ProductType          productType;
+    private Set<ProductInstance> productInstances = new HashSet<ProductInstance>();
 
     @Id
     @GeneratedValue
     @Column(name = "uniqueId", nullable = false)
-	public Integer getUniqueId() {
-		return uniqueId;
-	}
+    public Integer getUniqueId() {
+        return uniqueId;
+    }
 
-	public void setUniqueId(Integer uniqueId) {
-		this.uniqueId = uniqueId;
-	}
+    public void setUniqueId(Integer uniqueId) {
+        this.uniqueId = uniqueId;
+    }
 
-	@Version
-	@Column(name="version")
-	public Integer getVersion() {
-		return version;
-	}
+    @Version
+    @Column(name = "version")
+    public Integer getVersion() {
+        return version;
+    }
 
-	public void setVersion(Integer version) {
-		this.version = version;
-	}
+    public void setVersion(Integer version) {
+        this.version = version;
+    }
 
-	@Column(name="description")
-	public String getDescripton() {
-		return descripton;
-	}
+    @Column(name = "description")
+    public String getDescripton() {
+        return descripton;
+    }
 
-	public void setDescripton(String descripton) {
-		this.descripton = descripton;
-	}
+    public void setDescripton(String descripton) {
+        this.descripton = descripton;
+    }
 
     @ManyToOne
     public Inventory getInventory() {
@@ -70,15 +68,15 @@ public class InventoryEntry extends KTMEntity {
     }
 
     @ManyToOne
-	public ProductType getProductType() {
-		return productType;
-	}
+    public ProductType getProductType() {
+        return productType;
+    }
 
     public void setProductType(ProductType productType) {
-		this.productType = productType;
-	}
+        this.productType = productType;
+    }
 
-    @OneToMany(mappedBy="inventoryEntry", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "inventoryEntry", cascade = CascadeType.ALL)
     public Set<ProductInstance> getProductInstances() {
         return productInstances;
     }

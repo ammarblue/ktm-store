@@ -7,9 +7,9 @@ import org.ktm.domain.quantity.Quantity;
 @Entity
 public class MeasuredProductInstance extends ProductInstance {
 
-    private static final long serialVersionUID = 2979942445993881415L;
+    private static final long serialVersionUID = 1L;
 
-    private Quantity quantity;
+    private Quantity          quantity;
 
     @Column
     public Quantity getQuantity() {
@@ -19,5 +19,5 @@ public class MeasuredProductInstance extends ProductInstance {
     public void setQuantity(Quantity quantity) {
         this.quantity = quantity;
     }
-    
+
 }

@@ -19,7 +19,7 @@ import org.ktm.domain.money.Price;
 @Inheritance(strategy = InheritanceType.JOINED)
 public class ProductType extends KTMEntity {
 
-    private static final long serialVersionUID = 6188931282436592858L;
+    private static final long serialVersionUID = 1L;
 
     private Integer           uniqueId;
     private Integer           version;
@@ -111,28 +111,19 @@ public class ProductType extends KTMEntity {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (!super.equals(obj))
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (!super.equals(obj)) return false;
+        if (getClass() != obj.getClass()) return false;
         ProductType other = (ProductType) obj;
         if (identifier == null) {
-            if (other.identifier != null)
-                return false;
-        } else if (!identifier.equals(other.identifier))
-            return false;
+            if (other.identifier != null) return false;
+        } else if (!identifier.equals(other.identifier)) return false;
         if (name == null) {
-            if (other.name != null)
-                return false;
-        } else if (!name.equals(other.name))
-            return false;
+            if (other.name != null) return false;
+        } else if (!name.equals(other.name)) return false;
         if (uniqueId == null) {
-            if (other.uniqueId != null)
-                return false;
-        } else if (!uniqueId.equals(other.uniqueId))
-            return false;
+            if (other.uniqueId != null) return false;
+        } else if (!uniqueId.equals(other.uniqueId)) return false;
         return true;
     }
 

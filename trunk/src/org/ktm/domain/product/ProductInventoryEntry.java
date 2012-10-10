@@ -9,6 +9,6 @@ import javax.persistence.Entity;
 @Entity
 public class ProductInventoryEntry extends InventoryEntry {
 
-    private static final long serialVersionUID = -2880651474813202859L;
+    private static final long serialVersionUID = 1L;
 
 }
