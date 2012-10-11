@@ -12,6 +12,7 @@ import org.ktm.dao.party.PersonDao;
 import org.ktm.dao.party.SupplierDao;
 import org.ktm.dao.product.BeveragePackageDao;
 import org.ktm.dao.product.CatalogEntryDao;
+import org.ktm.dao.product.CatalogEntryTypeDao;
 import org.ktm.dao.product.InventoryDao;
 import org.ktm.dao.product.PackageTypeDao;
 import org.ktm.dao.product.ProductCatalogDao;
@@ -106,6 +107,12 @@ public class KTMEMDaoFactoryMongoDB extends KTMEMDaoFactory {
 
     @Override
     public PartyRoleTypeDao getPartyRoleTypeDao() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public CatalogEntryTypeDao getCatalogEntryTypeDao() {
         // TODO Auto-generated method stub
         return null;
     }

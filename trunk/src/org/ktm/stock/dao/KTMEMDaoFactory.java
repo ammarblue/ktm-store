@@ -12,6 +12,7 @@ import org.ktm.dao.party.PersonDao;
 import org.ktm.dao.party.SupplierDao;
 import org.ktm.dao.product.BeveragePackageDao;
 import org.ktm.dao.product.CatalogEntryDao;
+import org.ktm.dao.product.CatalogEntryTypeDao;
 import org.ktm.dao.product.InventoryDao;
 import org.ktm.dao.product.PackageTypeDao;
 import org.ktm.dao.product.ProductCatalogDao;
@@ -64,4 +65,6 @@ public abstract class KTMEMDaoFactory {
     public abstract ProductTypeDao getProductTypeDao();
 
     public abstract PartyRoleTypeDao getPartyRoleTypeDao();
+
+    public abstract CatalogEntryTypeDao getCatalogEntryTypeDao();
 }

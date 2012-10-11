@@ -22,6 +22,8 @@ import org.ktm.dao.product.BeveragePackageDao;
 import org.ktm.dao.product.BeveragePackageDaoHibernate;
 import org.ktm.dao.product.CatalogEntryDao;
 import org.ktm.dao.product.CatalogEntryDaoHibernate;
+import org.ktm.dao.product.CatalogEntryTypeDao;
+import org.ktm.dao.product.CatalogEntryTypeDaoHibernate;
 import org.ktm.dao.product.FixedInventoryDaoHibernate;
 import org.ktm.dao.product.InventoryDao;
 import org.ktm.dao.product.InventoryDaoHibernate;
@@ -123,5 +125,10 @@ public class KTMEMDaoFactoryHibernate extends KTMEMDaoFactory {
     @Override
     public PartyRoleTypeDao getPartyRoleTypeDao() {
         return new PartyRoleTypeDaoHibernate();
+    }
+
+    @Override
+    public CatalogEntryTypeDao getCatalogEntryTypeDao() {
+        return new CatalogEntryTypeDaoHibernate();
     }
 }
