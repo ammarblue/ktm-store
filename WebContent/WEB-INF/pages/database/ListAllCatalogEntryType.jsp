@@ -37,7 +37,7 @@
               </section>
               <div class="ym-wbox">
                 <ktm:if>
-                  <ktm:condition>${ktm:isEmptyCollection(bean.catalogEntryCollection)}</ktm:condition>
+                  <ktm:condition>${ktm:isEmptyCollection(bean.catalogEntryTypeCollection)}</ktm:condition>
                   <ktm:then>
                     <div>
                       <div class="gridBox" style="width: 30px; text-align: right;">-</div>
@@ -48,15 +48,15 @@
                     </div>
                   </ktm:then>
                   <ktm:else>
-                    <ktm:iterate name="bean" property="CatalogEntryCollection" id="ptype">
+                    <ktm:iterate name="bean" property="catalogEntryTypeCollection" id="ptype">
                       <div>
                         <div class="gridBox" style="width: 30px; text-align: right;">${id}.</div>
                         <div class="gridBox" style="width: 400px;">
-                          ${ptype.description }
+                          ${ptype.name }
                         </div>
                         <div class="gridBox" style="width: 243px;">
-                          <input type="button" value="edit" onclick="goTo('CRUDCatalogEntry?method=edit&uniqueId=${ptype.uniqueId}')">
-                          <input type="button" value="delete" onclick="doDelete('Do you want to delete ?','CRUDCatalogEntry?method=del&uniqueId=${ptype.uniqueId}')">
+                          <input type="button" value="edit" onclick="goTo('CRUDCatalogEntryType?method=edit&uniqueId=${ptype.uniqueId}')">
+                          <input type="button" value="delete" onclick="doDelete('Do you want to delete ?','CRUDCatalogEntryType?method=del&uniqueId=${ptype.uniqueId}')">
                         </div>
                       </div>
                     </ktm:iterate>
@@ -68,7 +68,7 @@
             <aside class="ym-col3">
             <div class="ym-cbox">
               <ul>
-                <li><a href="CRUDCatalogEntry?method=new">${ktm:getText("page.btn.add")} ${ktm:getText("nav.database.group_product")}</a></li>
+                <li><a href="CRUDCatalogEntryType?method=new">${ktm:getText("page.btn.add")} ${ktm:getText("nav.database.group_product")}</a></li>
                 <li><a href="Main?page=database">${ktm:getText("menu.main")}</a></li>
               </ul>
             </div>

@@ -22,7 +22,7 @@ public class SubMenu {
         menuMap.put("database", menus);
         menus.add(new MenuItem("nav.database.party_role_type", "CRUDPartyRoleType?method=list"));
         menus.add(new MenuItem("nav.database.product", "CRUDProductType?method=list"));
-        menus.add(new MenuItem("nav.database.group_product", "CRUDCatalogEntry?method=list"));
+        menus.add(new MenuItem("nav.database.group_product", "CRUDCatalogEntryType?method=list"));
         menus.add(new MenuItem("nav.database.supplier", "CRUDSupplier?method=list"));
         menus.add(new MenuItem("nav.database.customer", "CRUDCustomer?method=list"));
         menus.add(new MenuItem("nav.database.substore", "CRUDSubstore?method=list"));
