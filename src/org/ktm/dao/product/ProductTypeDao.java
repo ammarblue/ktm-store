@@ -6,6 +6,6 @@ import org.ktm.domain.product.ProductType;
 
 public interface ProductTypeDao extends Dao {
 
-    List<ProductType> findByCatalogEntry(Integer valueOf);
+    List<ProductType> findByCatalogEntryType(Integer valueOf);
 
 }

@@ -19,7 +19,7 @@
             <div class="ym-cbox">
               <section class="box info">
                 <div class="ym-wbox">
-                <h3>${ktm:getText("nav.database")} ${ktm:getText("nav.database.group_product")} ${bean.catalogEntry.description }</h3>
+                <h3>${ktm:getText("nav.database")} ${ktm:getText("nav.database.group_product")} ${bean.catalogEntryTypeName }</h3>
                 </div>
                 <div class="ym-wbox">
                   <form class="ym-form ym-columner" action="CRUDProductType" method="post">

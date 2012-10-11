@@ -7,12 +7,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import org.ktm.dao.product.CatalogEntryDao;
+import org.ktm.dao.product.CatalogEntryTypeDao;
 import org.ktm.dao.product.ProductTypeDao;
-import org.ktm.domain.product.CatalogEntry;
+import org.ktm.domain.product.CatalogEntryType;
 import org.ktm.domain.product.ProductType;
-import org.ktm.exception.CreateException;
-import org.ktm.exception.DeleteException;
+import org.ktm.exception.KTMException;
 import org.ktm.servlet.ActionForward;
 import org.ktm.servlet.CRUDServlet;
 import org.ktm.stock.bean.ProductTypeBean;
@@ -29,88 +28,93 @@ public class CRUDProductTypeServlet extends CRUDServlet {
         return "org.ktm.stock.bean.ProductTypeBean";
     }
 
-    public ActionForward listProductType(FormBean form, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        ProductTypeDao productTypeDao = KTMEMDaoFactory.getInstance().getProductTypeDao();
-        CatalogEntryDao cEntryDao = KTMEMDaoFactory.getInstance().getCatalogEntryDao();
-
-        ProductTypeBean bean = (ProductTypeBean) form;
-
-        List<CatalogEntry> cEntrys = cEntryDao.findAll();
-        bean.loadCatalogEntryFormCollection(cEntrys);
-
-        String selectedCatalogEntry = bean.getSelectedCatalogEntry();
-        if (selectedCatalogEntry.isEmpty()) {
-            selectedCatalogEntry = (String) session.getAttribute("selectedCatalogEntry");
-            if (selectedCatalogEntry == null) {
+    private String getSelectedCatalogEntryType(HttpSession session, ProductTypeBean bean) throws KTMException {
+        String selectedCatalogEntryType = bean.getSelectedCatalogEntryType();
+        if (selectedCatalogEntryType.isEmpty()) {
+            selectedCatalogEntryType = (String) session.getAttribute("selectedCatalogEntryType");
+            if (selectedCatalogEntryType == null) {
+                CatalogEntryTypeDao cEntryTypeDao = KTMEMDaoFactory.getInstance().getCatalogEntryTypeDao();
+                List<CatalogEntryType> cEntrys = cEntryTypeDao.findAll();
                 if (cEntrys != null && cEntrys.size() > 0) {
-                    selectedCatalogEntry = String.valueOf(cEntrys.get(0).getUniqueId());
+                    selectedCatalogEntryType = String.valueOf(cEntrys.get(0).getUniqueId());
+                } else {
+                    String msg = "exception.not_found_entity: " + CatalogEntryType.class.getName();
+                    throw new org.ktm.exception.KTMException(msg);
                 }
             }
         }
-        session.setAttribute("selectedCatalogEntry", selectedCatalogEntry);
+        session.setAttribute("selectedCatalogEntryType", selectedCatalogEntryType);
+        return selectedCatalogEntryType;
+    }
 
-        bean.setSelectedCatalogEntry(selectedCatalogEntry);
+    public ActionForward listProductType(FormBean form, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, KTMException {
+        HttpSession session = request.getSession();
+        ProductTypeDao productTypeDao = KTMEMDaoFactory.getInstance().getProductTypeDao();
+        CatalogEntryTypeDao cEntryTypeDao = KTMEMDaoFactory.getInstance().getCatalogEntryTypeDao();
 
-        List<ProductType> ptypes = productTypeDao.findByCatalogEntry(Integer.valueOf(selectedCatalogEntry));
+        ProductTypeBean bean = (ProductTypeBean) form;
+
+        List<CatalogEntryType> cEntrys = cEntryTypeDao.findAll();
+        bean.loadCatalogEntryTypeFormCollection(cEntrys);
+
+        String selectedCatalogEntryType = getSelectedCatalogEntryType(session, bean);
+        bean.setSelectedCatalogEntryType(selectedCatalogEntryType);
+
+        List<ProductType> ptypes = productTypeDao.findByCatalogEntryType(Integer.valueOf(selectedCatalogEntryType));
         bean.loadFormCollection(ptypes);
 
         return ActionForward.getUri(this, request, "database/ListAllProductType.jsp");
     }
 
-    public ActionForward newProductType(FormBean form, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public ActionForward newProductType(FormBean form, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, KTMException {
         HttpSession session = request.getSession();
         ProductTypeBean bean = (ProductTypeBean) form;
 
-        CatalogEntryDao cEntryDao = KTMEMDaoFactory.getInstance().getCatalogEntryDao();
+        CatalogEntryTypeDao cEntryTypeDao = KTMEMDaoFactory.getInstance().getCatalogEntryTypeDao();
 
-        String selectedCatalogEntry = bean.getSelectedCatalogEntry();
-        if (selectedCatalogEntry.isEmpty()) {
-            selectedCatalogEntry = (String) session.getAttribute("selectedCatalogEntry");
-        }
-        CatalogEntry cEntry = (CatalogEntry) cEntryDao.get(Integer.valueOf(selectedCatalogEntry));
+        String selectedCatalogEntryType = getSelectedCatalogEntryType(session, bean);
+        CatalogEntryType cEntry = (CatalogEntryType) cEntryTypeDao.get(Integer.valueOf(selectedCatalogEntryType));
 
-        bean.setCatalogEntryName(cEntry.getDescription());
+        bean.setCatalogEntryTypeName(cEntry.getName());
 
         return ActionForward.getUri(this, request, "database/EditProductType.jsp");
     }
 
-    public ActionForward saveProductType(FormBean form, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, CreateException {
+    public ActionForward saveProductType(FormBean form, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, KTMException {
         HttpSession session = request.getSession();
         ProductTypeDao ptypeDao = KTMEMDaoFactory.getInstance().getProductTypeDao();
-        CatalogEntryDao cEntryDao = KTMEMDaoFactory.getInstance().getCatalogEntryDao();
+        CatalogEntryTypeDao cEntryTypeDao = KTMEMDaoFactory.getInstance().getCatalogEntryTypeDao();
 
         ProductTypeBean bean = (ProductTypeBean) form;
 
-        String selectedCatalogEntry = bean.getSelectedCatalogEntry();
-        if (selectedCatalogEntry.isEmpty()) {
-            selectedCatalogEntry = (String) session.getAttribute("selectedCatalogEntry");
-        }
-        CatalogEntry cEntry = (CatalogEntry) cEntryDao.get(Integer.valueOf(selectedCatalogEntry));
+        String selectedCatalogEntryType = getSelectedCatalogEntryType(session, bean);
+
+        CatalogEntryType cEntry = (CatalogEntryType) cEntryTypeDao.get(Integer.valueOf(selectedCatalogEntryType));
         ProductType ptype = new ProductType();
 
         if (!bean.getUniqueId().isEmpty()) {
             int id = Integer.valueOf(bean.getUniqueId());
             ptype = (ProductType) ptypeDao.get(id);
             if (ptype != null) {
-                bean.syncToProductType(ptype);
+                bean.syncToEntity(ptype);
             }
         } else {
-            bean.syncToProductType(ptype);
+            bean.syncToEntity(ptype);
             cEntry.getProductType().add(ptype);
+            ptype.setCataloEntryType(cEntry);
         }
-
-        ptypeDao.createOrUpdate(ptype);
+        // ptypeDao.createOrUpdate(ptype);
+        cEntryTypeDao.createOrUpdate(cEntry);
 
         return ActionForward.getAction(this, request, "CRUDProductType?method=list", true);
     }
 
-    public ActionForward editProductType(FormBean form, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public ActionForward editProductType(FormBean form, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, KTMException {
         HttpSession session = request.getSession();
         ProductTypeBean bean = (ProductTypeBean) form;
 
         ProductTypeDao ptypeDao = KTMEMDaoFactory.getInstance().getProductTypeDao();
-        CatalogEntryDao cEntryDao = KTMEMDaoFactory.getInstance().getCatalogEntryDao();
+        CatalogEntryTypeDao cEntryTypeDao = KTMEMDaoFactory.getInstance().getCatalogEntryTypeDao();
 
         int id = Integer.valueOf(bean.getUniqueId());
         ProductType ptype = (ProductType) ptypeDao.get(id);
@@ -118,35 +122,33 @@ public class CRUDProductTypeServlet extends CRUDServlet {
             bean.loadToForm(ptype);
         }
 
-        String selectedCatalogEntry = bean.getSelectedCatalogEntry();
-        if (selectedCatalogEntry.isEmpty()) {
-            selectedCatalogEntry = (String) session.getAttribute("selectedCatalogEntry");
-        }
-        CatalogEntry cEntry = (CatalogEntry) cEntryDao.get(Integer.valueOf(selectedCatalogEntry));
+        String selectedCatalogEntryType = getSelectedCatalogEntryType(session, bean);
+        CatalogEntryType cEntry = (CatalogEntryType) cEntryTypeDao.get(Integer.valueOf(selectedCatalogEntryType));
 
-        bean.setCatalogEntryName(cEntry.getDescription());
+        bean.setCatalogEntryTypeName(cEntry.getName());
 
         return ActionForward.getUri(this, request, "database/EditProductType.jsp");
     }
 
-    public ActionForward delProductType(FormBean form, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, DeleteException, CreateException {
+    public ActionForward delProductType(FormBean form, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, KTMException {
+        HttpSession session = request.getSession();
         ProductTypeBean bean = (ProductTypeBean) form;
 
         ProductTypeDao ptypeDao = KTMEMDaoFactory.getInstance().getProductTypeDao();
+        CatalogEntryTypeDao cEntryTypeDao = KTMEMDaoFactory.getInstance().getCatalogEntryTypeDao();
 
-        int id = Integer.valueOf(bean.getUniqueId());
-        ProductType ptype = (ProductType) ptypeDao.get(id);
-        if (ptype != null) {
-            ptypeDao.delete(id);
+        String selectedCatalogEntryType = getSelectedCatalogEntryType(session, bean);
+        CatalogEntryType cEntry = (CatalogEntryType) cEntryTypeDao.get(Integer.valueOf(selectedCatalogEntryType));
+
+        if (cEntry != null) {
+            int id = Integer.valueOf(bean.getUniqueId());
+            ProductType ptype = (ProductType) ptypeDao.get(id);
+            if (ptype != null) {
+                cEntry.getProductType().remove(ptype);
+                ptype.setCataloEntryType(null);
+                cEntryTypeDao.update(cEntry);
+            }
         }
-
         return ActionForward.getAction(this, request, "CRUDProductType?method=list", true);
     }
-    /*
-     * public ActionForward storeProductType(FormBean form, HttpServletRequest
-     * request, HttpServletResponse response) throws ServletException,
-     * IOException, DeleteException { store(request, response);
-     * closeSession(request); return ActionForward.getAction(this, request,
-     * "CRUDProductType?method=list", true); }
-     */
 }

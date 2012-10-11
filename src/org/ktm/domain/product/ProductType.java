@@ -6,8 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Version;
@@ -15,7 +14,6 @@ import org.ktm.domain.KTMEntity;
 import org.ktm.domain.money.Price;
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
 public class ProductType extends KTMEntity {
 
     private static final long serialVersionUID = 1L;
@@ -26,6 +24,7 @@ public class ProductType extends KTMEntity {
     private String            description;
     private ProductIdentifier identifier;
     private Set<Price>        prices;
+    private CatalogEntryType  cataloEntryType;
 
     @Override
     @Id
@@ -86,6 +85,15 @@ public class ProductType extends KTMEntity {
 
     public void setPrices(Set<Price> prices) {
         this.prices = prices;
+    }
+
+    @ManyToOne
+    public CatalogEntryType getCataloEntryType() {
+        return cataloEntryType;
+    }
+
+    public void setCataloEntryType(CatalogEntryType cataloEntryType) {
+        this.cataloEntryType = cataloEntryType;
     }
 
     @Override
