@@ -24,22 +24,12 @@ public class PersonDaoHibernate extends PartyDaoHibernate implements PersonDao {
 
     @Override
     public int delete(Serializable id) throws DeleteException {
-        Person person = null;
         if (getFeaturedClass() != null && id != null) {
-
             AuthenDao authDao = KTMEMDaoFactory.getInstance().getAuthenDao();
             Authen auth = authDao.findByPartyId((Integer) id);
+            authDao.delete(auth);
 
-            try {
-                person = (Person) getCurrentSession().get(getFeaturedClass(), id);
-                if (auth != null) {
-                    getCurrentSession().delete(auth);
-                }
-                getCurrentSession().delete(person);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return person.getUniqueId();
+            return super.delete(id);
         }
         return -1;
     }

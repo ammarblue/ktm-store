@@ -25,7 +25,8 @@ public class SubMenu {
         menus.add(new MenuItem("nav.database.group_product", "CRUDCatalogEntryType?method=list"));
         menus.add(new MenuItem("nav.database.supplier", "CRUDSupplier?method=list"));
         menus.add(new MenuItem("nav.database.customer", "CRUDCustomer?method=list"));
-        menus.add(new MenuItem("nav.database.substore", "CRUDSubstore?method=list"));
+        menus.add(new MenuItem("nav.database.store", "CRUDSubstore?method=list"));
+        menus.add(new MenuItem("nav.database.employee", "CRUDPerson?method=list"));
 
         menus = new ArrayList<MenuItem>();
         menuMap.put("transaction", menus);
@@ -41,7 +42,6 @@ public class SubMenu {
 
         menus = new ArrayList<MenuItem>();
         menuMap.put("other", menus);
-        menus.add(new MenuItem("nav.database.user", "CRUDPerson?method=list"));
         menus.add(new MenuItem("nav.other.user_authrized", "#"));
         menus.add(new MenuItem("nav.other.change_password", "#"));
         menus.add(new MenuItem("nav.other.user_authentication", "#"));
