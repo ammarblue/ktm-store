@@ -86,14 +86,4 @@ public class CRUDCatalogEntryTypeServlet extends CRUDServlet {
         return ActionForward.getAction(this, request, "CRUDCatalogEntryType?method=list", true);
     }
 
-    // public ActionForward storeCatalogEntryType(FormBean form,
-    // HttpServletRequest
-    // request, HttpServletResponse response) throws ServletException,
-    // IOException, DeleteException {
-    // store(request, response);
-    // closeSession(request);
-    // return ActionForward.getAction(this, request,
-    // "CRUDCatalogEntryType?method=list", true);
-    // }
-
 }

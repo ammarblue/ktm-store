@@ -147,6 +147,7 @@ public class CRUDProductTypeServlet extends CRUDServlet {
                 cEntry.getProductType().remove(ptype);
                 ptype.setCataloEntryType(null);
                 cEntryTypeDao.update(cEntry);
+                ptypeDao.delete(ptype);
             }
         }
         return ActionForward.getAction(this, request, "CRUDProductType?method=list", true);

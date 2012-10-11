@@ -110,11 +110,4 @@ public class CRUDSupplierServlet extends CRUDServlet {
 
         return ActionForward.getAction(this, request, "CRUDSupplier?method=list", true);
     }
-    /*
-     * public ActionForward storeSupplier(FormBean form, HttpServletRequest
-     * request, HttpServletResponse response) throws ServletException,
-     * IOException, DeleteException { store(request, response);
-     * closeSession(request); return ActionForward.getAction(this, request,
-     * "CRUDSupplier?method=list", true); }
-     */
 }
