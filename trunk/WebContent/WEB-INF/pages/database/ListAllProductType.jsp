@@ -38,10 +38,10 @@
               <div class="ym-wbox">
                 <div class="ym-fbox-select" style="margin-top: 10px; margin-bottom: 10px">
                   <form name="myform" action="CRUDProductType?method=list" method="post">
-                    <label for="selectedCatalogEntry">${ktm:getText("nav.database.group_product")}</label>
-                    <select name="selectedCatalogEntry" id="selectedCatalogEntry" size="1" onchange="document.forms['myform'].submit()">
+                    <label for="selectedCatalogEntryType">${ktm:getText("nav.database.group_product")}</label>
+                    <select name="selectedCatalogEntryType" id="selectedCatalogEntryType" size="1" onchange="document.forms['myform'].submit()">
                       <option value="0" selected="selected" disabled="disabled">${ktm:getText("choose")}</option>
-                      <ktm:options selected="selectedCatalogEntry" bean="bean" value="uniqueId" label="description" collection="catalogEntryCollection"/>
+                      <ktm:options selected="selectedCatalogEntryType" bean="bean" value="uniqueId" label="name" collection="catalogEntryTypeCollection"/>
                     </select>
                   </form>
                 </div>

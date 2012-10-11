@@ -1,9 +1,13 @@
 package org.ktm.domain.product;
 
+import java.util.HashSet;
+import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Version;
 import org.ktm.domain.KTMEntity;
 
@@ -16,6 +20,7 @@ public class CatalogEntryType extends KTMEntity {
     private Integer           version;
     private String            identifier;
     private String            name;
+    private Set<ProductType>  productType      = new HashSet<ProductType>();
 
     @Id
     @GeneratedValue
@@ -51,6 +56,15 @@ public class CatalogEntryType extends KTMEntity {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @OneToMany(mappedBy = "cataloEntryType", cascade = CascadeType.ALL)
+    public Set<ProductType> getProductType() {
+        return productType;
+    }
+
+    public void setProductType(Set<ProductType> productType) {
+        this.productType = productType;
     }
 
 }

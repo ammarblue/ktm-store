@@ -3,7 +3,7 @@ package org.ktm.domain.quantity;
 public class Meter extends SIBaseUnit {
 
     public Meter() {
-        setName("meter");
+        setMetricName("meter");
         setSymbol("m");
         setDefinition("");
     }

@@ -3,28 +3,29 @@ package org.ktm.stock.bean;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import org.ktm.domain.product.CatalogEntry;
+import org.ktm.domain.KTMEntity;
+import org.ktm.domain.product.CatalogEntryType;
 import org.ktm.domain.product.ProductIdentifier;
 import org.ktm.domain.product.ProductType;
 import org.ktm.web.bean.FormBean;
 
 public class ProductTypeBean extends FormBean {
 
-    private String                 name;
-    private String                 description;
-    private String                 identifier;
-    private String                 catalogEntryName;
+    private String                     name;
+    private String                     description;
+    private String                     identifier;
+    private String                     catalogEntryTypeName;
 
-    private String                 selectedCatalogEntry;
+    private String                     selectedCatalogEntryType;
 
-    private List<ProductTypeBean>  productTypeCollection  = new ArrayList<ProductTypeBean>(0);
-    private List<CatalogEntryBean> catalogEntryCollection = new ArrayList<CatalogEntryBean>(0);
+    private List<ProductTypeBean>      productTypeCollection      = new ArrayList<ProductTypeBean>(0);
+    private List<CatalogEntryTypeBean> catalogEntryTypeCollection = new ArrayList<CatalogEntryTypeBean>(0);
 
     @Override
     public void reset() {
         super.reset();
         productTypeCollection.clear();
-        catalogEntryCollection.clear();
+        catalogEntryTypeCollection.clear();
     }
 
     public String getName() {
@@ -51,12 +52,12 @@ public class ProductTypeBean extends FormBean {
         this.identifier = identifier;
     }
 
-    public String getCatalogEntryName() {
-        return catalogEntryName;
+    public String getCatalogEntryTypeName() {
+        return catalogEntryTypeName;
     }
 
-    public void setCatalogEntryName(String catalogEntryName) {
-        this.catalogEntryName = catalogEntryName;
+    public void setCatalogEntryTypeName(String catalogEntryTypeName) {
+        this.catalogEntryTypeName = catalogEntryTypeName;
     }
 
     public List<ProductTypeBean> getProductTypeCollection() {
@@ -67,20 +68,20 @@ public class ProductTypeBean extends FormBean {
         this.productTypeCollection = productTypeCollection;
     }
 
-    public List<CatalogEntryBean> getCatalogEntryCollection() {
-        return catalogEntryCollection;
+    public List<CatalogEntryTypeBean> getCatalogEntryTypeCollection() {
+        return catalogEntryTypeCollection;
     }
 
-    public void setCatalogEntryCollection(List<CatalogEntryBean> catalogEntryCollection) {
-        this.catalogEntryCollection = catalogEntryCollection;
+    public void setCatalogEntryTypeCollection(List<CatalogEntryTypeBean> catalogEntryTypeCollection) {
+        this.catalogEntryTypeCollection = catalogEntryTypeCollection;
     }
 
-    public String getSelectedCatalogEntry() {
-        return selectedCatalogEntry;
+    public String getSelectedCatalogEntryType() {
+        return selectedCatalogEntryType;
     }
 
-    public void setSelectedCatalogEntry(String selectedCatalogEntry) {
-        this.selectedCatalogEntry = selectedCatalogEntry;
+    public void setSelectedCatalogEntryType(String selectedCatalogEntryType) {
+        this.selectedCatalogEntryType = selectedCatalogEntryType;
     }
 
     @Override
@@ -107,29 +108,33 @@ public class ProductTypeBean extends FormBean {
         }
     }
 
-    public void syncToProductType(ProductType ptype) {
-        if (!this.getUniqueId().isEmpty()) {
-            ptype.setUniqueId(Integer.valueOf(this.getUniqueId()));
-        }
-        if (!this.getIdentifier().isEmpty()) {
-            if (ptype.getIdentifier() == null) {
-                ProductIdentifier id = new ProductIdentifier();
-                id.setIdentifier(this.getIdentifier());
-                ptype.setIdentifier(id);
-            } else {
-                ptype.getIdentifier().setIdentifier(this.getIdentifier());
+    @Override
+    public void syncToEntity(KTMEntity entity) {
+        if (entity != null && entity instanceof ProductType) {
+            ProductType productType = (ProductType) entity;
+            if (!this.getUniqueId().isEmpty()) {
+                productType.setUniqueId(Integer.valueOf(this.getUniqueId()));
             }
+            if (!this.getIdentifier().isEmpty()) {
+                if (productType.getIdentifier() == null) {
+                    ProductIdentifier id = new ProductIdentifier();
+                    id.setIdentifier(this.getIdentifier());
+                    productType.setIdentifier(id);
+                } else {
+                    productType.getIdentifier().setIdentifier(this.getIdentifier());
+                }
+            }
+            productType.setName(this.getName());
+            productType.setDescription(this.getDescription());
         }
-        ptype.setName(this.getName());
-        ptype.setDescription(this.getDescription());
     }
 
-    public void loadCatalogEntryFormCollection(List<CatalogEntry> cEntrys) {
+    public void loadCatalogEntryTypeFormCollection(List<CatalogEntryType> cEntrys) {
         if (cEntrys != null) {
-            for (CatalogEntry cEntry : cEntrys) {
-                CatalogEntryBean bean = new CatalogEntryBean();
+            for (CatalogEntryType cEntry : cEntrys) {
+                CatalogEntryTypeBean bean = new CatalogEntryTypeBean();
                 bean.loadToForm(cEntry);
-                catalogEntryCollection.add(bean);
+                catalogEntryTypeCollection.add(bean);
             }
         }
     }
