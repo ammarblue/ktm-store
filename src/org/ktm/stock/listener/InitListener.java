@@ -29,6 +29,8 @@ public class InitListener implements ServletContextListener {
         String databaseSystem = context.getInitParameter("database_system");
         KTMContext.databaseSystem = EDatabaseSystem.get(Integer.valueOf(databaseSystem));
 
+        KTMContext.dateFormat = context.getInitParameter("date_format");
+
         KTMContext.databaseName = context.getInitParameter("database_name");
         Localizer.switchLocale(Localizer.eLanguage.THAI);
     }

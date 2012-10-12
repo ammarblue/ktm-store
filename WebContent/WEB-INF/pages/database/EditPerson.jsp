@@ -11,6 +11,18 @@
 <head>
 <jsp:include page="${context.jspHeader}"></jsp:include>
 <title>${ktm:getText("app.title")}</title>
+<script>
+<!--
+$(function(){
+    $.datepicker.setDefaults( $.datepicker.regional[ "th" ] );
+    $( "#birthDay" ).datepicker({
+        changeMonth: true,
+        changeYear: true,
+        showButtonPanel: true
+    });
+});
+//-->
+</script>
 </head>
 <body>
   <div class="ym-wrapper">
