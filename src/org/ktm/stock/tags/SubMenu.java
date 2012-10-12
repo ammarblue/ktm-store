@@ -25,7 +25,7 @@ public class SubMenu {
         menus.add(new MenuItem("nav.database.group_product", "CRUDCatalogEntryType?method=list"));
         menus.add(new MenuItem("nav.database.supplier", "CRUDSupplier?method=list"));
         menus.add(new MenuItem("nav.database.customer", "CRUDCustomer?method=list"));
-        menus.add(new MenuItem("nav.database.store", "CRUDSubstore?method=list"));
+        menus.add(new MenuItem("nav.database.store", "CRUDInventory?method=list"));
         menus.add(new MenuItem("nav.database.employee", "CRUDPerson?method=list"));
 
         menus = new ArrayList<MenuItem>();

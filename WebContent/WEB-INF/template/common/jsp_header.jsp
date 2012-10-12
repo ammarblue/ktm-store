@@ -8,7 +8,8 @@
 <!-- stylesheets -->
 <link rel="stylesheet" href="css/central.css" type="text/css"/>
 
-<script type="text/javascript" src="js\itsci-lib.js"></script>
+<script type="text/javascript" src="js/itsci-lib.js"></script>
+<script type="text/javascript" src="js/jquery-1.8.2.js"></script>
 
 <!--[if lte IE 7]>
 <link rel="stylesheet" href="yaml/core/iehacks.min.css" type="text/css"/>

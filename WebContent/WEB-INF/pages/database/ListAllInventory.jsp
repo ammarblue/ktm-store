@@ -32,21 +32,21 @@
             <div class="ym-cbox">
               <section class="box info">
                 <div class="ym-wbox">
-                <h3>${ktm:getText("nav.database")} ${ktm:getText("nav.database.product")}</h3>
+                <h3>${ktm:getText("nav.database")} ${ktm:getText("nav.database.store")}</h3>
                 </div>
               </section>
               <div class="ym-wbox">
                 <div class="ym-fbox-select" style="margin-top: 10px; margin-bottom: 10px">
-                  <form name="myform" action="CRUDProductType?method=list" method="post">
-                    <label for="selectedCatalogEntryType">${ktm:getText("nav.database.group_product")}</label>
-                    <select name="selectedCatalogEntryType" id="selectedCatalogEntryType" size="1" onchange="document.forms['myform'].submit()">
+                  <form name="myform" action="CRUDInventory?method=list" method="post">
+                    <label for="selectedInventoryType">${ktm:getText("nav.database.inventory_type")}</label>
+                    <select name="selectedInventoryType" id="selectedInventoryType" size="1" onchange="document.forms['myform'].submit()">
                       <option value="0" selected="selected" disabled="disabled">${ktm:getText("choose")}</option>
-                      <ktm:options selected="selectedCatalogEntryType" bean="bean" value="uniqueId" label="name" collection="catalogEntryTypeCollection"/>
+                      <ktm:options selected="selectedInventoryType" bean="bean" value="uniqueId" label="inventory.all,inventory.center,inventory.sale_point,inventory.moving"/>
                     </select>
                   </form>
                 </div>
                 <ktm:if>
-                  <ktm:condition>${ktm:isEmptyCollection(bean.productTypeCollection)}</ktm:condition>
+                  <ktm:condition>${ktm:isEmptyCollection(bean.inventoryCollection)}</ktm:condition>
                   <ktm:then>
                     <div>
                       <div class="gridBox" style="width: 30px; text-align: right;">-</div>
@@ -57,15 +57,15 @@
                     </div>
                   </ktm:then>
                   <ktm:else>
-                    <ktm:iterate name="bean" property="productTypeCollection" id="ptype">
+                    <ktm:iterate name="bean" property="inventoryCollection" id="inventory">
                       <div>
                         <div class="gridBox" style="width: 30px; text-align: right;">${id}.</div>
                         <div class="gridBox" style="width: 400px;">
-                          ${ptype.name }
+                          ${inventory.name }
                         </div>
                         <div class="gridBox" style="width: 243px;">
-                          <input type="button" value="edit" onclick="goTo('CRUDProductType?method=edit&uniqueId=${ptype.uniqueId}')">
-                          <input type="button" value="delete" onclick="doDelete('Do you want to delete ?','CRUDProductType?method=del&uniqueId=${ptype.uniqueId}')">
+                          <input type="button" value="edit" onclick="goTo('CRUDInventory?method=edit&uniqueId=${inventory.uniqueId}')">
+                          <input type="button" value="delete" onclick="doDelete('Do you want to delete ?','CRUDInventory?method=del&uniqueId=${inventory.uniqueId}')">
                         </div>
                       </div>
                     </ktm:iterate>
@@ -77,7 +77,7 @@
             <aside class="ym-col3">
             <div class="ym-cbox">
               <ul>
-                <li><a href="CRUDProductType?method=new">${ktm:getText("page.btn.add")} ${ktm:getText("nav.database.product")}</a></li>
+                <li><a href="CRUDInventory?method=new">${ktm:getText("page.btn.add")} ${ktm:getText("nav.database.store")}</a></li>
                 <li><a href="Main?page=database">${ktm:getText("menu.main")}</a></li>
               </ul>
             </div>

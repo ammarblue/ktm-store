@@ -286,4 +286,9 @@
         <function-class>org.ktm.web.tags.Functions</function-class>
         <function-signature>java.lang.Boolean equal(java.lang.String, java.lang.String)</function-signature>
     </function>
+    <function>
+        <name>getEnumValues</name>
+        <function-class>org.ktm.web.tags.Functions</function-class>
+        <function-signature>java.lang.String getEnumValues(java.lang.String)</function-signature>
+    </function>
 </taglib>

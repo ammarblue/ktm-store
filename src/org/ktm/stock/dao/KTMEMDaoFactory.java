@@ -67,4 +67,10 @@ public abstract class KTMEMDaoFactory {
     public abstract PartyRoleTypeDao getPartyRoleTypeDao();
 
     public abstract CatalogEntryTypeDao getCatalogEntryTypeDao();
+
+    public abstract InventoryDao getCenterInventoryDao();
+
+    public abstract InventoryDao getSalePointInventoryDao();
+
+    public abstract InventoryDao getVechileInventoryDao();
 }

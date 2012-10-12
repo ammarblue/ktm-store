@@ -24,6 +24,7 @@ import org.ktm.dao.product.CatalogEntryDao;
 import org.ktm.dao.product.CatalogEntryDaoHibernate;
 import org.ktm.dao.product.CatalogEntryTypeDao;
 import org.ktm.dao.product.CatalogEntryTypeDaoHibernate;
+import org.ktm.dao.product.CenterInventoryDaoHibernate;
 import org.ktm.dao.product.FixedInventoryDaoHibernate;
 import org.ktm.dao.product.InventoryDao;
 import org.ktm.dao.product.InventoryDaoHibernate;
@@ -34,6 +35,8 @@ import org.ktm.dao.product.ProductCatalogDao;
 import org.ktm.dao.product.ProductCatalogDaoHibernate;
 import org.ktm.dao.product.ProductTypeDao;
 import org.ktm.dao.product.ProductTypeDaoHibernate;
+import org.ktm.dao.product.SalePointInventoryDaoHibernate;
+import org.ktm.dao.product.VehicleInventoryDaoHibernate;
 
 public class KTMEMDaoFactoryHibernate extends KTMEMDaoFactory {
 
@@ -130,5 +133,20 @@ public class KTMEMDaoFactoryHibernate extends KTMEMDaoFactory {
     @Override
     public CatalogEntryTypeDao getCatalogEntryTypeDao() {
         return new CatalogEntryTypeDaoHibernate();
+    }
+
+    @Override
+    public InventoryDao getCenterInventoryDao() {
+        return new CenterInventoryDaoHibernate();
+    }
+
+    @Override
+    public InventoryDao getSalePointInventoryDao() {
+        return new SalePointInventoryDaoHibernate();
+    }
+
+    @Override
+    public InventoryDao getVechileInventoryDao() {
+        return new VehicleInventoryDaoHibernate();
     }
 }
