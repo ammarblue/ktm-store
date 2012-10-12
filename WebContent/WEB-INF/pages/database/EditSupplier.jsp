@@ -3,6 +3,9 @@
 <%@ taglib uri="/WEB-INF/tags/ktm-libs.tld" prefix="ktm" %>
 <jsp:useBean id="bean" scope="request" class="org.ktm.stock.bean.SupplierBean"></jsp:useBean>
 <ktm:enforceAuthentication loginPage="/login"/>
+<ktm:isUserNotInRole role="Admin">
+  <ktm:redirectPage page="/index.jsp"/>
+</ktm:isUserNotInRole>
 <!DOCTYPE html>
 <html lang="en">
 <head>

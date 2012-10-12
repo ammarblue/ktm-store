@@ -232,7 +232,7 @@
                 
                 Redirect to specific page
                 
-            </description>
+      </description>
       <attribute>
        <name>page</name>
        <required>true</required>
@@ -243,6 +243,16 @@
        <name>navMenu</name>
        <tag-class>org.ktm.stock.tags.NavMenuTag</tag-class>
        <body-content>empty</body-content>
+      <attribute>
+       <name>adminRole</name>
+       <required>true</required>
+       <rtexprvalue>false</rtexprvalue>
+      </attribute>
+      <attribute>
+       <name>employeeRole</name>
+       <required>true</required>
+       <rtexprvalue>false</rtexprvalue>
+      </attribute>
      </tag>
      <tag>
        <name>navSubMenu</name>
