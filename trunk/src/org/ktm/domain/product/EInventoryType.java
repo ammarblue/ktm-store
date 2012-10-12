@@ -1,6 +1,8 @@
 package org.ktm.domain.product;
 
-public enum EInventoryType {
+import org.ktm.core.EnumValues;
+
+public enum EInventoryType implements EnumValues {
     Center("inventory.center"), SalePoint("inventory.sale_point"), Moving("inventory.moving");
 
     private String value;
@@ -15,5 +17,15 @@ public enum EInventoryType {
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    @Override
+    public String[] getValues() {
+        String[] returnValues = new String[values().length];
+        EInventoryType[] values = values();
+        for (int i = 0; i < values.length; i++) {
+            returnValues[i] = values[i].toString();
+        }
+        return returnValues;
     }
 }

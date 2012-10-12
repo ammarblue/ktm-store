@@ -116,4 +116,22 @@ public class KTMEMDaoFactoryMongoDB extends KTMEMDaoFactory {
         // TODO Auto-generated method stub
         return null;
     }
+
+    @Override
+    public InventoryDao getCenterInventoryDao() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public InventoryDao getSalePointInventoryDao() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public InventoryDao getVechileInventoryDao() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }
