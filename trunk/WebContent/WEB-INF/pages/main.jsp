@@ -13,7 +13,7 @@
   <div class="ym-wrapper">
     <div class="ym-wbox">
       <header><h1>${ktm:getText("app.title")}</h1></header>
-	    <ktm:navMenu />
+	    <ktm:navMenu employeeRole="Employee,Admin" adminRole="Admin" />
 	    <div id="main">
 	      <div class="ym-column linearize-level-1">
 	        <div class="ym-col1">

@@ -38,6 +38,7 @@
     <mapping class="org.ktm.domain.party.Director" />
     <mapping class="org.ktm.domain.party.Employer" />
     <mapping class="org.ktm.domain.party.Employee" />
+    <mapping class="org.ktm.domain.party.Admin" />
     <mapping class="org.ktm.domain.KTMMaxIdentifier" />
     <mapping class="org.ktm.domain.party.PartyRoleType" />
     <mapping class="org.ktm.domain.party.RoleSet" />

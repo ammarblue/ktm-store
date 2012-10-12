@@ -38,6 +38,6 @@
   </context-param>
   <context-param>
     <param-name>MainPage</param-name>
-    <param-value>Main?page=main</param-value>
+    <param-value>Main?page=transaction</param-value>
   </context-param>
 </web-app>
