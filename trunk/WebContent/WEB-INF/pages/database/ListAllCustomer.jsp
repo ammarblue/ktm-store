@@ -10,20 +10,6 @@
 <head>
 <jsp:include page="${context.jspHeader}"></jsp:include>
 <title>${ktm:getText("app.title")}</title>
-<style type="text/css">
-.gridBox {
-    background-color: rgb(220,220,220);
-    padding-left: 5px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    padding-right: 5px;
-    margin-bottom: 2px;
-    margin-right: 2px;
-    color: #4d87c7;
-    height: 20px;
-    float: left;
-}
-</style>
 </head>
 <body>
   <div class="ym-wrapper">
@@ -39,32 +25,38 @@
                 </div>
               </section>
               <div class="ym-wbox">
-                <ktm:if>
-                  <ktm:condition>${ktm:isEmptyCollection(bean.collaboratorCollection)}</ktm:condition>
-                  <ktm:then>
-                    <div>
-                      <div class="gridBox" style="width: 30px; text-align: right;">-</div>
-                      <div class="gridBox" style="width: 400px;">
-                        ${ktm:getText("data.norecord")}
-                      </div>
-                      <div class="gridBox" style="width: 220px;"></div>
-                    </div>
-                  </ktm:then>
-                  <ktm:else>
-                    <ktm:iterate name="bean" property="collaboratorCollection" id="customer">
-                      <div>
-                        <div class="gridBox" style="width: 30px; text-align: right;">${id}.</div>
-                        <div class="gridBox" style="width: 400px;">
-                          ${ktm:getText(customer.description)}
-                        </div>
-                        <div class="gridBox" style="width: 220px;">
-                          <input type="button" value="edit" onclick="goTo('CRUDCustomer?method=edit&uniqueId=${customer.uniqueId}')">
-                          <input type="button" value="delete" onclick="doDelete('Do you want to delete ?','CRUDCustomer?method=del&uniqueId=${customer.uniqueId}')">
-                        </div>
-                      </div>
-                    </ktm:iterate>
-                    </ktm:else>
-                  </ktm:if>
+                <table class="ui-widget ui-widget-content tblGrid">
+                  <thead>
+                    <tr class="ui-widget-header ">
+                      <th style="width: 15%;">${ktm:getText("nav.database.customer.id") }</th>
+                      <th>${ktm:getText("nav.database.customer.description") }</th>
+                      <th style="width: 20%;"></th>
+                    </tr>
+                  </thead>
+                    <ktm:if>
+                      <ktm:condition>${ktm:isEmptyCollection(bean.collaboratorCollection)}</ktm:condition>
+                      <ktm:then>
+                        <tr>
+                          <td>-</td>
+                          <td>${ktm:getText("data.norecord")}</td>
+                          <td></td>
+                        </tr>
+                      </ktm:then>
+                      <ktm:else>
+                        <ktm:iterate name="bean" property="collaboratorCollection" id="customer">
+                          <tr>
+                            <td>${id}.</td>
+                            <td>${ktm:getText(customer.description)}</td>
+                            <td>
+                              <input type="button" value='${ktm:getText("page.btn.edit")}' onclick="goTo('CRUDCustomer?method=edit&uniqueId=${customer.uniqueId}')">
+                              <input type="button" value='${ktm:getText("page.btn.delete")}' onclick="doDelete('Do you want to delete ?','CRUDCustomer?method=del&uniqueId=${customer.uniqueId}')">
+                            </td>
+                          </tr>
+                        </ktm:iterate>
+                      </ktm:else>
+                    </ktm:if>
+                </tbody>
+              </table>
               </div>
             </div>
             </div>
