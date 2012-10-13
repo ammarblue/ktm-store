@@ -29,19 +29,19 @@
                     <input type="hidden" name="uniqueId" value="${bean.uniqueId}">
                     <input type="hidden" name="method" value="save">
                     <div class="ym-fbox-text">
-                      <label for="identifier">${ktm:getText("nav.database.group_product.id")}<sup class="ym-required">*</sup></label>
+                      <label for="identifier">${ktm:getText("nav.database.product.id")}<sup class="ym-required">*</sup></label>
                       <input type="text" name="identifier" id="identifier" size="20"
                         required="required" value="${bean.identifier}"
                       />
                     </div>
                     <div class="ym-fbox-text">
-                      <label for="name">${ktm:getText("nav.database.group_product.name")}<sup class="ym-required">*</sup></label>
+                      <label for="name">${ktm:getText("nav.database.product.name")}<sup class="ym-required">*</sup></label>
                       <input type="text" name="name" id="name" size="20"
                         required="required" value="${bean.name}"
                       />
                     </div>
                     <div class="ym-fbox-text">
-                      <label for="description">${ktm:getText("nav.database.group_product.desc")}</label>
+                      <label for="description">${ktm:getText("nav.database.product.desc")}</label>
                       <input type="text" name="description" id="description" size="20"
                         value="${bean.description}"
                       />
