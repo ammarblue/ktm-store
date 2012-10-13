@@ -5,9 +5,9 @@ package org.ktm.domain.quantity;
  * standard such as SI
  */
 public final class SystemOfUnits {
-    
+
     private static SystemOfUnits theInstance = null;
-    
+
     public static SystemOfUnits getInstance() {
         if (theInstance == null) {
             theInstance = new SystemOfUnits();
@@ -23,8 +23,9 @@ public final class SystemOfUnits {
         return "BIPM";
     }
 
-    public final SIBaseUnit METER = new Meter();
+    public final SIBaseUnit METER    = new Meter();
     public final SIBaseUnit KILOGRAM = new Kilogram();
-    public final SIBaseUnit BATH = new Bath();
-    
+    public final SIBaseUnit BATH     = new Bath();
+    public final SIBaseUnit BOX      = new Box();
+
 }
