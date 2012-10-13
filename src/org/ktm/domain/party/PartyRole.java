@@ -20,8 +20,12 @@ import org.ktm.domain.KTMEntity;
  */
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@Table(uniqueConstraints = { @UniqueConstraint(columnNames = { "uniqueId", "name" }) })
-public class PartyRole extends KTMEntity {
+@Table(uniqueConstraints = {
+    @UniqueConstraint(columnNames = {
+    "uniqueId", "name"
+    })
+})
+public class PartyRole implements KTMEntity {
 
     private static final long   serialVersionUID = 1L;
 

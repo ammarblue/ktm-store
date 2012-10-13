@@ -15,7 +15,7 @@ import org.ktm.domain.party.PartySignature;
 
 @Entity
 @Table(name = "batch")
-public class Batch extends KTMEntity {
+public class Batch implements KTMEntity {
 
     private static final long   serialVersionUID = 1L;
 

@@ -1,8 +1,8 @@
 package org.ktm.domain.product;
 
-import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import org.ktm.domain.quantity.Quantity;
+import org.ktm.quantity.Quantity;
 
 @Entity
 public class MeasuredProductInstance extends ProductInstance {
@@ -11,7 +11,7 @@ public class MeasuredProductInstance extends ProductInstance {
 
     private Quantity          quantity;
 
-    @Column
+    @Embedded
     public Quantity getQuantity() {
         return quantity;
     }

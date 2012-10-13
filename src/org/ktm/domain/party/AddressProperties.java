@@ -1,6 +1,5 @@
 package org.ktm.domain.party;
 
-import java.io.Serializable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,7 +14,7 @@ import org.ktm.domain.KTMEntity;
  * specific Party.
  */
 @Entity
-public class AddressProperties extends KTMEntity implements Serializable {
+public class AddressProperties implements KTMEntity {
 
     private static final long serialVersionUID = 1L;
 

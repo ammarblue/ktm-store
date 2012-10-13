@@ -12,7 +12,7 @@ import javax.persistence.Version;
 import org.ktm.domain.KTMEntity;
 
 @Entity
-public class CatalogEntryType extends KTMEntity {
+public class CatalogEntryType implements KTMEntity {
 
     private static final long serialVersionUID = 1L;
 

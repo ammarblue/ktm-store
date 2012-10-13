@@ -16,7 +16,7 @@ import org.ktm.domain.KTMEntity;
  * in a ProductCatalog
  */
 @Entity
-public class CatalogEntry extends KTMEntity {
+public class CatalogEntry implements KTMEntity {
 
     private static final long serialVersionUID = 1L;
 

@@ -18,7 +18,7 @@ import org.ktm.domain.KTMEntity;
  * actions.
  */
 @Entity
-public class Party extends KTMEntity {
+public class Party implements KTMEntity {
 
     private static final long         serialVersionUID      = 1L;
 

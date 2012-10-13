@@ -12,7 +12,7 @@ import org.ktm.domain.KTMEntity;
  * and PartyRelationshipType
  */
 @Entity
-public class RoleSet extends KTMEntity {
+public class RoleSet implements KTMEntity {
 
     private static final long serialVersionUID = 1L;
 

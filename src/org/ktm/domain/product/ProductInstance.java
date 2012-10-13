@@ -5,8 +5,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Version;
@@ -14,8 +12,7 @@ import org.ktm.domain.KTMEntity;
 import org.ktm.domain.money.Price;
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
-public class ProductInstance extends KTMEntity {
+public class ProductInstance implements KTMEntity {
 
     private static final long serialVersionUID = 1L;
 

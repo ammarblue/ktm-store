@@ -2,7 +2,7 @@ package org.ktm.domain.product;
 
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import org.ktm.domain.quantity.Metric;
+import org.ktm.quantity.Metric;
 
 @Entity
 public class MeasuredProductType extends ProductType {
