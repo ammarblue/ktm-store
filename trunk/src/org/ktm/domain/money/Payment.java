@@ -1,45 +1,47 @@
 package org.ktm.domain.money;
 
-import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Version;
+import org.ktm.domain.KTMEntity;
 
 @Entity
-public class Payment extends Money implements Serializable {
+public class Payment extends Money implements KTMEntity {
 
     private static final long serialVersionUID = 1L;
 
+    private Integer           uniqueId;
+    private Integer           version;
     private Date              dateMade;
     private Date              dateReceived;
     private Date              dateDue;
     private Date              dateCleared;
 
-    @Override
     @Id
+    @Override
     @GeneratedValue
     @Column(name = "uniqueId", nullable = false)
     public Integer getUniqueId() {
-        return super.getUniqueId();
+        return uniqueId;
     }
 
     @Override
     public void setUniqueId(Integer uniqueId) {
-        super.setUniqueId(uniqueId);
+        this.uniqueId = uniqueId;
     }
 
     @Override
     @Version
     public Integer getVersion() {
-        return super.getVersion();
+        return version;
     }
 
     @Override
     public void setVersion(Integer version) {
-        super.setVersion(version);
+        this.version = version;
     }
 
     public Date getDateMade() {

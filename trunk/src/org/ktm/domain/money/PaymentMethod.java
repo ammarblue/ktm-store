@@ -8,7 +8,7 @@ import javax.persistence.Version;
 import org.ktm.domain.KTMEntity;
 
 @Entity
-public class PaymentMethod extends KTMEntity {
+public class PaymentMethod implements KTMEntity {
 
     private static final long serialVersionUID = 1L;
 
@@ -17,7 +17,7 @@ public class PaymentMethod extends KTMEntity {
 
     @Id
     @GeneratedValue
-    @Column(name="uniqueId", nullable=false)
+    @Column(name = "uniqueId", nullable = false)
     public Integer getUniqueId() {
         return uniqueId;
     }

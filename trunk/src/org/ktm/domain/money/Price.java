@@ -12,7 +12,7 @@ import org.ktm.domain.KTMEntity;
 import org.ktm.domain.product.ProductType;
 
 @Entity
-public class Price extends KTMEntity {
+public class Price implements KTMEntity {
 
     private static final long serialVersionUID = 1L;
 

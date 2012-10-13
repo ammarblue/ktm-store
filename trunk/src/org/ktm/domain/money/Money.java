@@ -2,9 +2,9 @@ package org.ktm.domain.money;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import org.ktm.domain.quantity.Metric;
-import org.ktm.domain.quantity.Quantity;
-import org.ktm.domain.quantity.SystemOfUnits;
+import org.ktm.quantity.Metric;
+import org.ktm.quantity.Quantity;
+import org.ktm.quantity.SystemOfUnits;
 
 @Embeddable
 public class Money extends Quantity {
@@ -24,7 +24,7 @@ public class Money extends Quantity {
     }
 
     @Override
-    @Column(name = "amount")
+    @Column(name = "money_amount")
     public Double getAmount() {
         return amount;
     }
