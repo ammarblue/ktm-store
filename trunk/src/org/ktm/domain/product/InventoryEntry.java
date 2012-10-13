@@ -17,7 +17,7 @@ import org.ktm.domain.KTMEntity;
  * of instance of that good or service that are available.
  */
 @Entity
-public class InventoryEntry extends KTMEntity {
+public class InventoryEntry implements KTMEntity {
 
     private static final long    serialVersionUID = 1L;
 

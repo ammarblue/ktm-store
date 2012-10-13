@@ -14,7 +14,7 @@ import org.ktm.domain.KTMEntity;
 import org.ktm.domain.money.Price;
 
 @Entity
-public class ProductType extends KTMEntity {
+public class ProductType implements KTMEntity {
 
     private static final long serialVersionUID = 1L;
 

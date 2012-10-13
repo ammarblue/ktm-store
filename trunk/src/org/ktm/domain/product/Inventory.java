@@ -22,7 +22,7 @@ import org.ktm.domain.KTMEntity;
     "uniqueId", "identifier"
     })
 })
-public class Inventory extends KTMEntity {
+public class Inventory implements KTMEntity {
 
     private static final long    serialVersionUID = 1L;
 

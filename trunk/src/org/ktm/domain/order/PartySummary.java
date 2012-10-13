@@ -9,7 +9,7 @@ import org.ktm.domain.KTMEntity;
 import org.ktm.domain.party.PartyIdentifier;
 
 @Entity
-public class PartySummary extends KTMEntity {
+public class PartySummary implements KTMEntity {
 
     private static final long serialVersionUID = 1L;
 

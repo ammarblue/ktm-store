@@ -25,7 +25,7 @@ import org.ktm.domain.KTMEntity;
     "uniqueId", "name"
     })
 })
-public class PartyRoleType extends KTMEntity {
+public class PartyRoleType implements KTMEntity {
 
     private static final long        serialVersionUID  = 1L;
 

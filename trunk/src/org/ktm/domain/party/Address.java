@@ -1,6 +1,5 @@
 package org.ktm.domain.party;
 
-import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,15 +11,15 @@ import org.ktm.domain.KTMEntity;
  * The Address represents information that can used to contact a Party.
  */
 @Entity
-public class Address extends KTMEntity implements Serializable {
+public class Address implements KTMEntity {
 
     private static final long serialVersionUID = 1L;
 
     private Integer           uniqueId;
     private Integer           version;
 
-    @Override
     @Id
+    @Override
     @GeneratedValue
     @Column(name = "uniqueId", nullable = false)
     public Integer getUniqueId() {
@@ -32,8 +31,8 @@ public class Address extends KTMEntity implements Serializable {
         this.uniqueId = uniqueId;
     }
 
-    @Override
     @Version
+    @Override
     @Column(name = "version")
     public Integer getVersion() {
         return version;

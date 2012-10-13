@@ -16,8 +16,8 @@ import javax.persistence.Version;
 import org.ktm.domain.KTMEntity;
 
 @Entity
-@Table(name="Orders")
-public class Order extends KTMEntity {
+@Table(name = "Orders")
+public class Order implements KTMEntity {
 
     private static final long        serialVersionUID = 1L;
 

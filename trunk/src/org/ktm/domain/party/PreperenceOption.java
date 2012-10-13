@@ -7,7 +7,7 @@ import javax.persistence.Id;
 import org.ktm.domain.KTMEntity;
 
 @Entity
-public class PreperenceOption extends KTMEntity {
+public class PreperenceOption implements KTMEntity {
 
     private static final long serialVersionUID = -6293700905900842131L;
 

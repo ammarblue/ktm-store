@@ -18,7 +18,7 @@ import org.ktm.domain.product.ProductIdentifier;
 import org.ktm.domain.product.SerialNumber;
 
 @Entity
-public class OrderLine extends KTMEntity {
+public class OrderLine implements KTMEntity {
 
     private static final long   serialVersionUID = 1L;
 

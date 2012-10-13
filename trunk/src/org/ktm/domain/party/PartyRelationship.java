@@ -1,12 +1,9 @@
 package org.ktm.domain.party;
 
-import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
 import javax.persistence.Version;
 import org.ktm.domain.KTMEntity;
@@ -16,8 +13,7 @@ import org.ktm.domain.KTMEntity;
  * between two parties in which each Party plays a specific role.
  */
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class PartyRelationship extends KTMEntity implements Serializable {
+public class PartyRelationship implements KTMEntity {
 
     private static final long serialVersionUID = 1L;
 

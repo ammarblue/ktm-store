@@ -15,8 +15,12 @@ import org.ktm.domain.KTMEntity;
  * who they say they are.
  */
 @Entity
-@Table(uniqueConstraints = { @UniqueConstraint(columnNames = { "uniqueId", "username" }) })
-public class Authen extends KTMEntity {
+@Table(uniqueConstraints = {
+    @UniqueConstraint(columnNames = {
+    "uniqueId", "username"
+    })
+})
+public class Authen implements KTMEntity {
 
     private static final long serialVersionUID = 1L;
 
