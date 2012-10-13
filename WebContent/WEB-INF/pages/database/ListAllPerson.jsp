@@ -10,6 +10,7 @@
 <head>
 <jsp:include page="${context.jspHeader}"></jsp:include>
 <title>${ktm:getText("app.title")}</title>
+<jsp:include page="/WEB-INF/template/common/scripting.jsp"></jsp:include>
 </head>
 <body>
   <div class="ym-wrapper">
@@ -49,7 +50,7 @@
                           <td>${ktm:getText(person.prename)} ${person.firstname} ${person.lastname}</td>
                           <td>
                           <input type="button" value='${ktm:getText("page.btn.edit")}' onclick="goTo('CRUDPerson?method=edit&uniqueId=${person.uniqueId}')">
-                          <input type="button" value='${ktm:getText("page.btn.delete")}' onclick="doDelete('Do you want to delete ?','CRUDPerson?method=del&uniqueId=${person.uniqueId}')">
+                          <input type="button" value='${ktm:getText("page.btn.delete")}' onclick="goToConfirm('CRUDPerson?method=del&uniqueId=${person.uniqueId}')">
                           </td>
                         </tr>
                     </ktm:iterate>
@@ -72,6 +73,9 @@
         </div>
       <jsp:include page="${context.jspFooter}"></jsp:include>
     </div>
+  </div>
+  <div id="dialog-confirm" title='${ktm:getText("page.confirm.delete")} ${ktm:getText("nav.database.employee")} ?'>
+    <p style="font-size: 0.9em; margin-top:5px;">${ktm:getText("page.confirm.delete.info")}</p>
   </div>
 </body>
 </html>
