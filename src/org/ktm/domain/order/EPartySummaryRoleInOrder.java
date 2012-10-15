@@ -20,15 +20,7 @@ public enum EPartySummaryRoleInOrder {
     }
 
     public EPartySummaryRoleInOrder parse(String value) throws KTMException {
-        EPartySummaryRoleInOrder result = null;
-        if (value != null && !value.isEmpty()) {
-            for (int i = 0; i < values().length; i++) {
-                if (value.equals(values()[i].toString())) { return values()[i]; }
-            }
-        } else {
-            throw new KTMException("ERR_can_t_parse_enum_value");
-        }
-        return result;
+        return Enum.valueOf(EPartySummaryRoleInOrder.class, value);
     }
 
     @Override

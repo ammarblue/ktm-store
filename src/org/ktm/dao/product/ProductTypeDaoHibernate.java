@@ -6,6 +6,7 @@ import java.util.List;
 import org.hibernate.LazyInitializationException;
 import org.ktm.dao.AbstractHibernateStorageDao;
 import org.ktm.domain.product.CatalogEntryType;
+import org.ktm.domain.product.MeasuredProductType;
 import org.ktm.domain.product.ProductType;
 import org.ktm.stock.dao.KTMEMDaoFactory;
 
@@ -15,7 +16,7 @@ public class ProductTypeDaoHibernate extends AbstractHibernateStorageDao impleme
 
     @Override
     public Class<?> getFeaturedClass() {
-        return ProductType.class;
+        return MeasuredProductType.class;
     }
 
     @Override

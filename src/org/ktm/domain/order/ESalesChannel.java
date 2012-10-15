@@ -20,15 +20,7 @@ public enum ESalesChannel {
     }
 
     public ESalesChannel parse(String value) throws KTMException {
-        ESalesChannel result = null;
-        if (value != null && !value.isEmpty()) {
-            for (int i = 0; i < values().length; i++) {
-                if (value.equals(values()[i].toString())) { return values()[i]; }
-            }
-        } else {
-            throw new KTMException("ERR_can_t_parse_enum_value");
-        }
-        return result;
+        return Enum.valueOf(ESalesChannel.class, value);
     }
 
     @Override
