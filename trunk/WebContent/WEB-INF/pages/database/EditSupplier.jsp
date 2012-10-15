@@ -64,14 +64,18 @@
                       <label for="payMethod">${ktm:getText("nav.database.supplier.paypolicy")}</label>
                       <select name="payMethod" id="payMethod" size="1">
                         <option value="0" selected="selected" disabled="disabled">${ktm:getText("choose")}</option>
-                        <ktm:options selected="payMethod" bean="bean" label="payment.cash,payment.check,payment.credit_card,payment.debit_card"/>
+                        <ktm:options selected="payMethod" bean="bean">
+                            <jsp:attribute name="label">${ktm:getEnumValues("org.ktm.domain.money.EPaymentType")}</jsp:attribute>
+                        </ktm:options>
                       </select>
                     </div>
                     <div class="ym-fbox-text">
                       <label for="payPolicy">${ktm:getText("nav.database.supplier.paypolicy")}</label>
                       <select name="payPolicy" id="payPolicy" size="1">
                         <option value="0" selected="selected" disabled="disabled">${ktm:getText("choose")}</option>
-                        <ktm:options selected="payPolicy" bean="bean" label="payment_policy.credit,payment_policy.no_credit"/>
+                        <ktm:options selected="payPolicy" bean="bean">
+                            <jsp:attribute name="label">${ktm:getEnumValues("org.ktm.domain.money.EPaymentPolicy")}</jsp:attribute>
+                        </ktm:options>
                       </select>
                     </div>
                     <div class="ym-fbox-text">

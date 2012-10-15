@@ -24,4 +24,8 @@ public enum EAddressType {
     public String toString() {
         return this.type;
     }
+
+    public EAddressType parse(String parseValue) {
+        return Enum.valueOf(EAddressType.class, parseValue);
+    }
 }

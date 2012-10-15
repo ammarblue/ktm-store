@@ -1,19 +1,28 @@
 package org.ktm.domain.order;
 
 public enum EOrderStatus {
-    INITIALIZING(1), OPEN(2), CLOSED(3), CANCELLED(4);
-    
-    private Integer id;
-    
-    private EOrderStatus(Integer id) {
-        this.setId(id);
+    INITIALIZING("initializing"), OPEN("open"), CLOSED("closed"), CANCELLED("cancelled");
+
+    private String status;
+
+    private EOrderStatus(String status) {
+        this.status = status;
     }
 
-    public Integer getId() {
-        return id;
+    public String getStatus() {
+        return status;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public EOrderStatus parse(String value) {
+        return Enum.valueOf(EOrderStatus.class, value);
+    }
+
+    @Override
+    public String toString() {
+        return status;
     }
 }

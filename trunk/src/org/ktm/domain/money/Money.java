@@ -1,6 +1,5 @@
 package org.ktm.domain.money;
 
-import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import org.ktm.quantity.Metric;
 import org.ktm.quantity.Quantity;
@@ -21,16 +20,6 @@ public class Money extends Quantity {
 
     public Money(Double amount, Metric metric) {
         super(amount, metric);
-    }
-
-    @Override
-    @Column(name = "money_amount")
-    public Double getAmount() {
-        return amount;
-    }
-
-    public void setAmount(Double amount) {
-        this.amount = amount;
     }
 
 }

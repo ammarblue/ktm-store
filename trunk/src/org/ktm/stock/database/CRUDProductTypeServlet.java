@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 import org.ktm.dao.product.CatalogEntryTypeDao;
 import org.ktm.dao.product.ProductTypeDao;
 import org.ktm.domain.product.CatalogEntryType;
+import org.ktm.domain.product.MeasuredProductType;
 import org.ktm.domain.product.ProductType;
 import org.ktm.exception.KTMException;
 import org.ktm.servlet.ActionForward;
@@ -90,7 +91,7 @@ public class CRUDProductTypeServlet extends CRUDServlet {
         String selectedCatalogEntryType = getSelectedCatalogEntryType(session, bean);
 
         CatalogEntryType cEntry = (CatalogEntryType) cEntryTypeDao.get(Integer.valueOf(selectedCatalogEntryType));
-        ProductType ptype = new ProductType();
+        ProductType ptype = new MeasuredProductType();
 
         if (!bean.getUniqueId().isEmpty()) {
             int id = Integer.valueOf(bean.getUniqueId());

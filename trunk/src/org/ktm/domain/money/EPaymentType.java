@@ -13,6 +13,10 @@ public enum EPaymentType {
         return name;
     }
 
+    public EPaymentType parse(String value) {
+        return Enum.valueOf(EPaymentType.class, value);
+    }
+
     @Override
     public String toString() {
         return name;

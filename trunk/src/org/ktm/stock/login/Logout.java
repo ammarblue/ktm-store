@@ -35,4 +35,9 @@ public class Logout extends AbstractServlet {
         return null;
     }
 
+    @Override
+    public String getBeanClass() {
+        return "org.ktm.web.bean.FormBean";
+    }
+
 }

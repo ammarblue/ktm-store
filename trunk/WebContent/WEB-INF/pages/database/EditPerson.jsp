@@ -50,7 +50,9 @@ $(function(){
                       <label for="prename">${ktm:getText("nav.database.employee.prename")}</label>
                       <select name="prename" id="prename" size="1">
                         <option value="0" selected="selected" disabled="disabled">${ktm:getText("choose")}</option>
-                        <ktm:options selected="prename" bean="bean" label="prename.mr,prename.miss,prename.mis"/>
+                        <ktm:options selected="prename" bean="bean">
+                            <jsp:attribute name="label">${ktm:getEnumValues("org.ktm.domain.party.EPrenameType")}</jsp:attribute>
+                        </ktm:options>
                       </select>
                     </div>
                     <div class="ym-fbox-text">
