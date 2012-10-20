@@ -9,4 +9,6 @@ public interface SupplierDao extends Dao {
     @Override
     public Collection<Supplier> findAll();
 
+    public Supplier findByPartyIdentifier(String partyIdentifier);
+
 }

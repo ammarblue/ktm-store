@@ -5,8 +5,10 @@ import java.util.Collection;
 import java.util.List;
 import org.ktm.domain.KTMEntity;
 import org.ktm.domain.product.CatalogEntryType;
+import org.ktm.domain.product.MeasuredProductType;
 import org.ktm.domain.product.ProductIdentifier;
-import org.ktm.domain.product.ProductType;
+import org.ktm.quantity.Metric;
+import org.ktm.quantity.SystemOfUnits;
 import org.ktm.web.bean.FormBean;
 
 public class ProductTypeBean extends FormBean {
@@ -14,6 +16,7 @@ public class ProductTypeBean extends FormBean {
     private String                     name;
     private String                     description;
     private String                     identifier;
+    private String                     unit;
     private String                     catalogEntryTypeName;
 
     private String                     selectedCatalogEntryType;
@@ -52,6 +55,14 @@ public class ProductTypeBean extends FormBean {
         this.identifier = identifier;
     }
 
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
     public String getCatalogEntryTypeName() {
         return catalogEntryTypeName;
     }
@@ -88,16 +99,16 @@ public class ProductTypeBean extends FormBean {
     public void loadFormCollection(Collection<?> entitys) {
         if (entitys != null) {
             for (Object entity : entitys) {
-                if (entity instanceof ProductType) {
+                if (entity instanceof MeasuredProductType) {
                     ProductTypeBean bean = new ProductTypeBean();
-                    bean.loadToForm((ProductType) entity);
+                    bean.loadToForm((MeasuredProductType) entity);
                     productTypeCollection.add(bean);
                 }
             }
         }
     }
 
-    public void loadToForm(ProductType ptype) {
+    public void loadToForm(MeasuredProductType ptype) {
         if (ptype != null) {
             if (ptype.getIdentifier() != null) {
                 this.setIdentifier(ptype.getIdentifier().getIdentifier());
@@ -105,13 +116,14 @@ public class ProductTypeBean extends FormBean {
             this.setUniqueId(String.valueOf(ptype.getUniqueId()));
             this.setName(ptype.getName());
             this.setDescription(ptype.getDescription());
+            this.setUnit(ptype.getMetric() == null ? "" : ptype.getMetric().getMetricName());
         }
     }
 
     @Override
     public void syncToEntity(KTMEntity entity) {
-        if (entity != null && entity instanceof ProductType) {
-            ProductType productType = (ProductType) entity;
+        if (entity != null && entity instanceof MeasuredProductType) {
+            MeasuredProductType productType = (MeasuredProductType) entity;
             if (!this.getUniqueId().isEmpty()) {
                 productType.setUniqueId(Integer.valueOf(this.getUniqueId()));
             }
@@ -126,6 +138,8 @@ public class ProductTypeBean extends FormBean {
             }
             productType.setName(this.getName());
             productType.setDescription(this.getDescription());
+            Metric metric = SystemOfUnits.parse(this.getUnit());
+            productType.setMetric(metric);
         }
     }
 

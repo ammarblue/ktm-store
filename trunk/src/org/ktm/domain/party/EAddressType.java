@@ -25,7 +25,10 @@ public enum EAddressType {
         return this.type;
     }
 
-    public EAddressType parse(String parseValue) {
-        return Enum.valueOf(EAddressType.class, parseValue);
+    public static EAddressType parse(String parseValue) {
+        for (int i = 0; i < values().length; i++) {
+            if (parseValue != null && parseValue.equals(values()[i].toString())) { return values()[i]; }
+        }
+        return null;
     }
 }

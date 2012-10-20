@@ -1,14 +1,21 @@
 package org.ktm.stock.database;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+import net.sf.json.JSONSerializer;
 import org.ktm.dao.product.CatalogEntryTypeDao;
-import org.ktm.dao.product.ProductTypeDao;
+import org.ktm.dao.product.MeasuredProductTypeDao;
+import org.ktm.domain.money.Price;
 import org.ktm.domain.product.CatalogEntryType;
 import org.ktm.domain.product.MeasuredProductType;
 import org.ktm.domain.product.ProductType;
@@ -27,6 +34,33 @@ public class CRUDProductTypeServlet extends CRUDServlet {
     @Override
     public String getBeanClass() {
         return "org.ktm.stock.bean.ProductTypeBean";
+    }
+
+    @SuppressWarnings("unchecked")
+    public ActionForward listjsonProductType(FormBean form, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        MeasuredProductTypeDao measuredProductTypeDao = KTMEMDaoFactory.getInstance().getMeasuredProductTypeDao();
+        List<MeasuredProductType> measuredProductTypes = (List<MeasuredProductType>) measuredProductTypeDao.findAll();
+        JSONArray jsonArray = new JSONArray();
+        for (MeasuredProductType measuredProductType : measuredProductTypes) {
+            HashMap<String, String> map = new HashMap<String, String>();
+            map.put("identifier", measuredProductType.getIdentifier().getIdentifier());
+            map.put("name", measuredProductType.getName());
+            Set<Price> prices = measuredProductType.getPrices();
+            for (Price price : prices) {
+                if (price.getValidTo() == null) {
+                    map.put("price", String.valueOf(price.getAmount().getAmount()));
+                    break;
+                }
+            }
+            map.put("unit", measuredProductType.getMetric() == null ? "" : measuredProductType.getMetric().getSymbol());
+            JSONObject jsonObject = (JSONObject) JSONSerializer.toJSON(map);
+            jsonArray.add(jsonObject);
+        }
+
+        response.setCharacterEncoding("UTF-8");
+        PrintWriter out = response.getWriter();
+        out.print(jsonArray.toString());
+        return null;
     }
 
     private String getSelectedCatalogEntryType(HttpSession session, ProductTypeBean bean) throws KTMException {
@@ -50,7 +84,7 @@ public class CRUDProductTypeServlet extends CRUDServlet {
 
     public ActionForward listProductType(FormBean form, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, KTMException {
         HttpSession session = request.getSession();
-        ProductTypeDao productTypeDao = KTMEMDaoFactory.getInstance().getProductTypeDao();
+        MeasuredProductTypeDao productTypeDao = KTMEMDaoFactory.getInstance().getMeasuredProductTypeDao();
         CatalogEntryTypeDao cEntryTypeDao = KTMEMDaoFactory.getInstance().getCatalogEntryTypeDao();
 
         ProductTypeBean bean = (ProductTypeBean) form;
@@ -83,7 +117,7 @@ public class CRUDProductTypeServlet extends CRUDServlet {
 
     public ActionForward saveProductType(FormBean form, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, KTMException {
         HttpSession session = request.getSession();
-        ProductTypeDao ptypeDao = KTMEMDaoFactory.getInstance().getProductTypeDao();
+        MeasuredProductTypeDao ptypeDao = KTMEMDaoFactory.getInstance().getMeasuredProductTypeDao();
         CatalogEntryTypeDao cEntryTypeDao = KTMEMDaoFactory.getInstance().getCatalogEntryTypeDao();
 
         ProductTypeBean bean = (ProductTypeBean) form;
@@ -91,11 +125,11 @@ public class CRUDProductTypeServlet extends CRUDServlet {
         String selectedCatalogEntryType = getSelectedCatalogEntryType(session, bean);
 
         CatalogEntryType cEntry = (CatalogEntryType) cEntryTypeDao.get(Integer.valueOf(selectedCatalogEntryType));
-        ProductType ptype = new MeasuredProductType();
+        MeasuredProductType ptype = new MeasuredProductType();
 
         if (!bean.getUniqueId().isEmpty()) {
             int id = Integer.valueOf(bean.getUniqueId());
-            ptype = (ProductType) ptypeDao.get(id);
+            ptype = (MeasuredProductType) ptypeDao.get(id);
             if (ptype != null) {
                 bean.syncToEntity(ptype);
             }
@@ -114,11 +148,11 @@ public class CRUDProductTypeServlet extends CRUDServlet {
         HttpSession session = request.getSession();
         ProductTypeBean bean = (ProductTypeBean) form;
 
-        ProductTypeDao ptypeDao = KTMEMDaoFactory.getInstance().getProductTypeDao();
+        MeasuredProductTypeDao ptypeDao = KTMEMDaoFactory.getInstance().getMeasuredProductTypeDao();
         CatalogEntryTypeDao cEntryTypeDao = KTMEMDaoFactory.getInstance().getCatalogEntryTypeDao();
 
         int id = Integer.valueOf(bean.getUniqueId());
-        ProductType ptype = (ProductType) ptypeDao.get(id);
+        MeasuredProductType ptype = (MeasuredProductType) ptypeDao.get(id);
         if (ptype != null) {
             bean.loadToForm(ptype);
         }
@@ -135,7 +169,7 @@ public class CRUDProductTypeServlet extends CRUDServlet {
         HttpSession session = request.getSession();
         ProductTypeBean bean = (ProductTypeBean) form;
 
-        ProductTypeDao ptypeDao = KTMEMDaoFactory.getInstance().getProductTypeDao();
+        MeasuredProductTypeDao ptypeDao = KTMEMDaoFactory.getInstance().getMeasuredProductTypeDao();
         CatalogEntryTypeDao cEntryTypeDao = KTMEMDaoFactory.getInstance().getCatalogEntryTypeDao();
 
         String selectedCatalogEntryType = getSelectedCatalogEntryType(session, bean);
@@ -143,7 +177,7 @@ public class CRUDProductTypeServlet extends CRUDServlet {
 
         if (cEntry != null) {
             int id = Integer.valueOf(bean.getUniqueId());
-            ProductType ptype = (ProductType) ptypeDao.get(id);
+            MeasuredProductType ptype = (MeasuredProductType) ptypeDao.get(id);
             if (ptype != null) {
                 cEntry.getProductType().remove(ptype);
                 ptype.setCataloEntryType(null);

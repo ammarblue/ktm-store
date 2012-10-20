@@ -15,6 +15,7 @@ import org.ktm.dao.product.BeveragePackageDao;
 import org.ktm.dao.product.CatalogEntryDao;
 import org.ktm.dao.product.CatalogEntryTypeDao;
 import org.ktm.dao.product.InventoryDao;
+import org.ktm.dao.product.MeasuredProductTypeDao;
 import org.ktm.dao.product.PackageTypeDao;
 import org.ktm.dao.product.ProductCatalogDao;
 import org.ktm.dao.product.ProductTypeDao;
@@ -76,4 +77,8 @@ public abstract class KTMEMDaoFactory {
     public abstract InventoryDao getVechileInventoryDao();
 
     public abstract PurchaseOrderDao getPurchaseOrderDao();
+
+    public abstract KTMMaxIdentifierDao getMaxIdentifierDao();
+
+    public abstract MeasuredProductTypeDao getMeasuredProductTypeDao();
 }

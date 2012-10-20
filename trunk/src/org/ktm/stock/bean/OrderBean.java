@@ -16,10 +16,10 @@ public abstract class OrderBean extends FormBean {
     private String                   identifier;
     private String                   dateCreated;
     private String                   termAndConditions;
-    private PartySummaryBean         partySummary;
+    private PartySummaryBean         partySummary = new PartySummaryBean();
     private ESalesChannel            salesChannel;
     private EPartySummaryRoleInOrder partySummaryRoleInOrder;
-    private Set<OrderLineBean>       orderLines;
+    private Set<OrderLineBean>       orderLines   = new HashSet<OrderLineBean>(0);
 
     @Override
     public void loadToForm(KTMEntity entity) {

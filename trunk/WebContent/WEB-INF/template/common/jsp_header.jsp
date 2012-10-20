@@ -9,7 +9,6 @@
 <link rel="stylesheet" href="css/ktmstore.css" type="text/css"/>
 <link rel="stylesheet" href="css/central.css" type="text/css"/>
 <link rel="stylesheet" href="css/smoothness/jquery-ui-1.9.0.custom.css" type="text/css"/>
-<link rel="stylesheet" href="css/flora.calendars.picker.css" type="text/css"/>
 
 <script type="text/javascript" src="js/itsci-lib.js"></script>
 <script type="text/javascript" src="js/jquery-1.8.2.js"></script>
