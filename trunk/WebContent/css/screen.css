@@ -63,7 +63,7 @@
   .ym-column {
     display:block;
     overflow:hidden;
-    padding-right: 340px;
+    padding-right: 300px;
     width:auto;
   }
 
@@ -75,9 +75,9 @@
   .ym-col3 { /* sidebar */
     position:relative;
     float:left;
-    width: 340px;
+    width: 300px;
     margin-left:0;
-    margin-right:-340px;
+    margin-right:-300px;
   }
 
   .ym-col1 .ym-cbox { padding: 0 0.75em 0 1.5em; }
