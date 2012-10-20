@@ -30,7 +30,7 @@ public class SubMenu {
 
         menus = new ArrayList<MenuItem>();
         menuMap.put("transaction", menus);
-        menus.add(new MenuItem("nav.transaction.receive_from_supplier", "#"));
+        menus.add(new MenuItem("nav.transaction.receive_from_supplier", "CRUDPurchaseOrder?method=list"));
         menus.add(new MenuItem("nav.transaction.return_to_supplier", "#"));
         menus.add(new MenuItem("nav.transaction.transfer", "#"));
         menus.add(new MenuItem("nav.transaction.sale", "#"));

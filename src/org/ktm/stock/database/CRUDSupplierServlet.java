@@ -1,12 +1,17 @@
 package org.ktm.stock.database;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+import net.sf.json.JSONSerializer;
 import org.ktm.dao.party.OrganizationDao;
 import org.ktm.dao.party.SupplierDao;
 import org.ktm.domain.party.Organization;
@@ -28,6 +33,24 @@ public class CRUDSupplierServlet extends CRUDServlet {
     @Override
     public String getBeanClass() {
         return "org.ktm.stock.bean.SupplierBean";
+    }
+
+    public ActionForward listjsonSupplier(FormBean form, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        SupplierDao supplierDao = KTMEMDaoFactory.getInstance().getSupplierDao();
+        List<Supplier> suppliers = (List<Supplier>) supplierDao.findAll();
+        JSONArray jsonArray = new JSONArray();
+        for (Supplier supplier : suppliers) {
+            HashMap<String, String> map = new HashMap<String, String>();
+            map.put("identifier", supplier.getParty().getIdentifier().getIdentifier());
+            map.put("name", supplier.getDescription());
+            JSONObject jsonObject = (JSONObject) JSONSerializer.toJSON(map);
+            jsonArray.add(jsonObject);
+        }
+
+        response.setCharacterEncoding("UTF-8");
+        PrintWriter out = response.getWriter();
+        out.print(jsonArray.toString());
+        return null;
     }
 
     public ActionForward listSupplier(FormBean form, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

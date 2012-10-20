@@ -1,5 +1,6 @@
 package org.ktm.stock.dao;
 
+import org.ktm.dao.order.PurchaseOrderDao;
 import org.ktm.dao.party.AuthenDao;
 import org.ktm.dao.party.AuthenDaoMongoDB;
 import org.ktm.dao.party.CustomerDao;
@@ -131,6 +132,12 @@ public class KTMEMDaoFactoryMongoDB extends KTMEMDaoFactory {
 
     @Override
     public InventoryDao getVechileInventoryDao() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public PurchaseOrderDao getPurchaseOrderDao() {
         // TODO Auto-generated method stub
         return null;
     }
