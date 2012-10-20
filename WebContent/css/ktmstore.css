@@ -1,4 +1,6 @@
-
+table {
+    margin-top: 0;
+}
 .tblGrid th {
     padding-left: 5px;
     padding-top: 5px;
