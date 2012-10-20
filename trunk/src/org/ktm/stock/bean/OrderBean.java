@@ -13,6 +13,7 @@ import org.ktm.web.bean.FormBean;
 
 public abstract class OrderBean extends FormBean {
 
+    private String                   identifier;
     private String                   dateCreated;
     private String                   termAndConditions;
     private PartySummaryBean         partySummary;
@@ -29,6 +30,7 @@ public abstract class OrderBean extends FormBean {
 
                 this.getPartySummary().loadToForm(order);
 
+                this.setIdentifier(order.getIdentifier() == null ? "" : order.getIdentifier().getIdentifier());
                 try {
                     this.setDateCreated(DateUtils.formatDate(order.getDateCreated()));
                 } catch (ParseException e) {
@@ -65,6 +67,14 @@ public abstract class OrderBean extends FormBean {
     @Override
     public void syncToEntity(KTMEntity entity) {
 
+    }
+
+    public String getIdentifier() {
+        return identifier;
+    }
+
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
     }
 
     public String getDateCreated() {

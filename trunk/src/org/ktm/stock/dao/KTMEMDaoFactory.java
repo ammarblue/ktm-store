@@ -2,6 +2,7 @@ package org.ktm.stock.dao;
 
 import org.ktm.core.KTMContext;
 import org.ktm.dao.EDatabaseSystem;
+import org.ktm.dao.order.PurchaseOrderDao;
 import org.ktm.dao.party.AuthenDao;
 import org.ktm.dao.party.CustomerDao;
 import org.ktm.dao.party.EmploymentDao;
@@ -73,4 +74,6 @@ public abstract class KTMEMDaoFactory {
     public abstract InventoryDao getSalePointInventoryDao();
 
     public abstract InventoryDao getVechileInventoryDao();
+
+    public abstract PurchaseOrderDao getPurchaseOrderDao();
 }
