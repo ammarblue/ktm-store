@@ -29,7 +29,7 @@ div#users-contain table td, div#users-contain table th { border: 1px solid #eee;
 }
 #dvPurchaseOrder
 {
-    height: 70px;
+    height: 100px;
     font-size: 1.0em;
     padding: 5px;
     border:1px solid black;
@@ -63,6 +63,9 @@ div#users-contain table td, div#users-contain table th { border: 1px solid #eee;
     background-color: #CDCDCD;
     border-radius: 5px;
     font-size: 0.8em;
+}
+#supplier-desc {
+    font-size: 0.85em;
 }
 .cLabel {
     text-align: right;
@@ -123,6 +126,21 @@ p {
 <script>
 $(function() {
     $.datepicker.setDefaults( $.datepicker.regional[ "th" ] );
+    $.getJSON("CRUDPurchaseOrder?method=getid",function(result) {
+        $("#identifier").val(result.identifier);
+    });
+    var max_no = 0;
+    var order_total = 0;
+    var order_num = 0;
+    var product_id = $( "#product_id" ),
+    product_desc = $("#product_desc"),
+    product_price = $("#product_price"),
+    product_unit = $("#product_unit"),
+    product_quanitity = $( "#product_quanitity" ),
+    product_total = $( "#product_total" ),
+    pid = $("#_pid_"),
+    allFields = $( [] ).add( product_id ).add( product_quanitity ).add( product_total );
+    tips = $( ".validateTips" );
     $("#dateCreated").datepicker({
         showOn: "button",
         buttonImage: "images/calendar.gif",
@@ -131,28 +149,30 @@ $(function() {
         changeYear: true,
         showButtonPanel: true
     });
-    var cache = {};
+    var cache_employee = {};
+    var cache_product = {};
     $( "#supplierId" ).autocomplete({
         minLength: 0,
         source: function( request, response ) {
             var term = request.term;
-            if ( term in cache ) {
-                response( cache[ term ] );
+            if ( term in cache_employee ) {
+                response( cache_employee[ term ] );
                 return;
             }
             $.getJSON( "CRUDSupplier?method=listJSON", request, function( data, status, xhr ) {
-                cache[ term ] = data;
+            	cache_employee[ term ] = data;
                 response( data );
             });
         },
         focus: function( event, ui ) {
             $( "#supplierId" ).val( ui.item.identifier + " - " + ui.item.name );
-            $( "#supplier-desc" ).html( ui.item.name );
             return false;
         },
         select: function( event, ui ) {
             $( "#supplierId" ).val( ui.item.identifier + " - " + ui.item.name );
-            $( "#supplier-desc" ).html( ui.item.name );
+            $.get("CRUDPurchaseOrder?method=setemp&partySummary.partyIdentifier=" + ui.item.identifier,function(data,status){
+                $("#supplier-desc").html(data);
+              });
             return false;
         }
     })
@@ -162,32 +182,67 @@ $(function() {
             .append( "<a>" + item.identifier + " - " + item.name + "</a>" )
             .appendTo( ul );
     };
-        
+    $("#product_id").autocomplete({
+        minLength: 0,
+        source: function( request, response ) {
+            var term = request.term;
+            if ( term in cache_product ) {
+                response( cache_product[ term ] );
+                return;
+            }
+            $.getJSON("CRUDProductType?method=listJSON", request, function( data, status, xhr ) {
+            	cache_product[ term ] = data;
+                response( data );
+            });
+        },
+        focus: function( event, ui ) {
+            pid.val(ui.item.identifier);
+            product_id.val( ui.item.identifier + " - " + ui.item.name );
+            return false;
+        },
+        select: function( event, ui ) {
+            pid.val(ui.item.identifier);
+            product_id.val( ui.item.identifier + " - " + ui.item.name );
+            product_desc.val(ui.item.name);
+            product_price.val(ui.item.price);
+            product_unit.val(ui.item.unit);
+            return false;
+        }
+    })
+    .data( "autocomplete" )._renderItem = function( ul, item ) {
+        return $( "<li>" )
+            .data( "item.autocomplete", item )
+            .append( "<a>" + item.identifier + " - " + item.name + "</a>" )
+            .appendTo( ul );
+    };
     $( "#dialog-form" ).dialog({
         autoOpen: false,
         height: 300,
-        width: 350,
+        width: 400,
         modal: true,
         buttons: {
             "Select supplier": function() {
                 var bValid = true;
                 allFields.removeClass( "ui-state-error" );
 
-                bValid = bValid && checkLength( name, "username", 3, 16 );
-                bValid = bValid && checkLength( email, "email", 6, 80 );
-                bValid = bValid && checkLength( password, "password", 5, 16 );
-
-                bValid = bValid && checkRegexp( name, /^[a-z]([0-9a-z_])+$/i, "Username may consist of a-z, 0-9, underscores, begin with a letter." );
-                // From jquery.validate.js (by joern), contributed by Scott Gonzalez: http://projects.scottsplayground.com/email_address_validation/
-                bValid = bValid && checkRegexp( email, /^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i, "eg. ui@jquery.com" );
-                bValid = bValid && checkRegexp( password, /^([0-9a-zA-Z])+$/, "Password field only allow : a-z 0-9" );
+                bValid = bValid && checkRegexp( product_quanitity, /^([0-9])+$/, "Product quanitity field only allow : 0-9" );
+                bValid = bValid && checkRegexp( product_total, /^([0-9])+$/, "Product total field only allow : 0-9" );
 
                 if ( bValid ) {
-                    $( "#users tbody" ).append( "<tr>" +
-                        "<td>" + name.val() + "</td>" + 
-                        "<td>" + email.val() + "</td>" + 
-                        "<td>" + password.val() + "</td>" +
-                    "</tr>" ); 
+                    max_no++;
+                    $( "#tblOrderLine tbody" ).append("<tr id='tr-product-line-" + max_no + "'>" +
+                      "<td style='width: 35px;'><div class='order-line-cell order-line-no'><input class='chk-dels' type='checkbox' value='"+ max_no +"'>&nbsp;</div></td>" +
+                      "<td style='width: 80px;'><div class='order-line-cell'>" + getSafeValue(pid.val()) + "</div></td>" +
+                      "<td><div class='order-line-cell'>" + getSafeValue(product_desc.val()) + "</div></td>" +
+                      "<td style='width: 80px;'><div class='order-line-cell'>" + getSafeValue(product_unit.val()) + "</div></td>" +
+                      "<td style='width: 80px;'><div class='order-line-cell'>" + getSafeValue(product_price.val()) + "</div></td>" +
+                      "<td style='width: 80px;'><div class='order-line-cell'>" + getSafeValue(product_quanitity.val()) + "</div></td>" +
+                      "<td style='width: 80px;'><div class='order-line-cell'>" + getSafeValue(product_total.val()) + "</div></td>" +
+                   "</tr>");
+                    order_total += parseInt(product_quanitity.val());
+                    order_num += parseFloat(product_total.val())
+                    $("#order-total").html(order_total.toFixed(2));
+                    $("#order-num").html(order_num);
                     $( this ).dialog( "close" );
                 }
             },
@@ -201,6 +256,16 @@ $(function() {
     });
 });
 
+function deleteSelected() {
+    $.each($("input[type=checkbox]:checked"), function(i,v) {
+        var del_element = "#tr-product-line-" + $(v).val();
+        $(del_element).remove();
+    });
+}
+
+function openDialog() {
+    $('#dialog-form').dialog('open');
+}
 </script>
 </head>
 <body>
@@ -265,26 +330,20 @@ $(function() {
                       </table>
                     </div>
                     <div>
-                       <table>
-                        <tr>
-                          <td style="width: 35px;"><div class="order-line-cell order-line-no" class="order-line-cell"><input type="checkbox">&nbsp;aa</div></td>
-                          <td style="width: 80px;"><div class="order-line-cell">aa</div></td>
-                          <td><div class="order-line-cell">aa</div></td>
-                          <td style="width: 80px;"><div class="order-line-cell">aa</div></td>
-                          <td style="width: 80px;"><div class="order-line-cell">aa</div></td>
-                          <td style="width: 80px;"><div class="order-line-cell">aa</div></td>
-                          <td style="width: 80px;"><div class="order-line-cell">aa</div></td>
-                        </tr>
+                       <table id="tblOrderLine">
+                         <tbody>
+                        </tbody>
                       </table>
                     </div>
                   </div>
                   <div id="dvOrderSummary">
                      <div style="width: 300px; float: left;">
-                       <input type="button" value="Add product line">&nbsp;<input type="button" value="delete selected">
+                       <input type="button" value="Add product line" onclick="openDialog();">&nbsp;
+                       <input type="button" value="delete selected" onclick="deleteSelected();">
                      </div>
                      <div style="width: 300px; float: right;">
-                       <div class="order-summary-cell">aa</div>
-                       <div class="order-summary-cell">bb</div>
+                       <div id="order-total" class="order-summary-cell">0.00</div>
+                       <div id="order-num" class="order-summary-cell">0</div>
                      </div>
                   </div>
                   <div class="ym-fbox-button">
@@ -313,18 +372,36 @@ $(function() {
   </div>
   
 <div id="dialog-form" title="Select Supplier">
+    <p class="validateTips"></p>
     <form>
     <fieldset>
         <table style="font-size: 0.85em;">
             <tr>
-                <td><label for="byId">Find by id</label></td>
-                <td><input type="text" name="byId" id="byId" class="text ui-widget-content ui-corner-all" /></td>
-                <td><input type="button" value="search"></td>
+                <td style="text-align: right;"><label for="product_id">${ktm:getText("nav.transaction.receive_from_supplier.product_id")}: </label></td>
+                <td>
+                    <input type="hidden" name="_pid_" id="_pid_">
+                    <input type="text" name="product_id" id="product_id" class="text ui-widget-content ui-corner-all" />
+                </td>
             </tr>
             <tr>
-                <td><label for="byName">Find by name</label></td>
-                <td><input type="text" name="byName" id="byName" value="" class="text ui-widget-content ui-corner-all" /></td>
-                <td><input type="button" value="search"></td>
+                <td style="text-align: right;"><label for="product_desc">${ktm:getText("nav.transaction.receive_from_supplier.product_desc")}: </label></td>
+                <td><input readonly type="text" name="product_desc" id="product_desc" value="" class="text ui-widget-content ui-corner-all" /></td>
+            </tr>
+            <tr>
+                <td style="text-align: right;"><label for="product_unit">${ktm:getText("nav.transaction.receive_from_supplier.unit")}: </label></td>
+                <td><input readonly type="text" name="product_unit" id="product_unit" value="" class="text ui-widget-content ui-corner-all" /></td>
+            </tr>
+            <tr>
+                <td style="text-align: right;"><label for="product_cost">${ktm:getText("nav.transaction.receive_from_supplier.cost")}: </label></td>
+                <td><input readonly type="text" name="product_cost" id="product_cost" value="" class="text ui-widget-content ui-corner-all" /></td>
+            </tr>
+            <tr>
+                <td style="text-align: right;"><label for="product_quanitity">${ktm:getText("nav.transaction.receive_from_supplier.quanitity")}: </label></td>
+                <td><input type="text" name="product_quanitity" id="product_quanitity" value="" class="text ui-widget-content ui-corner-all" /></td>
+            </tr>
+            <tr>
+                <td style="text-align: right;"><label for="product_total">${ktm:getText("nav.transaction.receive_from_supplier.total")}: </label></td>
+                <td><input type="text" name="product_total" id="product_total" value="" class="text ui-widget-content ui-corner-all" /></td>
             </tr>
         </table>
     </fieldset>

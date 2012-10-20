@@ -30,6 +30,8 @@ import org.ktm.dao.product.CenterInventoryDaoHibernate;
 import org.ktm.dao.product.FixedInventoryDaoHibernate;
 import org.ktm.dao.product.InventoryDao;
 import org.ktm.dao.product.InventoryDaoHibernate;
+import org.ktm.dao.product.MeasuredProductTypeDao;
+import org.ktm.dao.product.MeasuredProductTypeDaoHibernate;
 import org.ktm.dao.product.MovingInventoryDaoHibernate;
 import org.ktm.dao.product.PackageTypeDao;
 import org.ktm.dao.product.PackageTypeDaoHibernate;
@@ -155,5 +157,15 @@ public class KTMEMDaoFactoryHibernate extends KTMEMDaoFactory {
     @Override
     public PurchaseOrderDao getPurchaseOrderDao() {
         return new PurchaseOrderDaoHibernate();
+    }
+
+    @Override
+    public KTMMaxIdentifierDao getMaxIdentifierDao() {
+        return new KTMMaxIdentifierDaoHibernate();
+    }
+
+    @Override
+    public MeasuredProductTypeDao getMeasuredProductTypeDao() {
+        return new MeasuredProductTypeDaoHibernate();
     }
 }

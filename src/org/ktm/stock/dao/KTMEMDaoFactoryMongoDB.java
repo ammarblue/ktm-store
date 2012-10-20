@@ -15,6 +15,7 @@ import org.ktm.dao.product.BeveragePackageDao;
 import org.ktm.dao.product.CatalogEntryDao;
 import org.ktm.dao.product.CatalogEntryTypeDao;
 import org.ktm.dao.product.InventoryDao;
+import org.ktm.dao.product.MeasuredProductTypeDao;
 import org.ktm.dao.product.PackageTypeDao;
 import org.ktm.dao.product.ProductCatalogDao;
 import org.ktm.dao.product.ProductTypeDao;
@@ -138,6 +139,18 @@ public class KTMEMDaoFactoryMongoDB extends KTMEMDaoFactory {
 
     @Override
     public PurchaseOrderDao getPurchaseOrderDao() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public KTMMaxIdentifierDao getMaxIdentifierDao() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public MeasuredProductTypeDao getMeasuredProductTypeDao() {
         // TODO Auto-generated method stub
         return null;
     }

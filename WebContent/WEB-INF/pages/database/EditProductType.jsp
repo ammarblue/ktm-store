@@ -46,6 +46,15 @@
                         value="${bean.description}"
                       />
                     </div>
+                    <div class="ym-fbox-select">
+                      <label for="unit">${ktm:getText("nav.database.product.unit")}</label>
+                      <select name="unit" id="unit" size="1">
+                        <option value="0" selected="selected" disabled="disabled">${ktm:getText("choose")}</option>
+                        <ktm:options selected="unit" bean="bean">
+                            <jsp:attribute name="label">${ktm:getAllUnits()}</jsp:attribute>
+                        </ktm:options>
+                      </select>
+                    </div>
                     <div class="ym-fbox-button">
                       <input type="submit" class="ym-button" value='${ktm:getText("page.btn.save")} ${ktm:getText("nav.database.product")}' id="submit"
                         name="submit"
