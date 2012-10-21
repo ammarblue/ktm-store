@@ -58,8 +58,9 @@ public class CRUDProductTypeServlet extends CRUDServlet {
         }
 
         response.setCharacterEncoding("UTF-8");
+        response.setContentType("application/json");
         PrintWriter out = response.getWriter();
-        out.print(jsonArray.toString());
+        out.print(jsonArray);
         return null;
     }
 

@@ -1,3 +1,4 @@
+<%@page import="org.ktm.stock.transaction.PurchaseOderServlet"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
   pageEncoding="UTF-8"%>
 <%@ taglib uri="/WEB-INF/tags/ktm-libs.tld" prefix="ktm"%>
@@ -81,7 +82,60 @@ div#users-contain table td,div#users-contain table th {
 <script>
 $.po = { 
     edit : false,
-    edit_id : ""
+    edit_id : "",
+    order_line_tr: function(max_no,product_id,product_desc,product_unit,product_price,product_quanitity,product_total) {
+      return "<tr id='tr-product-line-" + max_no + "'>"
+      + "<td style='width: 35px;'><div class='grid-cell grid-cell-no'>"
+      + "<input class='chk-dels' type='checkbox' value='"+ max_no +"'>&nbsp;</div></td>"
+      + "<td style='width: 80px;'><div name='product_id' class='grid-cell' onclick='editOrderLine(" + max_no + ")'>"
+      + getSafeValue(product_id)
+      + "</div></td>"
+      + "<td><div name='product_desc' class='grid-cell' onclick='editOrderLine(" + max_no + ")'>"
+      + getSafeValue(product_desc)
+      + "</div></td>"
+      + "<td style='width: 80px;'><div name='product_unit' class='grid-cell' onclick='editOrderLine(" + max_no + ")'>"
+      + getSafeValue(product_unit)
+      + "</div></td>"
+      + "<td style='width: 80px;'><div name='product_price' class='grid-cell' onclick='editOrderLine(" + max_no + ")'>"
+      + getSafeValue(product_price)
+      + "</div></td>"
+      + "<td style='width: 80px;'><div name='product_quanitity' class='grid-cell' onclick='editOrderLine(" + max_no + ")'>"
+      + getSafeValue(product_quanitity)
+      + "</div></td>"
+      + "<td style='width: 80px;'><div name='product_total' class='grid-cell' onclick='editOrderLine(" + max_no + ")'>"
+      + getSafeValue(product_total)
+      + "</div></td>" + "</tr>";
+    },
+    onLoad: function() {
+      var data = "<%=PurchaseOderServlet.getJSONPurchaseOrder(request)%>";
+        
+      var jsonObject = eval("(" + data + ")");
+      if (typeof jsonObject.supplier_desc != "undefined") {
+        $("#supplier-desc").html(jsonObject.supplier_desc);
+      }
+      if (typeof jsonObject.date_created != "undefined") {
+        $("#date_created").val(jsonObject.date_created);
+      }
+      if (typeof jsonObject.supplier_id != "undefined") {
+        $("#supplier_id").val(jsonObject.supplier_id);
+      }
+      if (typeof jsonObject.order_id != "undefined") {
+        $("#order_id").val(jsonObject.order_id);
+      }
+
+      if (typeof jsonObject.order_lines != "undefined") {
+        for (var i=0; i<jsonObject.order_lines.length; i++) {
+          $("#tblOrderLine tbody")
+            .append($.po.order_line_tr(i+1,
+                jsonObject.order_lines[i].product_id,
+                jsonObject.order_lines[i].product_desc,
+                jsonObject.order_lines[i].product_unit,
+                jsonObject.order_lines[i].product_price,
+                jsonObject.order_lines[i].product_quanitity,
+                jsonObject.order_lines[i].product_total));
+        }
+      }
+    }
 }; 
   $(function() {
     var max_no = 0;
@@ -102,9 +156,11 @@ $.po = {
     $.datepicker.setDefaults($.datepicker.regional["th"]);
     $.getJSON("CRUDPurchaseOrder?method=getid", function(result) {
       order_id.val(result.identifier);
+      $.po.onLoad();
     });
     date_created.datepicker({
       showOn : "button",
+      dateFormat: "dd-mm-yy",
       buttonImage : "images/calendar.gif",
       buttonImageOnly : true,
       changeMonth : true,
@@ -210,35 +266,12 @@ $.po = {
                     } else {
                       max_no++;
                       $("#tblOrderLine tbody")
-                          .append(
-                              "<tr id='tr-product-line-" + max_no + "'>"
-                                  + "<td style='width: 35px;'><div class='grid-cell grid-cell-no'>"
-                                  + "<input class='chk-dels' type='checkbox' value='"+ max_no +"'>&nbsp;</div></td>"
-                                  + "<td style='width: 80px;'><div name='product_id' class='grid-cell' onclick='editOrderLine(" + max_no + ")'>"
-                                  + getSafeValue(pid.val())
-                                  + "</div></td>"
-                                  + "<td><div name='product_desc' class='grid-cell' onclick='editOrderLine(" + max_no + ")'>"
-                                  + getSafeValue(product_desc.val())
-                                  + "</div></td>"
-                                  + "<td style='width: 80px;'><div name='product_unit' class='grid-cell' onclick='editOrderLine(" + max_no + ")'>"
-                                  + getSafeValue(product_unit.val())
-                                  + "</div></td>"
-                                  + "<td style='width: 80px;'><div name='product_price' class='grid-cell' onclick='editOrderLine(" + max_no + ")'>"
-                                  + getSafeValue(product_price.val())
-                                  + "</div></td>"
-                                  + "<td style='width: 80px;'><div name='product_quanitity' class='grid-cell' onclick='editOrderLine(" + max_no + ")'>"
-                                  + getSafeValue(product_quanitity.val())
-                                  + "</div></td>"
-                                  + "<td style='width: 80px;'><div name='product_total' class='grid-cell' onclick='editOrderLine(" + max_no + ")'>"
-                                  + getSafeValue(product_total.val())
-                                  + "</div></td>" + "</tr>");
+                          .append($.po.order_line_tr(max_no,pid.val(),product_desc.val(),product_unit.val(),product_price.val(),product_quanitity.val(),product_total.val()));
                     }
                     order_total = sumOrderTotal();
                     order_num = sumOrderNum();
                     $("#order-total").html(order_total.toFixed(2));
                     $("#order-num").html(order_num);
-                    $.po.edit = false;
-                    $.po.edit_id = "";
                     $(this).dialog("close");
                   }
                 },
@@ -247,11 +280,24 @@ $.po = {
                 }
               },
               close : function() {
+                $.po.edit = false;
+                $.po.edit_id = "";
                 allFields.val("").removeClass("ui-state-error");
               }
             });
     $("#save-order").click(function(event) {
+      var bValid = true;
       event.preventDefault();
+
+      date_created.removeClass("ui-state-error");
+      $("#supplier_id").removeClass("ui-state-error");
+
+      bValid = bValid
+      && checkRegexp(date_created, /^(\d{1,2})-(\d{1,2})-(\d{4})$/,
+          "Date field only allow : dd/MM/yyyy");
+      bValid = bValid && checkLength($("#supplier_id"), "supplier_id", 4, 128);
+
+      if (bValid) {
       var data = "{'date_created':'" + date_created.val() + "',"+
       "'supplier_id':'" + $("#supplier_id_hidden").val() + "',"+
       "'order_id':'" + order_id.val() + "',"+
@@ -280,6 +326,7 @@ $.po = {
              }
            }
         );
+      }
   });
   });
   function getProductLineJSON(obj) {
@@ -366,9 +413,14 @@ $.po = {
     $.each($("input[type=checkbox]:checked"), function(index, v) {
       var del_element = "#tr-product-line-" + $(v).val();
       $(del_element).remove();
+      var order_total = sumOrderTotal();
+      var order_num = sumOrderNum();
+      $("#order-total").html(order_total.toFixed(2));
+      $("#order-num").html(order_num);
     });
   }
   function openDialog() {
+    updateTips("");
     $('#dialog-form').dialog('open');
     $('#product_id').val("");
     $('#product_desc').val("");
@@ -378,6 +430,7 @@ $.po = {
     $('#product_total').val("");
   }
   function editOrderLine(id) {
+    updateTips("");
     $('#dialog-form').dialog('open');
     var data = getProductLineJSON($('#tr-product-line-' + id));
     $('#product_id').val(data.product_id);
@@ -451,8 +504,7 @@ $.po = {
             <div class="ym-cbox">
               <section class="box info">
                 <div class="dvTitle">
-                  <h3>${ktm:getText("nav.database")}
-                    ${ktm:getText("nav.transaction.receive_from_supplier")}</h3>
+                  <h3>${ktm:getText("nav.transaction.receive_from_supplier")}</h3>
                 </div>
                 <div class="dvBody">
                   <div id="dvPurchaseOrder" class="dvContent">
@@ -493,6 +545,7 @@ $.po = {
                                   <td><input style="width: 200px"
                                     type="text" name="order_id"
                                     id="order_id" value=""
+                                    readonly
                                     class="text ui-widget-content ui-corner-all" /></td>
                                 </tr>
                               </table>
@@ -579,7 +632,7 @@ $.po = {
     </div>
   </div>
 
-  <div id="dialog-form" class="dvContent" title="${ktm:getText('nav.transaction.receive_from_supplier.choose_supplier')}">
+  <div id="dialog-form" class="dvContent" title="${ktm:getText('nav.transaction.receive_from_supplier.choose_product')}">
     <p class="validateTips"></p>
     <form>
       <fieldset>
