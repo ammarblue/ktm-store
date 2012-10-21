@@ -79,6 +79,10 @@ div#users-contain table td,div#users-contain table th {
 }
 </style>
 <script>
+$.po = { 
+    edit : false,
+    edit_id : ""
+}; 
   $(function() {
     var max_no = 0;
     var order_total = 0;
@@ -195,8 +199,8 @@ div#users-contain table td,div#users-contain table th {
                           "Product total field only allow : 0-9");
 
                   if (bValid) {
-                    var obj = getProductLine(pid.val());
-                    if (obj != null) {
+                    var obj = getProductLine($.po.edit_id);
+                    if ($.po.edit && obj != null) {
                       setProductId(obj,pid.val());
                       setProductDesc(obj,product_desc.val());
                       setProductUnit(obj,product_unit.val());
@@ -233,6 +237,8 @@ div#users-contain table td,div#users-contain table th {
                     order_num = sumOrderNum();
                     $("#order-total").html(order_total.toFixed(2));
                     $("#order-num").html(order_num);
+                    $.po.edit = false;
+                    $.po.edit_id = "";
                     $(this).dialog("close");
                   }
                 },
@@ -274,7 +280,7 @@ div#users-contain table td,div#users-contain table th {
              }
            }
         );
-    });
+  });
   });
   function getProductLineJSON(obj) {
     var order_line = "",
@@ -345,12 +351,15 @@ div#users-contain table td,div#users-contain table th {
   }
   function getProductLine(id) {
     var result = null;
-    $("#tblOrderLine tbody tr").each(function (index) {
-      var obj = getProductLineJSON($(this));
-      if (id == obj.product_id) {
-        result = $(this);
-      }
-    });
+    try {
+      $("#tblOrderLine tbody tr").each(function (index) {
+        var obj = getProductLineJSON($(this));
+        if (id == obj.product_id) {
+          result = $(this);
+        }
+      });
+    }
+    catch(err) {}
     return result;
   }
   function deleteSelected() {
@@ -377,6 +386,8 @@ div#users-contain table td,div#users-contain table th {
     $('#product_price').val(data.product_price);
     $('#product_quanitity').val(data.product_quanitity);
     $('#product_total').val(data.product_total);
+    $.po.edit = true;
+    $.po.edit_id = data.product_id;
   }
   function setProductId(obj, product_id) {
     obj.children("td").each(function (index) {
