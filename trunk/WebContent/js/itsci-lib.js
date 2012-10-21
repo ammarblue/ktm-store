@@ -17,6 +17,13 @@ function getSafeValue(value) {
     return value;
 }
 
+function getClearValue(value) {
+  if (value == "&nbsp;") {
+    return "";
+  }
+  return value;
+}
+
 function updateTips( t ) {
     tips
         .text( t )
