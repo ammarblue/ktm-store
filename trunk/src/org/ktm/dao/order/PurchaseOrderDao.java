@@ -8,4 +8,6 @@ public interface PurchaseOrderDao extends Dao {
 
     public List<PurchaseOrder> findAll();
 
+    public PurchaseOrder findByOrderId(String orderId);
+
 }

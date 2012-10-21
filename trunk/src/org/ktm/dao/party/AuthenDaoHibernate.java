@@ -17,7 +17,6 @@ public class AuthenDaoHibernate extends AbstractHibernateStorageDao implements A
     }
 
     @Override
-    @SuppressWarnings("rawtypes")
     public Authen findByUsername(String username) {
         Authen result = null;
         String queryString = "select authen FROM Authen AS authen WHERE authen.username = :username";
@@ -31,14 +30,14 @@ public class AuthenDaoHibernate extends AbstractHibernateStorageDao implements A
                 query.setMaxResults(getMaxResults());
             }
 
-            for (Iterator objectIt = query.list().iterator(); objectIt.hasNext();) {
+            for (Iterator<?> objectIt = query.list().iterator(); objectIt.hasNext();) {
                 Object object = objectIt.next();
 
                 if (object instanceof Authen) {
                     result = (Authen) object;
                     break;
                 } else if (object instanceof Collection) {
-                    Collection subList = (Collection) object;
+                    Collection<?> subList = (Collection<?>) object;
                     for (Object listObject : subList) {
                         if (listObject instanceof Authen) {
                             result = (Authen) listObject;
@@ -54,7 +53,6 @@ public class AuthenDaoHibernate extends AbstractHibernateStorageDao implements A
     }
 
     @Override
-    @SuppressWarnings("rawtypes")
     public Authen findByPartyId(Integer id) {
         Authen result = null;
 
@@ -70,14 +68,14 @@ public class AuthenDaoHibernate extends AbstractHibernateStorageDao implements A
                 query.setMaxResults(getMaxResults());
             }
 
-            for (Iterator objectIt = query.list().iterator(); objectIt.hasNext();) {
+            for (Iterator<?> objectIt = query.list().iterator(); objectIt.hasNext();) {
                 Object object = objectIt.next();
 
                 if (object instanceof Authen) {
                     result = (Authen) object;
                     break;
                 } else if (object instanceof Collection) {
-                    Collection subList = (Collection) object;
+                    Collection<?> subList = (Collection<?>) object;
                     for (Object listObject : subList) {
                         if (listObject instanceof Authen) {
                             result = (Authen) listObject;

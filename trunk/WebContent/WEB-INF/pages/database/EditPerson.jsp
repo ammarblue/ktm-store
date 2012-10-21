@@ -16,6 +16,7 @@
 $(function(){
     $.datepicker.setDefaults( $.datepicker.regional[ "th" ] );
     $( "#birthDay" ).datepicker({
+      dateFormat: "dd-mm-yy",
         changeMonth: true,
         changeYear: true,
         showButtonPanel: true
