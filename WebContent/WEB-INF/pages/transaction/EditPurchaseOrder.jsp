@@ -1,10 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib uri="/WEB-INF/tags/ktm-libs.tld" prefix="ktm" %>
-<jsp:useBean id="bean" scope="request" class="org.ktm.stock.bean.PurchaseOrderBean"></jsp:useBean>
-<ktm:enforceAuthentication loginPage="/login"/>
+  pageEncoding="UTF-8"%>
+<%@ taglib uri="/WEB-INF/tags/ktm-libs.tld" prefix="ktm"%>
+<jsp:useBean id="bean" scope="request"
+  class="org.ktm.stock.bean.PurchaseOrderBean"></jsp:useBean>
+<ktm:enforceAuthentication loginPage="/login" />
 <ktm:isUserNotInRoles roles="Admin,Employee">
-  <ktm:redirectPage page="/index.jsp"/>
+  <ktm:redirectPage page="/index.jsp" />
 </ktm:isUserNotInRoles>
 
 <!DOCTYPE html>
@@ -13,400 +14,616 @@
 <jsp:include page="${context.jspHeader}"></jsp:include>
 <title>${ktm:getText("app.title")}</title>
 <style type="text/css">
-h1 { font-size: 1.2em; margin: .6em 0; }
-div#users-contain { width: 350px; margin: 20px 0; }
-div#users-contain table { margin: 1em 0; border-collapse: collapse; width: 100%; }
-div#users-contain table td, div#users-contain table th { border: 1px solid #eee; padding: .6em 10px; text-align: left; }
-.ui-dialog .ui-state-error { padding: .3em; }
-.validateTips { border: 1px solid transparent; padding: 0.3em; }
+h1 {
+  font-size: 1.2em;
+  margin: .6em 0;
+}
 
-#dvOrder {
-    padding: 5px;
-    width: 720px;
-    display: block;
-    border-radius: 5px;
-    border:1px solid black;
+div#users-contain {
+  width: 350px;
+  margin: 20px 0;
 }
-#dvPurchaseOrder
-{
-    height: 100px;
-    font-size: 1.0em;
-    padding: 5px;
-    border:1px solid black;
-    border-radius: 5px;
-    background-color: #FFFFEE;
+
+div#users-contain table {
+  margin: 1em 0;
+  border-collapse: collapse;
+  width: 100%;
 }
-#dvOrderLine
-{
-    height: 300px;
-    margin: 0;
-    padding: 5px;
-    border:1px solid black;
-    display: block;
-    font-size: 0.8em;
-    background-color: #FFFFEE;
-    border-top-color: #CDCDCD;
-    border-radius: 5px;
+
+div#users-contain table td,div#users-contain table th {
+  border: 1px solid #eee;
+  padding: .6em 10px;
+  text-align: left;
 }
-#dvOrderLineHeader
-{
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    background-color: #CDCDCD;
+
+.ui-dialog .ui-state-error {
+  padding: .3em;
 }
+
+.validateTips {
+  border: 1px solid transparent;
+  padding: 0.3em;
+}
+
+#dvPurchaseOrder {
+  height: 100px;
+  background-color: #FFFFEE;
+  border-top-color: black;
+}
+
+#dvOrderLine {
+  height: 300px;
+  font-size: 0.8em;
+  background-color: #FFFFEE;
+}
+
+#dvOrderLineHeader {
+  background-color: #CDCDCD;
+}
+
 #dvOrderSummary {
-    height: 25px;
-    padding: 5px;
-    border:1px solid black;
-    display: block;
-    background-color: #CDCDCD;
-    border-radius: 5px;
-    font-size: 0.8em;
+  height: 20px;
+  padding: 5px;
+  background-color: #CDCDCD;
 }
-#supplier-desc {
-    font-size: 0.85em;
-}
-.cLabel {
-    text-align: right;
-    border-radius: 5px;
-}
-.gridHeader {
-  border: 1px solid black;
-  border-top-color: #666666;
-  border-left-color: #666666;
-  border-right-color: #888888;
-  border-bottom-color: #888888;
-  text-align: center;
-}
-.order-line-cell {
-  margin: 0;
+.order-summary-cell {
+  width: 73px;
   padding-left: 5px;
   border: 1px solid black;
   border-top-color: #666666;
   border-left-color: #666666;
   border-right-color: #888888;
   border-bottom-color: #888888;
-}
-.order-line-no {
-  text-align: right;
-  background-color: #CDCDCD;
-}
-.order-summary-cell {
-    width: 73px;
-    margin: 0;
-    padding-left: 5px;
-    border: 1px solid black;
-    border-top-color: #666666;
-    border-left-color: #666666;
-    -right-color: #888888;
-    border-bottom-color: #888888;
-    background-color: #FFFFEE;
-    float: right;
-}
-table {
-    padding: 0px;
-    margin: 0px;
-    border: 0px;
-}
-th {
-  border: 0px;
-  padding: 0px;
-  margin: 0px;
-}
-tr td{
-    padding: 0px;
-    margin: 0px;
-    border: 0px;
-}
-p {
-    margin-top: 0;
+  background-color: #FFFFEE;
+  float: right;
 }
 </style>
 <script>
-$(function() {
-    $.datepicker.setDefaults( $.datepicker.regional[ "th" ] );
-    $.getJSON("CRUDPurchaseOrder?method=getid",function(result) {
-        $("#identifier").val(result.identifier);
-    });
+  $(function() {
     var max_no = 0;
     var order_total = 0;
     var order_num = 0;
-    var product_id = $( "#product_id" ),
-    product_desc = $("#product_desc"),
-    product_price = $("#product_price"),
-    product_unit = $("#product_unit"),
-    product_quanitity = $( "#product_quanitity" ),
-    product_total = $( "#product_total" ),
-    pid = $("#_pid_"),
-    allFields = $( [] ).add( product_id ).add( product_quanitity ).add( product_total );
-    tips = $( ".validateTips" );
-    $("#dateCreated").datepicker({
-        showOn: "button",
-        buttonImage: "images/calendar.gif",
-        buttonImageOnly: true,
-        changeMonth: true,
-        changeYear: true,
-        showButtonPanel: true
+    var date_created = $("#date_created");
+    var supplier_id = $("#supplier_id");
+    var order_id = $("#order_id");
+    var product_id = $("#product_id");
+    var product_desc = $("#product_desc");
+    var product_price = $("#product_price");
+    var product_unit = $("#product_unit"); 
+    var product_quanitity = $("#product_quanitity");
+    var product_total = $("#product_total");
+    var pid = $("#_pid_");
+    var allFields = $([]).add(product_id).add(product_quanitity).add(product_total);
+    tips = $(".validateTips");
+    $.datepicker.setDefaults($.datepicker.regional["th"]);
+    $.getJSON("CRUDPurchaseOrder?method=getid", function(result) {
+      order_id.val(result.identifier);
+    });
+    date_created.datepicker({
+      showOn : "button",
+      buttonImage : "images/calendar.gif",
+      buttonImageOnly : true,
+      changeMonth : true,
+      changeYear : true,
+      showButtonPanel : true
     });
     var cache_employee = {};
     var cache_product = {};
-    $( "#supplierId" ).autocomplete({
-        minLength: 0,
-        source: function( request, response ) {
+    supplier_id.autocomplete(
+        {
+          minLength : 0,
+          source : function(request, response) {
             var term = request.term;
-            if ( term in cache_employee ) {
-                response( cache_employee[ term ] );
-                return;
+            if (term in cache_employee) {
+              response(cache_employee[term]);
+              return;
             }
-            $.getJSON( "CRUDSupplier?method=listJSON", request, function( data, status, xhr ) {
-            	cache_employee[ term ] = data;
-                response( data );
+            $.getJSON("CRUDSupplier?method=listJSON", request, function(data,
+                status, xhr) {
+              cache_employee[term] = data;
+              response(data);
             });
-        },
-        focus: function( event, ui ) {
-            $( "#supplierId" ).val( ui.item.identifier + " - " + ui.item.name );
+          },
+          focus : function(event, ui) {
+            supplier_id.val(ui.item.identifier + " - " + ui.item.name);
+            $("#supplier_id_hidden").val(ui.item.identifier);
             return false;
-        },
-        select: function( event, ui ) {
-            $( "#supplierId" ).val( ui.item.identifier + " - " + ui.item.name );
-            $.get("CRUDPurchaseOrder?method=setemp&partySummary.partyIdentifier=" + ui.item.identifier,function(data,status){
-                $("#supplier-desc").html(data);
-              });
+          },
+          select : function(event, ui) {
+            supplier_id.val(ui.item.identifier + " - " + ui.item.name);
+            $("#supplier_id_hidden").val(ui.item.identifier);
+            $.get(
+                "CRUDPurchaseOrder?method=setemp&partySummary.partyIdentifier="
+                    + ui.item.identifier, function(data, status) {
+                  $("#supplier-desc").html(data);
+                });
             return false;
-        }
-    })
-    .data( "autocomplete" )._renderItem = function( ul, item ) {
-        return $( "<li>" )
-            .data( "item.autocomplete", item )
-            .append( "<a>" + item.identifier + " - " + item.name + "</a>" )
-            .appendTo( ul );
+          }
+        }).data("autocomplete")._renderItem = function(ul, item) {
+      return $("<li>").data("item.autocomplete", item).append(
+          "<a>" + item.identifier + " - " + item.name + "</a>").appendTo(ul);
     };
-    $("#product_id").autocomplete({
-        minLength: 0,
-        source: function( request, response ) {
+    product_id.autocomplete(
+        {
+          minLength : 0,
+          source : function(request, response) {
             var term = request.term;
-            if ( term in cache_product ) {
-                response( cache_product[ term ] );
-                return;
+            if (term in cache_product) {
+              response(cache_product[term]);
+              return;
             }
-            $.getJSON("CRUDProductType?method=listJSON", request, function( data, status, xhr ) {
-            	cache_product[ term ] = data;
-                response( data );
+            $.getJSON("CRUDProductType?method=listJSON", request, function(
+                data, status, xhr) {
+              cache_product[term] = data;
+              response(data);
             });
-        },
-        focus: function( event, ui ) {
+          },
+          focus : function(event, ui) {
             pid.val(ui.item.identifier);
-            product_id.val( ui.item.identifier + " - " + ui.item.name );
+            product_id.val(ui.item.identifier + " - " + ui.item.name);
             return false;
-        },
-        select: function( event, ui ) {
+          },
+          select : function(event, ui) {
             pid.val(ui.item.identifier);
-            product_id.val( ui.item.identifier + " - " + ui.item.name );
+            product_id.val(ui.item.identifier + " - " + ui.item.name);
             product_desc.val(ui.item.name);
             product_price.val(ui.item.price);
             product_unit.val(ui.item.unit);
             return false;
-        }
-    })
-    .data( "autocomplete" )._renderItem = function( ul, item ) {
-        return $( "<li>" )
-            .data( "item.autocomplete", item )
-            .append( "<a>" + item.identifier + " - " + item.name + "</a>" )
-            .appendTo( ul );
+          }
+        }).data("autocomplete")._renderItem = function(ul, item) {
+      return $("<li>").data("item.autocomplete", item).append(
+          "<a>" + item.identifier + " - " + item.name + "</a>").appendTo(ul);
     };
-    $( "#dialog-form" ).dialog({
-        autoOpen: false,
-        height: 300,
-        width: 400,
-        modal: true,
-        buttons: {
-            "Select supplier": function() {
-                var bValid = true;
-                allFields.removeClass( "ui-state-error" );
+    $("#dialog-form")
+        .dialog(
+            {
+              autoOpen : false,
+              height : 300,
+              width : 350,
+              modal : true,
+              buttons : {
+                "${ktm:getText('choose')}" : function() {
+                  var bValid = true;
+                  allFields.removeClass("ui-state-error");
 
-                bValid = bValid && checkRegexp( product_quanitity, /^([0-9])+$/, "Product quanitity field only allow : 0-9" );
-                bValid = bValid && checkRegexp( product_total, /^([0-9])+$/, "Product total field only allow : 0-9" );
+                  bValid = bValid
+                      && checkRegexp(product_quanitity, /^([0-9])+$/,
+                          "Product quanitity field only allow : 0-9");
+                  bValid = bValid
+                      && checkRegexp(product_total, /^[+-]?\d+(\.\d+)?$/,
+                          "Product total field only allow : 0-9");
 
-                if ( bValid ) {
-                    max_no++;
-                    $( "#tblOrderLine tbody" ).append("<tr id='tr-product-line-" + max_no + "'>" +
-                      "<td style='width: 35px;'><div class='order-line-cell order-line-no'><input class='chk-dels' type='checkbox' value='"+ max_no +"'>&nbsp;</div></td>" +
-                      "<td style='width: 80px;'><div class='order-line-cell'>" + getSafeValue(pid.val()) + "</div></td>" +
-                      "<td><div class='order-line-cell'>" + getSafeValue(product_desc.val()) + "</div></td>" +
-                      "<td style='width: 80px;'><div class='order-line-cell'>" + getSafeValue(product_unit.val()) + "</div></td>" +
-                      "<td style='width: 80px;'><div class='order-line-cell'>" + getSafeValue(product_price.val()) + "</div></td>" +
-                      "<td style='width: 80px;'><div class='order-line-cell'>" + getSafeValue(product_quanitity.val()) + "</div></td>" +
-                      "<td style='width: 80px;'><div class='order-line-cell'>" + getSafeValue(product_total.val()) + "</div></td>" +
-                   "</tr>");
-                    order_total += parseInt(product_quanitity.val());
-                    order_num += parseFloat(product_total.val())
+                  if (bValid) {
+                    var obj = getProductLine(pid.val());
+                    if (obj != null) {
+                      setProductId(obj,pid.val());
+                      setProductDesc(obj,product_desc.val());
+                      setProductUnit(obj,product_unit.val());
+                      setProductPrice(obj,product_price.val());
+                      setProductQuanitity(obj,product_quanitity.val());
+                      setProductTotal(obj,product_total.val());
+                    } else {
+                      max_no++;
+                      $("#tblOrderLine tbody")
+                          .append(
+                              "<tr id='tr-product-line-" + max_no + "'>"
+                                  + "<td style='width: 35px;'><div class='grid-cell grid-cell-no'>"
+                                  + "<input class='chk-dels' type='checkbox' value='"+ max_no +"'>&nbsp;</div></td>"
+                                  + "<td style='width: 80px;'><div name='product_id' class='grid-cell' onclick='editOrderLine(" + max_no + ")'>"
+                                  + getSafeValue(pid.val())
+                                  + "</div></td>"
+                                  + "<td><div name='product_desc' class='grid-cell' onclick='editOrderLine(" + max_no + ")'>"
+                                  + getSafeValue(product_desc.val())
+                                  + "</div></td>"
+                                  + "<td style='width: 80px;'><div name='product_unit' class='grid-cell' onclick='editOrderLine(" + max_no + ")'>"
+                                  + getSafeValue(product_unit.val())
+                                  + "</div></td>"
+                                  + "<td style='width: 80px;'><div name='product_price' class='grid-cell' onclick='editOrderLine(" + max_no + ")'>"
+                                  + getSafeValue(product_price.val())
+                                  + "</div></td>"
+                                  + "<td style='width: 80px;'><div name='product_quanitity' class='grid-cell' onclick='editOrderLine(" + max_no + ")'>"
+                                  + getSafeValue(product_quanitity.val())
+                                  + "</div></td>"
+                                  + "<td style='width: 80px;'><div name='product_total' class='grid-cell' onclick='editOrderLine(" + max_no + ")'>"
+                                  + getSafeValue(product_total.val())
+                                  + "</div></td>" + "</tr>");
+                    }
+                    order_total = sumOrderTotal();
+                    order_num = sumOrderNum();
                     $("#order-total").html(order_total.toFixed(2));
                     $("#order-num").html(order_num);
-                    $( this ).dialog( "close" );
+                    $(this).dialog("close");
+                  }
+                },
+                "${ktm:getText('page.btn.cancel')}" : function() {
+                  $(this).dialog("close");
                 }
-            },
-            Cancel: function() {
-                $( this ).dialog( "close" );
-            }
-        },
-        close: function() {
-            allFields.val( "" ).removeClass( "ui-state-error" );
-        }
+              },
+              close : function() {
+                allFields.val("").removeClass("ui-state-error");
+              }
+            });
+    $("#save-order").click(function(event) {
+      event.preventDefault();
+      var data = "{'date_created':'" + date_created.val() + "',"+
+      "'supplier_id':'" + $("#supplier_id_hidden").val() + "',"+
+      "'order_id':'" + order_id.val() + "',"+
+      "'orderlines' : [";
+      $("#tblOrderLine tbody tr").each(function (index) {
+        var obj = getProductLineJSON($(this));
+        order_line = "{'product_id':'" + obj.product_id + "'" +
+        ", 'order_line_id':'" + obj.order_line_id + "'" +
+        ", 'product_desc':'" + obj.product_desc + "'" +
+        ", 'product_unit':'" + obj.product_unit + "'" +
+        ", 'product_price':'" + obj.product_price  + "'" +
+        ", 'product_quanitity':'" + obj.product_quanitity + "'" +
+        ", 'product_total':'" + obj.product_total + "'}";
+        data += order_line + ",";
+      });
+      data += "]}";
+      $.post(
+          'CRUDPurchaseOrder?method=save',
+           {
+               contentType: "application/x-www-form-urlencoded;charset=utf-8",
+               data : data
+           },
+           function (data, textStatus, jqXHR){
+             if (status=="success") {
+               goTo("CRUDPurchaseOrder?method=list");
+             }
+           }
+        );
     });
-});
-
-function deleteSelected() {
-    $.each($("input[type=checkbox]:checked"), function(i,v) {
-        var del_element = "#tr-product-line-" + $(v).val();
-        $(del_element).remove();
+  });
+  function getProductLineJSON(obj) {
+    var order_line = "",
+    sproduct_id = "",
+    sorder_line_id = "",
+    sproduct_desc = "",
+    sproduct_unit = "",
+    sproduct_price = "",
+    sproduct_quanitity = "",
+    sproduct_total = "";
+    obj.children("td").each(function (index) {
+      var obj = $(this).children("div[name*='product_id']").html();
+      if ((typeof obj != "undefined")) {
+        sproduct_id = obj;
+      }
+      obj = $(this).children("div[name*='order_line_id']").html();
+      if (typeof obj != "undefined") {
+        sorder_line_id = obj;
+      }
+      obj = $(this).children("div[name*='product_desc']").html();
+      if (typeof obj != "undefined") {
+        sproduct_desc = obj;
+      }
+      obj = $(this).children("div[name*='product_unit']").html();
+      if (typeof obj != "undefined") {
+        sproduct_unit = obj;
+      }
+      obj = $(this).children("div[name*='product_price']").html();
+      if (typeof obj != "undefined") {
+        sproduct_price = obj;
+      }
+      obj = $(this).children("div[name*='product_quanitity']").html();
+      if (typeof obj != "undefined") {
+        sproduct_quanitity = obj;
+      }
+      obj = $(this).children("div[name*='product_total']").html();
+      if (typeof obj != "undefined") {
+        sproduct_total = obj;
+      }
     });
-}
-
-function openDialog() {
+    
+    order_line = "{'product_id':'" + getClearValue(sproduct_id) + "'" +
+    ", 'order_line_id':'" + getClearValue(sorder_line_id) + "'" +
+    ", 'product_desc':'" + getClearValue(sproduct_desc) + "'" +
+    ", 'product_unit':'" + getClearValue(sproduct_unit) + "'" +
+    ", 'product_price':'" + getClearValue(sproduct_price)  + "'" +
+    ", 'product_quanitity':'" + getClearValue(sproduct_quanitity) + "'" +
+    ", 'product_total':'" + getClearValue(sproduct_total) + "'}";
+    return eval("(" + order_line + ")");
+  }
+  function sumOrderTotal() {
+    var total = 0.0;
+    $("#tblOrderLine tbody tr").each(function (index) {
+      var obj = getProductLineJSON($(this));
+      var t =  parseFloat(obj.product_total);
+      total += t;
+    });
+    return total;
+  }
+  function sumOrderNum() {
+    var num = 0;
+    $("#tblOrderLine tbody tr").each(function (index) {
+      var obj = getProductLineJSON($(this));
+      var q = parseInt(obj.product_quanitity);
+      num += q;
+    });
+    return num;
+  }
+  function getProductLine(id) {
+    var result = null;
+    $("#tblOrderLine tbody tr").each(function (index) {
+      var obj = getProductLineJSON($(this));
+      if (id == obj.product_id) {
+        result = $(this);
+      }
+    });
+    return result;
+  }
+  function deleteSelected() {
+    $.each($("input[type=checkbox]:checked"), function(index, v) {
+      var del_element = "#tr-product-line-" + $(v).val();
+      $(del_element).remove();
+    });
+  }
+  function openDialog() {
     $('#dialog-form').dialog('open');
-}
+    $('#product_id').val("");
+    $('#product_desc').val("");
+    $('#product_unit').val("");
+    $('#product_price').val("");
+    $('#product_quanitity').val("");
+    $('#product_total').val("");
+  }
+  function editOrderLine(id) {
+    $('#dialog-form').dialog('open');
+    var data = getProductLineJSON($('#tr-product-line-' + id));
+    $('#product_id').val(data.product_id);
+    $('#product_desc').val(data.product_desc);
+    $('#product_unit').val(data.product_unit);
+    $('#product_price').val(data.product_price);
+    $('#product_quanitity').val(data.product_quanitity);
+    $('#product_total').val(data.product_total);
+  }
+  function setProductId(obj, product_id) {
+    obj.children("td").each(function (index) {
+      var obj = $(this).children("div[name*='product_id']");
+      if ((typeof obj.html() != "undefined")) {
+        obj.html(getSafeValue(product_id));
+      }
+    });
+  }
+  function setProductDesc(obj, product_desc) {
+    obj.children("td").each(function (index) {
+      var obj = $(this).children("div[name*='product_desc']");
+      if ((typeof obj.html() != "undefined")) {
+        obj.html(getSafeValue(product_desc));
+      }
+    });
+  }
+  function setProductUnit(obj, product_unit) {
+    obj.children("td").each(function (index) {
+      var obj = $(this).children("div[name*='product_unit']");
+      if ((typeof obj.html() != "undefined")) {
+        obj.html(getSafeValue(product_unit));
+      }
+    });
+  }
+  function setProductPrice(obj, product_price) {
+    obj.children("td").each(function (index) {
+      var obj = $(this).children("div[name*='product_price']");
+      if ((typeof obj.html() != "undefined")) {
+        obj.html(getSafeValue(product_price));
+      }
+    });
+  }
+  function setProductQuanitity(obj, product_quanitity) {
+    obj.children("td").each(function (index) {
+      var obj = $(this).children("div[name*='product_quanitity']");
+      if ((typeof obj.html() != "undefined")) {
+        obj.html(getSafeValue(product_quanitity));
+      }
+    });
+  }
+  function setProductTotal(obj, product_total) {
+    obj.children("td").each(function (index) {
+      var obj = $(this).children("div[name*='product_total']");
+      if ((typeof obj.html() != "undefined")) {
+        obj.html(getSafeValue(product_total));
+      }
+    });
+  }
 </script>
 </head>
 <body>
   <div class="ym-wrapper">
     <div class="ym-wbox">
-      <header><h1>${ktm:getText("app.title")}</h1></header>
-        <div id="main">
-          <div class="ym-column">
-            <div class="ym-col1">
+      <header>
+        <h1>${ktm:getText("app.title")}</h1>
+      </header>
+      <div id="main">
+        <div class="ym-column">
+          <div class="ym-col1">
             <div class="ym-cbox">
               <section class="box info">
-                <div class="ym-wbox">
-                <h3>${ktm:getText("nav.database")} ${ktm:getText("nav.transaction.receive_from_supplier")}</h3>
+                <div class="dvTitle">
+                  <h3>${ktm:getText("nav.database")}
+                    ${ktm:getText("nav.transaction.receive_from_supplier")}</h3>
                 </div>
-                <div id="dvOrder" class="ym-wbox">
-                  <div id="dvPurchaseOrder">
+                <div class="dvBody">
+                  <div id="dvPurchaseOrder" class="dvContent">
+                    <table>
+                      <tr>
+                        <td style="width: 59%;">
+                          <div id="dvSupplier_desc">
+                            <p>${ktm:getText("nav.transaction.receive_from_supplier.supplier_desc")}:</p>
+                            <p id="supplier-desc"></p>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="dvPurchaseOrderForm">
+                            <fieldset>
+                              <table style="border: 0; margin: 0;">
+                                <tr>
+                                  <td class="cLabel"><label
+                                    for="date_created">${ktm:getText("nav.transaction.receive_from_supplier.date_created")}:</label></td>
+                                  <td><input style="width: 170px"
+                                    type="text" name="date_created"
+                                    id="date_created"
+                                    class="text ui-widget-content ui-corner-all" /></td>
+                                </tr>
+                                <tr>
+                                  <td class="cLabel"><label
+                                    for="supplier_id">${ktm:getText("nav.transaction.receive_from_supplier.supplier_id")}:</label></td>
+                                  <td>
+                                    <input style="width: 200px"
+                                    type="text" name="supplier_id"
+                                    id="supplier_id"
+                                    class="text ui-widget-content ui-corner-all">
+                                    <input type="hidden" name="supplier_id_hidden" id="supplier_id_hidden">
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td class="cLabel"><label
+                                    for="order_id">${ktm:getText("nav.transaction.receive_from_supplier.order_id")}:</label></td>
+                                  <td><input style="width: 200px"
+                                    type="text" name="order_id"
+                                    id="order_id" value=""
+                                    class="text ui-widget-content ui-corner-all" /></td>
+                                </tr>
+                              </table>
+                            </fieldset>
+                          </div>
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                  <div id="dvOrderLine" class="dvContent">
+                    <div id="dvOrderLineHeader">
                       <table>
                         <tr>
-                          <td style="width: 59%;">
-                       <div id="dvSupplier_desc">
-                           <p>${ktm:getText("nav.transaction.receive_from_supplier.supplier_desc")}:</p>
-                           <p id="supplier-desc"></p>
-                       </div>
-                       </td>
-                       <td>
-                       <div id="dvPurchaseOrderForm">
-                           <fieldset>
-                               <table style="border: 0; margin: 0;">
-                                   <tr>
-                                       <td class="cLabel"><label for="dateCreated">${ktm:getText("nav.transaction.receive_from_supplier.date_created")}:</label></td>
-                                       <td><input style="width: 170px" type="text" name="dateCreated" id="dateCreated" class="text ui-widget-content ui-corner-all" /></td>
-                                   </tr>
-                                   <tr>
-                                       <td class="cLabel"><label for="supplierId">${ktm:getText("nav.transaction.receive_from_supplier.supplier_id")}:</label></td>
-                                       <td>
-                                           <input style="width: 200px"  type="text" name="supplierId"  id="supplierId" class="text ui-widget-content ui-corner-all">
-                                       </td>
-                                   </tr>
-                                   <tr>
-                                       <td class="cLabel"><label for="identifier">${ktm:getText("nav.transaction.receive_from_supplier.order_id")}:</label></td>
-                                       <td><input style="width: 200px"  type="text" name="identifier" id="identifier" value="" class="text ui-widget-content ui-corner-all" /></td>
-                                   </tr>
-                               </table>
-                           </fieldset>
-                       </div>
-                       </td>
-                     </tr>
-                      </table>
-                  </div>
-                  <div id="dvOrderLine">
-                    <div id="dvOrderLineHeader">
-                       <table>
-                        <tr>
-                          <th style="width: 35px;"><div class="gridHeader"><span>${ktm:getText("nav.transaction.receive_from_supplier.no")}</span></div></th>
-                          <th style="width: 80px;"><div class="gridHeader"><span>${ktm:getText("nav.transaction.receive_from_supplier.product_id")}</span></div></th>
-                          <th><div class="gridHeader"><span>${ktm:getText("nav.transaction.receive_from_supplier.product_desc")}</span></div></th>
-                          <th style="width: 80px;"><div class="gridHeader"><span>${ktm:getText("nav.transaction.receive_from_supplier.unit")}</span></div></th>
-                          <th style="width: 80px;"><div class="gridHeader"><span>${ktm:getText("nav.transaction.receive_from_supplier.cost")}</span></div></th>
-                          <th style="width: 80px;"><div class="gridHeader"><span>${ktm:getText("nav.transaction.receive_from_supplier.quanitity")}</span></div></th>
-                          <th style="width: 80px;"><div class="gridHeader"><span>${ktm:getText("nav.transaction.receive_from_supplier.total")}</span></div></th>
+                          <th style="width: 35px;"><div
+                              class="gridHeader">
+                              <span>${ktm:getText("nav.transaction.receive_from_supplier.no")}</span>
+                            </div></th>
+                          <th style="width: 80px;"><div
+                              class="gridHeader">
+                              <span>${ktm:getText("nav.transaction.receive_from_supplier.product_id")}</span>
+                            </div></th>
+                          <th><div class="gridHeader">
+                              <span>${ktm:getText("nav.transaction.receive_from_supplier.product_desc")}</span>
+                            </div></th>
+                          <th style="width: 80px;"><div
+                              class="gridHeader">
+                              <span>${ktm:getText("nav.transaction.receive_from_supplier.unit")}</span>
+                            </div></th>
+                          <th style="width: 80px;"><div
+                              class="gridHeader">
+                              <span>${ktm:getText("nav.transaction.receive_from_supplier.cost")}</span>
+                            </div></th>
+                          <th style="width: 80px;"><div
+                              class="gridHeader">
+                              <span>${ktm:getText("nav.transaction.receive_from_supplier.quanitity")}</span>
+                            </div></th>
+                          <th style="width: 80px;"><div
+                              class="gridHeader">
+                              <span>${ktm:getText("nav.transaction.receive_from_supplier.total")}</span>
+                            </div></th>
                         </tr>
                       </table>
                     </div>
                     <div>
-                       <table id="tblOrderLine">
-                         <tbody>
+                      <table id="tblOrderLine">
+                        <tbody>
                         </tbody>
                       </table>
                     </div>
                   </div>
-                  <div id="dvOrderSummary">
-                     <div style="width: 300px; float: left;">
-                       <input type="button" value="Add product line" onclick="openDialog();">&nbsp;
-                       <input type="button" value="delete selected" onclick="deleteSelected();">
-                     </div>
-                     <div style="width: 300px; float: right;">
-                       <div id="order-total" class="order-summary-cell">0.00</div>
-                       <div id="order-num" class="order-summary-cell">0</div>
-                     </div>
+                  <div id="dvOrderSummary" class="dvContent">
+                    <div style="width: 300px; float: left;">
+                      <input onclick="openDialog();" type="button" value="${ktm:getText('nav.transaction.receive_from_supplier.add_product_line')}">&nbsp; 
+                      <input onclick="deleteSelected();" type="button" value="${ktm:getText('nav.transaction.receive_from_supplier.delete_selected')}">
+                    </div>
+                    <div style="width: 300px; float: right;">
+                      <div id="order-total" class="order-summary-cell">0.00</div>
+                      <div id="order-num" class="order-summary-cell">0</div>
+                    </div>
                   </div>
                   <div class="ym-fbox-button">
-                    <input type="submit" class="ym-button" value='${ktm:getText("page.btn.save")} ${ktm:getText("nav.transaction.receive_from_supplier")}' id="submit"
-                      name="submit"
-                    />
-                    <input type="button" class="ym-button" value='${ktm:getText("page.btn.cancel")}' id="cancel"
-                      name="cancel" onclick="goTo('CRUDPurchaseOrder?method=list')"
-                    />
+                    <input id="save-order" type="button"
+                      class="ym-button"
+                      value="${ktm:getText('page.btn.save')} ${ktm:getText('nav.transaction.receive_from_supplier')}" />
+                    <input type="button" class="ym-button"
+                      value='${ktm:getText("page.btn.cancel")}'
+                      id="cancel" name="cancel"
+                      onclick="goTo('CRUDPurchaseOrder?method=list')" />
                   </div>
                 </div>
               </section>
             </div>
-            </div>
-            <aside class="ym-col3">
+          </div>
+          <aside class="ym-col3">
             <div class="ym-cbox">
               <ul>
                 <li><a href="CRUDPurchaseOrder?method=list">${ktm:getText("menu.main")}</a></li>
               </ul>
             </div>
           </aside>
-          </div>
         </div>
+      </div>
       <jsp:include page="${context.jspFooter}"></jsp:include>
     </div>
   </div>
-  
-<div id="dialog-form" title="Select Supplier">
+
+  <div id="dialog-form" class="dvContent" title="${ktm:getText('nav.transaction.receive_from_supplier.choose_supplier')}">
     <p class="validateTips"></p>
     <form>
-    <fieldset>
+      <fieldset>
         <table style="font-size: 0.85em;">
-            <tr>
-                <td style="text-align: right;"><label for="product_id">${ktm:getText("nav.transaction.receive_from_supplier.product_id")}: </label></td>
-                <td>
-                    <input type="hidden" name="_pid_" id="_pid_">
-                    <input type="text" name="product_id" id="product_id" class="text ui-widget-content ui-corner-all" />
-                </td>
-            </tr>
-            <tr>
-                <td style="text-align: right;"><label for="product_desc">${ktm:getText("nav.transaction.receive_from_supplier.product_desc")}: </label></td>
-                <td><input readonly type="text" name="product_desc" id="product_desc" value="" class="text ui-widget-content ui-corner-all" /></td>
-            </tr>
-            <tr>
-                <td style="text-align: right;"><label for="product_unit">${ktm:getText("nav.transaction.receive_from_supplier.unit")}: </label></td>
-                <td><input readonly type="text" name="product_unit" id="product_unit" value="" class="text ui-widget-content ui-corner-all" /></td>
-            </tr>
-            <tr>
-                <td style="text-align: right;"><label for="product_cost">${ktm:getText("nav.transaction.receive_from_supplier.cost")}: </label></td>
-                <td><input readonly type="text" name="product_cost" id="product_cost" value="" class="text ui-widget-content ui-corner-all" /></td>
-            </tr>
-            <tr>
-                <td style="text-align: right;"><label for="product_quanitity">${ktm:getText("nav.transaction.receive_from_supplier.quanitity")}: </label></td>
-                <td><input type="text" name="product_quanitity" id="product_quanitity" value="" class="text ui-widget-content ui-corner-all" /></td>
-            </tr>
-            <tr>
-                <td style="text-align: right;"><label for="product_total">${ktm:getText("nav.transaction.receive_from_supplier.total")}: </label></td>
-                <td><input type="text" name="product_total" id="product_total" value="" class="text ui-widget-content ui-corner-all" /></td>
-            </tr>
+          <tr>
+            <td style="text-align: right;"><label for="product_id">${ktm:getText("nav.transaction.receive_from_supplier.product_id")}:
+            </label></td>
+            <td><input type="hidden" name="_pid_" id="_pid_">
+              <input type="text" name="product_id" id="product_id"
+              class="text ui-widget-content ui-corner-all" /></td>
+          </tr>
+          <tr>
+            <td style="text-align: right;"><label
+              for="product_desc">${ktm:getText("nav.transaction.receive_from_supplier.product_desc")}:
+            </label></td>
+            <td><input readonly type="text" name="product_desc"
+              id="product_desc" value=""
+              class="text ui-widget-content ui-corner-all" /></td>
+          </tr>
+          <tr>
+            <td style="text-align: right;"><label
+              for="product_unit">${ktm:getText("nav.transaction.receive_from_supplier.unit")}:
+            </label></td>
+            <td><input readonly type="text" name="product_unit"
+              id="product_unit" value=""
+              class="text ui-widget-content ui-corner-all" /></td>
+          </tr>
+          <tr>
+            <td style="text-align: right;"><label
+              for="product_price">${ktm:getText("nav.transaction.receive_from_supplier.cost")}:
+            </label></td>
+            <td><input readonly type="text" name="product_price"
+              id="product_price" value=""
+              class="text ui-widget-content ui-corner-all" /></td>
+          </tr>
+          <tr>
+            <td style="text-align: right;"><label
+              for="product_quanitity">${ktm:getText("nav.transaction.receive_from_supplier.quanitity")}:
+            </label></td>
+            <td><input type="text" name="product_quanitity"
+              id="product_quanitity" value=""
+              class="text ui-widget-content ui-corner-all" /></td>
+          </tr>
+          <tr>
+            <td style="text-align: right;"><label
+              for="product_total">${ktm:getText("nav.transaction.receive_from_supplier.total")}:
+            </label></td>
+            <td><input type="text" name="product_total"
+              id="product_total" value=""
+              class="text ui-widget-content ui-corner-all" /></td>
+          </tr>
         </table>
-    </fieldset>
+      </fieldset>
     </form>
-</div>
+  </div>
 </body>
 </html>
 

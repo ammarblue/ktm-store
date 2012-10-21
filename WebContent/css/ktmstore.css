@@ -1,15 +1,74 @@
-table {
-    margin-top: 0;
+.dvTitle {
+  border-radius: 5px;
+  border: 1px solid black;
 }
-.tblGrid th {
-    padding-left: 5px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    padding-right: 5px;
-    margin-bottom: 2px;
-    margin-right: 2px;
-    font-size: 0.8em;
+
+.dvBody {
+  border-radius: 5px;
+  border: 1px solid black;
 }
-.tblGrid td {
-    font-size: 0.8em;
+
+.dvContent {
+  padding: 5px;
+  font-size: 0.9em;
+  border-radius: 5px;
+  border: 1px solid black;
+}
+
+.cLabel {
+  text-align: right;
+  padding-right: 5px;
+}
+div.dvTitle {
+  padding: 10px 10px 20px 10px;
+}
+
+div.dvBody {
+  padding: 6px;
+  border-top-color: #CDCDCD;
+}
+
+div.dvContent {
+  border-top-color: #CDCDCD;
+}
+
+div.dvContent table {
+  padding: 0px;
+  margin: 0px;
+  border: 0px;
+}
+
+div.dvContent th {
+  border: 0px;
+  padding: 0px;
+  margin: 0px;
+}
+
+div.dvContent tr td {
+  padding: 0px;
+  margin: 0px;
+  border: 0px;
+}
+.gridHeader {
+  border: 1px solid black;
+  border-top-color: #666666;
+  border-left-color: #666666;
+  border-right-color: #888888;
+  border-bottom-color: #888888;
+  text-align: center;
+}
+.grid-cell {
+  padding-left: 5px;
+  border: 1px solid black;
+  border-top-color: #666666;
+  border-left-color: #666666;
+  border-right-color: #888888;
+  border-bottom-color: #888888;
+}
+.grid-cell-no {
+  text-align: right;
+  background-color: #CDCDCD;
+}
+#dialog-form {
+  font-size: 1.0em;
 }
