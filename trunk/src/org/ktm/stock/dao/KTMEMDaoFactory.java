@@ -2,6 +2,7 @@ package org.ktm.stock.dao;
 
 import org.ktm.core.KTMContext;
 import org.ktm.dao.EDatabaseSystem;
+import org.ktm.dao.order.OrderLineDao;
 import org.ktm.dao.order.PurchaseOrderDao;
 import org.ktm.dao.party.AuthenDao;
 import org.ktm.dao.party.CustomerDao;
@@ -81,4 +82,6 @@ public abstract class KTMEMDaoFactory {
     public abstract KTMMaxIdentifierDao getMaxIdentifierDao();
 
     public abstract MeasuredProductTypeDao getMeasuredProductTypeDao();
+
+    public abstract OrderLineDao getOrderLineDao();
 }

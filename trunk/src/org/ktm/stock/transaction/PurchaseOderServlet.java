@@ -2,6 +2,7 @@ package org.ktm.stock.transaction;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -13,10 +14,13 @@ import javax.servlet.http.HttpSession;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JSONSerializer;
+import org.ktm.dao.order.OrderLineDao;
 import org.ktm.dao.order.PurchaseOrderDao;
 import org.ktm.dao.party.PartyDao;
 import org.ktm.dao.party.SupplierDao;
+import org.ktm.domain.money.Money;
 import org.ktm.domain.order.OrderLine;
+import org.ktm.domain.order.OrderLineIdentifier;
 import org.ktm.domain.order.PurchaseOrder;
 import org.ktm.domain.party.AddressProperties;
 import org.ktm.domain.party.EAddressType;
@@ -27,14 +31,18 @@ import org.ktm.domain.party.Party;
 import org.ktm.domain.party.PartyRole;
 import org.ktm.domain.party.Supplier;
 import org.ktm.domain.party.TelephoneAddress;
+import org.ktm.domain.product.ProductIdentifier;
 import org.ktm.exception.UpdateException;
 import org.ktm.servlet.ActionForward;
 import org.ktm.servlet.CRUDServlet;
+import org.ktm.stock.bean.OrderLineBean;
 import org.ktm.stock.bean.PartySummaryBean;
 import org.ktm.stock.bean.PurchaseOrderBean;
 import org.ktm.stock.dao.KTMEMDaoFactory;
 import org.ktm.stock.dao.KTMMaxIdentifierDao;
+import org.ktm.utils.DateUtils;
 import org.ktm.web.bean.FormBean;
+import org.ktm.web.tags.Functions;
 
 @WebServlet("/CRUDPurchaseOrder")
 public class PurchaseOderServlet extends CRUDServlet {
@@ -154,10 +162,12 @@ public class PurchaseOderServlet extends CRUDServlet {
             HttpServletResponse response) {
         PurchaseOrderBean bean = (PurchaseOrderBean) form;
         PurchaseOrderDao purchaseOrderDao = KTMEMDaoFactory.getInstance().getPurchaseOrderDao();
+        OrderLineDao orderLineDao = KTMEMDaoFactory.getInstance().getOrderLineDao();
 
         String jb = request.getParameter("data");
         JSONObject jsonObject = JSONObject.fromObject(jb);
 
+        String orderUniqueId = jsonObject.getString("order_unique_id");
         String dateCreated = jsonObject.getString("date_created");
         String supplierId = jsonObject.getString("supplier_id");
         String orderId = jsonObject.getString("order_id");
@@ -178,18 +188,58 @@ public class PurchaseOderServlet extends CRUDServlet {
             purchaseOrder.setOrderLines(orderLines);
         }
 
-        if (orderLines != null) {
-            for (int i = 0; i < jsonOrderLines.size(); i++) {
-                JSONObject jsonOrderLine = jsonOrderLines.getJSONObject(i);
-                String productId = jsonOrderLine.getString("product_id");
-                String productDesc = jsonOrderLine.getString("product_desc");
-                String productUnit = jsonOrderLine.getString("product_unit");
-                String productPrice = jsonOrderLine.getString("product_price");
-                String productQuanitity = jsonOrderLine.getString("product_quanitity");
-                String productTotal = jsonOrderLine.getString("product_total");
+        for (int i = 0; i < jsonOrderLines.size(); i++) {
+            JSONObject jsonOrderLine = jsonOrderLines.getJSONObject(i);
+            String uniqueId = jsonOrderLine.getString("unique_id");
+            String productId = jsonOrderLine.getString("product_id");
+            String productDesc = jsonOrderLine.getString("product_desc");
+            String productQuanitity = jsonOrderLine.getString("product_quanitity");
+            String productTotal = jsonOrderLine.getString("product_total");
 
-                OrderLine orderLine = new OrderLine();
-                // orderLine.set
+            OrderLine orderLine = null;
+            if (!Functions.isEmpty(orderUniqueId) && !Functions.isEmpty(uniqueId)) {
+                Integer orderLineId = Integer.valueOf(uniqueId);
+                orderLine = (OrderLine) orderLineDao.get(orderLineId);
+            }
+            if (orderLine == null) {
+                orderLine = new OrderLine();
+            }
+
+            orderLine.setOrder(purchaseOrder);
+            OrderLineIdentifier identifier = orderLine.getIdentifier();
+            if (identifier == null) {
+                identifier = new OrderLineIdentifier();
+                orderLine.setIdentifier(identifier);
+            }
+            identifier.setIdentifier(uniqueId + "-" + productId);
+            ProductIdentifier productIdentifier = orderLine.getProductType();
+            if (productIdentifier == null) {
+                productIdentifier = new ProductIdentifier();
+                orderLine.setProductType(productIdentifier);
+            }
+            productIdentifier.setIdentifier(productId);
+            orderLine.setDescription(productDesc);
+            orderLine.setNumberOrdered(Integer.parseInt(productQuanitity));
+            try {
+                orderLine.setExpectedDeliveryDate(DateUtils.formatString(dateCreated));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            Money money = orderLine.getUnitPrice();
+            if (money == null) {
+                money = new Money();
+                orderLine.setUnitPrice(money);
+            }
+            money.setAmount(Double.parseDouble(productTotal));
+
+            if (orderLines.contains(orderLine)) {
+                OrderLine entity = orderLineDao.findByIdentifier(orderLine.getIdentifier());
+                if (entity != null) {
+                    OrderLineBean newBean = new OrderLineBean();
+                    newBean.mergeEntity(entity, orderLine);
+                }
+            } else {
+
             }
         }
         return null;
@@ -197,10 +247,11 @@ public class PurchaseOderServlet extends CRUDServlet {
 
     public static String getJSONPurchaseOrder(HttpServletRequest request) {
         String result = "{}"; // "{'supplier_desc': 'desc'," +
+                              // "'order_unique_id':'uid'," +
                               // "'date_created': 'now'," +
                               // "'supplier_id': 'supplier'," +
                               // "'order_id': 'xxxx'," + "'order_lines': [" +
-                              // "{'product_id':'pid','product_desc':'desc','product_unit':'unit','product_price':'price','product_quanitity':'quan','product_total':'total'},"
+                              // "{'unique_id':'uid','product_id':'pid','product_desc':'desc','product_unit':'unit','product_price':'price','product_quanitity':'quan','product_total':'total'},"
                               // + "{}" + "]}";
         return result;
     }

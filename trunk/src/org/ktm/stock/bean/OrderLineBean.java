@@ -146,4 +146,9 @@ public class OrderLineBean extends FormBean {
         this.order = order;
     }
 
+    public void mergeEntity(KTMEntity entity, KTMEntity orderLine) {
+        // TODO Auto-generated method stub
+
+    }
+
 }
