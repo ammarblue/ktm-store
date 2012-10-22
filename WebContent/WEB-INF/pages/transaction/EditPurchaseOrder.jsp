@@ -83,9 +83,9 @@ div#users-contain table td,div#users-contain table th {
 $.po = { 
     edit : false,
     edit_id : "",
-    order_line_tr: function(max_no,product_id,product_desc,product_unit,product_price,product_quanitity,product_total) {
+    order_line_tr: function(max_no,unique_id,product_id,product_desc,product_unit,product_price,product_quanitity,product_total) {
       return "<tr id='tr-product-line-" + max_no + "'>"
-      + "<td style='width: 35px;'><div class='grid-cell grid-cell-no'>"
+      + "<td style='width: 35px;'><div style='display: none;' name='unique_id'></div><div class='grid-cell grid-cell-no'>"
       + "<input class='chk-dels' type='checkbox' value='"+ max_no +"'>&nbsp;</div></td>"
       + "<td style='width: 80px;'><div name='product_id' class='grid-cell' onclick='editOrderLine(" + max_no + ")'>"
       + getSafeValue(product_id)
@@ -127,6 +127,7 @@ $.po = {
         for (var i=0; i<jsonObject.order_lines.length; i++) {
           $("#tblOrderLine tbody")
             .append($.po.order_line_tr(i+1,
+                jsonObject.order_lines[i].unqiue_id,
                 jsonObject.order_lines[i].product_id,
                 jsonObject.order_lines[i].product_desc,
                 jsonObject.order_lines[i].product_unit,
@@ -266,7 +267,7 @@ $.po = {
                     } else {
                       max_no++;
                       $("#tblOrderLine tbody")
-                          .append($.po.order_line_tr(max_no,pid.val(),product_desc.val(),product_unit.val(),product_price.val(),product_quanitity.val(),product_total.val()));
+                          .append($.po.order_line_tr(max_no,null,pid.val(),product_desc.val(),product_unit.val(),product_price.val(),product_quanitity.val(),product_total.val()));
                     }
                     order_total = sumOrderTotal();
                     order_num = sumOrderNum();
@@ -305,7 +306,7 @@ $.po = {
       $("#tblOrderLine tbody tr").each(function (index) {
         var obj = getProductLineJSON($(this));
         order_line = "{'product_id':'" + obj.product_id + "'" +
-        ", 'order_line_id':'" + obj.order_line_id + "'" +
+        ", 'unique_id':'" + obj.unique_id + "'" +
         ", 'product_desc':'" + obj.product_desc + "'" +
         ", 'product_unit':'" + obj.product_unit + "'" +
         ", 'product_price':'" + obj.product_price  + "'" +
@@ -332,7 +333,7 @@ $.po = {
   function getProductLineJSON(obj) {
     var order_line = "",
     sproduct_id = "",
-    sorder_line_id = "",
+    sunique_id = "",
     sproduct_desc = "",
     sproduct_unit = "",
     sproduct_price = "",
@@ -343,9 +344,9 @@ $.po = {
       if ((typeof obj != "undefined")) {
         sproduct_id = obj;
       }
-      obj = $(this).children("div[name*='order_line_id']").html();
+      obj = $(this).children("div[name*='unique_id']").html();
       if (typeof obj != "undefined") {
-        sorder_line_id = obj;
+        sunique_id = obj;
       }
       obj = $(this).children("div[name*='product_desc']").html();
       if (typeof obj != "undefined") {
@@ -370,7 +371,7 @@ $.po = {
     });
     
     order_line = "{'product_id':'" + getClearValue(sproduct_id) + "'" +
-    ", 'order_line_id':'" + getClearValue(sorder_line_id) + "'" +
+    ", 'unique_id':'" + getClearValue(sunique_id) + "'" +
     ", 'product_desc':'" + getClearValue(sproduct_desc) + "'" +
     ", 'product_unit':'" + getClearValue(sproduct_unit) + "'" +
     ", 'product_price':'" + getClearValue(sproduct_price)  + "'" +
@@ -523,10 +524,12 @@ $.po = {
                                 <tr>
                                   <td class="cLabel"><label
                                     for="date_created">${ktm:getText("nav.transaction.receive_from_supplier.date_created")}:</label></td>
-                                  <td><input style="width: 170px"
+                                  <td>
+                                    <input style="width: 170px"
                                     type="text" name="date_created"
                                     id="date_created"
-                                    class="text ui-widget-content ui-corner-all" /></td>
+                                    class="text ui-widget-content ui-corner-all" />
+                                  </td>
                                 </tr>
                                 <tr>
                                   <td class="cLabel"><label

@@ -1,5 +1,7 @@
 package org.ktm.stock.dao;
 
+import org.ktm.dao.order.OrderLineDao;
+import org.ktm.dao.order.OrderLineDaoHibernate;
 import org.ktm.dao.order.PurchaseOrderDao;
 import org.ktm.dao.order.PurchaseOrderDaoHibernate;
 import org.ktm.dao.party.AuthenDao;
@@ -167,5 +169,10 @@ public class KTMEMDaoFactoryHibernate extends KTMEMDaoFactory {
     @Override
     public MeasuredProductTypeDao getMeasuredProductTypeDao() {
         return new MeasuredProductTypeDaoHibernate();
+    }
+
+    @Override
+    public OrderLineDao getOrderLineDao() {
+        return new OrderLineDaoHibernate();
     }
 }
