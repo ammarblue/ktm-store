@@ -18,13 +18,14 @@ public class NavSubMenuTag extends SimpleTagSupport {
 
                 Iterator<MenuItem> menus = SubMenu.getMenu(page).iterator();
 
-                out.println("<h4>" + Functions.getText("menu") + "</h4>");
-                out.println("<ul>");
+                out.println("<h4>" + Functions.getText("menu") + "</h4><br>");
+                out.println("<ul id='nav-sub-menu'>");
                 while (menus.hasNext()) {
                     MenuItem menu = menus.next();
                     out.println("  <li><a href='" + menu.getAction() + "'>" + Functions.getText(menu.getName()) + "</a></li>");
                 }
                 out.println("</ul>");
+                out.println("<script>$(function(){$(\"#nav-sub-menu\").menu();});</script>");
             }
         }
     }

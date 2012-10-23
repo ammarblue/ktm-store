@@ -4,12 +4,14 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.Vector;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.ktm.dao.AbstractHibernateStorageDao;
 import org.ktm.domain.party.Authen;
 import org.ktm.domain.party.Party;
 import org.ktm.domain.party.PartyRole;
+import org.ktm.utils.Localizer;
 
 public class PartyRoleDaoHibernate extends AbstractHibernateStorageDao implements PartyRoleDao {
 
@@ -95,5 +97,22 @@ public class PartyRoleDaoHibernate extends AbstractHibernateStorageDao implement
             he.printStackTrace();
         }
         return result;
+    }
+
+    @Override
+    public Vector<String> findByPartyString(Party party) {
+        Vector<String> v = new Vector<String>();
+        Set<PartyRole> lst = findByParty(party);
+        if (lst.size() > 0) {
+            for (PartyRole pr : lst) {
+                String roleName = Localizer.getClassName(pr.getClass());
+                if (roleName != null) {
+                    if (!v.contains(roleName)) {
+                        v.add(roleName);
+                    }
+                }
+            }
+        }
+        return v;
     }
 }

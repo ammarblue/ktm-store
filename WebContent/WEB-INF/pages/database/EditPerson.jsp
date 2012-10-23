@@ -11,6 +11,7 @@
 <head>
 <jsp:include page="${context.jspHeader}"></jsp:include>
 <title>${ktm:getText("app.title")}</title>
+<jsp:include page="/WEB-INF/template/common/scripting.jsp"></jsp:include>
 <script>
 <!--
 $(function(){
@@ -103,7 +104,8 @@ $(function(){
             </div>
             <aside class="ym-col3">
             <div class="ym-cbox">
-              <ul>
+              <h4>${ktm:getText("menu")}</h4><br>
+              <ul id="side-menu">
                 <li><a href="CRUDPerson?method=list">${ktm:getText("menu.main")}</a></li>
               </ul>
             </div>

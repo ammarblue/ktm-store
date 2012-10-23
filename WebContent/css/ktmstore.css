@@ -19,6 +19,7 @@
   text-align: right;
   padding-right: 5px;
 }
+
 div.dvTitle {
   padding: 10px 10px 20px 10px;
 }
@@ -49,6 +50,7 @@ div.dvContent tr td {
   margin: 0px;
   border: 0px;
 }
+
 .gridHeader {
   border: 1px solid black;
   border-top-color: #666666;
@@ -57,6 +59,7 @@ div.dvContent tr td {
   border-bottom-color: #888888;
   text-align: center;
 }
+
 .grid-cell {
   padding-left: 5px;
   border: 1px solid black;
@@ -65,10 +68,107 @@ div.dvContent tr td {
   border-right-color: #888888;
   border-bottom-color: #888888;
 }
+
 .grid-cell-no {
   text-align: right;
   background-color: #CDCDCD;
 }
+
 #dialog-form {
   font-size: 1.0em;
+}
+
+#topnav {
+  float: left;
+  width: 900px;
+  height: 24px;
+  background: #00537F;
+  margin-top: 3px;
+  position: relative;
+  font-size: 12px;
+}
+
+#topnav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#topnav ul li {
+  float: left;
+  margin: 0;
+  padding: 0;
+}
+
+#topnav ul li a {
+  padding: 5px 15px;
+  color: #00537F;
+  text-decoration: none;
+  display: block;
+  font-weight: bold;
+}
+
+#topnav ul li a:link {
+  color: #FFF;
+  text-decoration: none;
+}
+
+#topnav ul li a:visited {
+  color: #FFF;
+  text-decoration: none;
+}
+
+#topnav ul li a:hover {
+  color: #FFF;
+  text-decoration: underline;
+}
+
+#topnav ul li a.active {
+  text-decoration: underline;
+  color: #FFF;
+}
+
+#topnav ul li ul.submenu {
+  float: left;
+  padding: 4px 0;
+  position: absolute;
+  left: 0;
+  top: 24px;
+  display: none;
+  background: #e0e0e0;
+  color: #00537F;
+}
+
+#topnav ul li ul.submenu a {
+  display: inline;
+  color: #00537F;
+  padding: 4px 8px;
+}
+
+#topnav ul li ul.submenu li {
+  border-right-width: 1px;
+  border-right-style: solid;
+  border-right-color: #00537F;
+}
+
+#topnav ul li ul.submenu li:last-child {
+  border-right-style: none;
+}
+
+#topnav ul li ul.submenu a:link {
+  color: #00537F;
+}
+
+#topnav ul li ul.submenu a:visited {
+  color: #00537F;
+}
+
+#topnav ul li ul.submenu a:hover {
+  text-decoration: underline;
+  color: #00537F;
+}
+
+#topnav ul li ul.submenu a.active {
+  text-decoration: underline;
+  color: #00537F;
 }
