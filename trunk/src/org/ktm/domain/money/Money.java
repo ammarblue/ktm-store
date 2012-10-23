@@ -22,4 +22,9 @@ public class Money extends Quantity {
         super(amount, metric);
     }
 
+    @Override
+    public void setMetric(Metric metric) {
+        // do not change money metric
+    }
+
 }

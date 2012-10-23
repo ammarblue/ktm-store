@@ -20,23 +20,6 @@ h1 {
   margin: .6em 0;
 }
 
-div#users-contain {
-  width: 350px;
-  margin: 20px 0;
-}
-
-div#users-contain table {
-  margin: 1em 0;
-  border-collapse: collapse;
-  width: 100%;
-}
-
-div#users-contain table td,div#users-contain table th {
-  border: 1px solid #eee;
-  padding: .6em 10px;
-  text-align: left;
-}
-
 .ui-dialog .ui-state-error {
   padding: .3em;
 }
@@ -321,7 +304,7 @@ $.po = {
                contentType: "application/x-www-form-urlencoded;charset=utf-8",
                data : data
            },
-           function (data, textStatus, jqXHR){
+           function (data, status, jqXHR){
              if (status=="success") {
                goTo("CRUDPurchaseOrder?method=list");
              }

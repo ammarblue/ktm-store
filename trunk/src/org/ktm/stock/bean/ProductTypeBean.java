@@ -1,15 +1,23 @@
 package org.ktm.stock.bean;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import org.ktm.domain.KTMEntity;
+import org.ktm.domain.money.Money;
+import org.ktm.domain.money.Price;
 import org.ktm.domain.product.CatalogEntryType;
 import org.ktm.domain.product.MeasuredProductType;
 import org.ktm.domain.product.ProductIdentifier;
 import org.ktm.quantity.Metric;
 import org.ktm.quantity.SystemOfUnits;
+import org.ktm.utils.DateUtils;
 import org.ktm.web.bean.FormBean;
+import org.ktm.web.tags.Functions;
 
 public class ProductTypeBean extends FormBean {
 
@@ -17,10 +25,15 @@ public class ProductTypeBean extends FormBean {
     private String                     description;
     private String                     identifier;
     private String                     unit;
+    private String                     price;
+    private String                     newDatePrice;
+    private String                     newDatePriceUser;
     private String                     catalogEntryTypeName;
+    private String                     toDay;
 
     private String                     selectedCatalogEntryType;
 
+    private Money                      money                      = new Money();
     private List<ProductTypeBean>      productTypeCollection      = new ArrayList<ProductTypeBean>(0);
     private List<CatalogEntryTypeBean> catalogEntryTypeCollection = new ArrayList<CatalogEntryTypeBean>(0);
 
@@ -29,6 +42,8 @@ public class ProductTypeBean extends FormBean {
         super.reset();
         productTypeCollection.clear();
         catalogEntryTypeCollection.clear();
+        unit = "";
+        price = "0.00";
     }
 
     public String getName() {
@@ -63,12 +78,54 @@ public class ProductTypeBean extends FormBean {
         this.unit = unit;
     }
 
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+        money.setAmount(Double.valueOf(price));
+    }
+
+    public String getUnitPrice() {
+        return money.getMetric().getSymbol();
+    }
+
+    public String getNewDatePrice() {
+        return newDatePrice;
+    }
+
+    public void setNewDatePrice(String newDatePrice) {
+        this.newDatePrice = newDatePrice;
+    }
+
+    public String getNewDatePriceUser() {
+        return newDatePriceUser;
+    }
+
+    public void setNewDatePriceUser(String newDatePriceUser) {
+        this.newDatePriceUser = newDatePriceUser;
+    }
+
     public String getCatalogEntryTypeName() {
         return catalogEntryTypeName;
     }
 
     public void setCatalogEntryTypeName(String catalogEntryTypeName) {
         this.catalogEntryTypeName = catalogEntryTypeName;
+    }
+
+    public String getToDay() {
+        try {
+            toDay = DateUtils.formatDate(new Date());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return toDay;
+    }
+
+    public void setToDay(String toDay) {
+        this.toDay = toDay;
     }
 
     public List<ProductTypeBean> getProductTypeCollection() {
@@ -117,6 +174,19 @@ public class ProductTypeBean extends FormBean {
             this.setName(ptype.getName());
             this.setDescription(ptype.getDescription());
             this.setUnit(ptype.getMetric() == null ? "" : ptype.getMetric().getMetricName());
+            Set<Price> prices = ptype.getPrices();
+            if (prices == null) {
+                prices = new HashSet<Price>();
+                ptype.setPrices(prices);
+            }
+            if (prices.size() > 0) {
+                for (Price entityPrice : prices) {
+                    if (entityPrice.getValidTo() == null) {
+                        this.setPrice(String.valueOf(entityPrice.getAmount()));
+                        break;
+                    }
+                }
+            }
         }
     }
 
@@ -140,6 +210,39 @@ public class ProductTypeBean extends FormBean {
             productType.setDescription(this.getDescription());
             Metric metric = SystemOfUnits.parse(this.getUnit());
             productType.setMetric(metric);
+
+            if (!Functions.isEmpty(getNewDatePrice()) && !Functions.isEmpty(getNewDatePriceUser())) {
+                Set<Price> prices = productType.getPrices();
+                if (prices == null) {
+                    prices = new HashSet<Price>();
+                    productType.setPrices(prices);
+                }
+                Price price = null;
+                for (Price p : prices) {
+                    if (p.getValidTo() == null) {
+                        price = p;
+                        price.setValidTo(new Date());
+
+                        Price newPrice = new Price();
+                        newPrice.setProductType(productType);
+                        newPrice.setValidFrom(new Date());
+                        prices.add(newPrice);
+                        price = newPrice;
+                        break;
+                    }
+                }
+                if (price == null) {
+                    price = new Price();
+                    price.setValidFrom(new Date());
+                    price.setProductType(productType);
+                    prices.add(price);
+                }
+                try {
+                    price.setAmount(Double.parseDouble(this.getPrice()));
+                } catch (NumberFormatException nfe) {
+                    price.setAmount(0.0);
+                }
+            }
         }
     }
 

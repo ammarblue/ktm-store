@@ -3,19 +3,17 @@ package org.ktm.stock.login;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Set;
 import java.util.Vector;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
-import org.ktm.authen.AuthException;
 import org.ktm.authen.Authenticator;
 import org.ktm.dao.party.AuthenDao;
 import org.ktm.dao.party.PartyRoleDao;
 import org.ktm.domain.party.Authen;
-import org.ktm.domain.party.PartyRole;
+import org.ktm.exception.AuthException;
+import org.ktm.exception.KTMFailedLoginException;
 import org.ktm.stock.dao.KTMEMDaoFactory;
-import org.ktm.utils.Localizer;
 
 public class AuthenImpl implements Authenticator {
 
@@ -51,7 +49,7 @@ public class AuthenImpl implements Authenticator {
         if ((username == null) | (password == null)) {
             this.removeProperty(Authenticator.PROP_PASSWORD);
             this.removeProperty(Authenticator.PROP_USERNAME);
-            throw new AuthException(new javax.security.auth.login.FailedLoginException("unknown UserName Password Combination"));
+            throw new KTMFailedLoginException();
         }
 
         // if (username.equals("keng") &&
@@ -94,22 +92,10 @@ public class AuthenImpl implements Authenticator {
                 this.setProperty(Authenticator.PROP_USERNAME, username);
                 this.currentUser = usr;
 
-                Vector<String> v = new Vector<String>();
-                usr.setRoles(v);
-
                 PartyRoleDao roleDao = KTMEMDaoFactory.getInstance().getPartyRoleDao();
-
-                Set<PartyRole> lst = roleDao.findByParty(authen.getParty());
+                Vector<String> lst = roleDao.findByPartyString(authen.getParty());
                 if (lst.size() > 0) {
-                    for (PartyRole pr : lst) {
-                        String roleName = Localizer.getClassName(pr.getClass());
-                        if (roleName != null) {
-                            log.info("Adding => " + roleName);
-                            if (!v.contains(roleName)) {
-                                v.add(roleName);
-                            }
-                        }
-                    }
+                    usr.setRoles(lst);
                     this.setUserLoggedIn(true);
                     return;
                 } else {
@@ -125,7 +111,7 @@ public class AuthenImpl implements Authenticator {
         this.removeProperty(Authenticator.PROP_PASSWORD);
         this.removeProperty(Authenticator.PROP_USERNAME);
 
-        throw new AuthException("Unknown userName Password Combination");
+        throw new KTMFailedLoginException();
     }
 
     @Override
@@ -171,35 +157,23 @@ public class AuthenImpl implements Authenticator {
 
     @Override
     public boolean isInAllRoles(Collection<?> roles) {
-        if ((roles == null) || roles.isEmpty()) {
-            return false;
-        }
+        if ((roles == null) || roles.isEmpty()) { return false; }
         Collection<?> userRoles = this.getRoles();
-        if ((userRoles == null) || userRoles.isEmpty()) {
-            return false;
-        }
-        if (userRoles.containsAll(roles)) {
-            return true;
-        }
+        if ((userRoles == null) || userRoles.isEmpty()) { return false; }
+        if (userRoles.containsAll(roles)) { return true; }
         return false;
     }
 
     @Override
     public boolean isInRoles(Collection<?> roles) {
-        if ((roles == null) || roles.isEmpty()) {
-            return true;
-        }
+        if ((roles == null) || roles.isEmpty()) { return true; }
         Collection<?> userRoles = this.getRoles();
-        if ((userRoles == null) || userRoles.isEmpty()) {
-            return false;
-        }
+        if ((userRoles == null) || userRoles.isEmpty()) { return false; }
 
         Iterator<?> iterator = roles.iterator();
         while (iterator.hasNext()) {
             String role = (String) iterator.next();
-            if (userRoles.contains(role)) {
-                return true;
-            }
+            if (userRoles.contains(role)) { return true; }
         }
         return false;
     }

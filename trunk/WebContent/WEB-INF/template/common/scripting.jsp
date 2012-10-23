@@ -5,6 +5,7 @@
 var _url = "";
 
 $(function() {
+    $("#side-menu").menu();
     $( "#dialog-confirm" ).dialog({
         autoOpen: false,
         resizable: false,
