@@ -39,9 +39,9 @@ public class OrderLineBean extends FormBean {
             this.setComment(orderLine.getComment());
             this.setNumberOrdered(orderLine.getNumberOrdered());
             this.setMoney_amount(orderLine.getUnitPrice() == null ? 0.0 : orderLine.getUnitPrice().getAmount());
-            this.setMoney_metricName(orderLine.getUnitPrice() == null ? "" : orderLine.getUnitPrice().getMetric().getMetricName());
-            this.setMoney_symbol(orderLine.getUnitPrice() == null ? "" : orderLine.getUnitPrice().getMetric().getSymbol());
-            this.setMoney_definition(orderLine.getUnitPrice() == null ? "" : orderLine.getUnitPrice().getMetric().getDefinition());
+            this.setMoney_metricName(orderLine.getUnitPrice() == null ? "" : orderLine.getUnitPrice().getUnitName());
+            this.setMoney_symbol(orderLine.getUnitPrice() == null ? "" : orderLine.getUnitPrice().getUnitSymbol());
+            this.setMoney_definition(orderLine.getUnitPrice() == null ? "" : orderLine.getUnitPrice().getUnitDescription());
             try {
                 this.setExpectedDeliveryDate(DateUtils.formatDate(orderLine.getExpectedDeliveryDate()));
             } catch (ParseException e) {

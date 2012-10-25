@@ -65,9 +65,7 @@ public class PurchaseOderServlet extends CRUDServlet {
         return bean;
     }
 
-    public ActionForward getidPurchaseOrder(FormBean form,
-            HttpServletRequest request,
-            HttpServletResponse response) {
+    public ActionForward getidPurchaseOrder(FormBean form, HttpServletRequest request, HttpServletResponse response) {
         PurchaseOrderBean bean = getPurchaseOrderBean(request);
         if (bean.getIdentifier() == null) {
             KTMMaxIdentifierDao maxIdDao = KTMEMDaoFactory.getInstance().getMaxIdentifierDao();
@@ -95,9 +93,7 @@ public class PurchaseOderServlet extends CRUDServlet {
         return null;
     }
 
-    public ActionForward setempPurchaseOrder(FormBean form,
-            HttpServletRequest request,
-            HttpServletResponse response) {
+    public ActionForward setempPurchaseOrder(FormBean form, HttpServletRequest request, HttpServletResponse response) {
         PurchaseOrderBean purchaseOrderBean = getPurchaseOrderBean(request);
         PurchaseOrderBean bean = (PurchaseOrderBean) form;
         SupplierDao supplierDao = KTMEMDaoFactory.getInstance().getSupplierDao();
@@ -137,29 +133,19 @@ public class PurchaseOderServlet extends CRUDServlet {
         return null;
     }
 
-    public ActionForward listPurchaseOrder(FormBean form,
-            HttpServletRequest request,
-            HttpServletResponse response) {
+    public ActionForward listPurchaseOrder(FormBean form, HttpServletRequest request, HttpServletResponse response) {
         PurchaseOrderBean bean = (PurchaseOrderBean) form;
         PurchaseOrderDao purchaseOrderDao = KTMEMDaoFactory.getInstance().getPurchaseOrderDao();
         List<PurchaseOrder> purchaseOrders = purchaseOrderDao.findAll();
         bean.loadFormCollection(purchaseOrders);
-        return ActionForward.getUri(this,
-                request,
-                "transaction/ListPurchaseOrder.jsp");
+        return ActionForward.getUri(this, request, "transaction/ListPurchaseOrder.jsp");
     }
 
-    public ActionForward newPurchaseOrder(FormBean form,
-            HttpServletRequest request,
-            HttpServletResponse response) {
-        return ActionForward.getUri(this,
-                request,
-                "transaction/EditPurchaseOrder.jsp");
+    public ActionForward newPurchaseOrder(FormBean form, HttpServletRequest request, HttpServletResponse response) {
+        return ActionForward.getUri(this, request, "transaction/EditPurchaseOrder.jsp");
     }
 
-    public ActionForward savePurchaseOrder(FormBean form,
-            HttpServletRequest request,
-            HttpServletResponse response) {
+    public ActionForward savePurchaseOrder(FormBean form, HttpServletRequest request, HttpServletResponse response) {
         PurchaseOrderBean bean = (PurchaseOrderBean) form;
         PurchaseOrderDao purchaseOrderDao = KTMEMDaoFactory.getInstance().getPurchaseOrderDao();
         OrderLineDao orderLineDao = KTMEMDaoFactory.getInstance().getOrderLineDao();
@@ -167,7 +153,7 @@ public class PurchaseOderServlet extends CRUDServlet {
         String jb = request.getParameter("data");
         JSONObject jsonObject = JSONObject.fromObject(jb);
 
-        String orderUniqueId = jsonObject.getString("order_unique_id");
+        boolean bNewOrder = false;
         String dateCreated = jsonObject.getString("date_created");
         String supplierId = jsonObject.getString("supplier_id");
         String orderId = jsonObject.getString("order_id");
@@ -179,6 +165,7 @@ public class PurchaseOderServlet extends CRUDServlet {
 
         PurchaseOrder purchaseOrder = purchaseOrderDao.findByOrderId(orderId);
         if (purchaseOrder == null) {
+            bNewOrder = true;
             purchaseOrder = new PurchaseOrder();
         }
 
@@ -197,7 +184,8 @@ public class PurchaseOderServlet extends CRUDServlet {
             String productTotal = jsonOrderLine.getString("product_total");
 
             OrderLine orderLine = null;
-            if (!Functions.isEmpty(orderUniqueId) && !Functions.isEmpty(uniqueId)) {
+            // Do not create new order line if edit existing PurchaseOrder
+            if (!bNewOrder && !Functions.isEmpty(uniqueId)) {
                 Integer orderLineId = Integer.valueOf(uniqueId);
                 orderLine = (OrderLine) orderLineDao.get(orderLineId);
             }

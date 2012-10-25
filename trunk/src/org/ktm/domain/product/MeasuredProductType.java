@@ -1,22 +1,38 @@
 package org.ktm.domain.product;
 
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import org.ktm.quantity.Metric;
 
 @Entity
 public class MeasuredProductType extends ProductType {
 
     private static final long serialVersionUID = 1L;
 
-    private Metric            metric;
+    private String            unit;
+    private Double            quantity;
+    private Double            packAmount;
 
-    @Embedded
-    public Metric getMetric() {
-        return metric;
+    public String getUnit() {
+        return unit;
     }
 
-    public void setMetric(Metric metric) {
-        this.metric = metric;
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
+
+    public Double getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Double quantity) {
+        this.quantity = quantity;
+    }
+
+    public Double getPackAmount() {
+        return packAmount;
+    }
+
+    public void setPackAmount(Double packAmount) {
+        this.packAmount = packAmount;
+    }
+
 }

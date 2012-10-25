@@ -2,9 +2,9 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="/WEB-INF/tags/ktm-libs.tld" prefix="ktm" %>
 <ktm:enforceAuthentication loginPage="/login"/>
-<ktm:isUserNotInRole role="Admin">
+<ktm:isUserNotInRoles roles="Root,Admin">
   <ktm:redirectPage page="/index.jsp"/>
-</ktm:isUserNotInRole>
+</ktm:isUserNotInRoles>
 <!DOCTYPE html>
 <html lang="en">
 <head>
