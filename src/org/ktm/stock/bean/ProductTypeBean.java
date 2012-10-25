@@ -13,8 +13,6 @@ import org.ktm.domain.money.Price;
 import org.ktm.domain.product.CatalogEntryType;
 import org.ktm.domain.product.MeasuredProductType;
 import org.ktm.domain.product.ProductIdentifier;
-import org.ktm.quantity.Metric;
-import org.ktm.quantity.SystemOfUnits;
 import org.ktm.utils.DateUtils;
 import org.ktm.web.bean.FormBean;
 import org.ktm.web.tags.Functions;
@@ -25,15 +23,17 @@ public class ProductTypeBean extends FormBean {
     private String                     description;
     private String                     identifier;
     private String                     unit;
-    private String                     price;
+    private Double                     quantity;
+    private Double                     packAmount;
     private String                     newDatePrice;
     private String                     newDatePriceUser;
     private String                     catalogEntryTypeName;
     private String                     toDay;
+    private Double                     costPrice;
+    private Money                      price                      = new Money(0.0);
 
     private String                     selectedCatalogEntryType;
 
-    private Money                      money                      = new Money();
     private List<ProductTypeBean>      productTypeCollection      = new ArrayList<ProductTypeBean>(0);
     private List<CatalogEntryTypeBean> catalogEntryTypeCollection = new ArrayList<CatalogEntryTypeBean>(0);
 
@@ -43,7 +43,7 @@ public class ProductTypeBean extends FormBean {
         productTypeCollection.clear();
         catalogEntryTypeCollection.clear();
         unit = "";
-        price = "0.00";
+        price.setAmount(0.0);
     }
 
     public String getName() {
@@ -79,16 +79,39 @@ public class ProductTypeBean extends FormBean {
     }
 
     public String getPrice() {
-        return price;
+        return String.valueOf(price.getAmount());
     }
 
     public void setPrice(String price) {
-        this.price = price;
-        money.setAmount(Double.valueOf(price));
+        this.price.setAmount(Double.parseDouble(price));
     }
 
     public String getUnitPrice() {
-        return money.getMetric().getSymbol();
+        return price.getUnitName();
+    }
+
+    public Double getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Double quantity) {
+        this.quantity = quantity;
+    }
+
+    public Double getPackAmount() {
+        return packAmount;
+    }
+
+    public void setPackAmount(Double packAmount) {
+        this.packAmount = packAmount;
+    }
+
+    public Double getCostPrice() {
+        return costPrice;
+    }
+
+    public void setCostPrice(Double costPrice) {
+        this.costPrice = costPrice;
     }
 
     public String getNewDatePrice() {
@@ -173,7 +196,10 @@ public class ProductTypeBean extends FormBean {
             this.setUniqueId(String.valueOf(ptype.getUniqueId()));
             this.setName(ptype.getName());
             this.setDescription(ptype.getDescription());
-            this.setUnit(ptype.getMetric() == null ? "" : ptype.getMetric().getMetricName());
+            this.setUnit(ptype.getUnit() == null ? "" : ptype.getUnit());
+            this.setQuantity(ptype.getQuantity() == null ? 0.0 : ptype.getQuantity());
+            this.setPackAmount(ptype.getPackAmount() == null ? 0.0 : ptype.getPackAmount());
+            this.setCostPrice(ptype.getCostPrice() == null ? 0.0 : ptype.getCostPrice());
             Set<Price> prices = ptype.getPrices();
             if (prices == null) {
                 prices = new HashSet<Price>();
@@ -182,7 +208,12 @@ public class ProductTypeBean extends FormBean {
             if (prices.size() > 0) {
                 for (Price entityPrice : prices) {
                     if (entityPrice.getValidTo() == null) {
-                        this.setPrice(String.valueOf(entityPrice.getAmount()));
+                        try {
+                            this.setPrice(String.valueOf(entityPrice.getAmount().getAmount()));
+                        } catch (NumberFormatException nef) {
+                            this.setPrice("0.0");
+                            nef.printStackTrace();
+                        }
                         break;
                     }
                 }
@@ -208,8 +239,10 @@ public class ProductTypeBean extends FormBean {
             }
             productType.setName(this.getName());
             productType.setDescription(this.getDescription());
-            Metric metric = SystemOfUnits.parse(this.getUnit());
-            productType.setMetric(metric);
+            productType.setUnit(this.getUnit());
+            productType.setQuantity(this.getQuantity());
+            productType.setPackAmount(this.getPackAmount());
+            productType.setCostPrice(this.getCostPrice());
 
             if (!Functions.isEmpty(getNewDatePrice()) && !Functions.isEmpty(getNewDatePriceUser())) {
                 Set<Price> prices = productType.getPrices();
@@ -217,30 +250,37 @@ public class ProductTypeBean extends FormBean {
                     prices = new HashSet<Price>();
                     productType.setPrices(prices);
                 }
-                Price price = null;
+                Price pprice = null;
                 for (Price p : prices) {
                     if (p.getValidTo() == null) {
-                        price = p;
-                        price.setValidTo(new Date());
+                        pprice = p;
+                        pprice.setValidTo(new Date());
 
                         Price newPrice = new Price();
                         newPrice.setProductType(productType);
                         newPrice.setValidFrom(new Date());
+                        newPrice.setAutherName(getNewDatePriceUser());
                         prices.add(newPrice);
-                        price = newPrice;
+                        pprice = newPrice;
                         break;
                     }
                 }
-                if (price == null) {
-                    price = new Price();
-                    price.setValidFrom(new Date());
-                    price.setProductType(productType);
-                    prices.add(price);
+                if (pprice == null) {
+                    pprice = new Price();
+                    pprice.setValidFrom(new Date());
+                    pprice.setProductType(productType);
+                    prices.add(pprice);
+                }
+
+                Money money = pprice.getAmount();
+                if (money == null) {
+                    money = new Money();
+                    pprice.setAmount(money);
                 }
                 try {
-                    price.setAmount(Double.parseDouble(this.getPrice()));
+                    money.setAmount(Double.parseDouble(this.getPrice()));
                 } catch (NumberFormatException nfe) {
-                    price.setAmount(0.0);
+                    money.setAmount(0.0);
                 }
             }
         }

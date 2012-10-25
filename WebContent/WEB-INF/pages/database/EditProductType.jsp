@@ -30,7 +30,9 @@ table#edit-price-table td {
 <script>
   $(function() {
     var price = $("#price");
+    var cost_price = $("#costPrice");
     var edit_price = $("#edit_price");
+    var edit_cost_price = $("#edit_cost_price");
     var dateChange = $("#dateChange");
     var username = $("#username");
     var password = $("#password");
@@ -42,7 +44,7 @@ table#edit-price-table td {
         .dialog(
             {
               autoOpen : false,
-              height : 360,
+              height : 380,
               width : 350,
               modal : true,
               buttons : {
@@ -50,6 +52,7 @@ table#edit-price-table td {
                   var bValid = true;
                   allFields.removeClass("ui-state-error");
 
+                  bValid = bValid && checkLength(edit_cost_price, "${ktm:getText('nav.database.product.cost_price')}", 1, 32);
                   bValid = bValid && checkLength(edit_price, "${ktm:getText('nav.database.product.price')}", 1, 32);
                   bValid = bValid && checkLength(username, "${ktm:getText('page.login.user')}", 3, 16 );
                   bValid = bValid && checkLength(password, "${ktm:getText('page.login.password')}", 4, 16);
@@ -76,6 +79,7 @@ table#edit-price-table td {
                          },
                          function (data, status, jqXHR) {
                            if (data=="success") {
+                             cost_price.val(edit_cost_price.val());
                              price.val(edit_price.val());
                              newDatePrice.val(dateChange.val());
                              newDatePriceUser.val(username.val());
@@ -101,8 +105,10 @@ table#edit-price-table td {
 
   function openDialog() {
     $('#dialog-form').dialog('open');
-    edit_price.val($("#price").val());
-    password.val("");
+    $('#edit_cost_price').val($('#costPrice').val());
+    $('#edit_price').val($('#price').val());
+    $('#username').val("");
+    $('#password').val("");
     $('.validateTips').val("");
   }
 </script>
@@ -147,13 +153,6 @@ table#edit-price-table td {
                         id="description" size="20"
                         value="${bean.description}" />
                     </div>
-                    <div class="ym-fbox-text">
-                      <label for="price">${ktm:getText("nav.database.product.price")} (${bean.unitPrice})</label>
-                      <input readonly type="text" name="price"
-                        id="price" size="20" value="${bean.price}" />
-                      <input type="hidden" name="newDatePrice" id="newDatePrice">
-                      <input type="hidden" name="newDatePriceUser" id="newDatePriceUser">
-                    </div>
                     <div class="ym-fbox-select">
                       <label for="unit">${ktm:getText("nav.database.product.unit")}</label>
                       <select name="unit" id="unit" size="1">
@@ -163,6 +162,28 @@ table#edit-price-table td {
                           <jsp:attribute name="label">${ktm:getAllUnits()}</jsp:attribute>
                         </ktm:options>
                       </select>
+                    </div>
+                    <div class="ym-fbox-select">
+                      <label for="packAmount">${ktm:getText("nav.database.product.pack_amount")}</label>
+                      <input type="text" name="packAmount"
+                        id="packAmount" size="20" value="${bean.packAmount}" />
+                    </div>
+                    <div class="ym-fbox-text">
+                      <label for="quantity">${ktm:getText("nav.database.product.quantity_size")}</label>
+                      <input type="text" name="quantity"
+                        id="quantity" size="20" value="${bean.quantity}" />
+                    </div>
+                    <div class="ym-fbox-text">
+                      <label for="costPrice">${ktm:getText("nav.database.product.cost_price")} (${bean.unitPrice})</label>
+                      <input readonly type="text" name="costPrice"
+                        id="costPrice" size="20" value="${bean.costPrice}" />
+                    </div>
+                    <div class="ym-fbox-text">
+                      <label for="price">${ktm:getText("nav.database.product.price")} (${bean.unitPrice})</label>
+                      <input readonly type="text" name="price"
+                        id="price" size="20" value="${bean.price}" />
+                      <input type="hidden" name="newDatePrice" id="newDatePrice">
+                      <input type="hidden" name="newDatePriceUser" id="newDatePriceUser">
                     </div>
                     <div class="ym-fbox-button">
                       <input type="submit" class="ym-button"
@@ -203,6 +224,11 @@ table#edit-price-table td {
     <form>
       <fieldset>
         <table id="edit-price-table">
+          <tr>
+            <td><label for="edit_cost_price">${ktm:getText('nav.database.product.cost_price')}</label></td>
+            <td><input type="text" name="edit_cost_price" id="edit_cost_price"
+              class="text ui-widget-content ui-corner-all" /></td>
+          </tr>
           <tr>
             <td><label for="edit_price">${ktm:getText('nav.database.product.price')}</label></td>
             <td><input type="text" name="edit_price" id="edit_price"

@@ -26,6 +26,8 @@ import org.ktm.domain.product.MeasuredProductType;
 import org.ktm.domain.product.ProductType;
 import org.ktm.exception.AuthException;
 import org.ktm.exception.KTMException;
+import org.ktm.quantity.Metric;
+import org.ktm.quantity.SystemOfUnits;
 import org.ktm.servlet.ActionForward;
 import org.ktm.servlet.CRUDServlet;
 import org.ktm.stock.bean.ProductTypeBean;
@@ -100,7 +102,8 @@ public class CRUDProductTypeServlet extends CRUDServlet {
                     break;
                 }
             }
-            map.put("unit", measuredProductType.getMetric() == null ? "" : measuredProductType.getMetric().getSymbol());
+            Metric metric = SystemOfUnits.parse(measuredProductType.getUnit());
+            map.put("unit", measuredProductType.getUnit() == null ? "" : metric.getSymbol());
             JSONObject jsonObject = (JSONObject) JSONSerializer.toJSON(map);
             jsonArray.add(jsonObject);
         }

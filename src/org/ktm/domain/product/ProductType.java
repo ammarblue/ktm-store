@@ -23,6 +23,7 @@ public class ProductType implements KTMEntity {
     private String            name;
     private String            description;
     private ProductIdentifier identifier;
+    private Double            costPrice;
     private Set<Price>        prices;
     private CatalogEntryType  cataloEntryType;
 
@@ -76,6 +77,14 @@ public class ProductType implements KTMEntity {
 
     public void setIdentifier(ProductIdentifier identifier) {
         this.identifier = identifier;
+    }
+
+    public Double getCostPrice() {
+        return costPrice;
+    }
+
+    public void setCostPrice(Double costPrice) {
+        this.costPrice = costPrice;
     }
 
     @OneToMany(mappedBy = "productType", cascade = CascadeType.ALL)

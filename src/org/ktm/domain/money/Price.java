@@ -2,6 +2,7 @@ package org.ktm.domain.money;
 
 import java.util.Date;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -17,10 +18,11 @@ public class Price implements KTMEntity {
 
     private Integer           uniqueId;
     private Integer           version;
-    private Double            amount;
+    private Money             amount;
     private Date              validFrom;
     private Date              validTo;
     private ProductType       productType;
+    private String            autherName;
 
     @Override
     @Id
@@ -47,12 +49,12 @@ public class Price implements KTMEntity {
         this.version = version;
     }
 
-    @Column(name = "amount")
-    public Double getAmount() {
+    @Embedded
+    public Money getAmount() {
         return amount;
     }
 
-    public void setAmount(Double amount) {
+    public void setAmount(Money amount) {
         this.amount = amount;
     }
 
@@ -81,6 +83,14 @@ public class Price implements KTMEntity {
 
     public void setProductType(ProductType productType) {
         this.productType = productType;
+    }
+
+    public String getAutherName() {
+        return autherName;
+    }
+
+    public void setAutherName(String autherName) {
+        this.autherName = autherName;
     }
 
 }
